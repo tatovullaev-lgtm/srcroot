@@ -1,0 +1,12 @@
+[CHANNEL_MAP]
+#===========================================================================================
+#             Serial    Ch_lo    Ch_hi   ChanShift  Station   Module   Layer  LocalMapPrefix
+#===========================================================================================
+channels = 0x80BCC01        0     1023        1        0        0       0        _
+channels = 0x80BCC01        0     1023        2        0        0       2        _
+channels = 0x80BCC01     1024     2047        1        0        0       1        _
+channels = 0x80BCC01     1024     2047        2        0        0       3        _
+channels = 0x611DF9B        0     1023        3        0        1       0        _
+channels = 0x611DF9B        0     1023        4        0        1       2        _
+channels = 0x611DF9B     1024     2047        3        0        1       1        _
+channels = 0x611DF9B     1024     2047        4        0        1       3        _

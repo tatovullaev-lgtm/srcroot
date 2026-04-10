@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hodo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--#include virtual="../include_digi.html" -->
+        <script type='module'>
+            import { draw, redraw, httpRequest, resize, cleanup} from 'jsroot';
+            import * as bm from 'bmtools';
+            var loco = window.location;
+            var path0 = loco.protocol + "//" + loco.hostname + "/root.app/";
+            var path = path0 + "Hodo/";
+            var runPath = "../root.app/CurRun/root.json.gz?compact=3";
+            var refPath = "../root.app/refTable/root.json.gz?compact=3";
+//            window.addEventListener("load", () => {
+//                createTable();
+//                  });
+            function createTable() {
+                sessionStorage.clear();
+                bm.setRunInfo(runPath);
+                drawInfo();
+            }
+            async function updateRunId() {
+                let obj = await httpRequest(runPath, 'object');
+                    var info = obj;//JSON.parse(obj);
+                    if (info.arr.length > 0) {
+                        var runInfo = info.arr[0];
+                        var runID = runInfo.i_run_number;
+                        var storedRunId = sessionStorage.getItem('runID');
+                        if ((storedRunId === null) || (storedRunId == runID))
+                            return;
+                        sessionStorage.setItem('runID', runID);
+                        cleanCanvases();
+                    }
+            }
+            function ResetHist() {
+                var filename = path + "Reset/cmd.json";
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", filename, true);
+                xhr.withCredentials = true;
+                xhr.send();
+            }
+            function ChangeSelection() {
+                var iStrip = document.getElementById("StripText").value;
+                var iSide = document.getElementById("SideText").value;
+                var iGain = document.getElementById("GainText").value;
+                var filename = path + "ChangeSelection/cmd.json";
+                filename = filename + "?" + "arg1=" + iStrip;
+                filename = filename + "&" + "arg2=" + iSide;
+                filename = filename + "&" + "arg3=" + iGain;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", filename, true);
+                xhr.withCredentials = true;
+                xhr.send();
+            }
+            function drawInfo() {
+                setTimeout(drawInfo, 5000);
+                updateRunId();
+                redrawCanvases();
+                bm.FillRefTable(path0 + "refTable" + "/root.json", "refTable");
+            }
+            function redrawCanvases(){
+                bm.Redraw2Div(path0 + "infoCanvas" + "/root.json.gz?compact=3", "infoC");
+//                bm.Redraw2Div(path + "HodoCanvas_h2d" + "/root.json.gz?compact=3", "AmplitudesC");
+//                bm.Redraw2Div(path + "HodoCanvas_h1d_prof" + "/root.json.gz?compact=3", "ProfilesC");
+//                bm.Redraw2Div(path + "HodoCanvasZ2" + "/root.json.gz?compact=3", "Z2C");
+//                bm.Redraw2Div(path + "HodoCanvasSelection" + "/root.json.gz?compact=3", "SelectionC");
+            }
+            function cleanCanvases() {
+                cleanup("infoC");
+                cleanup("srcTableC");
+                var sel = document.getElementById("refTable");
+                sel.innerHTML = "";
+            }
+            function SetRefRun() {
+                var runName = document.getElementById("refInput").value;
+                var cmd = path + "SetRefRun/cmd.json";
+                cmd = cmd + "?" + "arg1=" + runName;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", cmd, true);
+                xhr.withCredentials = true;
+                xhr.send();
+                cleanup("AmplitudesC");
+                cleanup("ProfilesC");
+                cleanup("Z2C");
+            }
+            window.createTable = createTable;
+            window.SetRefRun = SetRefRun;
+            window.redrawCanvases = redrawCanvases;
+            window.makeSelection = bm.makeSelection;
+        </script>
+    </head>
+    <body onload="createTable()">
+        <!--#include virtual="../menu.html" -->
+        <div id="total_counter" align="center">
+            <h1>BM@N Hodo</h1> 
+            <!--<iframe id="infoCan" ></iframe>-->             
+        </div>
+        <div align="center">
+            <div id="infoC" style="width: 90vw;height: 18vw;"> </div>
+        </div>
+<!--        <button onclick="ResetHist()"> 
+            <h1 style="color:red;">Reset</h1>
+        </button>-->
+
+ <br/>
+        <table>
+            <tr>
+                <th>
+                    Strip Index
+                </th>
+                <th>
+                    <input type="text" id="StripText" maxlength="8"/>
+                </th>
+                <th  rowspan="3">
+                    <button onclick="ChangeSelection()" style="width: 20vw;height: 6vw;"> 
+                        <h3>Change Selection (-1 => All)</h3>
+                    </button>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    Side Index
+                </th>
+                <th>
+                    <input type="text" id="SideText" maxlength="8"/>
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    Gain Index
+                </th>
+                <th>
+                    <input type="text" id="GainText" maxlength="8"/>
+                </th>
+                <th>
+
+                </th>
+            </tr>
+
+        <table>
+            <tr>
+            <tb>
+                <input type="text" name="refInput" id="refInput" list="refSelector">
+                <datalist id="refSelector" autocomplete="on"></datalist>
+            </tb>
+            <tb>
+                <button onclick="SetRefRun()"> 
+                    Select Reference Run
+                </button>
+            </tb>
+                <tb>
+                    <select class="styleRefTable" id="refTable" onchange="makeSelection()">
+                </tb>
+
+        </tr>
+    </table>
+
+
+    <div class="tabs">
+        <input type="radio" name="inset" value="" id="tab_1" onclick="redrawCanvases()" checked>
+        <label for="tab_1">Amplitudes</label>
+
+        <input type="radio" name="inset" value="" id="tab_2" onclick="redrawCanvases()">
+        <label for="tab_2">Profiles</label>
+
+        <input type="radio" name="inset" value="" id="tab_3" onclick="redrawCanvases()">
+        <label for="tab_3">Summ Z2</label>
+
+        <input type="radio" name="inset" value="" id="tab_4" onclick="redrawCanvases()">
+        <label for="tab_4">Ampl & Wfm in Selected</label>
+
+        <div id="txt_1">
+            <div align="center">
+                <iframe id="AmplitudesC" style = "width: 90vw;height: 100vw;"src="../root.app/Hodo/HodoCanvas_h2d/draw.htm?monitoring=3000"> </iframe>
+            </div>
+        </div>
+        <div id="txt_2">
+            <div align="center">
+                <iframe id="ProfilesC" style = "width: 90vw;height: 100vw;"src="../root.app/Hodo/HodoCanvas_h1d_prof/draw.htm?monitoring=3000"> </iframe>
+            </div>
+        </div>
+        <div id="txt_3">
+            <div align="center">
+                <iframe id="Z2C" style = "width: 90vw;height: 100vw;"src="../root.app/Hodo/HodoCanvasZ2/draw.htm?monitoring=3000"> </iframe>
+            </div>
+        </div>
+        <div id="txt_4">
+            <div align="center">
+                <iframe id="SelectionC" style = "width: 90vw;height: 100vw;"src="../root.app/Hodo/HodoCanvasSelection/draw.htm?monitoring=3000"> </iframe>
+            </div>
+	</div>
+
+    </div>
+
+
+</body>
+</html>

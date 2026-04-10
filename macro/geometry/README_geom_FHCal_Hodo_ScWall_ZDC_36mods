@@ -1,0 +1,99 @@
+root -l "create_rootgeom_old_zdc_oldnames_104mods_no_hole_noTyvec_v1.C(42.2,1.4,875.9)"
+
+root -l "create_rootgeom_wall_oldnames_vacuum_600cm.C(0.,0.,878.1)"
+
+root -l "create_rootgeom_wall_oldnames_vacuum_600cm.C(50.92,0.,1007.95,2.83)"
+
+root -l "create_rootgeom_wall_oldnames_vacuum_600cm.C(57.37,0.,1007.87,3.47)"
+
+root -l "create_rootgeom_zdc_oldnames_CBM_20mods_NICA_34mods_54mods_hole_v1.C(47.66,0.,878.1,2.9)"
+
+root -l "create_rootgeom_zdc_oldnames_mCBM_9mods_20x20cm_no_hole.C(160,0,0,0,5)"
+
+//===================================
+//FHCal
+root -l "create_rootgeom_zdc_oldnames_CBM_20mods_NICA_34mods_54mods_hole_v1.C(49.5,0.,878.1,0)"
+
+//Hodo before FHCal hole
+root -l "create_rootgeom_Hodo_oldnames_v1.C(49.5,0,877,0)"
+root -l "create_rootgeom_Hodo_oldnames_with_box_v1.C(49.5,0,877,0)"
+
+//ScWall
+root -l "create_rootgeom_ScWall_oldnames_no_hole_v1.C(70,0,878,0)"
+root -l "create_rootgeom_ScWall_oldnames_with_hole_with_hole_in_box_cells_numbering_for_run8_v1.C(70,0,878,0)"
+
+//Hodo before ScWall hole
+//root -l "create_rootgeom_Hodo_oldnames_v1.C(47.5,0,877,0)"
+
+//neutron ZDC (nZDC)
+root -l "create_rootgeom_zdc_oldnames_NICA_36mods_no_hole_v1.C.C(-20,0,878,0)"
+
+
+
+//RNF 44x44cm
+root -l "create_rootgeom_nDet_RNF_ONEDET_44x44cm_121mods_4x4cm_VETO_25mm_15slices_Cu_30mm_Sc_25mm_PCB_2mm_PLA_2mm_no_hole.C(780,0,0,780,0)"
+
+root -l "create_rootgeom_nDet_RNF_ONEDET_44x44cm_121mods_4x4cm_VETO_25mm_15slicecreate_rootgeom_nDet_RNF_TWODET_44x44cm_121mods_4x4cm_VETO_25mm_7slices_Fe_30mm_Sc_25mm_PCB_2mm_PLA_2mm_no_hole.Cs_Cu_30mm_Sc_25mm_PCB_2mm_PLA_2mm_no_hole.C(500,-146.2,0,478.2,-17)"
+
+root -l "create_rootgeom_nDet_RNF_TWODET_44x44cm_121mods_4x4cm_VETO_25mm_15slices_Cu_30mm_Sc_25mm_PCB_2mm_PLA_2mm_no_hole.C(500,-146.2,0,478.2,-17, 480,-181.8,0,444.2,-22.26)"
+
+//===============================================
+//NEW Fe absorbers
+root -l "create_rootgeom_nDet_RNF_ONEDET_44x44cm_121mods_4x4cm_VETO_25mm_15slices_Fe_30mm_Sc_25mm_PCB_2mm_PLA_2mm_no_hole.C(780,0,0)" //arround_Y,arround_X
+
+root -l "create_rootgeom_nDet_RNF_ONEDET_44x44cm_121mods_4x4cm_VETO_25mm_15slices_Fe_30mm_Sc_25mm_PCB_2mm_PLA_2mm_no_hole.C(700,-4.7,-3.3)" //arround_Y,arround_X
+
+root -l "create_rootgeom_nDet_RNF_ONEDET_44x44cm_121mods_4x4cm_VETO_25mm_7slices_Fe_30mm_Sc_25mm_PCB_2mm_PLA_2mm_no_hole.C(700,-4.7,-3.3)" //arround_Y,arround_X
+
+
+//TWODET
+root -l "create_rootgeom_nDet_RNF_TWODET_44x44cm_121mods_4x4cm_VETO_25mm_15slices_Fe_30mm_Sc_25mm_PCB_2mm_PLA_2mm_no_hole.C(500,-17,-4.5,700,-10,-4.5)" //arround_Y,arround_X
+
+root -l "create_rootgeom_nDet_RNF_TWODET_44x44cm_121mods_4x4cm_VETO_25mm_7slices_Fe_30mm_Sc_25mm_PCB_2mm_PLA_2mm_no_hole.C(500,-17,-4.5,700,-10,-4.5)" //arround_Y,arround_X
+
+//============================================================
+
+
+//NEW
+root -l "create_rootgeom_nDet_RNF_ONEDET_44x44cm_121mods_4x4cm_VETO_25mm_15slices_Cu_30mm_Sc_25mm_PCB_2mm_PLA_2mm_no_hole.C(780,-4.7,-3.3)" //arround_Y,arround_X
+
+root -l "create_rootgeom_nDet_RNF_ONEDET_44x44cm_121mods_4x4cm_VETO_25mm_15slices_Cu_30mm_Sc_25mm_PCB_2mm_PLA_2mm_no_hole.C(700,-4.7,-3.3)" //arround_Y,arround_X
+
+root -l "create_rootgeom_nDet_RNF_ONEDET_44x44cm_121mods_4x4cm_VETO_25mm_7slices_Cu_30mm_Sc_25mm_PCB_2mm_PLA_2mm_no_hole.C(700,-4.7,-3.3)" //arround_Y,arround_X
+
+
+//TWODET
+root -l "create_rootgeom_nDet_RNF_TWODET_44x44cm_121mods_4x4cm_VETO_25mm_15slices_Cu_30mm_Sc_25mm_PCB_2mm_PLA_2mm_no_hole.C(500,-17,-4.5,700,-10,-4.5)" //arround_Y,arround_X
+
+root -l "create_rootgeom_nDet_RNF_TWODET_44x44cm_121mods_4x4cm_VETO_25mm_7slices_Cu_30mm_Sc_25mm_PCB_2mm_PLA_2mm_no_hole.C(500,-17,-4.5,700,-10,-4.5)" //arround_Y,arround_X
+
+//Cu absorbers with_rows_colomns
+root -l "create_rootgeom_nDet_RNF_TWODET_44x44cm_121mods_4x4cm_with_rows_colomns_VETO_25mm_7slices_Cu_30mm_Sc_25mm_PCB_2mm_PLA_2mm_no_hole.C(700,-10,-4.5,700,-10,4.5)" //arround_Y,arround_X
+
+
+//RNF 12x12cm PROTOTYPE with rows_columns
+root -l "create_rootgeom_nDet_PROTOTYPE_12x12cm_9mods_4x4cm_with_rows_columns_VETO_25mm_5slices_PLA_2mm_Pb_8mm_9slices_Cu_30mm_Sc_25mm_G10_2mm_Air_no_hole_v1.C(-267.080,0.518,529.375,-27.3)"
+
+
+
+
+
+//vacBox RNF 44x44cm
+root -l "create_rootgeom_vacBox_ONEDET_for_nDet_RNF_44x44cm_16slices.C(779.9, 0,0,779.9, 0,0,779.9+94.8, 0,22.1,779.9+47.4, 22.1,0,779.9+47.4, -22.1,0,779.9+47.4, 0)"
+
+root -l "create_rootgeom_vacBox_ONEDET_for_nDet_RNF_44x44cm_16slices.C(499.9, -146.2,0,478.1, -173.9,0,568.7, -160,22.1,523.4, -138.9,0,529.9, -181.1,0,516.9, -17)"
+
+root -l "create_rootgeom_vacBox_ONEDET_for_nDet_RNF_44x44cm_8slices.C(499.9, -146.2,0,478.1, -161.4,0,527.9, -153.8,22.1,503.0, -132.7,0,509.5, -174.9,0,496.5, -17)"
+
+//root -l "create_rootgeom_vacBox_TWODET_for_nDet_RNF_44x44cm_16slices.C(499.9, -146.2,0,478.1, -160,22.1,523.4, -138.9,0,529.9, -181.1,0,516.9, -17, 479.9, -181.8,0,444.1, -199.7,22.1,488.0, -179.2,0,496.4, -220.2,0,479.6,  -22.26)"
+
+
+//NEW //780 - dist to corresponding nDet entrance surface
+root -l "create_rootgeom_vacBox_ONEDET_for_nDet_RNF_44x44cm_16slices.C(780,-4.7,-3.3)"
+
+root -l "create_rootgeom_vacBox_ONEDET_for_nDet_RNF_44x44cm_8slices.C(500,-17,-4.5)"
+
+//TWODET
+root -l "create_rootgeom_vacBox_TWODET_for_nDet_RNF_44x44cm_16slices.C(500,-17,-4.5,700,-10,-4.5)" //arround_Y,arround_X
+
+root -l "create_rootgeom_vacBox_TWODET_for_nDet_RNF_44x44cm_8slices.C(500,-17,-4.5,700,-10,-4.5)" //arround_Y,arround_X

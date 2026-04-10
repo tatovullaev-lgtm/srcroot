@@ -1,0 +1,63 @@
+[CHANNEL_MAP]
+#======================================================================================
+# GEM_id: GEM production number (id >=5 -> Big, 0<=id<=4 -> Mid, id<0 -> Small)
+# Type: 0=directed, 1=rotated
+# Side: 0=left, 1=right
+# Module: 0 - upper-left, 1 - upper-right, 2 - lower-left, 3 - lower-right
+# Zone: 0=hot, 1=big
+# For middle GEMs Module = 0 or 1, Zone = 0
+#             Serial   Ch_lo    Ch_hi  GEM_id    Side     Type  Station  Module  Zone 
+#======================================================================================
+channels = 0x76ca266       0    2047       4       0       0       1       0       0
+channels = 0x76d3e6b     896    1023       4       0       0       1       0       1
+channels = 0x76cd410       0    2047       1       0       0       3       0       0
+channels = 0x76d3e6b     128     255       1       0       0       3       0       1
+channels = 0x76c8320       0    2047       2       0       0       0       0       0
+channels = 0x76d3e6b     256     383       2       0       0       0       0       1
+channels = 0x76cb9c0       0    2047       3       0       0       2       0       0
+channels = 0x76d3e6b     384     511       3       0       0       2       0       1
+channels = 0x76d4d2b       0    1023      10       0       1       4       1       0
+channels = 0x76d5044       0    2047      10       0       1       4       1       1
+channels = 0x76d08b9     896    1023      10       0       1       4       1       1
+channels = 0x76d08b9      -1      -1      10       1       1       4       0       1
+channels = 0x611e026       0    2047      10       1       1       4       0       1
+channels = 0x76d4dad       0    1023      10       1       1       4       0       0
+channels = 0x611d0d7    1024    2047       7       0       0       5       0       0
+channels = 0x611d0ce       0    2047       7       0       0       5       0       1
+channels = 0x76d08b9    1536    1663       7       0       1       5       1       1
+channels = 0x76d08b9    1664    1791       7       1       1       5       0       1
+channels = 0x611e01a       0    2047       7       1       0       5       1       1
+channels = 0x611e021    1024    2047       7       1       0       5       1       0
+channels = 0x76ca26f       0    1023       5       0       1       6       1       0
+channels = 0x76ce3ee       0    2047       5       0       1       6       1       1
+channels = 0x76d08b9     640     767       5       0       1       6       1       1
+channels = 0x76d08b9     768     895       5       1       1       6       0       1
+channels = 0x76ce3e5       0    2047       5       1       1       6       0       1
+channels = 0x30dcf31       0    1023       5       1       1       6       0       0
+channels = 0x76ca26f    1024    2047       6       0       0       7       0       0
+channels = 0x76c82be       0    2047       6       0       0       7       0       1
+channels = 0x76d08b9    1728    1919       6       0       1       7       1       1
+channels = 0x76d08b9    1920    2047       6       0       0       7       0       1
+channels = 0x76cd411       0    2047       6       1       0       7       1       1
+channels = 0x30dcf31    1024    2047       6       1       0       7       1       0
+channels = 0x611d0d7       0    1023       8       0       1       8       1       0
+channels = 0x7a9b206       0    2047       8       0       1       8       1       1
+channels = 0x76d08b9    1024    1151       8       0       1       8       1       1
+channels = 0x76d08b9    1152    1279       8       1       1       8       0       1
+channels = 0x76d4ce3       0    2047       8       1       1       8       0       1
+channels = 0x611e021       0    1023       8       1       1       8       0       0
+channels = 0x76d4d2b    1024    2047       9       0       0       9       0       0
+channels = 0x80bc6dd       0    2047       9       0       1       9       1       1
+channels = 0x76d08b9    1280    1407       9       0       0       9       0       1
+channels = 0x76d08b9    1408    1535       9       1       0       9       1       1
+channels = 0x76d35c6       0    2047       9       1       1       9       0       1
+channels = 0x76d4dad    1024    2047       9       1       0       9       1       0
+
+[SIGNAL_CONFIGURATION]
+Threshold = 20
+ThresholdDif = 10
+NIterations = 5
+#===============================================================================
+# Thresholds for specific ADC channels
+#             Serial     Channel  Threshold
+#===============================================================================

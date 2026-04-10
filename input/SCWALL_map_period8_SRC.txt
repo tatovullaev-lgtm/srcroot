@@ -1,0 +1,233 @@
+[VERSION]								
+id = 1.0						
+								
+[COMMENT]								
+str = void						
+								
+[CONFIGURATION]								
+# Zone Z for not connected lines		
+# F2 to adc line F0			
+# G8 to adc line G0			
+#		ADC_serial	ADC_ch	CellId	Zone
+#============================================							
+
+config =    0x0aadb6ec    0    0    Z
+config =    0x0aadb6ec    8    42    A
+config =    0x0aadb6ec    1    43    A
+config =    0x0aadb6ec    9    44    A
+config =    0x0aadb6ec    2    59    A
+config =    0x0aadb6ec    10    60    A
+config =    0x0aadb6ec    3    61    A
+config =    0x0aadb6ec    11    62    A
+config =    0x0aadb6ec    4    77    A
+config =    0x0aadb6ec    12    78    A
+config =    0x0aadb6ec    5    79    A
+config =    0x0aadb6ec    13    80    A
+config =    0x0aadb6ec    6    95    A
+config =    0x0aadb6ec    14    96    A
+config =    0x0aadb6ec    7    97    A
+config =    0x0aadb6ec    15    98    A
+
+config =    0x0aadb6ec    16    0    Z
+config =    0x0aadb6ec    24    45    B
+config =    0x0aadb6ec    17    46    B
+config =    0x0aadb6ec    25    47    B
+config =    0x0aadb6ec    18    48    B
+config =    0x0aadb6ec    26    49    B
+config =    0x0aadb6ec    19    63    B
+config =    0x0aadb6ec    27    64    B
+config =    0x0aadb6ec    20    65    B
+config =    0x0aadb6ec    28    66    B
+config =    0x0aadb6ec    21    67    B
+config =    0x0aadb6ec    29    81    B
+config =    0x0aadb6ec    22    82    B
+config =    0x0aadb6ec    30    83    B
+config =    0x0aadb6ec    23    84    B
+config =    0x0aadb6ec    31    85    B
+
+config =    0x0aadb6ec    32    0    Z
+config =    0x0aadb6ec    40    50    C
+config =    0x0aadb6ec    33    51    C
+config =    0x0aadb6ec    41    52    C
+config =    0x0aadb6ec    34    53    C
+config =    0x0aadb6ec    42    54    C
+config =    0x0aadb6ec    35    68    C
+config =    0x0aadb6ec    43    69    C
+config =    0x0aadb6ec    36    70    C
+config =    0x0aadb6ec    44    71    C
+config =    0x0aadb6ec    37    72    C
+config =    0x0aadb6ec    45    86    C
+config =    0x0aadb6ec    38    87    C
+config =    0x0aadb6ec    46    88    C
+config =    0x0aadb6ec    39    89    C
+config =    0x0aadb6ec    47    90    C
+
+config =    0x0aadb6ec    48    0    Z
+config =    0x0aadb6ec    56    99    E
+config =    0x0aadb6ec    49    100    E
+config =    0x0aadb6ec    57    101    E
+config =    0x0aadb6ec    50    1    E
+config =    0x0aadb6ec    58    2    E
+config =    0x0aadb6ec    51    3    E
+config =    0x0aadb6ec    59    4    E
+config =    0x0aadb6ec    52    5    E
+config =    0x0aadb6ec    60    11    E
+config =    0x0aadb6ec    53    12    E
+config =    0x0aadb6ec    61    13    E
+config =    0x0aadb6ec    54    14    E
+config =    0x0aadb6ec    62    15    E
+config =    0x0aadb6ec    55    0    Z
+config =    0x0aadb6ec    63    0    Z
+
+config =    0x0611d032    0    25    G
+config =    0x0611d032    8    112    G
+config =    0x0611d032    1    113    G
+config =    0x0611d032    9    114    G
+config =    0x0611d032    2    21    G
+config =    0x0611d032    10    22    G
+config =    0x0611d032    3    23    G
+config =    0x0611d032    11    24    G
+config =    0x0611d032    4    0    Z
+config =    0x0611d032    12    31    G
+config =    0x0611d032    5    32    G
+config =    0x0611d032    13    33    G
+config =    0x0611d032    6    34    G
+config =    0x0611d032    14    35    G
+config =    0x0611d032    7    0    Z
+config =    0x0611d032    15    0    Z
+
+config =    0x0611d032    16    0    Z
+config =    0x0611d032    24    108    I
+config =    0x0611d032    17    109    I
+config =    0x0611d032    25    110    I
+config =    0x0611d032    18    111    I
+config =    0x0611d032    26    121    I
+config =    0x0611d032    19    122    I
+config =    0x0611d032    27    123    I
+config =    0x0611d032    20    124    I
+config =    0x0611d032    28    139    I
+config =    0x0611d032    21    140    I
+config =    0x0611d032    29    141    I
+config =    0x0611d032    22    142    I
+config =    0x0611d032    30    158    I
+config =    0x0611d032    23    159    I
+config =    0x0611d032    31    160    I
+
+config =    0x0611d032    32    0    Z
+config =    0x0611d032    40    125    J
+config =    0x0611d032    33    126    J
+config =    0x0611d032    41    127    J
+config =    0x0611d032    34    128    J
+config =    0x0611d032    42    129    J
+config =    0x0611d032    35    143    J
+config =    0x0611d032    43    144    J
+config =    0x0611d032    36    145    J
+config =    0x0611d032    44    146    J
+config =    0x0611d032    37    147    J
+config =    0x0611d032    45    161    J
+config =    0x0611d032    38    162    J
+config =    0x0611d032    46    163    J
+config =    0x0611d032    39    164    J
+config =    0x0611d032    47    165    J
+
+config =    0x0611d032    48    0    Z
+config =    0x0611d032    56    130    K
+config =    0x0611d032    49    131    K
+config =    0x0611d032    57    132    K
+config =    0x0611d032    50    133    K
+config =    0x0611d032    58    134    K
+config =    0x0611d032    51    148    K
+config =    0x0611d032    59    149    K
+config =    0x0611d032    52    150    K
+config =    0x0611d032    60    151    K
+config =    0x0611d032    53    152    K
+config =    0x0611d032    61    166    K
+config =    0x0611d032    54    167    K
+config =    0x0611d032    62    168    K
+config =    0x0611d032    55    169    K
+config =    0x0611d032    63    170    K
+
+config =    0x080c33e6    0    0    Z
+config =    0x080c33e6    8    55    D
+config =    0x080c33e6    1    56    D
+config =    0x080c33e6    9    57    D
+config =    0x080c33e6    2    73    D
+config =    0x080c33e6    10    74    D
+config =    0x080c33e6    3    75    D
+config =    0x080c33e6    11    76    D
+config =    0x080c33e6    4    91    D
+config =    0x080c33e6    12    92    D
+config =    0x080c33e6    5    93    D
+config =    0x080c33e6    13    94    D
+config =    0x080c33e6    6    104    D
+config =    0x080c33e6    14    105    D
+config =    0x080c33e6    7    106    D
+config =    0x080c33e6    15    107    D
+
+config =    0x080c33e6    16    7    F
+config =    0x080c33e6    24    6    F
+config =    0x080c33e6    17    0    Z
+config =    0x080c33e6    25    8    F
+config =    0x080c33e6    18    9    F
+config =    0x080c33e6    26    10    F
+config =    0x080c33e6    19    102    F
+config =    0x080c33e6    27    103    F
+config =    0x080c33e6    20    16    F
+config =    0x080c33e6    28    17    F
+config =    0x080c33e6    21    18    F
+config =    0x080c33e6    29    19    F
+config =    0x080c33e6    22    20    F
+config =    0x080c33e6    30    0    Z
+config =    0x080c33e6    23    0    Z
+config =    0x080c33e6    31    0    Z
+
+config =    0x080c33e6    32    0    Z
+config =    0x080c33e6    40    26    H
+config =    0x080c33e6    33    27    H
+config =    0x080c33e6    41    28    H
+config =    0x080c33e6    34    29    H
+config =    0x080c33e6    42    30    H
+config =    0x080c33e6    35    115    H
+config =    0x080c33e6    43    116    H
+config =    0x080c33e6    36    36    H
+config =    0x080c33e6    44    37    H
+config =    0x080c33e6    37    38    H
+config =    0x080c33e6    45    39    H
+config =    0x080c33e6    38    40    H
+config =    0x080c33e6    46    0    Z
+config =    0x080c33e6    39    0    Z
+config =    0x080c33e6    47    0    Z
+
+config =    0x080c33e6    48    0    Z
+config =    0x080c33e6    56    117    L
+config =    0x080c33e6    49    118    L
+config =    0x080c33e6    57    119    L
+config =    0x080c33e6    50    120    L
+config =    0x080c33e6    58    135    L
+config =    0x080c33e6    51    136    L
+config =    0x080c33e6    59    137    L
+config =    0x080c33e6    52    138    L
+config =    0x080c33e6    60    153    L
+config =    0x080c33e6    53    154    L
+config =    0x080c33e6    61    155    L
+config =    0x080c33e6    54    156    L
+config =    0x080c33e6    62    171    L
+config =    0x080c33e6    55    172    L
+config =    0x080c33e6    63    173    L
+
+config =    0x0611d032    0    201    V
+config =    0x0611d032    8    202    V
+config =    0x0611d032    1    203    V
+config =    0x0611d032    9    204    V
+config =    0x0611d032    2    205    V
+config =    0x0611d032    10    206    V
+config =    0x0611d032    3    207    V
+config =    0x0611d032    11    208    V
+config =    0x0611d032    4    209    V
+config =    0x0611d032    12    210    V
+config =    0x0611d032    5    211    V
+config =    0x0611d032    13    212    V
+config =    0x0611d032    6    213    V
+config =    0x0611d032    14    214    V
+config =    0x0611d032    7    215    V
+config =    0x0611d032    15    216    V

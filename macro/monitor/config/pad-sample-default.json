@@ -1,0 +1,72 @@
+{
+    "DivX": "2",
+    "DivY": "1",
+    "Pads": [
+        {
+            "Class": "TH2F",
+            "Name": "Vertex2D",
+            "Title": "Vertex XY",
+            "Variable": "MpdVertex.fY:MpdVertex.fX",
+            "Selection": "(MpdVertex.fZ>-10 && MpdVertex.fZ<10 && MpdVertex.fNTracks>0)",
+            "Options": "colz",
+            "Dimensions": [
+                200,
+                -5,
+                5,
+                200,
+                -5,
+                5
+            ]
+        },
+        {
+            "Name": "Right pad",
+            "DivX": "1",
+            "DivY": "2",
+            "Pads": [
+                {
+                    "Name": "Vert axes pad",
+                    "DivX": "2",
+                    "DivY": "1",
+                    "Pads": [
+                        {
+                            "Class": "TH1F",
+                            "Name": "VX",
+                            "Title": "Vertex X",
+                            "Variable": "MpdVertex.fX",
+                            "Selection": "(MpdVertex.fZ>-10 && MpdVertex.fZ<10 && MpdVertex.fNTracks>0)",
+                            "Dimensions": [
+                                200,
+                                -5,
+                                5
+                            ]
+                        },
+                        {
+                            "Class": "TH1F",
+                            "Name": "VY",
+                            "Title": "Vertex Y",
+                            "Variable": "MpdVertex.fY",
+                            "Selection": "(MpdVertex.fZ>-10 && MpdVertex.fZ<10 && MpdVertex.fNTracks>0)",
+                            "Dimensions": [
+                                200,
+                                -5,
+                                5
+                            ]
+                        }
+                    ]
+                },
+                                
+                        {
+                            "Class": "TH1I",
+                            "Name": "MpdVertex.fNTracks",
+                            "Title": "MpdVertex fNTracks",
+                            "Variable": "MpdVertex.fNTracks",
+                            "Dimensions": [
+                                20,
+                                0,
+                                20
+                            ]
+                        }
+            ]
+        }
+    ]
+}

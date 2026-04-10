@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Profilometer</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--#include virtual="../include.html" -->
+        <!--<script type="text/javascript" src="../root.prof1/jsrootsys/scripts/JSRoot.core.js"></script>-->
+        <!--<script type="text/javascript" src="../root.prof2/jsrootsys/scripts/JSRoot.core.js"></script>-->
+        <script>
+            var loco = window.location;
+            var path0 = loco.protocol + "//" + loco.hostname;
+            var path = path0 + "/";
+            var runPath = "../root.app/CurRun/root.json";
+            var refPath = "../root.app/refTable/root.json";
+            var path_cmd = "../root.prof2/ProfQa_cmd/";
+            function ResetProf() {
+                var filename = path_cmd + "/ResetProf/cmd.json";
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", filename, true);
+                xhr.withCredentials = true;
+                xhr.send();
+            }
+            body.onload = createTable();
+            function createTable() {
+                sessionStorage.clear();
+                setRunInfo(runPath);
+                drawInfo();
+            }
+            function drawInfo() {
+                setTimeout(drawInfo, 5000);
+//                JSROOT.NewHttpRequest(runPath, 'text', function (obj) {
+//                    var info = JSON.parse(obj);
+//                    if (info.arr.length > 0) {
+//                        var runInfo = info.arr[0];
+//                        var runID = runInfo.i_run_number;
+//                        var storedRunId = sessionStorage.getItem('runID');
+//                        if ((storedRunId === null) || (storedRunId == runID))
+//                            return;
+//                        sessionStorage.setItem('runID', runID);
+//                        cleanCanvases();
+//                    }
+//                }).send(null);
+                redrawCanvases();
+//                FillRefTable(path0 + "refTable" + "/root.json", "refTable");
+                //var refPath = path0 + "refList" + "/root.json";
+                //FillRefSelector(refPath, "refSelector");
+            }
+            function redrawCanvases() {
+                var filename = path0 + "infoCanvas" + "/root.json";
+
+//                JSROOT.NewHttpRequest(filename, 'object', function (obj) {
+//                    JSROOT.redraw("infoC", obj, "");
+//                }).send(null);
+                filename = "localhost/root.prof1/Profilometer" + "/root.json.gz?compact=3";
+                JSROOT.NewHttpRequest(filename, 'object', function (obj) {
+                    JSROOT.redraw("prof1", obj, "");
+                }).send(null);
+                filename = path + "root.prof2/Profilometer" + "/root.json.gz?compact=3";
+                JSROOT.NewHttpRequest(filename, 'object', function (obj) {
+                    JSROOT.redraw("prof2", obj, "");
+                }).send(null);
+            }
+            function cleanCanvases() {
+                JSROOT.cleanup("infoC");
+                JSROOT.cleanup("SiliconTableC");
+                var sel = document.getElementById("refTable");
+                sel.innerHTML = "";
+            }
+            function SetRefRun() {
+                var runName = document.getElementById("refInput").value;
+                var cmd = path + "SetRefRun/cmd.json";
+                cmd = cmd + "?" + "arg1=" + runName;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", cmd, true);
+                xhr.withCredentials = true;
+                xhr.send();
+                JSROOT.cleanup("SiliconTableC");
+            }
+        </script>
+    </head>
+    <body>
+        <!--<body onload="createTable()">-->
+        <!--#include virtual="../menu.html" -->
+        <div id="total_counter" align="left">
+            <h1>Profilometers</h1>  
+
+            <table>
+                <tr>
+                <tb>
+                    <button onclick="ResetProf()">
+                        <h1 style="color:red;">Reset</h1>
+                    </button>
+                </tb>
+                </tr>
+            </table>
+            <div class="tabs">
+                <input type="radio" name="inset" value="" id="tab_1" checked>
+                <label for="tab_1">2D</label>
+
+                <input type="radio" name="inset" value="" id="tab_2">
+                <label for="tab_2">General</label>
+                <div id="txt_1">
+                    <table>
+                        <tr>
+                        <tb>
+                            <iframe id="prof1_2d" style = "width: 48vw;height: 42vw;"src="../root.prof2/Hits_board1/draw.htm?monitoring=2000"> </iframe>
+                            <iframe id="prof2_2d" style = "width: 48vw;height: 42vw;"src="../root.prof2/Hits_board2/draw.htm?monitoring=2000"> </iframe>
+                        </tb>
+                        </tr>
+                    </table>
+                </div>
+                <div id="txt_2">
+                    <table>
+                        <tr>
+                        <tb>
+                            <!--                <iframe id="prof1" style = "width: 47vw;height: 60vw;"src="../root.prof1/Profilometer/draw.htm?monitoring=1000"> </iframe>
+                                            <iframe id="prof2" style = "width: 47vw;height: 60vw;"src="../root.prof2/Profilometer/draw.htm?monitoring=1000"> </iframe>-->
+                            <iframe id="prof1" style = "width: 47vw;height: 20vw;"src="../root.prof2/Strips_board1/draw.htm?monitoring=2000"> </iframe>
+                            <iframe id="prof2" style = "width: 47vw;height: 20vw;"src="../root.prof2/Strips_board2/draw.htm?monitoring=2000"> </iframe>
+                            <iframe id="prof1_sig" style = "width: 47vw;height: 20vw;"src="../root.prof2/Signals_board1/draw.htm?monitoring=2000"> </iframe>
+                            <iframe id="prof2_sig" style = "width: 47vw;height: 20vw;"src="../root.prof2/Signals_board2/draw.htm?monitoring=2000"> </iframe>
+                            <iframe id="prof1_ped" style = "width: 47vw;height: 20vw;"src="../root.prof2/Pedestals_board1/draw.htm?monitoring=2000"> </iframe>
+                            <iframe id="prof2_ped" style = "width: 47vw;height: 20vw;"src="../root.prof2/Pedestals_board2/draw.htm?monitoring=2000"> </iframe>
+                        </tb>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </table>
+</body>
+</html>

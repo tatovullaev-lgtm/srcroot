@@ -1,0 +1,61 @@
+/* 
+    Created on : Sep 19, 2017, 3:05:45 PM
+    Author     : ilnur
+*/
+
+img {
+    margin-top: 50px;
+}
+
+/* Main navigation menu */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    align-content: center;
+    align-self: center;
+    align-items: center;
+    background-color: darkgrey;
+    color: cornflowerblue;
+    overflow: hidden;
+}
+
+li a {
+    display: block;
+    text-align: center;
+    padding: 5px 20px;
+    text-decoration: none;
+    float: left;
+    font-size: 22px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+li a:hover {
+    background-color: mediumpurple;
+    color: white;
+}
+
+.bar {
+    fill: #0050FF
+}
+
+.bar:hover {
+    fill: #003366
+}
+
+/* Reference list */
+ul.styleRefTable {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    align-content: center;
+    align-self: center;
+    align-items: center;
+    background-color: darkslategrey;
+    color: darkkhaki;
+    overflow: hidden;
+}
+ul.styleRefTable > li > a{
+    display: block;
+    color: coral;
+}

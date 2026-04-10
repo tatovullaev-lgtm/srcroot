@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ToF700</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--#include virtual="../include_digi.html" -->
+        <script type='module'>
+            import { draw, redraw, httpRequest, resize, cleanup} from 'jsroot';
+            import * as bm from 'bmtools';
+            var loco = window.location;
+            var path0 = loco.protocol + "//" + loco.hostname + "/root.app/";
+            var path = path0 + "ToF700/";
+            var runPath = "../root.app/CurRun/root.json";
+            var refPath = "../root.app/refTable/root.json";
+//            window.addEventListener("load", () => {
+//                createTable();
+//                  });
+            function createTable() {
+                sessionStorage.clear();
+                bm.setRunInfo(runPath);
+                drawInfo();
+            }
+            async function updateRunId() {
+                let obj = await httpRequest(runPath, 'object');
+                    var info = obj;//JSON.parse(obj);
+                    if (info.arr.length > 0) {
+                        var runInfo = info.arr[0];
+                        var runID = runInfo.i_run_number;
+                        var storedRunId = sessionStorage.getItem('runID');
+                        if ((storedRunId === null) || (storedRunId == runID))
+                            return;
+                        sessionStorage.setItem('runID', runID);
+                        cleanCanvases();
+                    }
+            }
+            function ResetToFHist() {
+                var filename = path + "Reset/cmd.json";
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", filename, true);
+                xhr.withCredentials = true;
+                xhr.send();
+            }
+            function ChangeSlection() {
+                var iPlane = document.getElementById("PlaneText").value;
+                var iStrip = document.getElementById("StripText").value;
+                var filename = path + "ChangeSlection/cmd.json";
+                filename = filename + "?" + "arg1=" + iPlane;
+                filename = filename + "&" + "arg2=" + iStrip;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", filename, true);
+                xhr.withCredentials = true;
+                xhr.send();
+            }
+            function drawInfo() {
+                setTimeout(drawInfo, 5000);
+                updateRunId();
+                redrawCanvases();
+                bm.FillRefTable(path0 + "refTable" + "/root.json", "refTable");
+            }
+            function redrawCanvases(){
+                bm.Redraw2Div(path0 + "infoCanvas" + "/root.json.gz?compact=3", "infoC");
+                bm.Redraw2Div(path + "ToF700CanvasTimes" + "/root.json.gz?compact=3", "timeTableC");
+            }
+            function cleanCanvases() {
+                cleanup("infoC");
+                cleanup("srcTableC");
+                var sel = document.getElementById("refTable");
+                sel.innerHTML = "";
+            }
+            function SetRefRun() {
+                var runName = document.getElementById("refInput").value;
+                var cmd = path + "SetRefRun/cmd.json";
+                cmd = cmd + "?" + "arg1=" + runName;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", cmd, true);
+                xhr.withCredentials = true;
+                xhr.send();
+                cleanup("timeTableC");
+            }
+            window.createTable = createTable;
+            window.SetRefRun = SetRefRun;
+            window.redrawCanvases = redrawCanvases;
+            window.makeSelection = bm.makeSelection;
+        </script>
+    </head>
+    <body onload="createTable()">
+        <!--#include virtual="../menu.html" -->
+        <div align="center">
+            <h1>ToF700</h1>  
+            <div align="center">
+                <div id="infoC" style="width: 90vw;height: 15vw;"> </div>
+            </div>             
+        </div>
+
+<!--        <button onclick="ResetToFHist()">
+            <h1 style="color:red;">Reset</h1>
+        </button>-->
+        <table>
+            <tr>
+                <th>
+                    Plane Index
+                </th>
+                <th>
+                    <input type="text" id="PlaneText" maxlength="8"/>
+                </th>
+                <th  rowspan="2">
+                    <button onclick="ChangeSlection()" style="width: 20vw;height: 6vw;"> 
+                        <h3>Change Selection (-1 => All)</h3>
+                    </button>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    Strip Index
+                </th>
+                <th>
+                    <input type="text" id="StripText" maxlength="8"/>
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    Run Index
+                </th>
+                <th>
+                    <input type="text" name="refInput" id="refInput" list="refSelector">
+                    <datalist id="refSelector" autocomplete="on"></datalist>
+                </th>
+                <th>
+                    <button onclick="SetRefRun()" style="width: 20vw;height: 2vw;"> 
+                        <h3> Select Reference Run</h3>
+                    </button>
+                </th>
+                <th>
+                    <select class="styleRefTable" id="refTable" onchange="makeSelection()">
+                </th>
+
+            </tr>
+        </table>
+        <div align="center">
+            <div id="timeTableC" style="width: 98vw;height: 60vw;"> </div>
+        </div>
+
+        <!--        <table class="hist_trig_table" style="width:100%">
+                    <tr>
+                        <td>
+                            <iframe src="../root.app/ToF700/ToF700_Leading_Time/draw.htm?monitoring=2000"
+                                    class="inframe_hist" style="width: 48vw;height: 30vw;"
+                                    >
+        
+                            </iframe>
+                        </td>
+                        <td>
+                            <iframe src="../root.app/ToF700/ToF700_Amplitude/draw.htm?monitoring=2000"
+                                    class="inframe_hist" style="width: 48vw;height: 30vw;"
+                                    >                
+                            </iframe>                    
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <iframe src="../root.app/ToF700/ToF700_Leading_Time_Specific/draw.htm?monitoring=2000"
+                                    class="inframe_hist" style="width: 48vw;height: 30vw;"
+                                    >
+        
+                            </iframe>
+                        </td>
+                        <td>
+                            <iframe src="../root.app/ToF700/ToF700_Amplitude_Specific/draw.htm?monitoring=2000"
+                                    class="inframe_hist" style="width: 48vw;height: 30vw;"
+                                    >                
+                            </iframe>                    
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <iframe src="../root.app/ToF700/ToF700_Strip/draw.htm?monitoring=2000"
+                                    class="inframe_hist" style="width: 48vw;height: 30vw;"
+                                    >
+        
+                            </iframe>
+                        </td>
+                        <td>
+                            <iframe src="../root.app/ToF700/ToF700_StripSimult/draw.htm?monitoring=2000"
+                                    class="inframe_hist" style="width: 48vw;height: 30vw;"
+                                    >                
+                            </iframe>                    
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <iframe src="../root.app/ToF700/ToF700_State/draw.htm?monitoring=2000&opt=colz"
+                                    class="inframe_hist" style="width: 80vw;height: 30vw;"
+                                    >
+        
+                            </iframe>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                </table>-->
+    </body>
+</html>

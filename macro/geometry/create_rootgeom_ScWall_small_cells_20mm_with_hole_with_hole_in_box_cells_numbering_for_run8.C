@@ -1,0 +1,576 @@
+//---------------------------
+// M.Golubeva (INR RAS), January 2021
+//---------------------------
+
+#include "../profiling/bmnloadlibs.C"
+#include "TFile.h"
+#include "TGeoManager.h"
+#include "TGeoMedium.h"
+#include "TGeoVolume.h"
+
+// Detector's construct parameters ===================
+
+// Global dimensions for ScWall in cm (Scint)
+Double_t ScWall_X_size = 135;   // 270./2.
+Double_t ScWall_Y_size = 60;    // 120./2.
+
+Double_t ScWall_full_cell_Z_size_small_10mm = 0.5;             // half of 10 mm
+Double_t ScWall_full_cell_Z_size_small_20mm = 1.;              // half of 20 mm
+Double_t ScWall_full_cell_Z_size_large = 0.5;                  // half of 10 mm
+Double_t ScWall_Z_size = ScWall_full_cell_Z_size_small_20mm;   // half of 20 mm (2 cm)
+
+Double_t ScWall_X_size_box = 145;   // 290./2.//Scint+box
+Double_t ScWall_Y_size_box = 70;    // 140./2.
+Double_t ScWall_Z_size_box = 2.3;   // half of 4.6 cm
+
+Double_t ScWall_X_size_box_left = 80;   // 160./2.//Scint+box //at ScWall surface
+Double_t ScWall_Y_size_box_left = 70;   // 140./2.
+
+Double_t ScWall_X_size_box_right = 57.5;   // 115./2.//Scint+box//at ScWall surface
+Double_t ScWall_Y_size_box_right = 70;     // 140./2.
+
+Double_t ScWall_X_size_box_top = 7.5;     // 15./2.//Scint+box //at ScWall surface
+Double_t ScWall_Y_size_box_top = 31.25;   // 62.5/2.
+
+// Al plates
+Double_t ScWall_Z_size_Al_plate = 0.15;   // half of 0.3 cm
+
+// SMALL cells
+Double_t ScWall_NColumns_small = 10;
+Double_t ScWall_NRows_small = 4;
+Double_t ScWall_X_size_small = 37.5;             // 7.5*5.
+Double_t ScWall_Y_size_small = 15;               // 7.5*2.
+Double_t ScWall_full_cell_X_size_small = 3.75;   // 7.5/2. //before angles cuts
+Double_t ScWall_full_cell_Y_size_small = 3.75;   // 7.5/2.
+
+// LARGE cells
+Double_t ScWall_NColumns_large = 18;
+Double_t ScWall_NRows_large = 8;
+Double_t ScWall_X_size_large = 135;             // 15*9.
+Double_t ScWall_Y_size_large = 60;              // 15*4.
+Double_t ScWall_full_cell_X_size_large = 7.5;   // 15/2. //before angles cuts
+Double_t ScWall_full_cell_Y_size_large = 7.5;   // 15/2.
+
+// Trap dimensions  REAL dimensions
+Double_t trd1_side_X = 0.5;    // angle side
+Double_t trd1_side_Y = 0.5;    // angle side
+Double_t trd1_size_Z = 0.25;   // half of 0.5cm
+// Double_t trd1_thickness_small_10mm = 0.5; //half of 1. cm
+// Double_t trd1_thickness_small_20mm = 1.; //half of 2. cm
+// Double_t trd1_thickness_large = 0.5; //half of 1 cm
+
+Double_t trd1_thickness_small_10mm = ScWall_full_cell_Z_size_small_10mm;   // half of 1. cm
+Double_t trd1_thickness_small_20mm = ScWall_full_cell_Z_size_small_20mm;   // half of 2. cm
+Double_t trd1_thickness_large = ScWall_full_cell_Z_size_large;             // half of 1 cm
+
+// Trap dimensions for TEST
+// Double_t trd1_side_X = 2; //angle side
+// Double_t trd1_side_Y = 2; //angle side
+// Double_t trd1_thickness = 0.5; //half of 1 cm
+// Double_t trd1_size_Z = 1; //half of 2cm
+
+// media ============================================
+TGeoMedium* pMedVacuum = 0;
+TGeoMedium* pMedAir = 0;
+TGeoMedium* pMedScint = 0;
+TGeoMedium* pMedAlum = 0;
+
+class FairGeoMedia;
+class FairGeoBuilder;
+
+void DefineRequiredMedia(FairGeoMedia* geoMedia, FairGeoBuilder* geoBuild)
+{
+    // vacuum medium
+    FairGeoMedium* mVacuum = geoMedia->getMedium("vacuum");
+    if (!mVacuum)
+        Fatal("Main", "FairMedium vacuum not found");
+    geoBuild->createMedium(mVacuum);
+    pMedVacuum = gGeoManager->GetMedium("vacuum");
+    if (!pMedVacuum)
+        Fatal("Main", "Medium vacuum not found");
+
+    // air medium
+    FairGeoMedium* mAir = geoMedia->getMedium("air");
+    if (!mAir)
+        Fatal("Main", "FairMedium air not found");
+    geoBuild->createMedium(mAir);
+    pMedAir = gGeoManager->GetMedium("air");
+    if (!pMedAir)
+        Fatal("Main", "Medium air not found");
+
+    // medium polystyrene (Scint.)
+    FairGeoMedium* mPolystyrene = geoMedia->getMedium("polystyrene");
+    if (!mPolystyrene)
+        Fatal("Main", "FairMedium polystyrene not found");
+    geoBuild->createMedium(mPolystyrene);
+    pMedScint = gGeoManager->GetMedium("polystyrene");
+    if (!pMedScint)
+        Fatal("Main", "Medium polystyrene not found");
+
+    // medium aluminium (ScWall box)
+    FairGeoMedium* mAluminium = geoMedia->getMedium("aluminium");
+    if (!mAluminium)
+        Fatal("Main", "FairMedium aluminium not found");
+    geoBuild->createMedium(mAluminium);
+    pMedAlum = gGeoManager->GetMedium("aluminium");
+    if (!pMedAlum)
+        Fatal("Main", "Medium aluminium not found");
+
+}   // DefineRequiredMedia
+
+void FillCell_small(TGeoVolume* scwallCellV_small);
+void FillCell_large(TGeoVolume* scwallCellV_large);
+
+// void create_rootgeom_ScWall_small_cells_20mm_with_hole_with_hole_in_box_cells_numbering_for_run8(Double_t
+// ScWall_Xpos=68.7,Double_t ScWall_Ypos=0,Double_t ScWall_Zpos=741.5,Double_t rotY=0) {//no Y shift
+void create_rootgeom_ScWall_small_cells_20mm_with_hole_with_hole_in_box_cells_numbering_for_run8(
+    Double_t ScWall_Xpos = 65.65,
+    Double_t ScWall_Ypos = -0.43,
+    Double_t ScWall_Zpos = 697.4,
+    Double_t rotY = 0)
+{   // with Y shift
+
+    // Load necessary libraries
+    bmnloadlibs();   // load libraries
+
+    // ----  set working directory  --------------------------------------------
+    TString gPath = gSystem->Getenv("VMCWORKDIR");
+
+    // -------   Geometry file name (output)   ---------------------------------
+    const TString geoDetectorName = "ScWall_small_cells_20mm_with_hole_with_hole_in_box_cells_numbering_for_run8";
+    // const TString geoDetectorVersion = "v1";
+
+    Double_t ScWall_center_Zpos =
+        ScWall_Zpos + ScWall_Z_size_box * TMath::Cos(rotY * TMath::DegToRad());   //(900+2.3);//cm
+    Double_t ScWall_center_Xpos = ScWall_Xpos + ScWall_Z_size_box * TMath::Sin(rotY * TMath::DegToRad());   // cm
+
+    TString sXshift_1 = "";
+    TString sXshift_2 = "";
+
+    TString sYshift_0 = "-";
+    TString sYshift_1 = "";
+    TString sYshift_2 = "";
+
+    TString sZshift_1 = "";
+    TString sZshift_2 = "";
+
+    TString sRotY_1 = "";
+    TString sRotY_2 = "";
+
+    Int_t Zshift_1 = Int_t(ScWall_Zpos);   // cm
+    sZshift_1 += Zshift_1;
+    // Int_t Zshift_2 = Int_t(10*(ScWall_Zpos-Int_t(ScWall_Zpos))); //cm
+    Int_t Zshift_2 = Int_t(10 * (ScWall_Zpos - Int_t(ScWall_Zpos))) + 1;   // cm
+    sZshift_2 += Zshift_2;
+
+    Int_t Xshift_1 = Int_t(ScWall_Xpos);   // cm
+    sXshift_1 += Xshift_1;
+    Int_t Xshift_2 = Int_t(0.5 + 100 * (ScWall_Xpos - Int_t(ScWall_Xpos)));   // cm
+    sXshift_2 += Xshift_2;
+
+    Int_t rotY_1 = Int_t(rotY);
+    sRotY_1 += rotY_1;
+    Int_t rotY_2 = Int_t(100 * (rotY - Int_t(rotY)));
+    sRotY_2 += rotY_2;
+
+    /*
+    //no Y shift
+    Int_t Yshift_1 = Int_t(ScWall_Ypos); //cm
+    sYshift_1 += Yshift_1;
+    Int_t Yshift_2 = Int_t(100*(ScWall_Ypos-Int_t(ScWall_Ypos))); //cm
+    sYshift_2 += Yshift_2;
+
+    TString geoFileName = gPath + "/geometry/" + geoDetectorName + "_" + "Zpos_" + sZshift_1 + "." + sZshift_2 + "cm" +
+    "_" + "Xshift_" + sXshift_1 + "." + sXshift_2 + "cm" + "_" + "Yshift_" + sYshift_1 + "." + sYshift_2 + "cm" + "_" +
+    "rotationY_"  + sRotY_1  + "." + sRotY_2 + "deg" + ".root";
+    */
+
+    // with Y shift
+    Int_t Yshift_1 = Int_t(ScWall_Ypos);   // cm
+    sYshift_1 += Yshift_1;
+    // Int_t Yshift_2 = Int_t(100*(ScWall_Ypos-Int_t(ScWall_Ypos))); //cm
+    // Int_t Yshift_2 = TMath::Abs(Int_t(10*(ScWall_Ypos))); //cm
+    Int_t Yshift_2 = TMath::Abs(Int_t(100 * (ScWall_Ypos)));   // cm
+    sYshift_2 += Yshift_2;
+
+    TString geoFileName = gPath + "/geometry/" + geoDetectorName + "_" + "Zpos_" + sZshift_1 + "." + sZshift_2 + "cm"
+                          + "_" + "Xshift_" + sXshift_1 + "." + sXshift_2 + "cm" + "_" + "Yshift" + sYshift_0
+                          + sYshift_1 + "." + sYshift_2 + "cm" + "_" + "rotationY_" + sRotY_1 + "." + sRotY_2 + "deg"
+                          + ".root";
+
+    // -------------------------------------------------------------------
+
+    // ----  global geometry parameters  ---------------------------------
+    FairGeoLoader* geoLoad = new FairGeoLoader("TGeo", "FairGeoLoader");
+    FairGeoInterface* geoFace = geoLoad->getGeoInterface();
+
+    // -------   Load media from media file   ----------------------------
+    TString medFile = gPath + "/geometry/media.geo";
+    geoFace->setMediaFile(medFile);
+    geoFace->readMedia();
+    FairGeoMedia* geoMedia = geoFace->getMedia();
+    FairGeoBuilder* geoBuild = geoLoad->getGeoBuilder();
+    geoMedia->list();
+    geoMedia->print();
+    DefineRequiredMedia(geoMedia, geoBuild);
+    // --------------------------------------------------------------------
+
+    // --------------   Create geometry and global top volume  ------------
+    gGeoManager = (TGeoManager*)gROOT->FindObject("FAIRGeom");
+    gGeoManager->SetName(geoDetectorName + "_geom");
+    TGeoVolume* top = new TGeoVolumeAssembly(BmnScWallGeoPar::fTopVolumeName);
+    top->SetMedium(pMedAir);
+    gGeoManager->SetTopVolume(top);
+    // gGeoMan->SetTopVisible(1);
+    // --------------------------------------------------------------------
+
+    // Define ScWAll Geometry
+    TGeoVolume* ScWall_common = new TGeoVolumeAssembly(BmnScWallGeoPar::fCommonVolumeName);
+    ScWall_common->SetMedium(pMedAir);
+    // ScWall_common->SetMedium(pMedVacuum);
+
+    TGeoBBox* ScWallS = new TGeoBBox(BmnScWallGeoPar::fDetectorVolumeName, ScWall_X_size, ScWall_Y_size, ScWall_Z_size);
+    TGeoVolume* ScWallV = new TGeoVolume(BmnScWallGeoPar::fDetectorVolumeName, ScWallS);
+    ScWallV->SetMedium(pMedAir);
+
+    TGeoBBox* scwallCellS_large = new TGeoBBox(BmnScWallGeoPar::scwallCell_name_large, ScWall_full_cell_X_size_large,
+                                               ScWall_full_cell_Y_size_large, ScWall_full_cell_Z_size_large);
+    TGeoVolume* scwallCellV_large = new TGeoVolume(BmnScWallGeoPar::scwallCell_name_large, scwallCellS_large);
+    scwallCellV_large->SetMedium(pMedAir);
+
+    TGeoBBox* scwallCellS_small = new TGeoBBox(BmnScWallGeoPar::scwallCell_name_small, ScWall_full_cell_X_size_small,
+                                               ScWall_full_cell_Y_size_small, ScWall_full_cell_Z_size_small_20mm);
+    TGeoVolume* scwallCellV_small = new TGeoVolume(BmnScWallGeoPar::scwallCell_name_small, scwallCellS_small);
+    scwallCellV_small->SetMedium(pMedAir);
+
+    // If Hodo is in use cells 17,18 and 27,28 should be excluded
+    // Fill ScWall with small cells (1-40)
+    Int_t modsSmall[Int_t(ScWall_NRows_small)][Int_t(ScWall_NColumns_small)];
+    Int_t modsLarge[Int_t(ScWall_NRows_large)][Int_t(ScWall_NColumns_large)];
+
+    Float_t xCur = ScWall_X_size_small - ScWall_full_cell_X_size_small;
+    Float_t yCur = ScWall_Y_size_small + ScWall_full_cell_Y_size_small;
+    Float_t zCur = 0;
+    Float_t zCur_10mm = -ScWall_Z_size + ScWall_full_cell_Z_size_small_10mm;
+    Float_t zCur_20mm = 0;
+
+    Int_t iMod = -1, modNb = -1;
+
+    for (Int_t iy = 0; iy < ScWall_NRows_small; iy++) {
+        yCur = yCur - 2. * ScWall_full_cell_Y_size_small;
+        for (Int_t ix = 0; ix < ScWall_NColumns_small; ix++) {
+            xCur = xCur - 2. * ScWall_full_cell_X_size_small;
+
+            TGeoTranslation* scwallCellV_position_small = new TGeoTranslation(xCur, yCur, zCur_20mm);
+            iMod = iy * ScWall_NColumns_small + ix;
+            modNb = iMod + 1;
+
+            // new numbering
+            if (iy == 0)
+                modNb += 30;
+            if (iy == 1)
+                modNb += 10;
+            if (iy == 2)
+                modNb -= 10;
+            if (iy == 3)
+                modNb -= 30;
+            modsSmall[iy][ix] = modNb;
+
+            if ((iMod + 1) != 17 && (iMod + 1) != 18 && (iMod + 1) != 27 && (iMod + 1) != 28) {
+                ScWallV->AddNode(scwallCellV_small, modNb, scwallCellV_position_small);
+                cout << "ScWall small modNb,xxxx,yyyy " << modNb << " " << xCur << " " << yCur << endl;
+            }
+
+            if (ix == ScWall_NColumns_small - 1) {
+                xCur = ScWall_X_size_small - ScWall_full_cell_X_size_small;
+                // xCur = ScWall_X_size_small +2.*ScWall_full_cell_X_size_small + ScWall_full_cell_X_size_small;
+            }
+        }   // for(Int_t ix==0; ix<7; ix++)
+    }   // for(Int_t iy==0; iy<7; iy++)
+    // return;
+
+    // Fill ScWall with large cells (41-174)
+    xCur = ScWall_X_size_large + ScWall_full_cell_X_size_large;
+    yCur = ScWall_Y_size_large + ScWall_full_cell_Y_size_large;
+    zCur_10mm = -ScWall_Z_size + ScWall_full_cell_Z_size_large;
+
+    iMod = -1;
+    modNb = -1;
+    for (Int_t iy = 0; iy < ScWall_NRows_large; iy++) {
+        yCur = yCur - 2. * ScWall_full_cell_Y_size_large;
+        for (Int_t ix = 0; ix < ScWall_NColumns_large; ix++) {
+            xCur = xCur - 2. * ScWall_full_cell_X_size_large;
+            modsLarge[iy][ix] = 777;
+
+            TGeoTranslation* scwallCellV_position_large = new TGeoTranslation(xCur, yCur, zCur_10mm);
+            iMod = iy * ScWall_NColumns_large + ix;
+
+            // if(iMod<60) modNb=iMod+1+40;
+            // if(iMod>=60 && iMod<=64) continue;
+            // if(iMod>64) modNb=iMod-5+1+40;
+
+            if (iMod < 61)
+                modNb = iMod + 1 + 40;
+            if (iMod >= 61 && iMod <= 65)
+                continue;
+            if (iMod > 65)
+                modNb = iMod - 5 + 1 + 40;
+
+            //=========
+            // if(iMod>=78 && iMod<=82) continue;
+            // if(iMod>82) modNb=iMod-10+1+40;
+
+            if (iMod >= 79 && iMod <= 83)
+                continue;
+            if (iMod > 83)
+                modNb = iMod - 10 + 1 + 40;
+
+            // new numbering
+            if (iy == 0)
+                modNb += 116;
+            if (iy == 1)
+                modNb += 80;
+            if (iy == 2)
+                modNb += 44;
+            if (iy == 3)
+                modNb += 13;
+            if (iy == 4)
+                modNb -= 13;
+            if (iy == 5)
+                modNb -= 44;
+            if (iy == 6)
+                modNb -= 80;
+            if (iy == 7)
+                modNb -= 116;
+            modsLarge[iy][ix] = modNb;
+
+            ScWallV->AddNode(scwallCellV_large, modNb, scwallCellV_position_large);
+            cout << "ScWall modNb,xxxx,yyyy " << modNb << " " << xCur << " " << yCur << endl;
+
+            if (ix == ScWall_NColumns_large - 1)
+                xCur = ScWall_X_size_large + ScWall_full_cell_X_size_large;
+
+        }   // for(Int_t ix==0; ix<7; ix++)
+    }   // for(Int_t iy==0; iy<7; iy++)
+
+    for (Int_t iy = 0; iy < ScWall_NRows_small; iy++) {
+        for (Int_t ix = 0; ix < ScWall_NColumns_small; ix++) {
+            cout << modsSmall[iy][ix] << " ";
+        }
+        cout << endl;
+    }
+    for (Int_t iy = 0; iy < ScWall_NRows_large; iy++) {
+        for (Int_t ix = 0; ix < ScWall_NColumns_large; ix++) {
+            cout << modsLarge[iy][ix] << " ";
+        }
+        cout << endl;
+    }
+    // return;
+
+    // Fill ScWall box
+    TGeoBBox* ScWallS_box_full =
+        new TGeoBBox("scwall_box_full", ScWall_X_size_box, ScWall_Y_size_box, ScWall_Z_size_box);
+    TGeoBBox* ScWallS_box_hole = new TGeoBBox("scwall_box_hole", 15. / 2., 15. / 2., ScWall_Z_size_box);
+    TGeoTranslation* trans_box_hole = new TGeoTranslation("trans_box_hole", -22.5, 0, 0);
+    trans_box_hole->RegisterYourself();
+    TGeoCompositeShape* ScWallS_box =
+        new TGeoCompositeShape("scwall_box_cs", "scwall_box_full - scwall_box_hole:trans_box_hole");
+
+    TGeoVolume* ScWallV_box = new TGeoVolume(BmnScWallGeoPar::scwall_name_box, ScWallS_box);
+    ScWallV_box->SetMedium(pMedAir);
+
+    TGeoBBox* ScWallS_Al_plate_left = new TGeoBBox(BmnScWallGeoPar::scwall_name_Al_plate_left, ScWall_X_size_box_left,
+                                                   ScWall_Y_size_box_left, ScWall_Z_size_Al_plate);
+    TGeoVolume* ScWallV_Al_plate_left =
+        new TGeoVolume(BmnScWallGeoPar::scwall_name_Al_plate_left, ScWallS_Al_plate_left);
+    ScWallV_Al_plate_left->SetMedium(pMedAlum);
+
+    TGeoBBox* ScWallS_Al_plate_right =
+        new TGeoBBox(BmnScWallGeoPar::scwall_name_Al_plate_right, ScWall_X_size_box_right, ScWall_Y_size_box_right,
+                     ScWall_Z_size_Al_plate);
+    TGeoVolume* ScWallV_Al_plate_right =
+        new TGeoVolume(BmnScWallGeoPar::scwall_name_Al_plate_right, ScWallS_Al_plate_right);
+    ScWallV_Al_plate_right->SetMedium(pMedAlum);
+
+    TGeoBBox* ScWallS_Al_plate_top = new TGeoBBox(BmnScWallGeoPar::scwall_name_Al_plate_top, ScWall_X_size_box_top,
+                                                  ScWall_Y_size_box_top, ScWall_Z_size_Al_plate);
+    TGeoVolume* ScWallV_Al_plate_top = new TGeoVolume(BmnScWallGeoPar::scwall_name_Al_plate_top, ScWallS_Al_plate_top);
+    ScWallV_Al_plate_top->SetMedium(pMedAlum);
+
+    zCur = -ScWall_Z_size_box + ScWall_Z_size_Al_plate;   // Al before;
+    xCur = 65.;                                           // left
+    yCur = 0;
+    TGeoTranslation* scwallBox_left = new TGeoTranslation(xCur, yCur, zCur);
+    ScWallV_box->AddNode(ScWallV_Al_plate_left, 1, scwallBox_left);
+    cout << "ScWall box Al_left_before_Sc " << xCur << " " << yCur << " " << zCur << endl;
+
+    scwallBox_left = new TGeoTranslation(xCur, yCur, -zCur);
+    ScWallV_box->AddNode(ScWallV_Al_plate_left, 2, scwallBox_left);
+    cout << "ScWall box Al_left_after_Sc " << xCur << " " << yCur << " " << -zCur << endl;
+
+    xCur = -87.5;   // right
+    yCur = 0;
+    TGeoTranslation* scwallBox_right = new TGeoTranslation(xCur, yCur, zCur);
+    ScWallV_box->AddNode(ScWallV_Al_plate_right, 1, scwallBox_right);
+    cout << "ScWall box Al_right_before Sc " << xCur << " " << yCur << " " << zCur << endl;
+
+    scwallBox_right = new TGeoTranslation(xCur, yCur, -zCur);
+    ScWallV_box->AddNode(ScWallV_Al_plate_right, 2, scwallBox_right);
+    cout << "ScWall box Al_right_after_Sc " << xCur << " " << yCur << " " << -zCur << endl;
+
+    xCur = -22.5;   // top
+    yCur = 38.75;
+    TGeoTranslation* scwallBox_top = new TGeoTranslation(xCur, yCur, zCur);
+    ScWallV_box->AddNode(ScWallV_Al_plate_top, 1, scwallBox_top);
+    cout << "ScWall box Al_top_before_Sc " << xCur << " " << yCur << " " << zCur << endl;
+
+    scwallBox_top = new TGeoTranslation(xCur, yCur, -zCur);
+    ScWallV_box->AddNode(ScWallV_Al_plate_top, 2, scwallBox_top);
+    cout << "ScWall box Al_top_after_Sc " << xCur << " " << yCur << " " << -zCur << endl;
+
+    xCur = -22.5;   // bottom
+    yCur = -38.75;
+    TGeoTranslation* scwallBox_bottom = new TGeoTranslation(xCur, yCur, zCur);
+    ScWallV_box->AddNode(ScWallV_Al_plate_top, 3, scwallBox_bottom);
+    cout << "ScWall box Al_bottom_before_Sc " << xCur << " " << yCur << " " << zCur << endl;
+
+    scwallBox_bottom = new TGeoTranslation(xCur, yCur, -zCur);
+    ScWallV_box->AddNode(ScWallV_Al_plate_top, 4, scwallBox_bottom);
+    cout << "ScWall box Al_bottom_after_Sc " << xCur << " " << yCur << " " << -zCur << endl;
+
+    zCur = -ScWall_Z_size_box + 2. * ScWall_Z_size_Al_plate + ScWall_Z_size;   // Scint
+    TGeoTranslation* scwallBox = new TGeoTranslation(0., 0., zCur);
+    ScWallV_box->AddNode(ScWallV, 1, scwallBox);
+    cout << "ScWall box Scint " << zCur << endl;
+    // return;
+
+    FillCell_small(scwallCellV_small);
+    FillCell_large(scwallCellV_large);
+
+    // Adding the ScWall box mother volume to the global TOP Volume
+    TGeoRotation* rot = new TGeoRotation("rot");
+    rot->RotateY(rotY);
+    TGeoCombiTrans* scwallScWall =
+        new TGeoCombiTrans("scwallScWall", ScWall_center_Xpos, ScWall_Ypos, ScWall_center_Zpos, rot);
+    // ScWall_common->AddNode(ScWallV, 1, scwallScWall);
+    ScWall_common->AddNode(ScWallV_box, 1, scwallScWall);
+
+    top->AddNode(ScWall_common, 0);
+    top->SetVisContainers(kTRUE);
+
+    // ---------------   Finish   ---------------------------------------
+    gGeoManager->CloseGeometry();
+    gGeoManager->CheckOverlaps(0.001);
+    gGeoManager->PrintOverlaps();
+
+    gGeoManager->Test();
+
+    TFile* geoFile = new TFile(geoFileName, "RECREATE");
+    top->Write();
+    geoFile->Close();
+
+    // TString gdmlname = gPath + "/geometry/tpc_v7.gdml";
+    // gGeoManager->Export(gdmlname);
+
+    // top->Draw("ogl");
+    // TGLViewer *v = (TGLViewer*)gPad->GetViewer3D();
+    // v->SetStyle(TGLRnrCtx::kOutline);
+    // top->Draw("");
+
+}   // end macro
+
+void FillCell_small(TGeoVolume* mother_volume)
+{
+    // Cell small
+    TGeoShape* scwallSensitiveCellS_small_cutted =
+        new TGeoBBox(BmnScWallGeoPar::scwallSensitiveCell_name_small_cutted, ScWall_full_cell_X_size_small,
+                     ScWall_full_cell_Y_size_small - trd1_side_Y, ScWall_full_cell_Z_size_small_20mm);
+    TGeoVolume* scwallSensitiveCellV_small_cutted =
+        new TGeoVolume(BmnScWallGeoPar::scwallSensitiveCell_name_small_cutted, scwallSensitiveCellS_small_cutted);
+    TGeoMedium* Sc_medium_cell_small = pMedScint;   // set medium
+    if (Sc_medium_cell_small)
+        scwallSensitiveCellV_small_cutted->SetMedium(Sc_medium_cell_small);
+    else
+        Fatal("Main", "Invalid medium for Sc_medium_cell_small");
+
+    mother_volume->AddNode(scwallSensitiveCellV_small_cutted, 1, new TGeoTranslation(0, 0, 0));
+
+    // Trap small
+    TGeoShape* scwallSensitiveCellS_small_trap =
+        new TGeoTrd1(BmnScWallGeoPar::scwallSensitiveCell_name_small_trap, ScWall_full_cell_X_size_small - trd1_side_X,
+                     ScWall_full_cell_X_size_small, trd1_thickness_small_20mm, trd1_size_Z);
+    TGeoVolume* scwallSensitiveCellV_small_trap =
+        new TGeoVolume(BmnScWallGeoPar::scwallSensitiveCell_name_small_trap, scwallSensitiveCellS_small_trap);
+    TGeoMedium* Sc_medium_small_trap = pMedScint;   // set medium
+    if (Sc_medium_small_trap)
+        scwallSensitiveCellV_small_trap->SetMedium(Sc_medium_small_trap);
+    else
+        Fatal("Main", "Invalid medium for Sc_medium_small_trap");
+
+    TGeoTranslation* scwallSensitiveCellV_position_small_trap =
+        new TGeoTranslation(0, ScWall_full_cell_Y_size_small - trd1_side_Y + trd1_size_Z, 0);
+
+    TGeoRotation* rot1 = new TGeoRotation("rot1");   // bottom trap
+    rot1->RotateX(-90);                              // in deg.
+
+    TGeoCombiTrans* scwallScWall_1 =
+        new TGeoCombiTrans("scwallScWall_1", 0, -(ScWall_full_cell_Y_size_small - trd1_side_Y + trd1_size_Z), 0, rot1);
+    mother_volume->AddNode(scwallSensitiveCellV_small_trap, 1, scwallScWall_1);
+
+    TGeoRotation* rot2 = new TGeoRotation("rot2");   // top trap
+    rot2->RotateX(90);                               // in deg.
+
+    TGeoCombiTrans* scwallScWall_2 =
+        new TGeoCombiTrans("scwallScWall_2", 0, (ScWall_full_cell_Y_size_small - trd1_side_Y + trd1_size_Z), 0, rot2);
+    mother_volume->AddNode(scwallSensitiveCellV_small_trap, 1, scwallScWall_2);
+
+}   // FillCell_small
+
+void FillCell_large(TGeoVolume* mother_volume)
+{
+    // Cell large
+    TGeoShape* scwallSensitiveCellS_large_cutted =
+        new TGeoBBox(BmnScWallGeoPar::scwallSensitiveCell_name_large_cutted, ScWall_full_cell_X_size_large,
+                     ScWall_full_cell_Y_size_large - trd1_side_Y, ScWall_full_cell_Z_size_large);
+    TGeoVolume* scwallSensitiveCellV_large_cutted =
+        new TGeoVolume(BmnScWallGeoPar::scwallSensitiveCell_name_large_cutted, scwallSensitiveCellS_large_cutted);
+    TGeoMedium* Sc_medium_cell_large = pMedScint;   // set medium
+    if (Sc_medium_cell_large)
+        scwallSensitiveCellV_large_cutted->SetMedium(Sc_medium_cell_large);
+    else
+        Fatal("Main", "Invalid medium for Sc_medium_cell_large");
+
+    mother_volume->AddNode(scwallSensitiveCellV_large_cutted, 1, new TGeoTranslation(0, 0, 0));
+
+    // Trap large
+    // TGeoShape *scwallSensitiveCellS_large_trap = new TGeoTrd1(BmnScWallGeoPar::scwallSensitiveCell_name_large_trap,
+    // ScWall_full_cell_X_size_large-trd1_side_X, ScWall_full_cell_X_size_large, trd1_thickness, trd1_size_Z);
+    TGeoShape* scwallSensitiveCellS_large_trap =
+        new TGeoTrd1(BmnScWallGeoPar::scwallSensitiveCell_name_large_trap, ScWall_full_cell_X_size_large - trd1_side_X,
+                     ScWall_full_cell_X_size_large, trd1_thickness_large, trd1_size_Z);
+    TGeoVolume* scwallSensitiveCellV_large_trap =
+        new TGeoVolume(BmnScWallGeoPar::scwallSensitiveCell_name_large_trap, scwallSensitiveCellS_large_trap);
+    TGeoMedium* Sc_medium_large_trap = pMedScint;   // set medium
+    if (Sc_medium_large_trap)
+        scwallSensitiveCellV_large_trap->SetMedium(Sc_medium_large_trap);
+    else
+        Fatal("Main", "Invalid medium for Sc_medium_large_trap");
+
+    TGeoTranslation* scwallSensitiveCellV_position_large_trap =
+        new TGeoTranslation(0, ScWall_full_cell_Y_size_large - trd1_side_Y + trd1_size_Z, 0);
+
+    TGeoRotation* rot1 = new TGeoRotation("rot1");   // bottom trap
+    rot1->RotateX(-90);                              // in deg.
+
+    TGeoCombiTrans* scwallScWall_1 =
+        new TGeoCombiTrans("scwallScWall_1", 0, -(ScWall_full_cell_Y_size_large - trd1_side_Y + trd1_size_Z), 0, rot1);
+    mother_volume->AddNode(scwallSensitiveCellV_large_trap, 1, scwallScWall_1);
+
+    TGeoRotation* rot2 = new TGeoRotation("rot2");   // top trap
+    rot2->RotateX(90);                               // in deg.
+
+    TGeoCombiTrans* scwallScWall_2 =
+        new TGeoCombiTrans("scwallScWall_2", 0, (ScWall_full_cell_Y_size_large - trd1_side_Y + trd1_size_Z), 0, rot2);
+    mother_volume->AddNode(scwallSensitiveCellV_large_trap, 1, scwallScWall_2);
+
+}   // FillCell_large

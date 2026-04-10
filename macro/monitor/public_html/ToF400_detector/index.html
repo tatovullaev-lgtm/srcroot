@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ToF400</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--#include virtual="../include_digi.html" -->
+        <script type='module'>
+            import { draw, redraw, httpRequest, resize, cleanup} from 'jsroot';
+            import * as bm from 'bmtools';
+            var loco = window.location;
+            var path0 = loco.protocol + "//" + loco.hostname + "/root.app/";
+            var path = path0 + "ToF400/";
+            var runPath = "../root.app/CurRun/root.json";
+            var refPath = "../root.app/refTable/root.json";
+//            window.addEventListener("load", () => {
+//                createTable();
+//                  });
+            function createTable() {
+                sessionStorage.clear();
+                bm.setRunInfo(runPath);
+                drawInfo();
+            }
+            async function updateRunId() {
+                let obj = await httpRequest(runPath, 'object');
+                    var info = obj;//JSON.parse(obj);
+                    if (info.arr.length > 0) {
+                        var runInfo = info.arr[0];
+                        var runID = runInfo.i_run_number;
+                        var storedRunId = sessionStorage.getItem('runID');
+                        if ((storedRunId === null) || (storedRunId == runID))
+                            return;
+                        sessionStorage.setItem('runID', runID);
+                        cleanCanvases();
+                    }
+            }
+            function ResetToFHist() {
+                var filename = path + "Reset/cmd.json";
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", filename, true);
+                xhr.withCredentials = true;
+                xhr.send();
+            }
+            function ChangeSelection() {
+                var iPlane = document.getElementById("PlaneText").value;
+                var iStrip = document.getElementById("StripText").value;
+                var iSide = document.getElementById("SideText").value;
+                var filename = path + "ChangeSelection/cmd.json";
+                filename = filename + "?" + "arg1=" + iPlane;
+                filename = filename + "&" + "arg2=" + iStrip;
+                filename = filename + "&" + "arg3=" + iSide;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", filename, true);
+                xhr.withCredentials = true;
+                xhr.send();
+            }
+            function drawInfo() {
+                setTimeout(drawInfo, 5000);
+                updateRunId();
+                redrawCanvases();
+                bm.FillRefTable(path0 + "refTable" + "/root.json", "refTable");
+                //var refPath = path0 + "refList" + "/root.json";
+                //FillRefSelector(refPath, "refSelector");
+            }
+            function redrawCanvases(){
+                bm.Redraw2Div(path0 + "infoCanvas" + "/root.json.gz?compact=3", "infoC");
+                bm.Redraw2Div(path + "ToF400CanvasTimes" + "/root.json.gz?compact=3", "timeTableC");
+                bm.Redraw2Div(path + "ToF400Canvas2d" + "/root.json.gz?compact=3", "can2d");
+            }
+            function cleanCanvases() {
+                cleanup("infoC");
+                cleanup("srcTableC");
+                var sel = document.getElementById("refTable");
+                sel.innerHTML = "";
+            }
+            function SetRefRun() {
+                var runName = document.getElementById("refInput").value;
+                var cmd = path + "SetRefRun/cmd.json";
+                cmd = cmd + "?" + "arg1=" + runName;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", cmd, true);
+                xhr.withCredentials = true;
+                xhr.send();
+                cleanup("timeTableC");
+            }
+            window.ChangeSelection = ChangeSelection;
+            window.createTable = createTable;
+            window.SetRefRun = SetRefRun;
+            window.redrawCanvases = redrawCanvases;
+            window.makeSelection = bm.makeSelection;
+        </script>
+    </head>
+    <body onload="createTable()">
+        <!--#include virtual="../menu.html" -->
+        <div align="center">
+            <h1>ToF400</h1>
+            <div align="center">
+                <div id="infoC" style="width: 90vw;height: 15vw;"> </div>
+            </div>
+        </div>
+ <br/>
+        <table>
+        <tr>
+        <th>
+<!--        <button onclick="ResetToFHist()">
+            <h1 style="color:red;">Reset</h1>
+        </button>-->
+        </th>
+        <th>
+        </th>
+        <th>
+        <table>
+            <tr>
+                <th>
+                    Plane Index
+                </th>
+                <th>
+                    <input type="text" id="PlaneText" maxlength="8"/>
+                </th>
+                <th  rowspan="3">
+                    <button onclick="ChangeSelection()" style="width: 20vw;height: 6vw;"> 
+                        <h3>Change Selection (-1 => All)</h3>
+                    </button>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    Strip Index
+                </th>
+                <th>
+                    <input type="text" id="StripText" maxlength="8"/>
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    Side Index
+                </th>
+                <th>
+                    <input type="text" id="SideText" maxlength="8"/>
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    Run Index
+                </th>
+                <th>
+                    <input type="text" name="refInput" id="refInput" list="refSelector">
+                    <datalist id="refSelector" autocomplete="on"></datalist>
+                </th>
+                <th>
+                    <button onclick="SetRefRun()" style="width: 20vw;height: 3vw;"> 
+                        <h3> Select Reference Run</h3>
+                    </button>
+                </th>
+                <th>
+                    <select class="styleRefTable" id="refTable" onchange="makeSelection()">
+                </th>
+
+            </tr>
+        </table>
+        </th>
+        </tr>
+        </table>
+
+        <div align="center">
+            <div id="timeTableC" style="width: 98vw;height: 60vw;"> </div>
+        </div>
+        <div align="center">
+            <div id="can2d" style="width: 98vw;height: 30vw;"> </div>
+        </div>
+
+        <!--<iframe src="../root.app/ToF400/ToF400_State/draw.htm?monitoring=5000&opt=colz"
+                class="inframe_hist" style="width: 80vw;height: 30vw;"
+                >
+
+        </iframe>-->
+    </body>
+</html>

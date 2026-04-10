@@ -1,0 +1,44 @@
+[CHANNEL_MAP]
+#===============================================================================
+# Station: 0 - vertex (near), 1 - vertex(far), 2 - Forward detector
+# Layer: 0 - vertical strips, 1 - sloped strips
+#              Serial      Ch_lo    Ch_hi   ADC_mod  GEO_mod   Layer   Station
+#===============================================================================
+channels =  0x80BCBFC       42       46        12        0       0        2
+channels =  0x80BCBFC       37       41        12        0       1        2
+channels =  0x80BCBFC       32       36        14        1       0        2
+channels =  0x80BCBFC       26       30        14        1       1        2
+channels =  0x80BCBFC       16       20         9        2       0        2
+channels =  0x80BCBFC       21       25         9        2       1        2
+channels =  0x80BCBFC        5        9        10        3       0        2
+channels =  0x80BCBFC       10       14        10        3       1        2
+channels =  0x76D2BCB        5        9        11        4       0        2
+channels =  0x76D2BCB       10       14        11        4       1        2
+channels =  0x76D2BCB       16       20         8        5       0        2
+channels =  0x76D2BCB       21       25         8        5       1        2
+channels =  0x76D2BCB       32       36         5        6       0        2
+channels =  0x76D2BCB       26       30         5        6       1        2
+channels =  0x76D2BCB       42       46         2        7       0        2
+channels =  0x76D2BCB       37       41         2        7       1        2
+channels =  0x76D504F       21       25         2        0       0        1
+channels =  0x76D504F       26       30         2        0       1        1
+channels =  0x76D504F        5        9         1        1       0        1
+channels =  0x76D504F       10       14         1        1       1        1
+channels =  0x4E993A5        5        9         1        0       0        0
+channels =  0x4E993A5       10       14         1        0       1        0
+channels =  0x4E993A5       21       25         2        1       0        0
+channels =  0x4E993A5       26       30         2        1       1        0
+channels =  0x4E993A5       37       41         3        2       0        0
+channels =  0x4E993A5       42       46         3        2       1        0
+channels =  0x4E993A5       53       57         4        3       0        0
+channels =  0x4E993A5       58       62         4        3       1        0
+
+[SIGNAL_CONFIGURATION]
+Threshold = 150
+ThresholdDif = 80
+NIterations = 6
+CModCut = 100
+#===============================================================================
+# Thresholds for specific ADC channels
+#             Serial     Channel  Threshold
+#===============================================================================

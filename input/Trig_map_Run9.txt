@@ -1,0 +1,272 @@
+# https://afi-project.jinr.ru/projects/bmn/wiki/BMN_2025_T0_Readout_Modules_Mapping
+
+[INPUTS]
+# TRC serial ID
+serial = 0x07A959C6
+
+# TRC module input trigger bits
+#===========================================================================
+#          Det      Bit
+#===========================================================================
+channels = BC0       0
+channels = pBT       1
+channels = BT        2
+channels = BC1       3
+channels = NIT       4
+channels = CCT1      5
+channels = MBT       6
+channels = BT'       7
+channels = CCT2      8
+channels = FHCAL     9
+channels = BD_BA    10
+channels = nFD      11
+channels = CCT3     12
+channels = CCT4     13
+
+[SCALERS]
+#===========================================================================
+#          Trig_logic       Serial    Channel
+#===========================================================================
+channels = BC0            0x0CD13DA3     0
+channels = pBT            0x0CD13DA3     1
+channels = BT             0x0CD13DA3     2
+channels = BC1            0x0CD13DA3     3
+channels = NIT            0x0CD13DA3     4
+channels = CCT1           0x0CD13DA3     5
+channels = MBT            0x0CD13DA3     6
+channels = BT'            0x0CD13DA3     7
+channels = CCT2           0x0CD13DA3     8
+channels = FHCal          0x0CD13DA3     9
+channels = BD_BA          0x0CD13DA3    10
+channels = nFD            0x0CD13DA3    11
+channels = CCT3           0x0CD13DA3    12
+channels = CCT4           0x0CD13DA3    13
+channels = L1_Trig_v2     0x0CD13DA3    14
+channels = L2_Trig_v2     0x0CD13DA3    15 
+channels = L0_Trig   	  0x0CD10E24     8
+channels = L1_Trig    	  0x0CD10E24    10 
+channels = L2_Trig   	  0x0CD10E24    12
+channels = Busy    	  0x0CD10E24    14 
+
+[TDC-CONFIGURATION]
+# TDC channel map
+#===========================================================================
+#               Det        Mod     Serial      Slot     Channel  IsNegative
+#===========================================================================
+channels = TQDC_BC0T        0    0x0CCFA51A      0           1       1
+channels = TQDC_BC0B        0    0x0CCFA51A      0           0       1
+channels = TQDC_BC0         0    0x0CCFA51A      0           3       1
+channels = TQDC_BC1T        0    0x0CCFA51A      0           2       1
+channels = TQDC_BC1B        0    0x0CCFA51A      0           5       1
+channels = TQDC_BC1         0    0x0CCFA51A      0           4       1
+channels = TQDC_BC1d        0    0x0CCFA51A      0           7       1
+channels = TQDC_VCT         0    0x0CCFA51A      0           6       1
+channels = TQDC_VCB         0    0x0CCFA51A      0           9       1
+channels = TQDC_VC          0    0x0CCFA51A      0           8       1
+channels = TQDC_BC2T        0    0x0CCFA51A      0          11       1
+channels = TQDC_BC2B        0    0x0CCFA51A      0          10       1
+channels = TQDC_BC2         0    0x0CCFA51A      0          13       1
+channels = TQDC_FD          0    0x0CCFA51A      0          12       1
+channels = TQDC_FD1T        0    0x0CCFA51A      0          15       1
+channels = TQDC_FD1B        0    0x0CCFA51A      0          14       1
+channels = TQDC_FHCAL       0    0x0CD03FB5      0           1       1
+channels = TQDC_FHCALx10    0    0x0CD03FB5      0           0       1
+channels = TQDC_FDx10       0    0x0CD03FB5      0           3       1
+channels = TQDC_NDS11       0    0x0CD03FB5      0          11       1
+channels = TQDC_NDS12       0    0x0CD03FB5      0          10       1
+channels = TQDC_NDS21       0    0x0CD03FB5      0          13       1
+channels = TQDC_NDS22       0    0x0CD03FB5      0          12       1
+channels = TQDC_NDS31       0    0x0CD03FB5      0          15       1
+channels = TQDC_NDS32       0    0x0CD03FB5      0          14       1
+channels = TQDC_NDS41       0    0x0CD03FB5      0           5       1
+channels = TQDC_NDS42       0    0x0CD03FB5      0           4       1
+channels = TQDC_FND1        0    0x0CD03FB5      0           7       1
+channels = TQDC_FND2        0    0x0CD03FB5      0           6       1
+channels = TQDC_FND3        0    0x0CD03FB5      0           9       1
+channels = TQDC_FND4        0    0x0CD03FB5      0           8       1
+channels = TQDC_NDF11       0    0x0CD11480      0           5       0
+channels = TQDC_NDF12       0    0x0CD11480      0           4       0
+channels = TQDC_NDF21       0    0x0CD11480      0           6       0
+channels = TQDC_NDF22       0    0x0CD11480      0           9       0
+channels = TQDC_NDF31       0    0x0CD11480      0          11       0
+channels = TQDC_NDF32       0    0x0CD11480      0          10       0
+channels = TQDC_NDF41       0    0x0CD11480      0          12       0
+channels = TQDC_NDF42       0    0x0CD11480      0          15       0
+channels = TQDC_ND1V        0    0x0CD11480      0           7       0
+channels = TQDC_ND2V        0    0x0CD11480      0           8       0
+channels = TQDC_ND3V        0    0x0CD11480      0          13       0
+channels = TQDC_ND4V        0    0x0CD11480      0          14       0
+channels = TQDC_FND1V       0    0x0CD11480      0           1       0
+channels = TQDC_FND2V       0    0x0CD11480      0           0       0
+channels = TQDC_FND3V       0    0x0CD11480      0           3       0
+channels = TQDC_FND4V       0    0x0CD11480      0           2       0
+channels = TQDC_UNIT_0		0    0x0CD11414      0           0       0
+channels = TQDC_UNIT_1		0    0x0CD11414      0           1       0
+channels = TQDC_UNIT_2		0    0x0CD11414      0           2       0
+channels = TQDC_UNIT_3		0    0x0CD11414      0           3       0
+channels = TQDC_UNIT_4		0    0x0CD11414      0           4       0
+channels = TQDC_UNIT_5		0    0x0CD11414      0           5       0
+channels = TQDC_UNIT_6		0    0x0CD11414      0           6       0
+channels = TQDC_UNIT_7		0    0x0CD11414      0           7       0
+channels = TQDC_UNIT_8		0    0x0CD11414      0           8       0
+channels = TQDC_UNIT_9		0    0x0CD11414      0           9       0
+channels = TQDC_UNIT_10		0    0x0CD11414      0          10       0
+channels = TQDC_UNIT_11		0    0x0CD11414      0          11       0
+channels = TQDC_UNIT_12		0    0x0CD11414      0          12       0
+channels = TQDC_UNIT_13		0    0x0CD11414      0          13       0
+channels = TQDC_UNIT_14		0    0x0CD11414      0          14       0
+channels = TQDC_UNIT_15		0    0x0CD11414      0          15       0
+channels = BD               0    0x0AA1186F      0           8       0
+channels = BD               1    0x0AA1186F      0           1       0
+channels = BD               2    0x0AA1186F      0           5       0
+channels = BD               3    0x0AA1186F      0          35       0
+channels = BD               4    0x0AA1186F      0           9       0
+channels = BD               5    0x0AA1186F      0           7       0
+channels = BD               6    0x0AA1186F      0          11       0
+channels = BD               7    0x0AA1186F      0           0       0
+channels = BD               8    0x0AA1186F      0          31       0
+channels = BD               9    0x0AA1186F      0           4       0
+channels = BD              10    0x0AA1186F      0           2       0
+channels = BD              11    0x0AA1186F      0           6       0
+channels = BD              12    0x0AA1186F      0          10       0
+channels = BD              13    0x0AA1186F      0          27       0
+channels = BD              14    0x0AA1186F      0           3       0
+channels = BD              15    0x0AA1186F      0          23       0
+channels = BD              16    0x0AA1186F      0          14       0
+channels = BD              17    0x0AA1186F      0          18       0
+channels = BD              18    0x0AA1186F      0          34       0
+channels = BD              19    0x0AA1186F      0          22       0
+channels = BD              20    0x0AA1186F      0          16       0
+channels = BD              21    0x0AA1186F      0          20       0
+channels = BD              22    0x0AA1186F      0          15       0
+channels = BD              23    0x0AA1186F      0          30       0
+channels = BD              24    0x0AA1186F      0          19       0
+channels = BD              25    0x0AA1186F      0          13       0
+channels = BD              26    0x0AA1186F      0          17       0
+channels = BD              27    0x0AA1186F      0          21       0
+channels = BD              28    0x0AA1186F      0          26       0
+channels = BD              29    0x0AA1186F      0          12       0
+channels = BD              30    0x0AA1186F      0          56       0
+channels = BD              31    0x0AA1186F      0          49       0
+channels = BD              32    0x0AA1186F      0          53       0
+channels = BD              33    0x0AA1186F      0          46       0
+channels = BD              34    0x0AA1186F      0          57       0
+channels = BD              35    0x0AA1186F      0          55       0
+channels = BD              36    0x0AA1186F      0          59       0
+channels = BD              37    0x0AA1186F      0          48       0
+channels = BD              38    0x0AA1186F      0          42       0
+channels = BD              39    0x0AA1186F      0          52       0
+channels = FHCAL            0    0x0AA1186F      0          40       0
+
+[T0-RAW]
+# T0 txt files from Sergeev
+# virtual device serial
+virt_serial = 0x30543074
+#===========================================================================
+#          Trigger    Mod      Word
+#===========================================================================
+channels = BD          0         1
+channels = BD          1         2
+channels = BD          2         3
+channels = BD          3         4
+channels = BD          4         5
+channels = BD          5         6
+channels = BD          6         7
+channels = BD          7         8
+channels = BD          8         9
+channels = BD          9        10
+channels = BD         10        11
+channels = BD         11        12
+channels = BD         12        13
+channels = BD         13        14
+channels = BD         14        15
+channels = BD         15        16
+channels = BD         16        17
+channels = BD         17        18
+channels = BD         18        19
+channels = BD         19        20
+channels = BD         20        21
+channels = BD         21        22
+channels = BD         22        23
+channels = BD         23        24
+channels = BD         24        25
+channels = BD         25        26
+channels = BD         26        27
+channels = BD         27        28
+channels = BD         28        29
+channels = BD         29        30
+channels = BD         30        31
+channels = BD         31        32
+channels = BD         32        33
+channels = BD         33        34
+channels = BD         34        35
+channels = BD         35        36
+channels = BD         36        37
+channels = BD         37        38
+channels = BD         38        39
+channels = BD         39        40
+channels = BD_Mult     0        41
+channels = BD_Mult     1        42
+channels = BD_Mult     2        43
+channels = BD_Mult     3        44
+channels = BD_Mult     4        45
+channels = BD_Mult     5        46
+channels = BD_Mult     6        47
+channels = BD_Mult     7        48
+channels = BD_Mult     8        49
+channels = BD_Mult     9        50
+channels = BD_Mult    10        51
+channels = BD_Mult    11        52
+channels = BD_Mult    12        53
+channels = BD_Mult    13        54
+channels = BD_Mult    14        55
+channels = BD_Mult    15        56
+channels = BD_Mult    16        57
+channels = BD_Mult    17        58
+channels = BD_Mult    18        59
+channels = BD_Mult    19        60
+channels = BD_Mult    20        61
+channels = BD_Mult    21        62
+channels = BD_Mult    22        63
+channels = BD_Mult    23        64
+channels = BD_Mult    24        65
+channels = BD_Mult    25        66
+channels = BD_Mult    26        67
+channels = BD_Mult    27        68
+channels = BD_Mult    28        69
+channels = BD_Mult    29        70
+channels = BD_Mult    30        71
+channels = BD_Mult    31        72
+channels = BD_Mult    32        73
+channels = BD_Mult    33        74
+channels = BD_Mult    34        75
+channels = BD_Mult    35        76
+channels = BD_Mult    36        77
+channels = BD_Mult    37        78
+channels = BD_Mult    38        79
+channels = BD_Mult    39        80
+channels = BC0         0        82
+channels = BC1_H       0        83
+channels = BC1_L       0        84 
+channels = BC2         0        85 
+channels = VC          0        86 
+channels = NBD_H       0        87 
+channels = NBD_L       0        88 #  (simple counter -TCounter)
+channels = FHCal       0        89 #  (simple counter -TCounter)
+channels = FD_L        0        90 #  (simple counter -TCounter)
+channels = FD_H        0        91 #  (simple counter -TCounter)
+channels = pBT         0        92 #  (simple counter -TCounter)
+channels = BT          0        93 #  (simple counter -TCounter)
+channels = CCT4        0        94 #  (simple counter -TCounter)
+channels = BD_BA       0        95 #  (simple counter -TCounter)
+channels = CCT3        0        96 #  (simple counter -TCounter)
+channels = CCT1        0        97 #  (simple counter -TCounter)
+channels = FHCal_v2    0        98 #  (simple counter -TCounter)
+channels = CCT2        0        99 #  (simple counter -TCounter)
+channels = LBT         0        100 # (simple counter -TCounter)
+channels = MBT         0        101 # (simple counter -TCounter)
+channels = NIT         0        102 # (simple counter -TCounter)
+channels = DAQ_Busy    0        103 # (simple counter -TCounter)
+channels = BA_Protect  0        104 # (simple counter -TCounter)
+channels = BT'         0        105 # (simple counter -TCounter)
+

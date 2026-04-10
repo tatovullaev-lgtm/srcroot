@@ -1,0 +1,44 @@
+[CONFIGURATION]
+#               Det        Mod     Serial      Slot     Channel  IsNegative
+#===========================================================================
+channels = TQDC_BC1        2           0x076D2E12        13           0       0
+channels = TQDC_BC2        2           0x076D2E12        14           1       0
+channels = TQDC_BC2        3           0x076D2E12        14           3       0
+channels = TQDC_BC2        4           0x076D2E12        14          15       0
+channels = TQDC_FFD        0           0x076D2E12        14           6       0
+channels = TQDC_FFD        1           0x076D2E12        14           7       0
+channels = TQDC_FFD        2           0x076D2E12        14           8       0
+channels = TQDC_FFD        3           0x076D2E12        14           9       0
+channels = TQDC_BC3        2           0x076D2E12        13           2       0
+channels = TQDC_BC4        2           0x076D2E12        13           3       0
+channels = TQDC_VETO       2           0x076D2E12        13           4       0
+channels = TQDC_X1L        2           0x076D2E12        13           5       0
+channels = TQDC_X1R        2           0x076D2E12        13           6       0
+channels = TQDC_X2L        2           0x076D2E12        13           7       0
+channels = TQDC_X2R        2           0x076D2E12        13           8       0
+channels = TQDC_Y1L        2           0x076D2E12        13           9       0
+channels = TQDC_Y1R        2           0x076D2E12        13          10       0
+channels = TQDC_Y2L        2           0x076D2E12        13          11       0
+channels = TQDC_Y2R        2           0x076D2E12        13          12       0
+channels = BC1             0           0x076D2E12        10	  23       1
+channels = BC1             1           0x076D2E12        10          19       1
+channels = BC2		0           0x076D2E12        10	   9       0
+channels = BC2		1           0x076D2E12        10	  14       0
+channels = BC3		0           0x076D2E12        10	  15       1
+channels = BC3		1           0x076D2E12        10	  22       1
+channels = BC2             2           0x076D2E12        10	   0       0
+channels = BC4             1           0x076D2E12        10	  10       1    
+channels = VETO		0           0x076D2E12        10	  18       1
+channels = X1L    		0	    0x076D2E12        10	  11       1
+channels = X1R     	0	    0x076D2E12        10	  11       1
+channels = Y1L    		0           0x076D2E12        10	   2       1
+channels = Y1R     	0           0x076D2E12        10	   2       1
+channels = X2L    		0           0x076D2E12        10	   7       1
+channels = X2R     	0           0x076D2E12        10	   7       1
+channels = Y2L    		0           0x076D2E12        10	   3       1
+channels = Y2R     	0           0x076D2E12        10	   3       1
+channels = FFD_Sum         0           0x076D2E12        5            15      0     
+channels = FFD             0           0x076D2E12        5            28      0
+channels = FFD             1           0x076D2E12        5            29      0
+channels = FFD             2           0x076D2E12        5            30      0
+channels = FFD             3           0x076D2E12        5            31      0    

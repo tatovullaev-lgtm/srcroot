@@ -1,0 +1,113 @@
+[CHANNEL_MAP]
+#===========================================================================================
+#             Serial    Ch_lo    Ch_hi   ChanShift  Station   Module   Layer  LocalMapPrefix
+#===========================================================================================
+channels = 0x0CD03FC7       0     1023        0        0        0       0        _
+channels = 0x0CD03FC7       0     1023        0        0        0       2        _
+channels = 0x0CD03FC7    1024     2047        0        0        0       1        _
+channels = 0x0CD03FC7    1024     2047        0        0        0       3        _
+channels = 0x0611DF94       0     1023        0        0        1       0        _
+channels = 0x0611DF94       0     1023        0        0        1       2        _
+channels = 0x0611DF94    1024     2047        0        0        1       1        _
+channels = 0x0611DF94    1024     2047        0        0        1       3        _
+channels = 0x0A7B2235       0     1023        0        1        0       0        _
+channels = 0x0A7B2235       0     1023        0        1        0       2        _
+channels = 0x0A7B2235    1024     2047        0        1        0       1        _
+channels = 0x0A7B2235    1024     2047        0        1        0       3        _
+channels = 0x0AAD9224       0     1023        0        1        1       0        _
+channels = 0x0AAD9224       0     1023        0        1        1       2        _
+channels = 0x0AAD9224    1024     2047        0        1        1       1        _
+channels = 0x0AAD9224    1024     2047        0        1        1       3        _
+channels = 0x0A79EF29       0     1023        0        2        0       0        _
+channels = 0x0A79EF29       0     1023        0        2        0       2        _
+channels = 0x0A79EF29    1024     2047        0        2        0       1        _
+channels = 0x0A79EF29    1024     2047        0        2        0       3        _
+channels = 0x0A7AEB2F       0     1023        0        2        1       0        _
+channels = 0x0A7AEB2F       0     1023        0        2        1       2        _
+channels = 0x0A7AEB2F    1024     2047        0        2        1       1        _
+channels = 0x0A7AEB2F    1024     2047        0        2        1       3        _
+channels = 0x076D35C6       0     1023        0        3        0       0        _
+channels = 0x076D35C6       0     1023        0        3        0       2        _
+channels = 0x076D35C6    1024     2047        0        3        0       1        _
+channels = 0x076D35C6    1024     2047        0        3        0       3        _
+channels = 0x0611D0CE       0     1023        0        3        1       0        _
+channels = 0x0611D0CE       0     1023        0        3        1       2        _
+channels = 0x0611D0CE    1024     2047        0        3        1       1        _
+channels = 0x0611D0CE    1024     2047        0        3        1       3        _
+channels = 0x07A96E96       0      511        0        4        0       0     _LargeTopX_
+channels = 0x07A96E96       0      511        0        4        0       2     _LargeTopX_
+channels = 0x07A96E96     512     1023      512        4        1       0     _LargeTopX_
+channels = 0x07A96E96     512     1023      512        4        1       2     _LargeTopX_
+channels = 0x07A96E96    1024     1535     1024        4        2       0     _LargeTopX_
+channels = 0x07A96E96    1024     1535     1024        4        2       2     _LargeTopX_
+channels = 0x07A96E96    1536     2047     1536        4        3       0     _LargeTopX_
+channels = 0x07A96E96    1536     2047     1536        4        3       2     _LargeTopX_
+channels = 0x0A7B31BE       0      511        0        4        3       1     _LargeTopY_
+channels = 0x0A7B31BE       0      511        0        4        3       3     _LargeTopY_
+channels = 0x0A7B31BE     512     1023      512        4        2       1     _LargeTopY_
+channels = 0x0A7B31BE     512     1023      512        4        2       3     _LargeTopY_
+channels = 0x0A7B31BE    1024     1535     1024        4        1       1     _LargeTopY_
+channels = 0x0A7B31BE    1024     1535     1024        4        1       3     _LargeTopY_
+channels = 0x0A7B31BE    1536     2047     1536        4        0       1     _LargeTopY_
+channels = 0x0A7B31BE    1536     2047     1536        4        0       3     _LargeTopY_
+channels = 0x07A9B206       0      511        0        4        7       0     _LargeTopX_
+channels = 0x07A9B206       0      511        0        4        7       2     _LargeTopX_
+channels = 0x07A9B206     512     1023      512        4        6       0     _LargeTopX_
+channels = 0x07A9B206     512     1023      512        4        6       2     _LargeTopX_
+channels = 0x07A9B206    1024     1535     1024        4        5       0     _LargeTopX_
+channels = 0x07A9B206    1024     1535     1024        4        5       2     _LargeTopX_
+channels = 0x07A9B206    1536     2047     1536        4        4       0     _LargeTopX_
+channels = 0x07A9B206    1536     2047     1536        4        4       2     _LargeTopX_
+channels = 0x0AAD4B0C       0      511        0        4        4       1     _LargeBotY_
+channels = 0x0AAD4B0C       0      511        0        4        4       3     _LargeBotY_
+channels = 0x0AAD4B0C     512     1023      512        4        5       1     _LargeBotY_
+channels = 0x0AAD4B0C     512     1023      512        4        5       3     _LargeBotY_
+channels = 0x0AAD4B0C    1024     1535     1024        4        6       1     _LargeBotY_
+channels = 0x0AAD4B0C    1024     1535     1024        4        6       3     _LargeBotY_
+channels = 0x0AAD4B0C    1536     2047     1536        4        7       1     _LargeBotY_
+channels = 0x0AAD4B0C    1536     2047     1536        4        7       3     _LargeBotY_
+
+[SIGNAL_CONFIGURATION]
+Threshold = 30
+ThresholdDif = 15
+NIterations = 5
+#===============================================================================
+# Thresholds for specific ADC channels
+#             Serial     Channel  Threshold
+#===============================================================================
+spec_thr = 0x07A9B206       24       80
+spec_thr = 0x07A9B206       25       80
+spec_thr = 0x07A9B206       26       80
+spec_thr = 0x07A9B206       27       80
+spec_thr = 0x07A9B206       28       80
+spec_thr = 0x07A9B206       29       80
+spec_thr = 0x07A9B206       30       80
+spec_thr = 0x07A9B206       31       80
+# 4 5 2
+spec_thr = 0x07A9B206       32       80
+spec_thr = 0x07A9B206       33       80
+spec_thr = 0x07A9B206       34       80
+spec_thr = 0x07A9B206       35       80
+spec_thr = 0x07A9B206       36       120
+spec_thr = 0x07A9B206       37       160
+spec_thr = 0x07A9B206       38       200
+spec_thr = 0x07A9B206       39       240
+spec_thr = 0x07A9B206       40       80
+spec_thr = 0x07A9B206       41       80
+spec_thr = 0x07A9B206       42       80
+spec_thr = 0x07A9B206       43       80
+spec_thr = 0x07A9B206       44       80
+spec_thr = 0x07A9B206       45       80
+spec_thr = 0x07A9B206       46       80
+spec_thr = 0x07A9B206       47       80
+# 4 6 3
+spec_thr = 0x0AAD4B0C       32       80
+spec_thr = 0x0AAD4B0C       33       80
+spec_thr = 0x0AAD4B0C       34       80
+spec_thr = 0x0AAD4B0C       35       80
+spec_thr = 0x0AAD4B0C       36       80
+spec_thr = 0x0AAD4B0C       37       80
+spec_thr = 0x0AAD4B0C       38       80
+spec_thr = 0x0AAD4B0C       39       80
+# 4 5 3
+spec_thr = 0x0AAD4B0C       25       80

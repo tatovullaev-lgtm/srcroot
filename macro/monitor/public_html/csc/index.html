@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CSC detectors</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style type="text/css">
+            inframe_hist{
+                draggable: true;
+                allowfullscreen: allowfullscreen;
+                align-content: center;
+                width: 100vw; 
+                height: 56.25vw;
+                /*width: max-content;*/
+
+            }
+            hist_table{
+                align-self: stretch;
+                align-content: center;
+                width: 100%;
+                height: 100%;
+
+            }
+        </style>
+        <!--#include virtual="../include_digi.html" -->
+        <script type='module'>
+            import { draw, redraw, httpRequest, resize, cleanup} from 'jsroot';
+            import * as bm from 'bmtools';
+            var loco = window.location;
+            var path0 = loco.protocol + "//" + loco.hostname + "/root.app/";
+            var path = path0 + "CSC/";
+            var runPath = "../root.app/CurRun/root.json";
+            var refPath = "../root.app/refTable/root.json";
+//            window.addEventListener("load", () => {
+//                createTable();
+//                  });
+            function createTable() {
+                sessionStorage.clear();
+                bm.setRunInfo(runPath);
+                drawInfo();
+            }
+            async function updateRunId() {
+                let obj = await httpRequest(runPath, 'object');
+                    var info = obj;//JSON.parse(obj);
+                    if (info.arr.length > 0) {
+                        var runInfo = info.arr[0];
+                        var runID = runInfo.i_run_number;
+                        var storedRunId = sessionStorage.getItem('runID');
+                        if ((storedRunId === null) || (storedRunId == runID))
+                            return;
+                        sessionStorage.setItem('runID', runID);
+                        cleanCanvases();
+                    }
+            }
+            function ResetGemHist() {
+                var filename = path + "Reset/cmd.json";
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", filename, true);
+                xhr.withCredentials = true;
+                xhr.send();
+            }
+            function reloadIFrame() {
+                var tc = document.getElementById("trig_counter");
+                var temp = tc.src;
+                tc.src = "";
+                tc.src = temp;
+            }
+            function drawInfo() {
+                setTimeout(drawInfo, 5000);
+                updateRunId();
+                redrawCanvases();
+                bm.FillRefTable(path0 + "refTable" + "/root.json", "refTable");
+            }
+            function redrawCanvases() {
+                bm.Redraw2Div(path0 + "infoCanvas" + "/root.json", "infoC");
+                bm.Redraw2Div(path + "CSCCanvas" + "/root.json", "gemTableC");
+            }
+            function cleanCanvases() {
+                cleanup("infoC");
+                cleanup("gemTableC");
+                var sel = document.getElementById("refTable");
+                sel.innerHTML = "";
+            }
+            function SetRefRun() {
+                var runName = document.getElementById("refInput").value;
+                var cmd = path + "SetRefRun/cmd.json";
+                cmd = cmd + "?" + "arg1=" + runName;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", cmd, true);
+                xhr.withCredentials = true;
+                xhr.send();
+                cleanup("gemTableC");
+            }
+            window.createTable = createTable;
+            window.SetRefRun = SetRefRun;
+            window.redrawCanvases = redrawCanvases;
+            window.makeSelection = bm.makeSelection;
+        </script>
+    </head>
+    <body onload="createTable()">
+        <!--#include virtual="../menu.html" -->
+        <div id="total_counter" align="center">
+            <h1>BM@N CSC</h1>  
+            <!--<iframe id="infoCan" ></iframe>--> 
+        </div>
+        <div align="center">
+            <div id="infoC" style="width: 90vw;height: 15vw;"> </div>
+        </div>
+
+        <table>
+            <tr>
+            <tb>
+<!--                <button onclick="ResetGemHist()">
+                    <h1 style="color:red;">Reset</h1>
+                </button>-->
+            </tb>
+        </tr>
+        <tr>
+        <tb>
+            <input type="text" name="refInput" id="refInput" list="refSelector">
+            <datalist id="refSelector" autocomplete="on"></datalist>
+        </tb>
+        <tb>
+            <button onclick="SetRefRun()"> 
+                Select Reference Run
+            </button>
+        </tb>
+            <tb>
+                <select class="styleRefTable" id="refTable" onchange="makeSelection()">
+            </tb>
+
+    </tr>
+</table>
+
+<div align="center">
+    <div id="gemTableC" style="width: 98vw;height: 300vw;"> </div>
+</div>
+<!--<div align="center">
+    <iframe style="width: 98vw;height: 240vw;" src="../root.app/GEM/GEMCanvas/draw.htm?monitoring=10000"> </iframe>>
+</div>-->
+<div id="GEM_div" >
+</div>
+
+</table>
+</body>
+</html>

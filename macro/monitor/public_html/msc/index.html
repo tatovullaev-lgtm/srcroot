@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Trigger detectors</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style type="text/css">
+            inframe_hist{
+                draggable: true;
+                allowfullscreen: allowfullscreen;
+                align-content: center;
+                width: 100vw; 
+                height: 56.25vw;
+                /*width: max-content;*/
+            }
+            hist_trig_table{
+                align-self: stretch;
+                align-content: center;
+                width: 100%;
+                height: 100%;
+
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="../css/tabs.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="../css/menu.css" media="screen" />
+        <!--<script type="text/javascript" src="../root.app/jsrootsys/scripts/JSRootCore.js?2d"></script>-->
+        <script type="text/javascript" src="https://root.cern/js/latest/scripts/JSRootCore.js" type="text/javascript"></script>
+   <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js" data-main="../scripts/jsr/JSRootCore.js"></script>-->
+        <script type="text/javascript" src="../scripts/BMTools.js"></script>
+        <script>
+            function drawH() {
+                setTimeout(drawH, 50);
+                var loco = window.location;
+                var path0 = loco.protocol + "//" + loco.hostname;
+                try {
+                    for (var i = 0; i < 8; i++) {
+                        var filename = '/msc1?histid=' + i;
+                        let divid = 'msc_' + i;
+                        JSROOT.NewHttpRequest(filename, 'object', function (obj2) {
+                            try {
+                                JSROOT.redraw(divid, obj2, "logx logy");
+                            } catch (e) {
+                                alert(e);
+                            }
+                        }).send();
+                    }
+                } catch (e2) {
+                    alert(e2);
+                }
+                /*requirejs(['JSRootPainter'], function(jsroot) {
+                            alert('qq');
+                    jsroot.NewHttpRequest(filename, 'object', function(obj) {
+                            alert(obj);
+                            alert(obj['_typename'])
+                        jsroot.draw("msc_0", obj, "hist");
+                    }).send();
+                });*/
+            }
+        </script>
+    </head>
+    <body onload="drawH()">
+        <ul >
+            <li><a href="../index.html"> <h3>BM@N Experiment</h3></a></li>
+            <li><a href="../trigger_detectors/index.html"><h3>Triggers</h3></a></li>
+            <li><a href="../gem_detectors/index.html"><h3>GEM</h3></a></li>
+            <li><a href="../Silicon/index.html"><h3>Silicon</h3></a></li>
+            <li><a href="../ToF400_detector/index.html"><h3>ToF400</h3></a></li>
+            <li><a href="../ToF700_detector/index.html"><h3>ToF700</h3></a></li>
+            <li><a href="../DCH_detectors/index.html"><h3>DCH</h3></a></li>
+            <li><a href="../MWPC_detectors/index.html"><h3>MWPC</h3></a></li>
+            <li><a href="../ZDC/index.html"><h3>ZDC</h3></a></li>
+            <li><a href="../ECAL/index.html"><h3>ECAL</h3></a></li>
+            <li><a href="../SRC/index.html"><h3>SRC Triggers</h3></a></li>
+            <li><a href="../LAND/index.html"><h3>LAND</h3></a></li>
+            <li><a href="../msc/index.html"><h3>MSC</h3></a></li>
+            <li><a href="../csc/index.html"><h3>CSC</h3></a></li>
+        </ul>
+        <div align="center">
+            <h1>BM@N MSC</h1>
+        </div>
+        <div align="center">
+            <div id="infoC" style="width: 90vw;height: 18vw;"> </div>
+        </div>
+
+    <div align="center">
+        <div id="timeTableC" style="width: 98vw;"> </div>
+        <div id="msc" style="width: 98vw;">
+            <table>
+                <tr>
+                    <td>
+                        <div id="msc_0" style = "width: 48vw;height: 24vw;"> </div>
+                    </td>
+                    <td>
+                        <div id="msc_1" style = "width: 48vw;height: 24vw;"> </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="msc_2" style = "width: 48vw;height: 24vw;"> </div>
+                    </td>
+                    <td>
+                        <div id="msc_3" style = "width: 48vw;height: 24vw;"> </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="msc_4" style = "width: 48vw;height: 24vw;"> </div>
+                    </td>
+                    <td>
+                        <div id="msc_5" style = "width: 48vw;height: 24vw;"> </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="msc_6" style = "width: 48vw;height: 24vw;"> </div>
+                    </td>
+                    <td>
+                        <div id="msc_7" style = "width: 48vw;height: 24vw;"> </div>
+                    </td>
+                </tr>
+            </table> </div>
+    </div>
+</body>
+</html>

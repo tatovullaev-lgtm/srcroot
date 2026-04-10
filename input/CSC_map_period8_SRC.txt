@@ -1,0 +1,73 @@
+[CHANNEL_MAP]
+#===========================================================================================
+#             Serial    Ch_lo    Ch_hi   ChanShift  Station   Module   Layer  LocalMapPrefix
+#===========================================================================================
+channels = 0x80BC6DD        0     1023        1        0        0       0        _
+channels = 0x80BC6DD        0     1023        2        0        0       2        _
+channels = 0x80BC6DD     1024     2047        1        0        0       1        _
+channels = 0x80BC6DD     1024     2047        2        0        0       3        _
+channels = 0x76D4DAD        0     1023        3        0        1       0        _
+channels = 0x76D4DAD        0     1023        4        0        1       2        _
+channels = 0x76D4DAD     1024     2047        3        0        1       1        _
+channels = 0x76D4DAD     1024     2047        4        0        1       3        _
+channels = 0x76D35C6        0     1023        1        1        0       0        _
+channels = 0x76D35C6        0     1023        2        1        0       2        _
+channels = 0x76D35C6     1024     2047        1        1        0       1        _
+channels = 0x76D35C6     1024     2047        2        1        0       3        _
+channels = 0x76D4D2B        0     1023        3        1        1       0        _
+channels = 0x76D4D2B        0     1023        4        1        1       2        _
+channels = 0x76D4D2B     1024     2047        3        1        1       1        _
+channels = 0x76D4D2B     1024     2047        4        1        1       3        _
+channels = 0x611D0DA        0     1023        1        2        0       0        _
+channels = 0x611D0DA        0     1023        2        2        0       2        _
+channels = 0x611D0DA     1024     2047        1        2        0       1        _
+channels = 0x611D0DA     1024     2047        2        2        0       3        _
+channels = 0x80BCCCF        0     1023        3        2        1       0        _
+channels = 0x80BCCCF        0     1023        4        2        1       2        _
+channels = 0x80BCCCF     1024     2047        3        2        1       1        _
+channels = 0x80BCCCF     1024     2047        4        2        1       3        _
+
+[SIGNAL_CONFIGURATION]
+Threshold = 30
+ThresholdDif = 15
+NIterations = 5
+#===============================================================================
+# Thresholds for specific ADC channels
+#             Serial     Channel  Threshold
+#===============================================================================
+spec_thr = 0x07A9B206       24       80
+spec_thr = 0x07A9B206       25       80
+spec_thr = 0x07A9B206       26       80
+spec_thr = 0x07A9B206       27       80
+spec_thr = 0x07A9B206       28       80
+spec_thr = 0x07A9B206       29       80
+spec_thr = 0x07A9B206       30       80
+spec_thr = 0x07A9B206       31       80
+# 4 5 2
+spec_thr = 0x07A9B206       32       80
+spec_thr = 0x07A9B206       33       80
+spec_thr = 0x07A9B206       34       80
+spec_thr = 0x07A9B206       35       80
+spec_thr = 0x07A9B206       36       120
+spec_thr = 0x07A9B206       37       160
+spec_thr = 0x07A9B206       38       200
+spec_thr = 0x07A9B206       39       240
+spec_thr = 0x07A9B206       40       80
+spec_thr = 0x07A9B206       41       80
+spec_thr = 0x07A9B206       42       80
+spec_thr = 0x07A9B206       43       80
+spec_thr = 0x07A9B206       44       80
+spec_thr = 0x07A9B206       45       80
+spec_thr = 0x07A9B206       46       80
+spec_thr = 0x07A9B206       47       80
+# 4 6 3
+spec_thr = 0x0AAD4B0C       32       80
+spec_thr = 0x0AAD4B0C       33       80
+spec_thr = 0x0AAD4B0C       34       80
+spec_thr = 0x0AAD4B0C       35       80
+spec_thr = 0x0AAD4B0C       36       80
+spec_thr = 0x0AAD4B0C       37       80
+spec_thr = 0x0AAD4B0C       38       80
+spec_thr = 0x0AAD4B0C       39       80
+# 4 5 3
+spec_thr = 0x0AAD4B0C       25       80

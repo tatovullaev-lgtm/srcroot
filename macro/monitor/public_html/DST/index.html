@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Reconstruction</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--#include virtual="../include_imports.html" -->
+    <script type='module'>
+        import { draw, redraw, httpRequest, resize, cleanup } from 'jsroot';
+        import * as bm from 'bmtools';
+        var loco = window.location;
+        //            var path0 = /*loco.protocol + "//" + loco.hostname + */"../root.app/";
+        var path0 = "localhost/root.dst/";
+        var path = "../root.dst/";
+        var custom_path = "../root.custom/";
+        var path_cmd = "../root.dst/TrackingQa_cmd/";
+//        var runPath = path + "CurRun/root.json";
+        var refPath = path + "refTable/root.json";
+        console.log("loco:" + loco)
+        console.log("path:" + path)
+//        console.log("runPath:" + runPath)
+        console.log("refPath:" + refPath)
+        function ResetHist() {
+            var filename = path_cmd + "/Reset/cmd.json";
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", filename, true);
+            xhr.withCredentials = true;
+            xhr.send();
+        }
+        function ResetSiBT() {
+            var filename = path_cmd + "/ResetSiBT/cmd.json";
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", filename, true);
+            xhr.withCredentials = true;
+            xhr.send();
+        }
+        //            window.onload = setInterval("reloadIFrame();", 2000);
+        //body.onload = createTable();
+        function createTable() {
+            sessionStorage.clear();
+//            bm.setRunInfo(runPath);
+            drawInfo();
+        }
+        function drawInfo() {
+            setTimeout(drawInfo, 5000);
+            //                JSROOT.NewHttpRequest(runPath, 'text', function (obj) {
+            //                    var info = JSON.parse(obj);
+            //                    if (info.arr.length > 0) {
+            //                        var runInfo = info.arr[0];
+            //                        var runID = runInfo.i_run_number;
+            //                        var storedRunId = sessionStorage.getItem('runID');
+            //                        if ((storedRunId === null) || (storedRunId == runID))
+            //                            return;
+            //                        sessionStorage.setItem('runID', runID);
+            //                        cleanCanvases();
+            //                    }
+            //                }).send(null);
+            redrawCanvases();
+            //                FillRefTable(path0 + "refTable" + "/root.json", "refTable");
+            //var refPath = path0 + "refList" + "/root.json";
+            //FillRefSelector(refPath, "refSelector");
+        }
+        function redrawCanvases() {
+            var filename = path0 + "infoCanvas" + "/root.json";
+            // ToF Hits
+            bm.Redraw2Div(path + "Banana_plots" + "/root.json.gz?compact=3", "Banana");
+            bm.Redraw2Div(path + "ToF_Hits" + "/root.json.gz?compact=3", "tof_hits");
+            bm.Redraw2Div(path + "Hits_Multiplicity_in_ToF" + "/root.json.gz?compact=3", "NHitsTOF");
+            // SiBT
+            bm.Redraw2Div(path + "BmnSiBT_Hits" + "/root.json.gz?compact=3", "sibtHits");
+            bm.Redraw2Div(path + "BmnSiBT_meanHits" + "/root.json.gz?compact=3", "sibtHitsWeighted");
+            bm.Redraw2Div(path + "Vertex_SiBT_correlation" + "/root.json.gz?compact=3", "sibtCorr");
+            bm.Redraw2Div(path + "BmnSiBTNHits" + "/root.json.gz?compact=3", "sibtHitsN");
+            bm.Redraw2Div(path + "Vertex_2D" + "/root.json.gz?compact=3", "vertex2d");
+            bm.Redraw2Div(path + "Vertex_1D" + "/root.json.gz?compact=3", "vertex1d");
+            bm.Redraw2Div(path + "Vertex_vs_number_of_tracks" + "/root.json.gz?compact=3", "vertex_vs_ntracks");
+            
+            //                JSROOT.NewHttpRequest(filename, 'object', function (obj) {
+            //                    alert(JSON.stringify(obj));
+            //                    JSROOT.redraw("infoC", obj, "");
+            //                }).send(null);
+            //            filename = path + "Tracks_Statistics/root.json.gz?compact=3";
+            //            JSROOT.NewHttpRequest(filename, 'object', function (obj) {
+            //                JSROOT.redraw("GlobalC", obj, "");
+            //
+            //            }).send(null);
+        }
+        function cleanCanvases() {
+            //                JSROOT.cleanup("infoC");
+            JSROOT.cleanup("GlobalC");
+            var sel = document.getElementById("refTable");
+            sel.innerHTML = "";
+        }
+        function SetRefRun() {
+            var runName = document.getElementById("refInput").value;
+            var cmd = path + "SetRefRun/cmd.json";
+            cmd = cmd + "?" + "arg1=" + runName;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", cmd, true);
+            xhr.withCredentials = true;
+            xhr.onreadystatechange = function () {
+                //                    if (xhr.readyState === 4) {
+                var response = JSON.parse(xmlhttp.responseText);
+                alert(
+                    "ready state: " + xhr.readyState +
+                    "status : " + xhr.status +
+                    "response: " + response);
+                //                    }
+            }
+            xhr.send();
+            JSROOT.cleanup("GlobalC");
+        }
+            window.createTable = createTable;
+            window.SetRefRun = SetRefRun;
+            window.redrawCanvases = redrawCanvases;
+            window.makeSelection = bm.makeSelection;
+            const globalFuncs = {
+                createTable, cleanCanvases, SetRefRun, redrawCanvases,ResetSiBT,
+//                formatJSON, validateJSON, saveJSON, loadDefaultJSON, loadJSON
+            }
+            Object.assign(window, globalFuncs);
+    </script>
+</head>
+
+<body onload="createTable()">
+    <!--#include virtual="../menu.html" -->
+    <div id="total_counter" align="center">
+        <h1>BM@N DST</h1>
+        <!--<iframe id="infoCan" ></iframe>-->
+    </div>
+    <div align="center">
+        <div id="infoC" style="width: 90vw;height: 0vw;"> </div>
+    </div>
+
+    <table>
+        <tr>
+            <tb>
+                <!--                <button onclick="ResetHist()">
+                                    <h1 style="color:red;">Reset</h1>
+                                </button>-->
+            </tb>
+        </tr>
+        <!--        <tr>
+        <tb>
+            <input type="text" name="refInput" id="refInput" list="refSelector">
+            <datalist id="refSelector" autocomplete="on"></datalist>
+        </tb>
+        <tb>
+            <button onclick="SetRefRun()"> 
+                Select Reference Run
+            </button>
+        </tb>
+        <tb>
+            <select class="styleRefTable" id="refTable" onchange="makeSelection()">
+        </tb>
+
+    </tr>-->
+    </table>
+
+    <!--<div align="center">
+    <iframe style="width: 40vw;height: 30vw;" src="../root.dst/Vertex_profile/draw.htm?monitoring=3000"> </iframe>>
+</div>-->
+
+
+    <div class="tabs">
+        <input type="radio" name="inset" value="" id="tab_1" onclick="redrawCanvases()" checked>
+        <label for="tab_1">General</label>
+
+        <input type="radio" name="inset" value="" id="tab_2" onclick="redrawCanvases()">
+        <label for="tab_2">FSD Hits</label>
+
+        <input type="radio" name="inset" value="" id="tab_3" onclick="redrawCanvases()">
+        <label for="tab_3">GEM Hits</label>
+
+        <input type="radio" name="inset" value="" id="tab_4" onclick="redrawCanvases()">
+        <label for="tab_4">CSC Hits</label>
+
+        <input type="radio" name="inset" value="" id="tab_5" onclick="redrawCanvases()">
+        <label for="tab_5">VSP Hits</label>
+
+        <input type="radio" name="inset" value="" id="tab_6" onclick="redrawCanvases()">
+        <label for="tab_6">SiBT</label>
+
+        <input type="radio" name="inset" value="" id="tab_7" onclick="redrawCanvases()">
+        <label for="tab_7">Vertex</label>
+
+        <input type="radio" name="inset" value="" id="tab_8" onclick="redrawCanvases()">
+        <label for="tab_8">ToF</label>
+
+        <div id="txt_1" align="center">
+
+            <h2>Tracking parameters</h2>
+            <div id="tracksParam" align="center">
+                <table>
+                    <tr>
+                        <h3>Rigidity</h3>
+                        <iframe id="rigid" style="width: 95vw;height: 25vw;"
+                            src="../root.dst/Rigidity/draw.htm?monitoring=2000"> </iframe>
+                    </tr>
+                    <tr>
+                        <h3>Multiplicity</h3>
+                        <iframe id="multi" style="width: 95vw;height: 25vw;"
+                            src="../root.dst/Multiplicity/draw.htm?monitoring=2000"> </iframe>
+                    </tr>
+                    <tr>
+                        <h3>Hits Multiplicity in InnerTracker</h3>
+                        <iframe id="NHitsInner" style="width: 95vw;height: 25vw;"
+                            src="../root.dst/Hits_Multiplicity_in_InnerTracker/draw.htm?monitoring=2000"> </iframe>
+                    </tr>
+                </table>
+            </div>
+
+            <h2>Cathode Strip Chamber</h2>
+            <div id="CSC" align="center">
+                <table>
+                    <tr>
+                        <h3>Hits Multiplicity in CSC 1-2</h3>
+                        <iframe id="NHitsCSC12" style="width: 95vw;height: 25vw;"
+                            src="../root.dst/Hits_Multiplicity_in_CSC_1_2/draw.htm?monitoring=2000"> </iframe>
+                    </tr>
+                    <tr>
+                        <h3>Hits Multiplicity in CSC 3-4</h3>
+                        <iframe id="NHitsCSC34" style="width: 95vw;height: 25vw;"
+                            src="../root.dst/Hits_Multiplicity_in_CSC_3_4/draw.htm?monitoring=2000"> </iframe>
+
+                    </tr>
+                    <tr>
+                        <h3>Hits Multiplicity in large CSC</h3>
+                        <iframe id="NHitsCSCLarge" style="width: 95vw;height: 25vw;"
+                            src="../root.dst/Hits_Multiplicity_in_large_CSCs/draw.htm?monitoring=2000"> </iframe>
+
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+
+        <div id="txt_2">
+            <h2>STS Hits</h2>
+            <div id="STS_Hits" align="center">
+                <iframe id="STS_Hits_X_Y" style="width: 95vw;height: 60vw;"
+                    src="../root.dst/SILICON_Hits_X_Y/draw.htm?monitoring=2000"> </iframe>
+            </div>
+        </div>
+        <div id="txt_3">
+            <h2>GEM Hits</h2>
+            <div id="GEM_Hits" align="center">
+                <iframe id="GEM_Hits_X_Y" style="width: 95vw;height: 80vw;"
+                    src="../root.dst/GEM_Hits_X_Y/draw.htm?monitoring=2000"> </iframe>
+            </div>
+        </div>
+        <div id="txt_4">
+            <h2>CSC Hits</h2>
+            <div id="CSC_Hits" align="center">
+                <iframe id="CSC_Hits_X_Y" style="width: 95vw;height: 70vw;"
+                    src="../root.dst/CSC_Hits_X_Y/draw.htm?monitoring=2000"> </iframe>
+            </div>
+        </div>
+        <div id="txt_5">
+            <h2>VSP Hits</h2>
+            <div id="VSP_Hits" align="center">
+                <iframe id="VSP_Hits_X_Y" style="width: 95vw;height: 70vw;"
+                    src="../root.dst/VSP_Hits_X_Y/draw.htm?monitoring=2000"> </iframe>
+            </div>
+        </div>
+        <div id="txt_6">
+            <h2>Silicon Beam Tracker</h2>
+            <div id="SiBT" align="center">
+                <table>
+                    <tr>
+                        <tb>
+                            <button onclick="ResetSiBT()" style="height:50px;width:400px">
+
+                                <div id="ResetSiBT_div" align="top">
+                                    <h1 style="color:red;align-content: center top">Reset</h1>
+                                </div>
+                            </button>
+                        </tb>
+                    </tr>
+                    <tr>
+                        <h3>All SiBT hits</h3>
+                    <div id="sibtHits" style="width: 95vw;height: 25vw;"> </div>
+<!--                        <iframe id="All_SiBT_Hits" style="width: 95vw;height: 25vw;"
+                            src="../root.dst/BmnSiBT_Hits/draw.htm?monitoring=2000"> </iframe>-->
+                    </tr>
+                    <tr>
+                        <h3>Mean weighted (with signals in layers) SiBT Hits in Event</h3>
+                    <div id="sibtHitsWeighted" style="width: 95vw;height: 25vw;"> </div>
+<!--                        <iframe id="Mean_weighted_SiBT_Hits" style="width: 95vw;height: 25vw;"
+                            src="../root.dst/BmnSiBT_meanHits/draw.htm?monitoring=2000"> </iframe>-->
+                    </tr>
+                    <tr>
+                        <h3>SiBT tracks-Vertex correlation </h3>
+                    <div id="sibtCorr" style="width: 95vw;height: 35vw;"> </div>
+<!--                        <iframe id="SiBT_Vertex" style="width: 95vw;height: 35vw;"
+                            src="../root.dst/Vertex_SiBT_correlation/draw.htm?monitoring=2000"> </iframe>-->
+                    </tr>
+
+                    <tr>
+                        <h3>Number of Hits in SiBT</h3>
+                    <div id="sibtHitsN" style="width: 95vw;height: 25vw;"> </div>
+<!--                        <iframe id="SiBTNHits" style="width: 95vw;height: 25vw;"
+                            src="../root.dst/BmnSiBTNHits/draw.htm?monitoring=2000"> </iframe>-->
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+        <div id="txt_7">
+            <h2>Vertex profile</h2>
+            <div id="VertexProfile" align="center">
+                <table>
+                    <tr>
+                        <h3>Vertex profile 2D</h3>
+                    <div id="vertex2d" style="width: 95vw;height: 25vw;"> </div>
+<!--                        <iframe id="vertex2d" style="width: 95vw;height: 25vw;"
+                            src="../root.dst/Vertex_2D/draw.htm?monitoring=2000"> </iframe>-->
+                    </tr>
+                    <tr>
+                        <h3>Vertex profile 1D</h3>
+                    <div id="vertex1d" style="width: 95vw;height: 25vw;"> </div>
+<!--                        <iframe id="vertex1d" style="width: 95vw;height: 25vw;"
+                            src="../root.dst/Vertex_1D/draw.htm?monitoring=2000"> </iframe>-->
+                    </tr>
+                    <tr>
+                        <h3>Vertex profile vs number of tracks</h3>
+                    <div id="vertex_vs_ntracks" style="width: 95vw;height: 25vw;"> </div>
+<!--                        <iframe id="vertex_vsNTracks" style="width: 95vw;height: 25vw;"
+                            src="../root.dst/Vertex_vs_number_of_tracks/draw.htm?monitoring=2000"> </iframe>-->
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="txt_8">
+
+            <div id="TOF" align="center">
+                <table>
+                    <tr>
+                        <h3>Beta_vs mom</h3>
+                    <div id="Banana" style="width: 95vw;height: 25vw;"> </div>
+                    </tr>
+                        <h3>ToF Hits</h3>
+                    <div id="tof_hits" style="width: 95vw;height: 25vw;"> </div>
+                    <tr>
+                        <h3>Hits Multiplicity in ToF</h3>
+                    <div id="NHitsTOF" style="width: 95vw;height: 25vw;"> </div>
+
+                    </tr>
+                </table>
+            </div>
+
+        </div> 
+
+        </table>
+</body>
+
+</html>

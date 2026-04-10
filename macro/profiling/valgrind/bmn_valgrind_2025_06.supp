@@ -1,0 +1,165 @@
+#####################################################################
+### checked and confirmed by Math & Soft Group of HEP lab, JINR
+###
+### Cases with BM@N code involved
+
+{
+   ===FairRunSim:Init
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN10FairRunSim4InitEv
+}
+{
+   ===new:Bmn*ModuleMakeCluster:TH1...new
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN3TH1*
+   fun:_ZN12Bmn*Module11MakeCluster*
+}
+{
+   ===malloc:Bmn*ModuleMakeCluster:TH1...malloc
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_ZN3TH1*
+   fun:_ZN*Bmn*Module1*MakeCluster*
+}
+{
+   ===malloc:Bmn*ModuleMakeCluster:TH1...calloc
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:_ZN3TH1*
+   fun:_ZN*Bmn*Module1*MakeCluster*
+}
+{
+   ===malloc:Bmn*ModuleMakeCluster:TH1...realloc
+   Memcheck:Leak
+   fun:realloc
+   ...
+   fun:_ZN3TH1*
+   fun:_ZN*Bmn*Module1*MakeCluster*
+}
+{
+   ===new:Bmn*ModuleMakeCluster:TF1...new
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN3TF1*
+   fun:_ZN*Bmn*Module1*MakeCluster*
+}
+{
+   ===new:Bmn*ModuleMakeCluster:TF1...malloc
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_ZN3TF1*
+   fun:_ZN*Bmn*Module1*MakeCluster*
+}
+{
+   ===FairRuntimeDb:print
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN13FairRuntimeDb5printEv
+   ...
+   fun:_Z11run_sim_bmn*
+}
+{
+   ===geometry(fRun)
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_Z8geometryP10FairRunSim
+   fun:_Z11run_sim_bmn*
+}
+{
+   ===fRun->AddTask;
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN7FairRun14StoreTaskNames*
+   fun:_Z11run_sim_bmn*
+}
+{
+   ===fRun->Run(nEvents)
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN17FairMCApplication5Run*
+   fun:_Z11run_sim_bmn*
+}
+{
+   ===gGeoManager->CheckOverlaps(0.0001)
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN8TGeoNode13CheckOverlaps*
+   fun:_Z11run_sim_bmn*
+}
+{
+   ===(Bmn)FairRootManager::Instance()->Register
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN15FairRootManager12Register*
+   fun:_ZN*Bmn*
+}
+{
+   ===(Cbm)FairRootManager::Instance()->Register
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN15FairRootManager12Register*
+   fun:_ZN*Cbm*
+}
+{
+   ===Bmn*::ConstructGeometry()
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN10FairModule21ConstructRootGeometry*
+   fun:_ZN*Bmn*ConstructGeometryEv
+}
+{
+   ===Cbm*::ConstructGeometry()
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN10FairModule21ConstructRootGeometry*
+   fun:_ZN*Cbm*ConstructGeometryEv
+}
+{
+   ===CbmStack::UpdateTrackIndex::FairMultiLinkedData_Interface::SetLink(FairLink)
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+   fun:_ZN29FairMultiLinkedData_Interface7SetLinkE8FairLink
+   fun:_ZN8CbmStack16UpdateTrackIndexEP9TRefArray
+}
+{
+   ===CbmStsContFact:dtor
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+   fun:_ZN12FairContFactD1Ev
+   fun:_ZN14CbmStsContFactD1Ev
+}
+{
+   ===output->open(gFile)
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN17FairParRootFileIo4openEP5TFile
+   fun:_Z11run_sim_bmn*
+}
+{
+   ===TSystem::DirName
+   Memcheck:Leak
+   fun:_Znam
+   fun:_ZN7TSystem7DirNameEPKc
+   ...
+   fun:_ZN14BmnFunctionSet19CreateDirectoryTree*
+}

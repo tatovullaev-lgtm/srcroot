@@ -1,0 +1,7 @@
+[CONFIGURATION]
+#               Det        Mod     Serial      Slot     Channel  IsNegative
+#===========================================================================
+   channels = T0       0      0x1690454        19          11       0
+  channels = BC1       0      0x1690454        19          55       0
+  channels = BC2       0      0x1690454        19          48       0
+ channels = VETO       0      0x1690454        19          -1       0

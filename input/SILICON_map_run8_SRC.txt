@@ -1,0 +1,33 @@
+[CHANNEL_MAP]
+#===============================================================================
+# Station: 0 - vertex (near), 1 - vertex(far), 2 - Forward detector
+# Layer: 0 - vertical strips, 1 - sloped strips
+#              Serial      Ch_lo    Ch_hi   ADC_mod  GEO_mod   Layer   Station
+#===============================================================================
+channels = 0x80BCBFC       26       30         0        0       0        0
+channels = 0x80BCBFC       25       21         0        0       1        0
+channels = 0x80BCBFC       14       10         0        1       0        0
+channels = 0x80BCBFC       20       16         0        1       1        0
+channels = 0x80BCBFC       58       62         0        0       0        1
+channels = 0x80BCBFC       57       53         0        0       1        1
+channels = 0x80BCBFC       46       42         0        1       0        1
+channels = 0x80BCBFC       52       48         0        1       1        1
+channels = 0x4E993A5       26       30         0        0       0        2
+channels = 0x4E993A5       25       21         0        0       1        2
+channels = 0x4E993A5       14       10         0        1       0        2
+channels = 0x4E993A5       20       16         0        1       1        2
+channels = 0x4E993A5       58       62         0        0       0        3
+channels = 0x4E993A5       57       53         0        0       1        3
+channels = 0x4E993A5       46       42         0        1       0        3
+channels = 0x4E993A5       52       48         0        1       1        3
+
+[SIGNAL_CONFIGURATION]
+Threshold = 150
+ThresholdDif = 100
+NIterations = 6
+CModCut = 100
+#===============================================================================
+# Thresholds for specific ADC channels
+#             Serial     Channel  Threshold
+#===============================================================================
+

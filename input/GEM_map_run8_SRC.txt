@@ -1,0 +1,23 @@
+[CHANNEL_MAP]
+#======================================================================================
+# GEM_id: GEM production number (id >=5 -> Big, 0<=id<=4 -> Mid, id<0 -> Small)
+# Type: 0=directed, 1=rotated
+# Side: 0=left, 1=right
+# Module: 0 - upper-left, 1 - upper-right, 2 - lower-left, 3 - lower-right
+# Zone: 0=hot, 1=big
+# For middle GEMs Module = 0 or 1, Zone = 0
+#             Serial   Ch_lo    Ch_hi  GEM_id    Side     Type  Station  Module  Zone 
+#======================================================================================
+channels = 0xa79ef10       0    2047       0       0       0       0       0       0
+channels = 0x611df9b     384     511       0       0       0       0       0       0
+channels = 0xa7b319c       0    2047       0       0       0       1       0       0
+channels = 0x611df9b     256     383       0       0       0       1       0       0
+
+[SIGNAL_CONFIGURATION]
+Threshold = 25
+ThresholdDif = 10
+NIterations = 5
+#===============================================================================
+# Thresholds for specific ADC channels
+#             Serial     Channel  Threshold
+#===============================================================================

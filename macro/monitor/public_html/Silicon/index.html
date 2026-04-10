@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Silicon detectors</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--#include virtual="../include_digi.html" -->
+        <script type='module'>
+            import { draw, redraw, httpRequest, resize, cleanup} from 'jsroot';
+            import * as bm from 'bmtools';
+            var loco = window.location;
+            var path0 = loco.protocol + "//" + loco.hostname + "/root.app/";
+            var path = path0 + "Silicon/";
+            var runPath = "../root.app/CurRun/root.json";
+            var refPath = "../root.app/refTable/root.json";
+//            window.addEventListener("load", () => {
+//                createTable();
+//                  });
+            function createTable() {
+                sessionStorage.clear();
+                bm.setRunInfo(runPath);
+                drawInfo();
+            }
+            async function updateRunId() {
+                let obj = await httpRequest(runPath, 'object');
+                    var info = obj;//JSON.parse(obj);
+                    if (info.arr.length > 0) {
+                        var runInfo = info.arr[0];
+                        var runID = runInfo.i_run_number;
+                        var storedRunId = sessionStorage.getItem('runID');
+                        if ((storedRunId === null) || (storedRunId == runID))
+                            return;
+                        sessionStorage.setItem('runID', runID);
+                        cleanCanvases();
+                    }
+            }
+            function ResetHist() {
+                var filename = path + "Reset/cmd.json";
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", filename, true);
+                xhr.withCredentials = true;
+                xhr.send();
+            }
+            function drawInfo() {
+                setTimeout(drawInfo, 5000);
+                updateRunId();
+                redrawCanvases();
+                bm.FillRefTable(path0 + "refTable" + "/root.json", "refTable");
+            }
+            function redrawCanvases() {
+                bm.Redraw2Div(path0 + "infoCanvas" + "/root.json", "infoC");
+                bm.Redraw2Div(path + "SiliconCanvas" + "/root.json", "occupancy");
+                bm.Redraw2Div(path + "SiliconSignalCanvas" + "/root.json", "correlations");
+                bm.Redraw2Div(path + "SiliconStripSignalCanvas" + "/root.json", "stripSignal");
+                bm.Redraw2Div(path + "SiliconStripNoiseCanvas" + "/root.json", "stripNoise");
+                bm.Redraw2Div(path + "SiliconChipSignalCanvas" + "/root.json", "chipSignal");
+            }
+            function cleanCanvases() {
+                cleanup("infoC");
+                cleanup("occupancy");
+                cleanup("correlations");
+                cleanup("stripSignal");
+                cleanup("stripNoise");
+                cleanup("chipSignal");
+                var sel = document.getElementById("refTable");
+                sel.innerHTML = "";
+            }
+            function SetRefRun() {
+                var runName = document.getElementById("refInput").value;
+                var cmd = path + "SetRefRun/cmd.json";
+                cmd = cmd + "?" + "arg1=" + runName;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", cmd, true);
+                xhr.withCredentials = true;
+                xhr.onreadystatechange = function () {
+//                    if (xhr.readyState === 4) {
+                        var response = JSON.parse(xmlhttp.responseText);
+                            alert(
+                                    "ready state: " +xhr.readyState+
+                                    "status : " + xhr.status +
+                                    "response: " + response);
+//                    }
+                }
+                xhr.send();
+                cleanup("occupancy");
+            }
+            function ChangeStation() {
+                var iStation = document.getElementById("station-select").value;
+                console.log(iStation);
+                var filename = path + "ChangeStation/cmd.json";
+                filename = filename + "?" + "arg1=" + iStation;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", filename, true);
+                xhr.withCredentials = true;
+                xhr.send();
+                cleanCanvases();
+                redrawCanvases();
+            }
+//            export {createTable};
+            window.createTable = createTable;
+            window.SetRefRun = SetRefRun;
+            window.redrawCanvases = redrawCanvases;
+            window.makeSelection = bm.makeSelection;
+            window.ChangeStation = ChangeStation;
+        </script>
+    </head>
+    <body onload="createTable()">
+        <!--#include virtual="../menu.html" -->
+        <div id="total_counter" align="center">
+            <h1>BM@N Silicons</h1>  
+            <!--<iframe id="infoCan" ></iframe>--> 
+        </div>
+        <div align="center">
+            <div id="infoC" style="width: 90vw;height: 15vw;"> </div>
+        </div>
+
+        <table>
+            <tr>
+            <tb>
+                <!--                <button onclick="ResetHist()">
+                                    <h1 style="color:red;">Reset</h1>
+                                </button>-->
+            </tb>
+        </tr>
+        <tr>
+        <tb>
+            <input type="text" name="refInput" id="refInput" list="refSelector">
+            <datalist id="refSelector" autocomplete="on"></datalist>
+        </tb>
+        <tb>
+            <button onclick="SetRefRun()"> 
+                Select Reference Run
+            </button>
+        </tb>
+        <tb>
+            <select class="styleRefTable" id="refTable" onchange="makeSelection()">
+        </tb>
+
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>
+            Select station
+        </th>
+        <th>
+            <select name="station" id="station-select">
+                <option value="0" selected>1</option>
+                <option value="1">2</option>
+                <option value="2">3</option>
+                <option value="3">4</option>
+                </select>
+        </th>
+        <th  rowspan="3">
+            <button style="width: 10vw;height: 3vw;" onclick = "ChangeStation()"> 
+                <h3>Change Station</h3>
+            </button>
+        </th>
+    </tr>
+</table>
+
+<div class="tabs">
+    <input type="radio" name="inset" value="" id="tab_1" onclick="redrawCanvases()" checked>
+    <label for="tab_1">Occupancy</label>
+
+    <input type="radio" name="inset" value="" id="tab_2" onclick="redrawCanvases()">
+    <label for="tab_2">Correlations</label>
+
+    <input type="radio" name="inset" value="" id="tab_3" onclick="redrawCanvases()">
+    <label for="tab_3">Signals of strips</label>
+
+    <input type="radio" name="inset" value="" id="tab_4" onclick="redrawCanvases()">
+    <label for="tab_4">Noises</label>
+
+    <input type="radio" name="inset" value="" id="tab_5" onclick="redrawCanvases()">
+    <label for="tab_5">Signals for each chip</label>
+
+    <div id="txt_1">
+        <div align="center">
+            <div id="occupancy" style="width: 90vw;height: 150vw;"> </div>
+        </div>
+    </div>
+    <div id="txt_2">
+        <div align="center">
+            <div id="correlations" style="width: 90vw;height: 150vw;"> </div>
+        </div>
+    </div>
+    <div id="txt_3">
+        <div align="center">
+            <div id="stripSignal" style="width: 90vw;height: 150vw;"> </div>
+        </div>
+</div>
+    <div id="txt_4">
+        <div align="center">
+            <div id="stripNoise" style="width: 90vw;height: 150vw;"> </div>
+        </div>
+</div>
+    <div id="txt_5">
+        <div align="center">
+            <div id="chipSignal" style="width: 90vw;height: 150vw;"> </div>
+        </div>
+</div>
+
+</div>
+
+</body>
+</html>

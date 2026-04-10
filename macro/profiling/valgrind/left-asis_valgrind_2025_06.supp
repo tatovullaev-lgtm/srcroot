@@ -1,0 +1,130 @@
+########################################################
+# left uncorrected:
+{
+   ===BmnOnlineShmSource.cxx
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_GLOBAL__sub_I_BmnOnlineShmSource.cxx
+}
+{
+   ===CbmStack:TClonesArray
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN12TClonesArrayC1EPKcib
+   fun:_ZN8CbmStackC1Ei
+}
+{
+   ===BmnSiBTDigitizer:Init
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+   fun:_ZN16BmnSiBTDigitizer4Init*
+}
+{
+   ===new:Class_Streamer
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   src:G__*Dict.cxx
+}
+{
+   ===malloc:Class_Streamer
+   Memcheck:Leak
+   fun:malloc
+   ...
+   src:G__*Dict.cxx
+}
+{
+   ===malloc:Class_Streamer
+   Memcheck:Leak
+   fun:realloc
+   ...
+   src:G__*Dict.cxx
+}
+{
+   ===calloc:Class_Streamer
+   Memcheck:Leak
+   fun:calloc
+   ...
+   src:G__*Dict.cxx
+}
+{
+   ===FairRunSim* fRun = new FairRunSim()
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN10FairRunSim*
+   fun:_Z11run_sim_bmn*
+}
+{
+   ===BmnFieldMap::ReadRootFileNewFormatExtrap
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN11BmnFieldMap27ReadRootFileNewFormatExtrap*
+}
+{
+   !!! BmnFHCalContFactcreateContainer
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN16BmnFHCalContFact15createContainer*
+}
+{
+   !!! BmnNdetContFactcreateContainer
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN15BmnNdetContFact15createContainer*
+}
+{
+   ===FairRootFileSink
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN16FairRootFileSinkC1E7TStringPKc
+   fun:_Z11run_sim_bmn*
+}
+{
+   ??? new FairParRootFileIo
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+   fun:_ZN17FairParRootFileIoC1Eb
+   fun:_Z11run_sim_bmn*
+}
+########################################################
+
+
+
+
+
+
+
+
+
+
+
+
+########################################################
+###  NEED SPECIAL ATTENTION !
+
+
+
+
+
+
+
+{
+   !!! run_sim_bmn.cxx:new FairParRootFileIo
+   Memcheck:Leak
+   fun:_Znwm
+   fun:_ZN8TStorage11ObjectAllocEm
+   fun:_ZN7TObjectnwEm
+   fun:_Z11run_sim_bmn7TStringS_ii14enumGeneratorsbb
+   fun:main
+}
+
+

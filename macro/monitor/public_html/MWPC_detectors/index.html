@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MWPC detectors</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--#include virtual="../include.html" -->
+        <script>
+            var loco = window.location;
+            var path0 = loco.protocol + "//" + loco.hostname + "/root.app/";
+            var path = path0 + "MWPC/";
+            var runPath = "../root.app/CurRun/root.json";
+            var refPath = "../root.app/refTable/root.json";
+            var stationsCount = 4;
+            function ResetHist() {
+                var filename = path + "Reset/cmd.json";
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", filename, true);
+                xhr.withCredentials = true;
+                xhr.send();
+            }
+            function createTable() {
+                sessionStorage.clear();
+                for (var i = 0; i < stationsCount; i++) {
+                    var mwpc = document.getElementById("h_MWPC"+i);
+                    mwpc.src = path + "MWPC_h_MWPC"+i+"/draw.htm?monitoring=10000&opt=colz";
+                }
+                setRunInfo(runPath);
+                drawInfo();
+            }
+            function drawInfo() {
+                setTimeout(drawInfo, 5000);
+                JSROOT.NewHttpRequest(runPath, 'text', function (obj) {
+                    var info = JSON.parse(obj);
+                    if (info.arr.length > 0){
+                        var runInfo = info.arr[0];
+                        var runID = runInfo.i_run_number;
+                        var storedRunId = sessionStorage.getItem('runID');
+                        if ((storedRunId === null) || (storedRunId == runID))
+                            return;
+                        sessionStorage.setItem('runID', runID);
+                        cleanCanvases();
+                    }
+                }).send(null);
+                redrawCanvases();
+                FillRefTable(refPath, "refTable");
+                //var refPath = path0 + "refList" + "/root.json";
+                //FillRefSelector(refPath, "refSelector");
+            }
+            function redrawCanvases() {
+                var filename = path0 + "infoCanvas" + "/root.json.gz?compact=3";
+                JSROOT.NewHttpRequest(filename, 'object', function (obj) {
+                    JSROOT.redraw("infoC", obj, "");
+                }).send(null);
+                filename = path + "MWPCCanvasWires" + "/root.json.gz?compact=3";
+                JSROOT.NewHttpRequest(filename, 'object', function (obj) {
+                    JSROOT.redraw("wireTableC", obj, "");
+                }).send(null);
+                filename = path + "MWPCCanvasTimes" + "/root.json.gz?compact=3";
+                JSROOT.NewHttpRequest(filename, 'object', function (obj) {
+                    JSROOT.redraw("timeTableC", obj, "");
+                }).send(null);
+            }
+            function cleanCanvases() {
+                JSROOT.cleanup("infoC");
+                JSROOT.cleanup("wireTableC");
+                JSROOT.cleanup("timeTableC");
+                var sel = document.getElementById("refTable");
+                sel.innerHTML = "";
+            }
+            function SetRefRun() {
+                var runName = document.getElementById("refInput").value;
+                var cmd = path + "SetRefRun/cmd.json";
+                cmd = cmd + "?" + "arg1=" + runName;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", cmd, true);
+                xhr.withCredentials = true;
+                xhr.send();
+                JSROOT.cleanup("wireTableC");
+                JSROOT.cleanup("timeTableC");
+            }
+        </script>
+    </head>
+    <body onload="createTable()">
+        <!--#include virtual="../menu.html" -->
+        <div id="total_counter" align="center">
+            <h1>BM@N MWPCs</h1> 
+            <!--<iframe id="infoCan" ></iframe>-->             
+        </div>
+        <div align="center">
+            <div id="infoC" style="width: 90vw;height: 15vw;"> </div>
+        </div>
+<!--        <button onclick="ResetHist()">
+            <h1 style="color:red;">Reset</h1>
+        </button>-->
+
+        <table>
+            <tr>
+            <tb>
+                <input type="text" name="refInput" id="refInput" list="refSelector">
+                <datalist id="refSelector" autocomplete="on"></datalist>
+            </tb>
+            <tb>
+                <button onclick="SetRefRun()"> 
+                    Select Reference Run
+                </button>
+            </tb>
+                <tb>
+                    <select class="styleRefTable" id="refTable" onchange="makeSelection()">
+                </tb>
+
+        </tr>
+    </table>
+
+    <div class="tabs">
+<!--        <input type="radio" name="inset" value="" id="tab_1" onclick="redrawCanvases()" checked>
+        <label for="tab_1">2D Profile</label>-->
+
+        <input type="radio" name="inset" value="" id="tab_2" onclick="redrawCanvases()" checked >
+        <label for="tab_2">Wires</label>
+
+        <input type="radio" name="inset" value="" id="tab_3" onclick="redrawCanvases()">
+        <label for="tab_3">Times</label>
+
+        <div id="txt_1">
+            <table>
+                <tr>
+                <td>
+                    <iframe id="h_MWPC0" style = "width: 48vw;height: 48vw;"> </iframe>
+                </td>
+                    <td>
+                        <iframe id="h_MWPC1" style = "width: 48vw;height: 48vw;"> </iframe>
+                    </td>
+                </tr>
+                <tr>
+                <td>
+                    <iframe id="h_MWPC2" style = "width: 48vw;height: 48vw;"> </iframe>
+                </td>
+                <td>
+                    <iframe id="h_MWPC3" style = "width: 48vw;height: 48vw;"> </iframe>
+                </td>
+                </tr>
+            </table>
+        </div>
+        <div id="txt_2">
+            <div align="center">
+                <div id="wireTableC" style="width: 98vw;height: 46vw;"> </div>
+            </div>
+        </div>
+        <div id="txt_3">
+            <div align="center">
+                <div id="timeTableC" style="width: 98vw;height: 46vw;"> </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

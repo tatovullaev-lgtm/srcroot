@@ -1,0 +1,743 @@
+#####################################################################
+### prepared by Math & Soft Group of HEP lab, JINR
+###
+### Cases without BM@N code
+### Pay attention: some cases may be rather general to hide other errors,
+### testing procedure must include steps with this file deactivated.
+
+{
+   ===ObjArrayDelete
+   Memcheck:Addr1
+   ...
+   fun:_ZN9TObjArray6DeleteEPKc
+   fun:_ZN11TGeoManagerD1Ev
+   fun:_ZN11TGeoManagerD0Ev
+   fun:_ZN5TList6DeleteEPKc
+   fun:_ZN5TROOT20EndOfProcessCleanupsEv
+   fun:__run_exit_handlers
+   fun:exit
+   fun:(below main)
+}
+{
+   ===ObjArrayDelete
+   Memcheck:Addr4
+   ...
+   fun:_ZN9TObjArray6DeleteEPKc
+   fun:_ZN11TGeoManagerD1Ev
+   fun:_ZN11TGeoManagerD0Ev
+   fun:_ZN5TList6DeleteEPKc
+   fun:_ZN5TROOT20EndOfProcessCleanupsEv
+   fun:__run_exit_handlers
+   fun:exit
+   fun:(below main)
+}
+{
+   ===ObjArrayDelete
+   Memcheck:Addr8
+   ...
+   fun:_ZN9TObjArray6DeleteEPKc
+   fun:_ZN11TGeoManagerD1Ev
+   fun:_ZN11TGeoManagerD0Ev
+   fun:_ZN5TList6DeleteEPKc
+   fun:_ZN5TROOT20EndOfProcessCleanupsEv
+   fun:__run_exit_handlers
+   fun:exit
+   fun:(below main)
+}
+{
+   ===ObjArrayDelete
+   Memcheck:Free
+   ...
+   fun:_ZN9TObjArray6DeleteEPKc
+   fun:_ZN11TGeoManagerD1Ev
+   fun:_ZN11TGeoManagerD0Ev
+   fun:_ZN5TList6DeleteEPKc
+   fun:_ZN5TROOT20EndOfProcessCleanupsEv
+   fun:__run_exit_handlers
+   fun:exit
+   fun:(below main)
+}
+{
+   ===*TGeoManager*
+   Memcheck:Leak
+   fun:_Znam
+   ...
+   fun:_ZN*TGeoManager*
+}
+# ??? TUnixSystem::ExpandPathName(char const*) (TUnixSystem.cxx:1850)
+{
+   ===StrDup
+   Memcheck:Leak
+   fun:_Znam
+   fun:_Z6StrDupPKc
+}
+{
+   ===TDataMemberGetArrayDim
+   Memcheck:Leak
+   fun:_Znam
+   fun:_ZNK11TDataMember11GetArrayDim*
+   fun:_ZNK6TClass11GetCheckSum*
+   fun:_ZNK6TClass11GetCheckSum*
+   ...
+   fun:_ZN13TStreamerInfo5Build*
+}
+{
+   ===G4KineticTrack
+   Memcheck:Leak
+   fun:_Znam
+   fun:_ZN14G4KineticTrackC1ERKS_
+   fun:_ZNK19G4VElasticCollision10FinalStateERK14G4KineticTrackS2_
+   fun:_ZNK20G4CollisionComposite10FinalStateERK14G4KineticTrackS2_
+   fun:_ZNK11G4Scatterer7ScatterERK14G4KineticTrackS2_
+   fun:_ZN11G4Scatterer13GetFinalStateEP14G4KineticTrackRSt6vectorIS1_SaIS1_EE
+   fun:_ZN15G4BinaryCascade14ApplyCollisionEP23G4CollisionInitialState
+   fun:_ZN15G4BinaryCascade9PropagateEP20G4KineticTrackVectorP12G4V3DNucleus
+   fun:_ZN24G4BinaryLightIonReaction8InteractERN5CLHEP16HepLorentzVectorERKNS0_18HepLorentzRotationE
+   fun:_ZN24G4BinaryLightIonReaction13ApplyYourselfERK15G4HadProjectileR9G4Nucleus
+   fun:_ZN17G4HadronicProcess12PostStepDoItERK7G4TrackRK6G4Step
+   fun:_ZN17G4SteppingManager11InvokePSDIPEm
+}
+{
+   ===_GLOBAL__sub_I
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_GLOBAL__sub_I*.cxx
+   fun:call_init
+   fun:call_init
+   fun:_dl_init
+}
+{
+   ===new:static_initialization_and_destruction_0
+   Memcheck:Leak
+   fun:_Znwm*
+   ...
+   fun:_Z41__static_initialization_and_destruction_0*
+   fun:call_init
+   fun:call_init
+   fun:_dl_init
+}
+{
+   ===calloc:static_initialization_and_destruction_0
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:_Z41__static_initialization_and_destruction_0*
+   fun:call_init
+   fun:call_init
+   fun:_dl_init
+}
+{
+   ===stdvector
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+   fun:allocate
+   ...
+   fun:_ZNSt6vector*
+}
+{
+   ===vector
+   Memcheck:Leak
+   fun:_Znwm
+   fun:allocate
+   fun:allocate
+   fun:_M_allocate
+   ...
+   fun:vector*
+}
+{
+   ===new:vector
+   Memcheck:Leak
+   fun:_Znwm
+   fun:operator new
+   ...
+   fun:vector
+}
+{
+   ===GeoVolumeAssembly:ClassNew
+   Memcheck:Leak
+   fun:_Znwm
+   fun:_ZN18TGeoVolumeAssembly*
+   fun:_ZN18TGeoVolumeAssembly*
+   fun:_ZN4ROOTL22new_TGeoVolumeAssembly*
+   fun:_ZNK6TClass9NewObject*
+   fun:_ZNK6TClass3New*
+}
+{
+   ===LeastSquareFit
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+   fun:LeastSquareFit
+   fun:Fit
+}
+{
+   ===LeastSquareFit
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:LeastSquareFit
+   fun:Fit
+}
+{
+   ===new:ROOTFitFit
+   Memcheck:Leak
+   fun:_Znam
+   ...
+   fun:_ZN4ROOT3Fit9Fit*
+}
+{
+   ===ClassNewObject
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+   fun:_ZNK6TClass9NewObject*
+   fun:_ZNK6TClass3New*
+}
+{
+   ===CheckClassTableInit
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:CheckClassTableInit
+   fun:_ZN4ROOT17ResetClassVersion*
+   fun:_ZN4ROOT17TGenericClassInfo*
+   fun:call_init
+   fun:call_init
+   fun:_dl_init
+}
+{
+   ===StartNewSlab
+   Memcheck:Leak
+   fun:_ZnwmSt11align_val_t
+   fun:Allocate
+   fun:StartNewSlab
+}
+{
+   ===realloc:llvm
+   Memcheck:Leak
+   fun:realloc
+   ...
+   fun:_ZN4llvm*
+}
+{
+   ===malloc:llvm
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_ZN4llvm*
+}
+{
+   ===calloc:llvm
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:_ZN4llvm*
+}
+{
+   ===new:llvm
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN4llvm*
+}
+{
+   ===StringC
+   Memcheck:Leak
+   fun:_Znam
+   fun:_ZN7TString4Init*
+   fun:_ZN7TStringC*
+}
+{
+   ===TApplicationC
+   Memcheck:Leak
+   fun:_Znam
+   fun:_ZN12TApplicationC*
+}
+{
+   ===TNamed
+   Memcheck:Leak
+   fun:_Znam
+   fun:_ZN7TString4Init*
+   fun:TString
+   fun:_ZN7TStringC*
+   fun:TNamed
+}
+{
+   ===_GLOBAL__sub_I_
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+   fun:_GLOBAL__sub_I_*
+}
+{
+   ===TStorageObjectAlloc
+   Memcheck:Leak
+   fun:_Znwm
+   fun:_ZN8TStorage11ObjectAllocEm
+   fun:operator new
+}
+{
+   ===IonPhysicsConstructProcess
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+   fun:_ZN11G4ScattererC1Ev
+   fun:_ZN15G4BinaryCascadeC1EP19G4VPreCompoundModel
+   fun:_ZN24G4BinaryLightIonReactionC1EP19G4VPreCompoundModel
+   fun:_ZN12G4IonPhysics16ConstructProcessEv
+}
+{
+   ===new:TCling
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:*TCling*
+}
+{
+   ===malloc:TCling
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:*TCling*
+}
+{
+   ===realloc:cling:Interpreter
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN5cling11Interpreter*
+}
+{
+   ===new:cling:Interpreter
+   Memcheck:Leak
+   fun:realloc
+   ...
+   fun:_ZN5cling11Interpreter*
+}
+{
+   ===new:clingIncrementalExecutor
+   Memcheck:Leak
+   fun:_Znam
+   ...
+   fun:_ZNK5cling19IncrementalExecutor*
+}
+{
+   ===malloc:clingIncrementalExecutor
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_ZNK5cling19IncrementalExecutor*
+}
+{
+   ===new:clang
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN*5clang*
+}
+{
+   ===malloc:clang
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_ZN*5clang*
+}
+{
+   ===TStringReplace
+   Memcheck:Leak
+   fun:_Znam
+   fun:_ZN7TString7Replace*
+}
+{
+   ===UsingDeclIter
+   Memcheck:Leak
+   fun:_Znwm
+   fun:allocate
+   fun:allocate
+   ...
+   fun:stack*
+   fun:UsingDeclIter
+}
+{
+   ===TListAddLast
+   Memcheck:Leak
+   fun:_Znwm
+   fun:allocate
+   fun:allocate
+   fun:__allocate_guarded*
+   fun:__shared_count*
+   fun:__shared_ptr*
+   fun:shared_ptr*
+   fun:make_shared*
+   fun:_ZN5TList7NewLink*
+   fun:_ZN5TList7AddLast*
+}
+{
+   ===basic_string
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+   fun:basic_string*
+}
+{
+   ===basic_string_char_traits_replace
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+   fun:_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE10_M_replaceEmmPKcm
+   ...
+   fun:operator=
+}
+{
+   ===AddWriteAction:TStreamerInfo
+   Memcheck:Leak
+   fun:_Znwm
+   fun:AddWriteAction
+   fun:_ZN13TStreamerInfo*
+}
+{
+   ===TListOfDataMembers
+   Memcheck:Leak
+   fun:_Znam
+   fun:_ZN10THashTableC1Eii
+   fun:_ZN9THashListC1Eii
+   fun:TListOfDataMembers
+}
+{
+   ===TStreamerInfoBuild
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+   fun:_ZN13TStreamerInfo7CompileEv
+}
+{
+   ===TClassGetStreamerInfoImpl
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZNK6TClass19GetStreamerInfoImpl*
+}
+{
+   ===TClassGetDataMember
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZNK6TClass13GetDataMember*
+}
+{
+   ===__pthread_once_slow
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:__pthread_once_slow
+}
+{
+   ===TClassProperty
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZNK6TClass8PropertyEv
+}
+{
+   ===TBufferFileReadObjectAny
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN11TBufferFile13ReadObjectAny*
+}
+{
+   ===TBufferFile1ApplySequence
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN11TBufferFile13ApplySequence*
+}
+{
+   ===TEnumGetEnum
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN5TEnum7GetEnum*
+}
+{
+   ===G4PhysListFactoryGetReferencePhysList
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+   fun:_ZN17G4PhysListFactory20GetReferencePhysList*
+}
+{
+   ===TClassGetClass
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN6TClass8GetClass*
+}
+{
+   ===TListOfDataMembersGet
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN18TListOfDataMembers3Get*
+}
+{
+   ===insert
+   Memcheck:Leak
+   fun:_Zn?m
+   fun:allocate
+   fun:allocate
+   ...
+   fun:insert*
+}
+{
+   ===calloc:TROOTInitInterpreter
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:_ZN5TROOT15InitInterpreter*
+}
+{
+   ===new:TROOTInitInterpreter
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN5TROOT15InitInterpreter*
+}
+{
+   ===FairRootFileSink (definitely memory leak in constuctor)
+   Memcheck:Leak
+   fun:_Znam
+   ...
+   fun:_ZN9TObjArray*
+   fun:_ZN16FairRootFileSink*
+}
+{
+   ===St_R_tree
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZNSt8_Rb_tree*
+}
+{
+   ===TStreamerInfoActions
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN20TStreamerInfoActions*
+}
+{
+   ===malloc:G4*Manager
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:*G4*Manager*
+}
+{
+   ===realloc:G4*Manager
+   Memcheck:Leak
+   fun:realloc
+   ...
+   fun:*G4*Manager*
+}
+{
+   ===new:G4*Manager
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:*G4*Manager*
+}
+{
+   ===malloc:_dl_catch_exception
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_dl_catch_exception
+}
+{
+   ===calloc:_dl_catch_exception
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:_dl_catch_exception
+}
+{
+   ===*PhysicsList*
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+   fun:_ZN*PhysicsList*
+}
+{
+   ===TDirectoryFile::Close
+   Memcheck:Addr1
+   ...
+   fun:GetBaseClass
+   fun:_ZN6TClass12GetBaseClassEPKS_
+   fun:_ZNK6TClass12InheritsFromEPKS_
+   fun:_ZN14TDirectoryFile4SaveEv
+   fun:Close
+   fun:_ZN14TDirectoryFile5CloseEPKc
+}
+{
+   ===FairRootManager::InitSource
+   Memcheck:Leak
+   fun:_Znam
+   ...
+   fun:_ZN15FairRootManager10InitSourceEv
+   fun:_ZN10FairRunAna4InitEv
+}
+#definite error in FairRuntimeDb::getContainer
+{
+   ===FairRuntimeDb::getContainer
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN13FairRuntimeDb12getContainerEPKc
+}
+{
+   ===FairFileSource::FairFileSource
+   Memcheck:Leak
+   fun:_Znam
+   fun:_ZN9TObjArray4InitEii
+   fun:_ZN9TObjArrayC1Eii
+   fun:_ZN14FairFileSource*
+}
+
+###############################
+## Final cases / nearly unique
+
+{
+   ===FINAL_1
+   Memcheck:Leak
+   fun:_Znam
+   fun:_ZN11TGeoPolygon16OutscribedConvexEv
+   fun:_ZN11TGeoPolygon13FinishPolygonEv
+   fun:_ZN8TGeoXtru16CreateThreadDataEi
+   fun:_ZNK8TGeoXtru13GetThreadDataEv
+   fun:_ZNK8TGeoXtru8ContainsEPKd
+   fun:_ZNK15TGeoSubtraction8ContainsEPKd
+   fun:_ZNK17TGeoShapeAssembly8ContainsEPKd
+   fun:Contains
+   fun:_ZN13TGeoNavigator10SearchNodeEbPK8TGeoNode
+   fun:_ZN13TGeoNavigator10SearchNodeEbPK8TGeoNode
+   fun:_ZN13TGeoNavigator8FindNodeEb
+   fun:_ZN16TG4RootNavigator25LocateGlobalPointAndSetupERKN5CLHEP10Hep3VectorEPS2_bb
+}
+{
+   ===FINAL_2
+   Memcheck:Leak
+   fun:_Znam
+   fun:_ZN7TString4InitEii
+   fun:TString
+   fun:_ZN7TStringC1ERKS_
+   fun:_ZN6TNamedC1ERKS_
+   fun:_ZN11TDictionaryC1ERKS_
+   fun:_ZN9TFunctionC1ERKS_
+   fun:_ZN7TMethodC1ERKS_
+   fun:_ZNK7TMethod5CloneEPKc
+   fun:_ZN11TMethodCall4InitEPK9TFunction
+   fun:_ZN14TPluginHandler12SetupCallEnvEv
+   fun:_ZN14TPluginHandler18CheckForExecPluginEi
+   fun:_ZN14TPluginHandler14ExecPluginImplIJPKcEEElDpRKT_
+}
+{
+   ===FairMCApplicationConstructGeometry
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN17FairMCApplication17ConstructGeometry*
+}
+{
+   ===ADDR:TClass::InheritsFrom
+   Memcheck:Addr2
+   fun:memmove
+   fun:_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_appendEPKcm
+   fun:append
+   fun:append
+   fun:operator+=
+   fun:_ZN10TClassEdit10TSplitType9ShortTypeERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEi
+   fun:_ZN4ROOT10TMetaUtils17GetNormalizedNameERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKN5clang8QualTypeERKN5cling11InterpreterERKNS0_15TNormalizedCtxtE
+   fun:_ZNK15TClingClassInfo8FullNameERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKN4ROOT10TMetaUtils15TNormalizedCtxtE
+   fun:_ZNK6TCling22BaseClassInfo_FullNameEP15BaseClassInfo_t
+   fun:_ZN10TBaseClassC1EP15BaseClassInfo_tP6TClass
+   fun:_ZNK6TCling23CreateListOfBaseClassesEP6TClass
+   fun:_ZN6TClass14GetListOfBasesEv
+   fun:GetBaseClass
+   fun:_ZN6TClass12GetBaseClassEPKS_
+   fun:_ZNK6TClass12InheritsFromEPKS_
+   fun:_ZN14TDirectoryFile4SaveEv
+}
+{
+   ===ADDR:TClass::InheritsFrom
+   Memcheck:Addr1
+   fun:memmove
+   fun:_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE9_M_appendEPKcm
+   fun:append
+   fun:append
+   fun:operator+=
+   fun:_ZN10TClassEdit10TSplitType9ShortTypeERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEi
+   fun:_ZN4ROOT10TMetaUtils17GetNormalizedNameERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKN5clang8QualTypeERKN5cling11InterpreterERKNS0_15TNormalizedCtxtE
+   fun:_ZNK15TClingClassInfo8FullNameERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKN4ROOT10TMetaUtils15TNormalizedCtxtE
+   fun:_ZNK6TCling22BaseClassInfo_FullNameEP15BaseClassInfo_t
+   fun:_ZN10TBaseClassC1EP15BaseClassInfo_tP6TClass
+   fun:_ZNK6TCling23CreateListOfBaseClassesEP6TClass
+   fun:_ZN6TClass14GetListOfBasesEv
+   fun:GetBaseClass
+   fun:_ZN6TClass12GetBaseClassEPKS_
+   fun:_ZNK6TClass12InheritsFromEPKS_
+   fun:_ZN14TDirectoryFile4SaveEv
+}
+{
+   ===Streamer-TStaging
+   Memcheck:Leak
+   fun:malloc
+   fun:TStaging
+   fun:_ZN19TGenCollectionProxy8AllocateEjb
+   fun:_ZN20TStreamerInfoActions26ReadSTLMemberWiseSameClassER7TBufferPvPKNS_14TConfigurationEs
+   fun:_ZN20TStreamerInfoActions7ReadSTLIXadL_ZNS_26ReadSTLMemberWiseSameClassER7TBufferPvPKNS_14TConfigurationEsEEXadL_ZNS_26ReadSTLObjectWiseFastArrayES2_S3_S6_sjEEEEiS2_S3_S6_
+   fun:operator()
+   fun:_ZN11TBufferFile13ApplySequenceERKN20TStreamerInfoActions15TActionSequenceEPv
+   fun:_ZN11TBufferFile15ReadClassBufferEPK6TClassPvS2_
+   fun:Streamer
+}
+{
+   ===TObjArray::AddAtAndExpand
+   Memcheck:Leak
+   fun:_Znam
+   fun:_ZN8TStorage7ReAllocEPvmm
+   fun:_ZN9TObjArray6ExpandEi
+   fun:_ZN9TObjArray14AddAtAndExpand*
+}
+{
+   ===ROOT::~TGenericClassInfo
+   Memcheck:Leak
+   fun:_Znam
+   fun:_ZN10THashTableC1Eii
+   fun:_ZN9THashListC1Eii
+   fun:_ZN18TListOfDataMembers6UnloadEv
+   fun:_ZN6TClass11SetUnloadedEv
+   fun:_ZN4ROOT11RemoveClassEPKcP6TClass
+   fun:Unregister
+   fun:_ZN4ROOT17TGenericClassInfoD1Ev
+}
+{
+   ===TBranchElement::GetEntry
+   Memcheck:Leak
+   fun:_Znam
+   ...
+   fun:_ZN12TClonesArray16ExpandCreateFastEi
+   fun:_ZN14TBranchElement16ReadLeavesClonesER7TBuffer
+   fun:_ZN7TBranch8GetEntryExi
+   fun:_ZN14TBranchElement8GetEntryExi
+}
+{
+   ===TObject::Error
+   Memcheck:Leak
+   fun:_Znam
+   fun:_ZL10DebugPrintPKcz
+   fun:_Z19DefaultErrorHandleribPKcS0_
+   fun:ErrorHandler
+   fun:_ZNK7TObject5ErrorEPKcS1_z
+}

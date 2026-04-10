@@ -1,0 +1,314 @@
+# case 1 : BmnFieldMap::ReadRootFileNewFormatExtrap->TDirectoryFile::Get
+{
+   ===BmnFieldMap::ReadRootFileNewFormatExtrap->TDirectoryFile::Get...malloc
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_ZN14TDirectoryFile3GetEPKc
+   fun:_ZN11BmnFieldMap27ReadRootFileNewFormatExtrapEPKc
+}
+{
+   ===BmnFieldMap::ReadRootFileNewFormatExtrap->TDirectoryFile::Get...calloc
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:_ZN14TDirectoryFile3GetEPKc
+   fun:_ZN11BmnFieldMap27ReadRootFileNewFormatExtrapEPKc
+}
+{
+   ===BmnFieldMap::ReadRootFileNewFormatExtrap->TDirectoryFile::Get...calloc
+   Memcheck:Leak
+   fun:realloc
+   ...
+   fun:_ZN14TDirectoryFile3GetEPKc
+   fun:_ZN11BmnFieldMap27ReadRootFileNewFormatExtrapEPKc
+}
+{
+   ===BmnFieldMap::ReadRootFileNewFormatExtrap->TDirectoryFile::Get...new
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN14TDirectoryFile3GetEPKc
+   fun:_ZN11BmnFieldMap27ReadRootFileNewFormatExtrapEPKc
+}
+# case 2 : BmnGlobalTracking::Init>TDirectoryFile::Get
+{
+   ===TDirectoryFile::Get...new
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN14TDirectoryFile3GetEPKc
+   fun:_ZN17BmnGlobalTracking4InitEv
+}
+{
+   ===TDirectoryFile::Get...malloc
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_ZN14TDirectoryFile3GetEPKc
+   fun:_ZN17BmnGlobalTracking4InitEv
+}
+{
+   ===TDirectoryFile::Get...calloc
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:_ZN14TDirectoryFile3GetEPKc
+   fun:_ZN17BmnGlobalTracking4InitEv
+}
+{
+   ===TDirectoryFile::Get...realloc
+   Memcheck:Leak
+   fun:realloc
+   ...
+   fun:_ZN14TDirectoryFile3GetEPKc
+   fun:_ZN17BmnGlobalTracking4InitEv
+}
+# case 3 : BmnStsVectorFinder::FitTrack(COND,...)
+{
+   ===COND:BmnStsVectorFinder::FitTrack
+   Memcheck:Cond
+   ...
+   fun:_ZN14TDirectoryFile12WriteTObject*
+   fun:_ZN16FairRootFileSink5Write*
+}
+{
+   ===VALUE:FairRootFileSink:Write
+   Memcheck:Value8
+   ...
+   fun:_ZN14TDirectoryFile12WriteTObject*
+   fun:_ZN16FairRootFileSink5Write*
+}
+{
+   ===PARAM:FairRootFileSink:Write
+   Memcheck:Param
+   write(buf)
+   ...
+   fun:_ZN14TDirectoryFile12WriteTObject*
+   fun:_ZN16FairRootFileSink5Write*
+}
+#########
+{
+   ===TDatabasePDG::AddParticle
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN12TDatabasePDG11AddParticle*
+   fun:_ZN6BmnPid4InitEv
+}
+#########
+{
+   ===BmnFunctionSet:TUnixSystem::AccessPathName...new
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN11TUnixSystem14AccessPathNameEPKc11EAccessMode
+   fun:_ZN14BmnFunctionSet14CheckFileExistER7TStringi11EAccessMode
+}
+{
+   ===BmnFunctionSet:TUnixSystem::AccessPathName...malloc
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_ZN11TUnixSystem14AccessPathNameEPKc11EAccessMode
+   fun:_ZN14BmnFunctionSet14CheckFileExistER7TStringi11EAccessMode
+}
+{
+   ===BmnFunctionSet:TUnixSystem::AccessPathName...calloc
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:_ZN11TUnixSystem14AccessPathNameEPKc11EAccessMode
+   fun:_ZN14BmnFunctionSet14CheckFileExistER7TStringi11EAccessMode
+}
+{
+   ===BmnFunctionSet:TUnixSystem::AccessPathName...realloc
+   Memcheck:Leak
+   fun:realloc
+   ...
+   fun:_ZN11TUnixSystem14AccessPathNameEPKc11EAccessMode
+   fun:_ZN14BmnFunctionSet14CheckFileExistER7TStringi11EAccessMode
+}
+#########
+{
+   ===BmnFunctionSet:TFile::Open...new
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN5TFile4OpenEPKcS1_S1_ii
+   fun:_ZN14BmnFunctionSet16isSimulationFile*
+}
+{
+   ===BmnFunctionSet:TFile::Open...malloc
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_ZN5TFile4OpenEPKcS1_S1_ii
+   fun:_ZN14BmnFunctionSet16isSimulationFile*
+}
+{
+   ===BmnFunctionSet:TFile::Open...calloc
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:_ZN5TFile4OpenEPKcS1_S1_ii
+   fun:_ZN14BmnFunctionSet16isSimulationFile*
+}
+{
+   ===BmnFunctionSet:TFile::Open...realloc
+   Memcheck:Leak
+   fun:realloc
+   ...
+   fun:_ZN5TFile4OpenEPKcS1_S1_ii
+   fun:_ZN14BmnFunctionSet16isSimulationFile*
+}
+#########
+{
+   ===BmnStsKFTrackFitter::ReadMatBudget->TFile::Open...new
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN5TFile4OpenEPKcS1_S1_ii
+   fun:_ZN19BmnStsKFTrackFitter13ReadMatBudgetER7TString
+}
+{
+   ===BmnStsKFTrackFitter::ReadMatBudget->TFile::Open...malloc
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_ZN5TFile4OpenEPKcS1_S1_ii
+   fun:_ZN19BmnStsKFTrackFitter13ReadMatBudgetER7TString
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN4TKey7ReadObjEv
+   fun:_ZN19BmnStsKFTrackFitter13ReadMatBudgetER7TString
+}
+#########
+{
+   ===BmnGlobalTracking::Init->TFile::Open...new
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN5TFile4OpenEPKcS1_S1_ii
+   fun:_ZN17BmnGlobalTracking4InitEv
+}
+{
+   ===BmnGlobalTracking::Init->TFile::Open...malloc
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_ZN5TFile4OpenEPKcS1_S1_ii
+   fun:_ZN17BmnGlobalTracking4InitEv
+}
+{
+   ===BmnGlobalTracking::Init->TFile::Open...calloc
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:_ZN5TFile4OpenEPKcS1_S1_ii
+   fun:_ZN17BmnGlobalTracking4InitEv
+}
+{
+   ===BmnGlobalTracking::Init->TFile::Open...realloc
+   Memcheck:Leak
+   fun:realloc
+   ...
+   fun:_ZN5TFile4OpenEPKcS1_S1_ii
+   fun:_ZN17BmnGlobalTracking4InitEv
+}
+
+#########
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:calloc
+   ...
+   fun:_ZN5TFile4OpenEPKcS1_S1_ii
+   fun:_ZN11BmnFieldMap27ReadRootFileNewFormatExtrapEPKc
+   fun:_ZN11BmnFieldMap4InitEv
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   ...
+   fun:_ZN5TFile4OpenEPKcS1_S1_ii
+   fun:_ZN11BmnFieldMap27ReadRootFileNewFormatExtrapEPKc
+   fun:_ZN11BmnFieldMap4InitEv
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:realloc
+   ...
+   fun:_ZN5TFile4OpenEPKcS1_S1_ii
+   fun:_ZN11BmnFieldMap27ReadRootFileNewFormatExtrapEPKc
+   fun:_ZN11BmnFieldMap4InitEv
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN5TFile4OpenEPKcS1_S1_ii
+   fun:_ZN11BmnFieldMap27ReadRootFileNewFormatExtrapEPKc
+   fun:_ZN11BmnFieldMap4InitEv
+}
+#########
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN11TUnixSystem14ExpandPathNameEPKc
+   fun:_ZN20BmnToCbmHitConverter12Correct*
+   fun:_ZN20BmnToCbmHitConverter4ExecEPKc
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:_Znwm
+   ...
+   fun:_ZN13TGeoNodeCache12BuildIdArrayEv
+   fun:_ZN14BmnGeoTemplateI11BmnFHCalGeoE26ReadGeometryFromGeoManagerEb
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN19BmnStsKFTrackFitterD1Ev
+   fun:_ZN18BmnStsVectorFinderD1Ev
+   fun:_ZN18BmnStsVectorFinderD0Ev
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:_Zn?m
+   ...
+   fun:_ZN21BmnFHCalReconstructor21GetSelectedDigiVectorE7TString
+   fun:_ZN21BmnFHCalReconstructor4ExecEPKc
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:_Zn?m*
+   ...
+   fun:_ZN4TKey7ReadObjEv
+   fun:_ZN14TDirectoryFile3GetEPKc
+   fun:_ZN14BmnFunctionSet16isSimulationFileE7TString
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:_Zn?m*
+   ...
+   fun:_ZN3TH13FitEPKcS1_S1_dd
+   fun:_ZN24BmnKFPrimaryVertexFinder10EvalVertexEv
+   fun:_ZN24BmnKFPrimaryVertexFinder4ExecEPKc
+}

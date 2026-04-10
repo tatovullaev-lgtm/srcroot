@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DCH detectors</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--#include virtual="../include.html" -->
+        <script type='module'>
+            import { draw, redraw, httpRequest, resize, cleanup} from 'jsroot';
+            import * as bm from 'bmtools';
+            var loco = window.location;
+            var path0 = loco.protocol + "//" + loco.hostname + "/root.app/";
+            var path = path0 + "DCH/";
+            var runPath = "../root.app/CurRun/root.json";
+            var refPath = "../root.app/refTable/root.json";
+            function ResetDchHist() {
+                var filename = path + "Reset/cmd.json";
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", filename, true);
+                xhr.withCredentials = true;
+                xhr.send();
+            }
+            function reloadIFrame() {
+                var tc = document.getElementById("trig_counter");
+                var temp = tc.src;
+                tc.src = "";
+                tc.src = temp;
+            }
+            var names = [
+                "VA_1", "VB_1", "UA_1", "UB_1", "YA_1", "YB_1", "XA_1", "XB_1",
+                "VA_2", "VB_2", "UA_2", "UB_2", "YA_2", "YB_2", "XA_2", "XB_2"
+            ];
+            function createTable() {
+                sessionStorage.clear();
+                bm.setRunInfo(runPath);
+                drawInfo();
+            }
+            async function updateRunId() {
+                let obj = await httpRequest(runPath, 'object');
+                    var info = obj;//JSON.parse(obj);
+                    if (info.arr.length > 0) {
+                        var runInfo = info.arr[0];
+                        var runID = runInfo.i_run_number;
+                        var storedRunId = sessionStorage.getItem('runID');
+                        if ((storedRunId === null) || (storedRunId == runID))
+                            return;
+                        sessionStorage.setItem('runID', runID);
+                        cleanCanvases();
+                    }
+            }
+            function drawInfo() {
+                setTimeout(drawInfo, 5000);
+                updateRunId();
+                redrawCanvases();
+                bm.FillRefTable(refPath, "refTable");
+            }
+
+            function cleanCanvases() {
+//                JSROOT.cleanup("infoC");
+                cleanup("wireTableC");
+                cleanup("timeTableC");
+                var sel = document.getElementById("refTable");
+                sel.innerHTML = "";
+            }
+
+            function redrawCanvases() {
+                bm.Redraw2Div(path0 + "infoCanvas" + "/root.json.gz?compact=3", "infoC");
+                bm.Redraw2Div(path + "DCHCanvasWires" + "/root.json.gz?compact=3", "wireTableC");
+                bm.Redraw2Div(path + "DCHCanvasTimes" + "/root.json.gz?compact=3", "timeTableC");
+            }
+            function SetRefRun() {
+                var runName = document.getElementById("refInput").value;
+                var cmd = path + "SetRefRun/cmd.json";
+                cmd = cmd + "?" + "arg1=" + runName;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", cmd, true);
+                xhr.withCredentials = true;
+                xhr.send();
+                cleanup("wireTableC");
+                cleanup("timeTableC");
+            }
+            window.createTable = createTable;
+            window.SetRefRun = SetRefRun;
+            window.redrawCanvases = redrawCanvases;
+            window.makeSelection = bm.makeSelection;
+        </script>
+    </head>
+    <body onload="createTable()">
+        <!--#include virtual="../menu.html" -->
+        <div id="total_counter" align="center">
+            <h1>BM@N DCHs</h1>    
+            <!--<iframe id="infoCan" ></iframe>-->             
+        </div>
+        <div align="center">
+            <div id="infoC" style="width: 90vw;height: 15vw;"> </div>
+        </div>
+<!--        <button onclick="ResetDchHist()">
+            <h1 style="color:red;">Reset</h1>
+        </button>-->
+        <table>
+            <tr>
+            <tb>
+                <input type="text" name="refInput" id="refInput" list="refSelector">
+                <datalist id="refSelector" autocomplete="on"></datalist>
+            </tb>
+            <tb>
+                <button onclick="SetRefRun()"> 
+                    Select Reference Run
+                </button>
+            </tb>
+            <tb>
+                <select class="styleRefTable" id="refTable" onchange="makeSelection()">
+            </tb>
+
+        </tr>
+    </table>
+
+    <div class="tabs">
+        <!--        <input type="radio" name="inset" value="" id="tab_1" checked>
+                <label for="tab_1">2D Profile</label>-->
+
+        <input type="radio" name="inset" value="" id="tab_2" onclick="redrawCanvases()" checked>
+        <label for="tab_2">Wires</label>
+
+        <input type="radio" name="inset" value="" id="tab_3" onclick="redrawCanvases()">
+        <label for="tab_3">Times</label>
+
+        <div id="txt_1">
+            <table>
+                <tr>
+                <tb>
+                    <iframe id="h_DCH1" style = "width: 48vw;height: 48vw;"> </iframe>
+                </tb>
+                </tr>
+                <tr>
+                <tb>
+                    <iframe id="h_DCH2" style = "width: 48vw;height: 48vw;"> </iframe>
+                </tb>
+                </tr>
+            </table>
+        </div>
+        <div id="txt_2">
+            <div align="center">
+                <div id="wireTableC" style="width: 98vw;height: 80vw;"> </div>
+            </div>
+        </div>
+        <div id="txt_3">
+            <div align="center">
+                <div id="timeTableC" style="width: 98vw;height: 80vw;"> </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="DCH_div" >
+    </div>
+</body>
+</html>

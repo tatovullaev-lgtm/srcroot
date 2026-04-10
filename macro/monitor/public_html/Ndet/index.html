@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ndet</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--#include virtual="../include_digi.html" -->
+        <script type='module'>
+            import { draw, redraw, httpRequest, resize, cleanup} from 'jsroot';
+            import * as bm from 'bmtools';
+            var loco = window.location;
+            var path0 = loco.protocol + "//" + loco.hostname + "/root.app/";
+            var path = path0 + "Ndet/";
+            var runPath = "../root.app/CurRun/root.json.gz?compact=3";
+            var refPath = "../root.app/refTable/root.json.gz?compact=3";
+//            window.addEventListener("load", () => {
+//                createTable();
+//                  });
+            function createTable() {
+                sessionStorage.clear();
+                bm.setRunInfo(runPath);
+                drawInfo();
+            }
+            async function updateRunId() {
+                let obj = await httpRequest(runPath, 'object');
+                    var info = obj;//JSON.parse(obj);
+                    if (info.arr.length > 0) {
+                        var runInfo = info.arr[0];
+                        var runID = runInfo.i_run_number;
+                        var storedRunId = sessionStorage.getItem('runID');
+                        if ((storedRunId === null) || (storedRunId == runID))
+                            return;
+                        sessionStorage.setItem('runID', runID);
+                        cleanCanvases();
+                    }
+            }
+            function ResetHist() {
+                var filename = path + "Reset/cmd.json";
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", filename, true);
+                xhr.withCredentials = true;
+                xhr.send();
+            }
+            function drawInfo() {
+                setTimeout(drawInfo, 5000);
+                updateRunId();
+                redrawCanvases();
+                bm.FillRefTable(path0 + "refTable" + "/root.json", "refTable");
+            }
+            function redrawCanvases(){
+                bm.Redraw2Div(path0 + "infoCanvas" + "/root.json.gz?compact=3", "infoC");
+                bm.Redraw2Div(path + "NdetCanvasAmplitudes" + "/root.json.gz?compact=3", "AmplitudesC");
+                bm.Redraw2Div(path + "NdetCanvasProfiles" + "/root.json.gz?compact=3", "ProfilesC");
+                bm.Redraw2Div(path + "NdetCanvasCells" + "/root.json.gz?compact=3", "CellsC");
+                bm.Redraw2Div(path + "NdetCanvasAmpl" + "/root.json.gz?compact=3", "Ampl");
+                bm.Redraw2Div(path + "NdetCanvasTime" + "/root.json.gz?compact=3", "Time");
+                bm.Redraw2Div(path + "NdetCanvasCellAmpEM" + "/root.json.gz?compact=3", "CellAmpEM");
+                bm.Redraw2Div(path + "NdetCanvasCellAmpH" + "/root.json.gz?compact=3", "CellAmpH");
+                bm.Redraw2Div(path + "NdetCanvasCellTimeEM" + "/root.json.gz?compact=3", "CellTimeEM");
+                bm.Redraw2Div(path + "NdetCanvasCellTimeH" + "/root.json.gz?compact=3", "CellTimeH");
+                bm.Redraw2Div(path + "NdetCanvasHits" + "/root.json.gz?compact=3", "Hits");
+                bm.Redraw2Div(path + "NdetCanvasMeanAmp" + "/root.json.gz?compact=3", "MeanAmp");
+            }
+            function cleanCanvases() {
+                cleanup("infoC");
+                cleanup("srcTableC");
+                var sel = document.getElementById("refTable");
+                sel.innerHTML = "";
+            }
+            function SetRefRun() {
+                var runName = document.getElementById("refInput").value;
+                var cmd = path + "SetRefRun/cmd.json";
+                cmd = cmd + "?" + "arg1=" + runName;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", cmd, true);
+                xhr.withCredentials = true;
+                xhr.send();
+                cleanup("AmplitudesC");
+                cleanup("ProfilesC");
+                cleanup("CellsC");
+                cleanup("Ampl");
+                cleanup("Time");
+                cleanup("CellAmpEM");
+                cleanup("CellAmpH");
+                cleanup("CellTimeEM");
+                cleanup("CellTimeH");
+                cleanup("Hits");
+                cleanup("MeanAmp");
+            }
+            window.createTable = createTable;
+            window.SetRefRun = SetRefRun;
+            window.redrawCanvases = redrawCanvases;
+            window.makeSelection = bm.makeSelection;
+        </script>
+    </head>
+    <body onload="createTable()">
+        <!--#include virtual="../menu.html" -->
+        <div id="total_counter" align="center">
+            <h1>BM@N Ndet</h1> 
+            <!--<iframe id="infoCan" ></iframe>-->             
+        </div>
+        <div align="center">
+            <div id="infoC" style="width: 90vw;height: 18vw;"> </div>
+        </div>
+<!--        <button onclick="ResetHist()"> 
+            <h1 style="color:red;">Reset</h1>
+        </button>-->
+
+        <table>
+            <tr>
+            <tb>
+                <input type="text" name="refInput" id="refInput" list="refSelector">
+                <datalist id="refSelector" autocomplete="on"></datalist>
+            </tb>
+            <tb>
+                <button onclick="SetRefRun()"> 
+                    Select Reference Run
+                </button>
+            </tb>
+                <tb>
+                    <select class="styleRefTable" id="refTable" onchange="makeSelection()">
+                </tb>
+
+        </tr>
+    </table>
+
+
+    <div class="tabs">
+        <input type="radio" name="inset" value="" id="tab_1" onclick="redrawCanvases()" checked>
+        <label for="tab_1">Amplitudes</label>
+
+        <input type="radio" name="inset" value="" id="tab_2" onclick="redrawCanvases()">
+        <label for="tab_2">Profiles</label>
+
+        <input type="radio" name="inset" value="" id="tab_3" onclick="redrawCanvases()">
+        <label for="tab_3">Energy in cells</label>
+	
+        <input type="radio" name="inset" value="" id="tab_4" onclick="redrawCanvases()">
+        <label for="tab_4">Ampl</label>
+	
+        <input type="radio" name="inset" value="" id="tab_5" onclick="redrawCanvases()">
+        <label for="tab_5">Time</label>
+	
+        <input type="radio" name="inset" value="" id="tab_6" onclick="redrawCanvases()">
+        <label for="tab_6">AmplCells</label>
+	
+        <input type="radio" name="inset" value="" id="tab_7" onclick="redrawCanvases()">
+        <label for="tab_7">TimeCells</label>
+        
+        <input type="radio" name="inset" value="" id="tab_8" onclick="redrawCanvases()">
+        <label for="tab_8">Test</label>
+
+        <div id="txt_1">
+            <div align="center">
+                <div id="AmplitudesC" style="width: 90vw;height: 100vw;"> </div>
+            </div>
+        </div>
+        <div id="txt_2">
+            <div align="center">
+                <div id="ProfilesC" style="width: 90vw;height: 100vw;"> </div>
+            </div>
+        </div>
+        <div id="txt_3">
+            <div align="center">
+                <div id="CellsC" style="width: 90vw;height: 100vw;"> </div>
+            </div>
+	</div>
+        <div id="txt_4">
+            <div align="center">
+                <div id="Ampl" style="width: 90vw;height: 50vw;"> </div>
+            </div>
+	</div>
+        <div id="txt_5">
+            <div align="center">
+                <div id="Time" style="width: 90vw;height: 50vw;"> </div>
+            </div>
+	</div>
+        <div id="txt_6">
+            <div align="center">
+                <div id="CellAmpEM" style="width: 90vw;height: 100vw;margin-bottom: 30px"> </div>
+            </div>
+            <div align="center">
+                <div id="CellAmpH" style="width: 90vw;height: 100vw;"> </div>
+            </div>
+	</div>
+        <div id="txt_7">
+            <div align="center">
+                <div id="CellTimeEM" style="width: 90vw;height: 100vw;margin-bottom: 30px"> </div>
+            </div>
+            <div align="center">
+                <div id="CellTimeH" style="width: 90vw;height: 100vw;"> </div>
+            </div>
+	</div>
+        <div id="txt_8">
+            <div align="center">
+                <div id="Hits" style="width: 90vw;height: 100vw;margin-bottom: 30px"> </div>
+            </div>
+            <div align="center">
+                <div id="MeanAmp" style="width: 90vw;height: 100vw;"> </div>
+            </div>
+	</div>
+
+    </div>
+
+
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FHCal</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--#include virtual="../include_digi.html" -->
+        <script type='module'>
+            import { draw, redraw, httpRequest, resize, cleanup} from 'jsroot';
+            import * as bm from 'bmtools';
+            var loco = window.location;
+            var path0 = loco.protocol + "//" + loco.hostname + "/root.app/";
+            var path = path0 + "FHCal/";
+            var runPath = "../root.app/CurRun/root.json.gz?compact=3";
+            var refPath = "../root.app/refTable/root.json.gz?compact=3";
+//            window.addEventListener("load", () => {
+//                createTable();
+//                  });
+            function createTable() {
+                sessionStorage.clear();
+                bm.setRunInfo(runPath);
+                drawInfo();
+            }
+            async function updateRunId() {
+                let obj = await httpRequest(runPath, 'object');
+                    var info = obj;//JSON.parse(obj);
+                    if (info.arr.length > 0) {
+                        var runInfo = info.arr[0];
+                        var runID = runInfo.i_run_number;
+                        var storedRunId = sessionStorage.getItem('runID');
+                        if ((storedRunId === null) || (storedRunId == runID))
+                            return;
+                        sessionStorage.setItem('runID', runID);
+                        cleanCanvases();
+                    }
+            }
+            function ResetHist() {
+                var filename = path + "Reset/cmd.json";
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", filename, true);
+                xhr.withCredentials = true;
+                xhr.send();
+            }
+            function ChangeSelection() {
+                var iModule = document.getElementById("ModuleText").value;
+                var iSection = document.getElementById("SectionText").value;
+                var filename = path + "ChangeSelection/cmd.json";
+                filename = filename + "?" + "arg1=" + iModule;
+                filename = filename + "&" + "arg2=" + iSection;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", filename, true);
+                xhr.withCredentials = true;
+                xhr.send();
+            }
+            function drawInfo() {
+                setTimeout(drawInfo, 5000);
+                updateRunId();
+                redrawCanvases();
+                bm.FillRefTable(path0 + "refTable" + "/root.json", "refTable");
+            }
+            function redrawCanvases(){
+                bm.Redraw2Div(path0 + "infoCanvas" + "/root.json", "infoC");
+                bm.Redraw2Div(path + "FHCalCanvasAmplitudes" + "/root.json", "AmplitudesC");
+                bm.Redraw2Div(path + "FHCalCanvasProfilesSmall" + "/root.json", "ProfilesSC");
+                bm.Redraw2Div(path + "FHCalCanvasProfilesBig" + "/root.json", "ProfilesBC");
+                bm.Redraw2Div(path + "FHCalCanvasSelection" + "/root.json", "SelectionC");
+                bm.Redraw2Div(path + "FHCalCanvasZLSmall" + "/root.json", "ZLBC");
+                bm.Redraw2Div(path + "FHCalCanvasZLBig" + "/root.json", "ZLSC");
+            }
+            function cleanCanvases() {
+                cleanup("infoC");
+                cleanup("srcTableC");
+                var sel = document.getElementById("refTable");
+                sel.innerHTML = "";
+            }
+            function SetRefRun() {
+                var runName = document.getElementById("refInput").value;
+                var cmd = path + "SetRefRun/cmd.json";
+                cmd = cmd + "?" + "arg1=" + runName;
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", cmd, true);
+                xhr.withCredentials = true;
+                xhr.send();
+                cleanup("AmplitudesC");
+                cleanup("ProfilesSC");
+                cleanup("ProfilesBC");
+            }
+            window.createTable = createTable;
+            window.SetRefRun = SetRefRun;
+            window.redrawCanvases = redrawCanvases;
+            window.makeSelection = bm.makeSelection;
+        </script>
+    </head>
+    <body onload="createTable()">
+        <!--#include virtual="../menu.html" -->
+        <div id="total_counter" align="center">
+            <h1>BM@N FHCal</h1> 
+            <!--<iframe id="infoCan" ></iframe>-->             
+        </div>
+        <div align="center">
+            <div id="infoC" style="width: 90vw;height: 18vw;"> </div>
+        </div>
+<!--        <button onclick="ResetHist()"> 
+            <h1 style="color:red;">Reset</h1>
+        </button>-->
+
+ <br/>
+        <table>
+            <tr>
+                <th>
+                    Module Index
+                </th>
+                <th>
+                    <input type="text" id="ModuleText" maxlength="8"/>
+                </th>
+                <th  rowspan="3">
+                    <button onclick="ChangeSelection()" style="width: 20vw;height: 6vw;"> 
+                        <h3>Change Selection (-1 => All)</h3>
+                    </button>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    Section Index
+                </th>
+                <th>
+                    <input type="text" id="SectionText" maxlength="8"/>
+                </th>
+                <th>
+
+                </th>
+            </tr>
+
+        <table>
+            <tr>
+            <tb>
+                <input type="text" name="refInput" id="refInput" list="refSelector">
+                <datalist id="refSelector" autocomplete="on"></datalist>
+            </tb>
+            <tb>
+                <button onclick="SetRefRun()"> 
+                    Select Reference Run
+                </button>
+            </tb>
+                <tb>
+                    <select class="styleRefTable" id="refTable" onchange="makeSelection()">
+                </tb>
+
+        </tr>
+    </table>
+
+
+    <div class="tabs">
+        <input type="radio" name="inset" value="" id="tab_1" onclick="redrawCanvases()" checked>
+        <label for="tab_1">Amplitudes</label>
+
+        <input type="radio" name="inset" value="" id="tab_2" onclick="redrawCanvases()">
+        <label for="tab_2">Profiles Small Modules</label>
+
+        <input type="radio" name="inset" value="" id="tab_3" onclick="redrawCanvases()">
+        <label for="tab_3">Profiles Big Modules</label>
+
+        <input type="radio" name="inset" value="" id="tab_4" onclick="redrawCanvases()">
+        <label for="tab_4">Ampl & Wfm in Selected</label>
+
+        <input type="radio" name="inset" value="" id="tab_5" onclick="redrawCanvases()">
+        <label for="tab_5">ZeroLevel Small Modules</label>
+
+        <input type="radio" name="inset" value="" id="tab_6" onclick="redrawCanvases()">
+        <label for="tab_6">ZeroLevel Big Modules</label>
+
+        <div id="txt_1">
+            <div align="center">
+                <iframe id="AmplitudesC" style = "width: 90vw;height: 100vw;"src="../root.app/FHCal/FHCalCanvasAmplitudes/draw.htm?monitoring=3000"> </iframe>
+            </div>
+        </div>
+        <div id="txt_2">
+            <div align="center">
+                <iframe id="ProfilesSC" style = "width: 90vw;height: 100vw;"src="../root.app/FHCal/FHCalCanvasProfilesSmall/draw.htm?monitoring=3000"> </iframe>
+            </div>
+        </div>
+        <div id="txt_3">
+            <div align="center">
+                <iframe id="ProfilesBC" style = "width: 90vw;height: 100vw;"src="../root.app/FHCal/FHCalCanvasProfilesBig/draw.htm?monitoring=3000"> </iframe>
+            </div>
+        </div>
+        <div id="txt_4">
+            <div align="center">
+                <iframe id="SelectionC" style = "width: 90vw;height: 100vw;"src="../root.app/FHCal/FHCalCanvasSelection/draw.htm?monitoring=3000"> </iframe>
+            </div>
+        </div>
+        <div id="txt_5">
+            <div align="center">
+                <iframe id="ZLSC" style = "width: 90vw;height: 100vw;"src="../root.app/FHCal/FHCalCanvasZLSmall/draw.htm?monitoring=3000"> </iframe>
+            </div>
+        </div>
+        <div id="txt_6">
+            <div align="center">
+                <iframe id="ZLBC" style = "width: 90vw;height: 100vw;"src="../root.app/FHCal/FHCalCanvasZLBig/draw.htm?monitoring=3000"> </iframe>
+            </div>
+	</div>
+
+    </div>
+
+
+</body>
+</html>
