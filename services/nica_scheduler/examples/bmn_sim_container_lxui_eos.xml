@@ -1,0 +1,12 @@
+<job name="bmn_sim_container" batch="slurm">
+ <macro name="sim_container" path="$VMCWORKDIR/macro/run/run_sim_bmn.C" start_event="0" event_count="0" add_args="DCMSMM">
+  <file input="/eos/nica/bmn/sim/gen/DCMSMM/DCMSMM_XeCsI_3.9AGeV_mb_10k/DCMSMM_XeCsI_3.9AGeV_mb_10k_116*" output="/eos/nica/bmn/sim/dst/DCMSMM/DCMSMM_XeCsI_3.9AGeV_mb_10k/dev/bmnsim_${file_name}.root"/>
+ </macro>
+ <run
+    mode="container"
+    container_os="alma9"
+    config="/cvmfs/bmn.jinr.ru/bmnroot/dev/x86_64-alma9/bmnroot_config.sh"
+    count="30"
+    core_dump="false"
+  />
+</job>

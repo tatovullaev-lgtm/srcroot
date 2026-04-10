@@ -1,0 +1,9 @@
+<job name="bmn_raw" batch="slurm">
+ <macro path="$VMCWORKDIR/macro/raw/BmnDataToRoot.C">
+  <file input="/eos/lpp/nica/bmn/exp/raw/run8/beam/BMN_2022/mpd_run_Top_8[3-4]*" output="/eos/lpp/nica/bmn/exp/digi/tmp/${file_name}_digi.root">
+   <put command="cp -f" directory="/ceph/bmn/ssd/tmp/"/>
+   <get command="cp -f" directory="/ceph/bmn/ssd/tmp/"/>
+  </file>
+ </macro>
+ <run mode="global" count="100" config="~/bmnroot/build/config.sh"/>
+</job>

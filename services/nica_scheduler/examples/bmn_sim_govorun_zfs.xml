@@ -1,0 +1,6 @@
+<job batch="slurm" name="bmn_sim_dir" >
+ <macro path="$VMCWORKDIR/macro/run/run_sim_bmn.C" start_event="0" event_count="2" add_args="DCMQGSM">
+  <file input="/zfs/store7.hydra.local/${user}/sim/gen/DCMQGSM/*" output="/zfs/store7.hydra.local/${user}/sim/dst/DCMQGSM/bmnsim_${file_name}.root"/>
+ </macro>
+ <run mode="global" count="30" config="/zfs/store7.hydra.local/${user}/bmnroot/build/config.sh" queue="bmn" qos="bmn"/>
+</job>

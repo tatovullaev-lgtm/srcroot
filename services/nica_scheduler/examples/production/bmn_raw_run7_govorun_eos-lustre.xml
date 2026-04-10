@@ -1,0 +1,25 @@
+<job name="convert_bmn_raw" batch="slurm">
+ <macro path="$VMCWORKDIR/macro/raw/BmnDataToRoot.C">
+  <file input="/eos/eos.jinr.ru/nica/bmn/exp/raw/run7/2001-2212_Test/*" output="/zfs/store7.hydra.local/gertsen/bmn/exp/digi/run7/2001-2212_Test/bmn_run${last_number}_digi.root">
+   <put command="xrdcp -f -p -N" directory="/lustre/stor1/kgertsen/}"/>
+   <get command="xrdcp -f -p -N" directory="/lustre/stor1/kgertsen/"/>
+   <clean path="/lustre/stor1/kgertsen/bmn_run${last_number}_raw.root"/>
+  </file>
+  <file input="/eos/eos.jinr.ru/nica/bmn/exp/raw/run7/3590-4707_BMN_Argon/*" output="/zfs/store7.hydra.local/gertsen/bmn/exp/digi/run7/3590-4707_BMN_Argon/bmn_run${last_number}_digi.root">
+   <put command="xrdcp -f -p -N" directory="/lustre/stor1/kgertsen/"/>
+   <get command="xrdcp -f -p -N" directory="/lustre/stor1/kgertsen/"/>
+   <clean path="/lustre/stor1/kgertsen/bmn_run${last_number}_raw.root"/>
+  </file>
+  <file input="/eos/eos.jinr.ru/nica/bmn/exp/raw/run7/4720-5186_BMN_Krypton/*" output="/zfs/store7.hydra.local/gertsen/bmn/exp/digi/run7/4720-5186_BMN_Krypton/bmn_run${last_number}_digi.root">
+   <put command="xrdcp -f -p -N" directory="/lustre/stor1/kgertsen/"/>
+   <get command="xrdcp -f -p -N" directory="/lustre/stor1/kgertsen/"/>
+   <clean path="/lustre/stor1/kgertsen/bmn_run${last_number}_raw.root"/>
+  </file>
+  <file input="/eos/eos.jinr.ru/nica/bmn/exp/raw/run7/2213-3588_SRC_Carbon/*" output="/zfs/store7.hydra.local/gertsen/bmn/exp/digi/run7/2213-3588_SRC_Carbon/bmn_run${last_number}_digi.root">
+   <put command="xrdcp -f -p -N" directory="/lustre/stor1/kgertsen/"/>
+   <get command="xrdcp -f -p -N" directory="/lustre/stor1/kgertsen/"/>
+   <clean path="/lustre/stor1/kgertsen/bmn_run${last_number}_raw.root"/>
+  </file>
+ </macro>
+ <run mode="global" count="100" config="/cvmfs/bmn.jinr.ru/config/x86_64-centos7/cluster_config.sh,~/bmnroot/build/config.sh" queue="bmn" qos="bmn"/>
+</job>

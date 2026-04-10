@@ -1,0 +1,91 @@
+#include "BmnVSPHitProducer.h"
+#include "BmnVSPHit.h"
+#include "CbmStsPoint.h"
+#include "CbmMCTrack.h"
+
+#include "FairRootManager.h"
+
+#include "TRandom.h"
+#include "TCanvas.h"
+#include "TH1F.h"
+#include "TSystem.h"
+
+using std::cout;
+using namespace TMath;
+
+BmnVSPHitProducer::BmnVSPHitProducer() {
+    fInputBranchName = "VSPPoint";
+    fOutputHitsBranchName = "BmnHit";
+    fOutputVSPHitMatchesBranchName = "BmnVSPHitMatch";
+}
+
+BmnVSPHitProducer::~BmnVSPHitProducer() {
+
+
+}
+
+InitStatus BmnVSPHitProducer::Init() {
+
+    cout << " BmnVSPHitProducer::Init() " << endl;
+
+    //Get ROOT Manager
+    FairRootManager* ioman = FairRootManager::Instance();
+
+    fBmnPointsArray = (TClonesArray*) ioman->GetObject(fInputBranchName);
+    fMCTracksArray = (TClonesArray*) ioman->GetObject("MCTrack");
+
+    fBmnHitsArray = new TClonesArray(fOutputHitsBranchName, 100);
+    ioman->Register("BmnVSPHit", "VSP", fBmnHitsArray, kTRUE);
+
+    fBmnVSPHitMatchesArray = new TClonesArray("BmnMatch");
+    ioman->Register(fOutputVSPHitMatchesBranchName, "VSP", fBmnVSPHitMatchesArray, kTRUE);
+
+    TString gPathConfig = gSystem->Getenv("VMCWORKDIR");
+    gPathConfig += "/parameters/vsp/XMLConfigs/";
+    VSPStationSet = new BmnVSPStationSet(gPathConfig + "VSP_Run9.xml");
+
+    return kSUCCESS;
+}
+
+void BmnVSPHitProducer::Exec(Option_t* opt) {
+
+    fBmnHitsArray->Delete();
+    fBmnVSPHitMatchesArray->Delete();
+
+    if (!fBmnPointsArray) {
+        Error("BmnVSPHitProducer::Init()", " !!! Unknown branch name !!! ");
+        return;
+    }
+
+    Float_t err[3] = {0.03, 0.03, 0.03}; // Uncertainties of coordinates
+    //    Float_t err[3] = {0.0, 0.0, 0.0}; // Uncertainties of coordinates
+
+    for (Int_t iPoint = 0; iPoint < fBmnPointsArray->GetEntriesFast(); iPoint++) {
+
+        TRandom* rand_gen = new TRandom();
+
+        CbmStsPoint* VSPPoint = (CbmStsPoint*) fBmnPointsArray->UncheckedAt(iPoint);
+
+        const Float_t dX = rand_gen->Gaus(0, err[0]);
+        const Float_t dY = rand_gen->Gaus(0, err[1]);
+        const Float_t dZ = rand_gen->Gaus(0, err[2]);
+
+        const Float_t x_smeared = VSPPoint->GetXIn() + dX;
+        const Float_t y_smeared = VSPPoint->GetYIn() + dY;
+        const Float_t z_smeared = VSPPoint->GetZIn() + dZ;
+
+        BmnHit* hit = new((*fBmnHitsArray)[fBmnHitsArray->GetEntriesFast()])BmnHit(0, TVector3(x_smeared, y_smeared, z_smeared), TVector3(err[0], err[1], err[2]), iPoint);
+        //        BmnHit* hit = new ((*fBmnHitsArray)[fBmnHitsArray->GetEntriesFast()]) BmnHit(kVSP, TVector3(x_smeared, y_smeared, z_smeared), TVector3(1.0, 1.0, 0.0), iPoint);
+        hit->SetIndex(fBmnHitsArray->GetEntriesFast() - 1);
+        hit->SetType(1);
+        hit->SetStation(VSPStationSet->GetPointStationOwnership(VSPPoint->GetZIn()));
+
+        BmnMatch* match = new ((*fBmnVSPHitMatchesArray)[fBmnVSPHitMatchesArray->GetEntriesFast()]) BmnMatch();
+        match->AddLink(100.0, iPoint);
+
+        delete rand_gen;
+    }
+}
+
+void BmnVSPHitProducer::Finish() {
+}

@@ -1,0 +1,13 @@
+[VERSION]
+id = 1.0
+
+[COMMENT]
+str = void
+
+[EXPERIMENT]
+# use (1) && ScWallDigi-> and then anything you want from BmnScWallDigi class
+cut = (1) && ScWallDigi->fTimeMax>5 && ScWallDigi->fTimeMax<12 && ScWallDigi->fSignal>0.0
+
+[SIMULATION]
+# use (1) && ScWallDigit-> and then anything you want from BmnScWallDigit class
+cut = (1)

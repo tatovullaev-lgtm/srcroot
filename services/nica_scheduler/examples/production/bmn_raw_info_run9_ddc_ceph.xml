@@ -1,0 +1,6 @@
+<job name="raw9info">
+ <macro path="$VMCWORKDIR/macro/raw/BmnDataToRoot.C" add_args="0,9,2">
+  <file input="/ceph/bmn/run/run9/beam/*.data" output=""/>
+ </macro>
+ <run mode="global" count="30" config="/cvmfs/bmn.jinr.ru/config/x86_64-alma9/cluster_config.sh,/ceph/bmn/work/$USER/bmnroot/build/config.sh"/>
+</job>

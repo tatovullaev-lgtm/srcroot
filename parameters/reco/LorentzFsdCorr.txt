@@ -1,0 +1,78 @@
+* --------------------------------------------------
+Run 7830
+Station 1 upper 3 1 X-correction
++0.001, +0.001, -0.006
+Station 1 lower 3 1 X-correction
++0.005, +0.004, +0.001
+Station 2 upper 5 1 X-correction
++0.001, +0.001, +0.000, -0.003, -0.001
+Station 2 lower 5 1 X-correction
+-0.001, +0.001, +0.001, +0.002, -0.002
+Station 3 upper 7 1 X-correction
+-0.004, +0.001, +0.000, +0.001, -0.003, +0.002, -0.008
+Station 3 lower 7 1 X-correction
++0.001, -0.001, +0.001, +0.000, -0.001, +0.001, +0.018
+Station 4 upper 9 1 X-correction
++0.005, +0.007, -0.004, -0.002, +0.003, +0.002, +0.007, +0.000, -0.013
+Station 4 lower 9 1 X-correction
+-0.001, +0.000, +0.006, -0.002, +0.000, -0.001, +0.002, +0.007, +0.017
+* --------------------------------------------------
+Station 1 upper 3 1 Y-correction
+-0.049, -0.054, -0.002
+Station 1 lower 3 1 Y-correction
+-0.025, +0.004, +0.005
+Station 2 upper 5 1 Y-correction
+-0.026, -0.016, -0.005, +0.024, +0.024
+Station 2 lower 5 1 Y-correction
+-0.023, +0.004, +0.004, +0.011, +0.051
+Station 3 upper 7 1 Y-correction
++0.000, -0.002, +0.005, +0.017, +0.032, +0.043, +0.066
+Station 3 lower 7 1 Y-correction
+-0.007, -0.004, -0.001, +0.009, +0.022, +0.038, +0.040
+Station 4 upper 9 1 Y-correction
++0.011, -0.009, +0.034, +0.028, +0.029, +0.053, +0.062, +0.072, +0.101
+Station 4 lower 9 1 Y-correction
+-0.002, +0.004, +0.014, +0.025, +0.002, +0.023, +0.023, +0.040, +0.055
+* --------------------------------------------------
+Run 9020 (run 9, added 16.02.2026)
+Station 1 upper 3 1 X-correction
+-0.033, -0.034, -0.050
+Station 1 lower 3 1 X-correction
++0.011, -0.026, +0.001
+Station 2 upper 3 1 X-correction
+-0.012, +0.006, -0.001
+Station 2 lower 3 1 X-correction
+-0.012, +0.015, -0.000
+Station 3 upper 5 1 X-correction
+-0.005, -0.002, -0.004, -0.003, -0.005
+Station 3 lower 5 1 X-correction
++0.007, +0.004, +0.000, +0.012, +0.014
+Station 4 upper 7 1 X-correction
++0.001, +0.004, +0.002, +0.001, +0.005, +0.001, +0.021
+Station 4 lower 7 1 X-correction
+-0.019, -0.014, -0.014, -0.007, -0.007, -0.005, +0.001
+Station 5 upper 9 1 X-correction
++0.023, +0.008, +0.015, +0.001, -0.003, -0.022, -0.029, -0.025, -0.047
+Station 5 lower 9 1 X-correction
++0.053, -0.018, +0.058, +0.037, +0.017, -0.006, -0.009, -0.030, -0.025
+* --------------------------------------------------
+Station 1 upper 3 1 Y-correction
++0.256, +0.311, +0.407
+Station 1 lower 3 1 Y-correction
+-0.122, -0.094, -0.033
+Station 2 upper 3 1 Y-correction
++0.019, +0.042, +0.045
+Station 2 lower 3 1 Y-correction
+-0.016, -0.006, -0.016
+Station 3 upper 5 1 Y-correction
+-0.032, -0.009, -0.006, +0.046, +0.014
+Station 3 lower 5 1 Y-correction
++0.023, +0.054, +0.039, +0.024, +0.045
+Station 4 upper 7 1 Y-correction
+-0.028, -0.051, -0.031, +0.005, +0.013, +0.009, +0.010
+Station 4 lower 7 1 Y-correction
++0.069, +0.052, +0.066, +0.045, +0.046, +0.024, -0.000
+Station 5 upper 9 1 Y-correction
+-0.022, -0.066, -0.038, -0.097, -0.012, +0.036, +0.069, +0.019, +0.001
+Station 5 lower 9 1 Y-correction
++0.039, +0.119, +0.091, +0.080, +0.029, +0.033, +0.011, +0.008, +0.005

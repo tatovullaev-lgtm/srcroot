@@ -1,0 +1,53 @@
+// $Id: PhysicsLinkDef.h,v
+#ifdef __CLING__
+
+#pragma link C++ nestedclasses;
+#pragma link C++ nestedtypedefs;
+
+// decay
+#pragma link C++ class BmnPairFinder++;
+#pragma link C++ class BmnTwoParticleDecay++;
+#pragma link C++ class BmnParticlePair++;
+#pragma link C++ class BmnParticleTriple++;
+#pragma link C++ class BmnParticlePairCut++;
+#pragma link C++ class BmnParticlePairsInfo++;
+// #pragma link C++ class BmnMassSpectrumAnal++;
+#pragma link C++ class DstEventHeaderExtended + ;
+#pragma link C++ class BmnHypNuclPairFinder + ;
+#pragma link C++ class BmnHypNuclPair + ;
+
+// embedding
+// #pragma link C++ class BmnLambdaEmbeddingMonitor + ;
+// #pragma link C++ class BmnParticleStore + ;
+// #pragma link C++ class BmnLambdaEmbeddingQa + ;
+// #pragma link C++ class BmnLambdaEmbeddingDrawHistos + ;
+// #pragma link C++ class BmnLambdaMisc + ;
+// #pragma link C++ class BmnInnerTrackerGeometryDraw + ;
+// #pragma link C++ class BmnLambdaEmbedding + ;
+
+// efficiency
+// #pragma link C++ class BmnDataTriggerInfo + ;
+// #pragma link C++ class BmnEfficiency + ;
+// #pragma link C++ class BmnEfficiencyProbability + ;
+// #pragma link C++ class BmnRealisticMc + ;
+// #pragma link C++ class BmnEfficiencyTools + ;
+// #pragma link C++ class EffStore + ;
+// #pragma link C++ class EffStore2D + ;
+// #pragma link C++ class InnerTrackerParams + ;
+
+// run7
+// #pragma link C++ class BmnLambdaAnalRun7++;
+// #pragma link C++ class BmnDataAnalRun7++;
+// #pragma link C++ class BmnTriggerEfficiencyRun7++;
+// #pragma link C++ class TriggerEfficiency++;
+// #pragma link C++ class Residuals + ;
+
+// run8
+#pragma link C++ class BmnTriggerEfficiencyRun8++;
+
+#pragma link C++ class BmnFunctionAna + ;
+#pragma link C++ class BmnAnalysisTask + ;
+#pragma link C++ class BmnEventSelector + ;
+#pragma link C++ class BmnBC1hitInfo + ;
+
+#endif

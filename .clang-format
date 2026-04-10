@@ -1,0 +1,56 @@
+---
+Language: Cpp
+BasedOnStyle: Mozilla
+
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortBlocksOnASingleLine: Empty
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: All
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlwaysBreakAfterReturnType: None
+AlwaysBreakAfterDefinitionReturnType: None
+BinPackArguments: true
+BinPackParameters: false
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: true
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: true
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+  AfterControlStatement: MultiLine
+BreakConstructorInitializers: BeforeComma
+ColumnLimit: 120
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+Cpp11BracedListStyle: true
+FixNamespaceComments: true
+IndentWidth: 4
+IndentWrappedFunctionNames: true
+IncludeBlocks: Regroup
+NamespaceIndentation: None
+PointerAlignment: Left
+SortIncludes: true
+SpacesBeforeTrailingComments: 3
+Standard: c++17
+TabWidth: 4
+UseTab: Never
+MaxEmptyLinesToKeep: 1
+AlignTrailingComments: true
+AlignOperands: true
+AlignEscapedNewlinesLeft: true
+SpaceBeforeAssignmentOperators: true
+SpacesInSquareBrackets: false
+SpacesInContainerLiterals: true
+SpacesInAngles: false
+BreakBeforeTernaryOperators: true
+AlwaysBreakBeforeMultilineStrings: false
+...

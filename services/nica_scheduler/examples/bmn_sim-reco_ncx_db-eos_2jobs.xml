@@ -1,0 +1,14 @@
+<jobs>
+ <job name="bmn_simdb">
+  <macro path="$VMCWORKDIR/macro/run/run_sim_bmn.C">
+   <file sim_input="energy=-3,gen=urqmd" output="/eos/nica/bmn/users/${user}/bmnsim_${file_name}.root" start_event="0" event_count="3"/>
+  </macro>
+  <run mode="global" count="0" config="/cvmfs/bmn.jinr.ru/config/x86_64-centos7/cluster_config.sh,/lhep/users/$USER/bmnroot/build/config.sh"/>
+ </job>
+ <job name="bmn_recdb" dependency="bmn_simdb">
+  <macro path="$VMCWORKDIR/macro/run/run_reco_bmn.C">
+   <file job_input="bmn_simdb" output="/eos/nica/bmn/users/${user}/bmndst_${file_name:~8}.root" start_event="0" event_count="3"/>
+  </macro>
+  <run mode="global" count="0" config="/cvmfs/bmn.jinr.ru/config/x86_64-centos7/cluster_config.sh,/lhep/users/$USER/bmnroot/build/config.sh"/>
+ </job>
+</jobs>

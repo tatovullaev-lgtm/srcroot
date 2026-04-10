@@ -1,0 +1,20 @@
+<jobs batch="slurm">
+ <job name="bmn_reco">
+  <macro path="$VMCWORKDIR/macro/run/run_reco_bmn.C" start_event="0" event_count="0">
+   <file input="/eos/eos.jinr.ru/nica/bmn/exp/digi/run7/19.10.0/bmn/*" output="/zfs/store7.hydra.local/gertsen/bmn/exp/dst/run7/bmn/bmn_run${last_number}_dst.root">
+    <put command="xrdcp -f -p -N" directory="/lustre/stor1/kgertsen/"/>
+    <get command="xrdcp -f -p -N" directory="/lustre/stor1/kgertsen/"/>
+   </file>
+  </macro>
+  <run mode="global" count="200" config="~/bmnroot/build/config.sh" queue="bmn"/>
+ </job>
+ <job name="src_reco">
+  <macro path="$VMCWORKDIR/macro/run/run_reco_src.C" start_event="0" event_count="0">
+   <file input="/eos/eos.jinr.ru/nica/bmn/exp/digi/run7/19.10.0/src/*" output="/zfs/store7.hydra.local/gertsen/bmn/exp/dst/run7/src/bmn_run${last_number}_dst.root">
+    <put command="xrdcp -f -p -N" directory="/lustre/stor1/kgertsen/"/>
+    <get command="xrdcp -f -p -N" directory="/lustre/stor1/kgertsen/"/>
+   </file>
+  </macro>
+  <run mode="global" count="100" config="~/bmnroot/build/config.sh" queue="bmn"/>
+ </job>
+</jobs>

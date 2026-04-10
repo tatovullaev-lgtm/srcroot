@@ -1,0 +1,76 @@
+#!/bin/bash
+
+# Detects which OS and if it is Linux then it will detect which Linux Distribution
+define_system()
+{
+   if which lsb_release &>> /dev/null; then
+      DISTRO=$(lsb_release -sd | sed -e 's/^"//' -e 's/"$//')
+   else
+      OS=`uname -s`
+      REV=`uname -r`
+      #MACH=`uname -m`
+
+      if [ "$OS" = "SunOS" ] ; then
+         OS=Solaris
+         #ARCH=`uname -p`
+         DISTRO="$OS $REV" #($ARCH `uname -v`)"
+      elif [ "$OS" = "AIX" ] ; then
+         DISTRO="$OS `oslevel` (`oslevel -r`)"
+      elif [ "$OS" = "Linux" ] ; then
+         if [ -f /etc/redhat-release ] ; then
+            DIST=`cat /etc/redhat-release | sed 's/\s.*$//'`
+            PSUEDONAME=`cat /etc/redhat-release | sed s/.*\(// | sed s/\)//`
+            REVISION=`cat /etc/redhat-release | sed s/.*release\ // | sed s/\ .*//`
+         elif [ -f /etc/SuSE-release ] ; then
+            DIST=`cat /etc/SuSE-release | tr "\n" ' '| sed s/VERSION.*//`
+            REVISION=`cat /etc/SuSE-release | tr "\n" ' ' | sed s/.*=\ //`
+         elif [ -f /etc/mandrake-release ] ; then
+            DIST=`cat /etc/redhat-release | sed 's/\s.*$//'`
+            PSUEDONAME=`cat /etc/mandrake-release | sed s/.*\(// | sed s/\)//`
+            REVISION=`cat /etc/mandrake-release | sed s/.*release\ // | sed s/\ .*//`
+         elif [ -f /etc/os-release ] ; then
+            DIST=`cat /etc/os-release | grep '^NAME=' | sed -e 's/.*=//g' -e 's/^"//' -e 's/"$//'`
+            REVISION=`cat /etc/os-release | grep VERSION_ID= | sed -e 's/.*=//g' -e 's/^"//' -e 's/"$//'`
+         else
+            DIST=`ls /etc/ | grep -e '[_-]release$' -e '[_-]version$' | xargs -I % -n 1 cat /etc/% | grep '^NAME=' | sed -e 's/.*=//g' -e 's/^"//' -e 's/"$//'`
+            REVISION=`ls /etc/ | grep -e '[_-]release$' -e '[_-]version$' | xargs -I % -n 1 cat /etc/% | grep VERSION_ID= | sed -e 's/.*=//g' -e 's/^"//' -e 's/"$//'`
+         fi
+         if [ -f /etc/UnitedLinux-release ] ; then
+            DIST="$DIST[`cat /etc/UnitedLinux-release | tr "\n" ' ' | sed s/VERSION.*//`]"
+         fi
+
+         #OSSTR="$OS $DIST $REV($PSUEDONAME $REV $MACH)"
+         DISTRO="$DIST $REVISION"
+      fi
+   fi
+
+   echo -n $DISTRO
+}
+
+linux_flavour=$(define_system)
+if [ $# -ne 0 ] && [ $1 = "define_system" ]; then
+   echo -n $linux_flavour
+   return 0
+fi
+system=$(uname -m)
+same_system=1
+
+echo "System during compilation: $Linux_Flavour_"
+echo "                           $System_"
+echo "System now               : $linux_flavour"
+echo "                           $system"
+
+if [ ! "$linux_flavour" = "$Linux_Flavour_" ]; then
+  echo "You try to run the software on a different"
+  echo "linux flavour than it was compiled on."
+  echo @SAME_SYSTEM_ERROR_MESSAGE@
+  same_system=@SAME_SYSTEM_FLAG@
+fi
+if [ ! "$system" = "$System_" ]; then
+  echo "You try to run the software on a different"
+  echo "linux architecture than it was compiled on."
+  echo @SAME_SYSTEM_ERROR_MESSAGE@
+  same_system=@SAME_SYSTEM_FLAG@
+fi
+
+export same_system

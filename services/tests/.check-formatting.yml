@@ -1,0 +1,44 @@
+check_formatting_mr:
+  image: $CI_REGISTRY/nica/bmndist/base:alma9
+  stage: check_formatting
+  tags:
+    - docker
+    - cvmfs
+  variables:
+    GIT_SUBMODULE_STRATEGY: none
+  before_script:
+    - echo "Skipping global before_script"
+  script:
+    - source /cvmfs/sft.cern.ch/lcg/releases/clang/19.1.3-e838d/x86_64-el9/setup.sh
+    - bash services/tests/check_formatting.sh
+  artifacts:
+    when: always
+    paths:
+      - clang-format.log
+  only:
+    - merge_requests
+
+
+check_formatting_all_files:
+  image: $CI_REGISTRY/nica/bmndist/base:alma9
+  stage: check_formatting
+  tags:
+    - docker
+    - cvmfs
+  variables:
+    GIT_SUBMODULE_STRATEGY: none
+  before_script:
+    - echo "Skipping global before_script"
+  script:
+    - source /cvmfs/sft.cern.ch/lcg/releases/clang/19.1.3-e838d/x86_64-el9/setup.sh
+    - python services/tests/run-clang-format.py --style=file:.clang-format -r . > clang-format.log || true
+    - unformatted_files=$(grep -c "\(reformatted\)" clang-format.log)
+    - 'curl --request PUT --header "PRIVATE-TOKEN: $BADGE_API_TOKEN" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/badges/46?image_url=https://img.shields.io/badge/unformatted_files-${unformatted_files}-orange&name=unformatted_files"'
+    - if [[ $unformatted_files == 0 ]]; then exit 0; else exit 1; fi
+  artifacts:
+    when: always
+    paths:
+      - clang-format.log
+  allow_failure: true
+  only:
+    - dev

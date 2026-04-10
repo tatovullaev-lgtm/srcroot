@@ -1,0 +1,12 @@
+{
+  "version": 3.0,
+  "comment": "January 2026 Test Period 9 Quarz Hodo reconstruction cuts. Borders included",
+
+  "experiment": {
+    "fCrosstalk_over_fIntegral_min": -0.01,
+    "fTimeMax_min": 44,
+    "fTimeMax_max": 52
+  },
+  "simulation": {
+  }
+}

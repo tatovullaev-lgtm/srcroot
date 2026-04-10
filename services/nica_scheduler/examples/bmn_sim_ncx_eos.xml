@@ -1,0 +1,6 @@
+<job>
+ <macro name="bmn_sim" path="$VMCWORKDIR/macro/run/run_sim_bmn.C" start_event="0" event_count="0" add_args="DCMSMM">
+  <file input="/eos/nica/bmn/sim/gen/DCMSMM/DCMSMM_XeCsI_3.9AGeV_mb_10k/DCMSMM_XeCsI_3.9AGeV_mb_10k_116*" output="/eos/nica/bmn/sim/dst/DCMSMM/DCMSMM_XeCsI_3.9AGeV_mb_10k/dev/bmnsim_${file_name}.root"/>
+ </macro>
+ <run mode="global" count="30" config="/cvmfs/bmn.jinr.ru/config/x86_64-centos7/cluster_config.sh,/lhep/users/$USER/bmnroot/build/config.sh" core_dump="false"/>
+</job>

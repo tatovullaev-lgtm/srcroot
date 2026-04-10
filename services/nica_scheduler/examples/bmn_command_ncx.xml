@@ -1,0 +1,5 @@
+<job name="show_sim">
+ <command line="$VMCWORKDIR/build/bin/show_simulation_files energy=3.5-3.6"/>
+ <run mode="global" config="/cvmfs/bmn.jinr.ru/config/x86_64-centos7/cluster_config.sh,/lhep/users/$USER/bmnroot/build/config.sh"/>
+</job>
+

@@ -1,0 +1,105 @@
+{
+  "PING": {
+    "bmn_db_server1": {
+      "HOST": "nc13.jinr.ru",
+      "comment": "UniConDa; e-Log; File Integrity; Cluster Inspection"
+    },
+    "bmn_db_server2": {
+      "HOST": "nc18.jinr.ru",
+      "comment": "Geometry; Configuration DB & Manager"
+    },
+    "bmn_db_server3": {
+      "HOST": "nc24.jinr.ru",
+      "comment": "Event Metadata and REST API"
+    },
+    "bmn_web_server": {
+      "HOST": "nc9.jinr.ru",
+      "comment": "All web interfaces"
+    },
+    "bmn_freeipa_server": {
+      "HOST": "nc3.jinr.ru"
+    },
+    "bmn_services_server": {
+      "HOST": "nc19.jinr.ru",
+      "comment": "Apache AirFlow"
+    }
+  },
+
+  "DATABASE": {
+    "uni_db": {
+      "SERVER": "nc13.jinr.ru",
+      "DBMS": "PGSQL",
+      "PORT": 5432,
+      "DBNAME": "bmn_db",
+      "USER": "db_reader",
+      "PASS": "reader_pass"
+    },
+    "elog_db": {
+      "SERVER": "nc13.jinr.ru",
+      "DBMS": "PGSQL",
+      "PORT": 5432,
+      "DBNAME": "bmn_elog",
+      "USER": "shift",
+      "PASS": "shift"
+    },
+    "event_db": {
+      "SERVER": "nc24.jinr.ru",
+      "DBMS": "PGSQL",
+      "PORT": 5432,
+      "DBNAME": "event_db",
+      "USER": "reader_user",
+      "PASS": "reader_pass"
+    },
+    "config_db": {
+      "SERVER": "nc18.jinr.ru",
+      "DBMS": "PGSQL",
+      "PORT": 5432, 
+      "DBNAME": "config_db",
+      "USER": "reader_user",
+      "PASS": "reader_pass"
+    }
+  },
+
+  "WEB": {
+    "bmn_site": {
+      "HTTP": "https://bmn.jinr.ru"
+    },
+    "unidb_web": {
+      "HTTP": "https://bmn-unidb.jinr.ru"
+    },
+    "elog_web": {
+      "HTTP": "https://bmn-elog.jinr.ru"
+    },
+    "config_web": {
+      "HTTP": "https://bmn-online.jinr.ru"
+    },
+    "bmn_forum": {
+      "HTTP": "https://bmn-forum.jinr.ru"
+    },
+    "bmn_wiki": {
+      "HTTP": "https://bmn-wiki.jinr.ru"
+    }
+  },
+
+  "OUTPUT": {
+    "DBMS": "INFLUXDB",
+    "SERVER": "nc13.jinr.ru",
+    "PORT": 8086,
+    "DBNAME": "mon_unidb",
+    "USER": "*",
+    "PASS": "*"
+  },
+
+  "INTERVAL_SEC": 450,
+
+  "MAIL": {
+    "SERVER": "mail.jinr.ru",
+    "PORT": 587,
+    "USER": "*",
+    "PASS": "*"
+  },
+
+  "LOG": "email@jinr.ru",
+  "NOTIFY": "email@jinr.ru",
+  "NAME": "BM@N IS Monitoring"
+}

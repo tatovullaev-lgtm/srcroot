@@ -1,0 +1,6 @@
+<job>
+ <macro name="bmn_reco" path="$VMCWORKDIR/macro/run/run_reco_bmn.C" start_event="0" event_count="0">
+  <file input="/eos/nica/bmn/sim/dst/DCMSMM/DCMSMM_XeCsI_3.9_AGeV_mb_50k_new/dev/bmnsim_*" output="/eos/nica/bmn/users/$USER/bmndst_${file_name:~7}.root"/>
+ </macro>
+ <run mode="global" count="30" config="/cvmfs/bmn.jinr.ru/config/x86_64-centos7/cluster_config.sh,/lhep/users/$USER/bmnroot/build/config.sh" core_dump="false"/>
+</job>

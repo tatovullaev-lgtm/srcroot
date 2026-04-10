@@ -1,0 +1,10 @@
+{
+    "source" : "exp",
+    "extensions": [".data", ".root"],
+    "db_user": "db_reader",
+    "db_pass": "reader_pass",
+    "db_name": "uni_db",
+    "db_host": "bmn-unidb.jinr.ru",
+    "file_size_limit": "",
+    "event_size_limit": ""
+}

@@ -1,0 +1,102 @@
+{
+  "version": "1.0",
+  "comment": "March 2022 SRC run Quarz Hodo config. Equal (nominal) HV on all strips. Stochastic [sqrt(Z2)] and constant [] are resolution terms",
+
+  "parameters": {
+    "isWriteWfm": false,
+    "gateBegin": 15,
+    "gateEnd": 80,
+    "threshold": 0.0,
+    "saturation": 32400,
+    "doInvert": true,
+    "applyINLcorr": true
+  },
+
+  "fitParameters": {
+    "isfit": true,
+    "harmonics": [ [0.21, 0.0], [0.64, 0.0], [0.79, 0.0] ]
+  },
+
+  "calibration": [
+    { "strip": 1, "side": 0, "gain": 0, "calib": 0.0795, "calibIntegral": 0.0119, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 1, "side": 0, "gain": 1, "calib": 0.0201, "calibIntegral": 0.0032, "stochastic": 1.2196, "constant": 0.0 },
+    { "strip": 1, "side": 1, "gain": 0, "calib": 0.1217, "calibIntegral": 0.0183, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 1, "side": 1, "gain": 1, "calib": 0.0300, "calibIntegral": 0.0047, "stochastic": 1.4893, "constant": 0.0 },
+
+    { "strip": 2, "side": 0, "gain": 0, "calib": 0.0688, "calibIntegral": 0.0103, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 2, "side": 0, "gain": 1, "calib": 0.0168, "calibIntegral": 0.0027, "stochastic": 1.3499, "constant": 0.0 },
+    { "strip": 2, "side": 1, "gain": 0, "calib": 0.1393, "calibIntegral": 0.0209, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 2, "side": 1, "gain": 1, "calib": 0.0318, "calibIntegral": 0.0050, "stochastic": 1.5071, "constant": 0.0 },
+
+    { "strip": 3, "side": 0, "gain": 0, "calib": 0.0774, "calibIntegral": 0.0116, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 3, "side": 0, "gain": 1, "calib": 0.0194, "calibIntegral": 0.0031, "stochastic": 1.1983, "constant": 0.0 },
+    { "strip": 3, "side": 1, "gain": 0, "calib": 0.1408, "calibIntegral": 0.0211, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 3, "side": 1, "gain": 1, "calib": 0.0300, "calibIntegral": 0.0047, "stochastic": 1.5579, "constant": 0.0 },
+
+    { "strip": 4, "side": 0, "gain": 0, "calib": 0.0630, "calibIntegral": 0.0095, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 4, "side": 0, "gain": 1, "calib": 0.0157, "calibIntegral": 0.0025, "stochastic": 1.2278, "constant": 0.0 },
+    { "strip": 4, "side": 1, "gain": 0, "calib": 0.2322, "calibIntegral": 0.0348, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 4, "side": 1, "gain": 1, "calib": 0.0583, "calibIntegral": 0.0087, "stochastic": 1.2000, "constant": 0.0 },
+
+    { "strip": 5, "side": 0, "gain": 0, "calib": 0.0550, "calibIntegral": 0.0083, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 5, "side": 0, "gain": 1, "calib": 0.0140, "calibIntegral": 0.0022, "stochastic": 1.1741, "constant": 0.0 },
+    { "strip": 5, "side": 1, "gain": 0, "calib": 0.2459, "calibIntegral": 0.0369, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 5, "side": 1, "gain": 1, "calib": 0.0662, "calibIntegral": 0.0099, "stochastic": 1.2000, "constant": 0.0 },
+
+    { "strip": 6, "side": 0, "gain": 0, "calib": 0.0774, "calibIntegral": 0.0116, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 6, "side": 0, "gain": 1, "calib": 0.0200, "calibIntegral": 0.0032, "stochastic": 1.2128, "constant": 0.0 },
+    { "strip": 6, "side": 1, "gain": 0, "calib": 0.1876, "calibIntegral": 0.0281, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 6, "side": 1, "gain": 1, "calib": 0.0449, "calibIntegral": 0.0068, "stochastic": 1.4843, "constant": 0.0 },
+
+    { "strip": 7, "side": 0, "gain": 0, "calib": 0.1609, "calibIntegral": 0.0241, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 7, "side": 0, "gain": 1, "calib": 0.0411, "calibIntegral": 0.0064, "stochastic": 1.2396, "constant": 0.0 },
+    { "strip": 7, "side": 1, "gain": 0, "calib": 0.1908, "calibIntegral": 0.0286, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 7, "side": 1, "gain": 1, "calib": 0.0435, "calibIntegral": 0.0068, "stochastic": 1.5588, "constant": 0.0 },
+
+    { "strip": 8, "side": 0, "gain": 0, "calib": 0.0994, "calibIntegral": 0.0149, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 8, "side": 0, "gain": 1, "calib": 0.0250, "calibIntegral": 0.0040, "stochastic": 0.9771, "constant": 0.0 },
+    { "strip": 8, "side": 1, "gain": 0, "calib": 0.2240, "calibIntegral": 0.0336, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 8, "side": 1, "gain": 1, "calib": 0.0567, "calibIntegral": 0.0089, "stochastic": 1.4194, "constant": 0.0 },
+
+    { "strip": 9, "side": 0, "gain": 0, "calib": 0.0980, "calibIntegral": 0.0147, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 9, "side": 0, "gain": 1, "calib": 0.0259, "calibIntegral": 0.0041, "stochastic": 1.2383, "constant": 0.0 },
+    { "strip": 9, "side": 1, "gain": 0, "calib": 0.1728, "calibIntegral": 0.0259, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 9, "side": 1, "gain": 1, "calib": 0.0553, "calibIntegral": 0.0082, "stochastic": 1.4376, "constant": 0.0 },
+
+    { "strip": 10, "side": 0, "gain": 0, "calib": 0.0980, "calibIntegral": 0.0147, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 10, "side": 0, "gain": 1, "calib": 0.0266, "calibIntegral": 0.0042, "stochastic": 1.3169, "constant": 0.0 },
+    { "strip": 10, "side": 1, "gain": 0, "calib": 0.1728, "calibIntegral": 0.0259, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 10, "side": 1, "gain": 1, "calib": 0.0388, "calibIntegral": 0.0060, "stochastic": 1.4872, "constant": 0.0 },
+
+    { "strip": 11, "side": 0, "gain": 0, "calib": 0.0706, "calibIntegral": 0.0106, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 11, "side": 0, "gain": 1, "calib": 0.0199, "calibIntegral": 0.0031, "stochastic": 0.9977, "constant": 0.0 },
+    { "strip": 11, "side": 1, "gain": 0, "calib": 0.1440, "calibIntegral": 0.0216, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 11, "side": 1, "gain": 1, "calib": 0.0354, "calibIntegral": 0.0054, "stochastic": 1.1611, "constant": 0.0 },
+
+    { "strip": 12, "side": 0, "gain": 0, "calib": 0.1033, "calibIntegral": 0.0155, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 12, "side": 0, "gain": 1, "calib": 0.0256, "calibIntegral": 0.0039, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 12, "side": 1, "gain": 0, "calib": 0.2459, "calibIntegral": 0.0369, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 12, "side": 1, "gain": 1, "calib": 0.0652, "calibIntegral": 0.0089, "stochastic": 1.8495, "constant": 0.0 },
+
+    { "strip": 13, "side": 0, "gain": 0, "calib": 0.0716, "calibIntegral": 0.0107, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 13, "side": 0, "gain": 1, "calib": 0.0188, "calibIntegral": 0.0030, "stochastic": 1.0608, "constant": 0.0 },
+    { "strip": 13, "side": 1, "gain": 0, "calib": 0.1037, "calibIntegral": 0.0156, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 13, "side": 1, "gain": 1, "calib": 0.0235, "calibIntegral": 0.0037, "stochastic": 1.3850, "constant": 0.0 },
+
+    { "strip": 14, "side": 0, "gain": 0, "calib": 0.0828, "calibIntegral": 0.0124, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 14, "side": 0, "gain": 1, "calib": 0.0215, "calibIntegral": 0.0034, "stochastic": 1.0094, "constant": 0.0 },
+    { "strip": 14, "side": 1, "gain": 0, "calib": 0.0950, "calibIntegral": 0.0143, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 14, "side": 1, "gain": 1, "calib": 0.0246, "calibIntegral": 0.0039, "stochastic": 1.3072, "constant": 0.0 },
+
+    { "strip": 15, "side": 0, "gain": 0, "calib": 0.0922, "calibIntegral": 0.0138, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 15, "side": 0, "gain": 1, "calib": 0.0237, "calibIntegral": 0.0038, "stochastic": 1.1680, "constant": 0.0 },
+    { "strip": 15, "side": 1, "gain": 0, "calib": 0.1098, "calibIntegral": 0.0165, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 15, "side": 1, "gain": 1, "calib": 0.0273, "calibIntegral": 0.0042, "stochastic": 1.8378, "constant": 0.0 },
+
+    { "strip": 16, "side": 0, "gain": 0, "calib": 0.0533, "calibIntegral": 0.0080, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 16, "side": 0, "gain": 1, "calib": 0.0137, "calibIntegral": 0.0022, "stochastic": 0.7992, "constant": 0.0 },
+    { "strip": 16, "side": 1, "gain": 0, "calib": 0.0990, "calibIntegral": 0.0149, "stochastic": 1.2000, "constant": 0.0 },
+    { "strip": 16, "side": 1, "gain": 1, "calib": 0.0239, "calibIntegral": 0.0037, "stochastic": 1.1908, "constant": 0.0 }
+  ]
+  
+}

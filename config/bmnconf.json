@@ -1,0 +1,114 @@
+{
+    "Decoder": {
+        "DigiTreeName": "bmndata",
+        "DigiTreeTitle": "bmndigit",
+        "ProcessMSC": true,
+        "ExportJson": false,
+        "ExportExternalSpillStat": false,
+        "RawRootInMemory": false,
+        "NEventsForPedestals": 500,
+        "NEventsForNoiseCorr": 25000
+    },
+    "Detectors": {
+        "csc": {
+            "StationSet": {
+                "Dir": "parameters/csc/XMLConfigs/",
+                "Setup": {
+                    "0": {
+                        "Period": {
+                            "9": "CSCRun9.xml",
+                            "8": "FullCSCRun8.xml",
+                            "7": "CSCRunSpring2018.xml"
+                        }
+                    },
+                    "1": {
+                        "Period": {
+                            "8": "CSCRunSRC2021.xml",
+                            "7": "CSCRunSRCSpring2018.xml"
+                        }
+                    }
+                }
+            }
+        },
+        "gem": {
+            "StationSet": {
+                "Dir": "parameters/gem/XMLConfigs/",
+                "Setup": {
+                    "0": {
+                        "Period": {
+                            "9": "GemRun9.xml",
+                            "8": "GemRun8.xml",
+                            "7": "GemRunSpring2018.xml",
+                            "6": "GemRunSpring2017.xml"
+                        }
+                    },
+                    "1": {
+                        "Period": {
+                            "8": "GemRunSRC2021.xml",
+                            "7": "GemRunSRCSpring2018.xml"
+                        }
+                    }
+                }
+            }
+        },
+        "silicon": {
+            "StationSet": {
+                "Dir": "parameters/silicon/XMLConfigs/",
+                "Setup": {
+                    "0": {
+                        "Period": {
+                            "9": "SiliconRun9.xml",
+                            "8": "SiliconRun8.xml",
+                            "7": "SiliconRunSpring2018.xml",
+                            "6": "SiliconRunSpring2017.xml"
+                        }
+                    },
+                    "1": {
+                        "Period": {
+                            "8": "SiliconRun8_SRC.xml",
+                            "7": "SiliconRunSRCSpring2018.xml"
+                        }
+                    }
+                }
+            }
+        },
+        "sibt": {
+            "StationSet": {
+                "Dir": "parameters/SiBT/XMLConfigs/",
+                "Setup": {
+                    "0": {
+                        "Period": {
+                            "9": "SiBTRun9.xml",
+                            "8": "SiBTRun8.xml"
+                        }
+                    }
+                }
+            }
+        },
+        "siprof": {
+            "StationSet": {
+                "Dir": "parameters/profilometer/XMLConfigs/",
+                "Setup": {
+                    "0": {
+                        "Period": {
+                            "9": "ProfRun9.xml",
+                            "8": "ProfRun8.xml"
+                        }
+                    }
+                }
+            }
+        },
+        "vsp": {
+            "StationSet": {
+                "Dir": "parameters/vsp/XMLConfigs/",
+                "Setup": {
+                    "0": {
+                        "Period": {
+                            "9": "VSP_Run9.xml"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,6 @@
+<job name="raw2db">
+ <macro path="$VMCWORKDIR/macro/raw/BmnWriteRawInfo.C" add_args="7">
+  <file exp_input="period=7" output="/eos/nica/bmn/exp/tmp/bmn_${file_name:~4}_digi.root"/>
+ </macro>
+ <run mode="global" count="1" config="/cvmfs/bmn.jinr.ru/config/x86_64-centos7/cluster_config.sh,/lhep/users/$USER/bmnroot/build/config.sh"/>
+</job>

@@ -1,0 +1,55 @@
+run_all_macros:
+  image: git.jinr.ru:5005/nica/bmndist/base:alma9
+  stage: test_all_macros
+  tags:
+    - docker
+    - cvmfs
+  before_script:
+    - echo "Skipping global before_script"
+  script:
+    - source /cvmfs/bmn.jinr.ru/bmnroot/dev/x86_64-alma9/bmnroot_config.sh
+    - mkdir logs
+    - bash services/tests/run_all_macros.sh
+    - 'jq -Rs "{ content: . }" result.html > result.json'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+  timeout: 3h
+  artifacts:
+    paths:
+      - job.log
+      - result.json
+      - logs
+
+
+publish_macros_results:
+  image: python:latest
+  stage: deploy
+  tags:
+    - docker
+  before_script:
+    - echo "Skipping global before_script"
+  script:
+    - pip install requests
+    - python services/tests/publish_test_results.py
+  needs: ["run_all_macros"]
+  dependencies:
+    - run_all_macros
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+
+
+set-project-static-badges:
+  image: git.jinr.ru:5005/nica/bmndist/base:alma9
+  stage: deploy
+  tags:
+    - docker
+  before_script:
+    - echo "Skipping global before_script"
+  script:
+    - failed_macros=$(grep -c "" job.log)
+    - 'curl --request PUT --header "PRIVATE-TOKEN: $BADGE_API_TOKEN" "https://git.jinr.ru/api/v4/projects/${CI_PROJECT_ID}/badges/43?image_url=https://img.shields.io/badge/failed_macros-${failed_macros}-orange&name=failed_macros"'
+  needs: ["run_all_macros"]
+  dependencies:
+    - run_all_macros
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"

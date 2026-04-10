@@ -1,0 +1,13 @@
+<job name="bmn_raw" batch="slurm">
+ <macro path="$VMCWORKDIR/macro/raw/BmnDataToRoot.C">
+  <file file_input="2001-2212_Test.txt" output="/zfs/store7.hydra.local/gertsen/bmn/exp/digi/run7/2001-2212_Test/bmn_run${last_number}_digi.root">
+  </file>
+  <file file_input="3590-4707_BMN_Argon.txt" output="/zfs/store7.hydra.local/gertsen/bmn/exp/digi/run7/3590-4707_BMN_Argon/bmn_run${last_number}_digi.root">
+  </file>
+  <file file_input="4720-5186_BMN_Krypton.txt" output="/zfs/store7.hydra.local/gertsen/bmn/exp/digi/run7/4720-5186_BMN_Krypton/bmn_run${last_number}_digi.root">
+  </file>
+  <file file_input="2213-3588_SRC_Carbon.txt" output="/zfs/store7.hydra.local/gertsen/bmn/exp/digi/run7/2213-3588_SRC_Carbon/bmn_run${last_number}_digi.root">
+  </file>
+ </macro>
+ <run mode="global" count="200" config="~/bmnroot/build/config.sh" queue="bmn"/>
+</job>

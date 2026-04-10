@@ -1,0 +1,15 @@
+<job>
+ <macro name="bmn_sim" path="$VMCWORKDIR/macro/run/run_sim_bmn.C" start_event="0" event_count="0" add_args="DCMSMM" parallel_mode="10" merge="false">
+  <file input="/eos/lpp/nica/bmn/sim/gen/DCMSMM/DCMSMM_XeCsI_3.8_AGeV_mb_50k/*.r12" output="/eos/lpp/nica/bmn/sim/dst/DCMSMM/DCMSMM_XeCsI_3.8_AGeV_mb_50k/dev/bmnsim_${file_name}.root">
+   <put command="cp -f" directory="/ceph/bmn/ssd/tmp/"/>
+   <get command="cp -f" directory="/ceph/bmn/ssd/tmp/"/>
+  </file> 
+ </macro>
+ <macro name="bmn_reco" path="$VMCWORKDIR/macro/run/run_reco_bmn.C" start_event="0" event_count="0">
+  <file macro_input="bmn_sim" output="/eos/lpp/nica/bmn/sim/dst/DCMSMM/DCMSMM_XeCsI_3.8_AGeV_mb_50k/dev/bmndst_${file_name:~7}.root">
+   <put command="cp -f" directory="/ceph/bmn/ssd/tmp/"/>
+   <get command="cp -f" directory="/ceph/bmn/ssd/tmp/"/>
+  </file> 
+ </macro>
+ <run mode="global" count="150" config="/cvmfs/bmn.jinr.ru/config/x86_64-alma9/cluster_config.sh,/cvmfs/bmn.jinr.ru/bmnroot/dev/x86_64-alma9/bmnroot_config.sh"/>
+</job>

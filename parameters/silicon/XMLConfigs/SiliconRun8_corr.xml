@@ -1,0 +1,635 @@
+<StationSet>
+
+<!-- Station 0 -->
+	<Station xPosition="0.622" yPosition="-0.1495" zPosition="14.123" rotAngleDeg="0.0" rotCenterX="0.0" rotCenterY="0.0">
+
+		<!-- module 0 -->
+		<Module xShift="0" yShift="0" zShift="5.083">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.622" yTranslation="0.1495" zTranslation="-14.123" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.1295" yTranslation="-0.0695" zTranslation="-5.003" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.1209" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.1295" yTranslation="0.0695" zTranslation="5.003" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.622" yTranslation="-0.1495" zTranslation="14.123" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="9.16945" yorig="0.053" xsize="6.0799" ysize="9.089" stripDirection="LeftToRight" lxborder="9.16945" lyborder="0.053" rxborder="3.08955" ryborder="9.142"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.010715" xorig="9.1677" yorig="0.0623" xsize="6.0764" ysize="9.0704" stripDirection="RightToLeft" lxborder="9.16515" lyborder="0.0623" rxborder="3.09391" ryborder="9.1327"></Layer>
+		</Module>
+
+		<!-- module 1 -->
+		<Module xShift="0" yShift="0" zShift="6.233">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.622" yTranslation="0.1495" zTranslation="-14.123" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.1295" yTranslation="-0.0695" zTranslation="-5.003" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.1209" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.1295" yTranslation="0.0695" zTranslation="5.003" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.622" yTranslation="-0.1495" zTranslation="14.123" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="3.17145" yorig="3.052" xsize="6.0799" ysize="9.089" stripDirection="LeftToRight" lxborder="3.17145" lyborder="3.052" rxborder="-2.90845" ryborder="12.141"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.010715" xorig="3.1697" yorig="3.0613" xsize="6.0764" ysize="9.0704" stripDirection="RightToLeft" lxborder="3.16715" lyborder="3.0613" rxborder="-2.90409" ryborder="12.1317"></Layer>
+		</Module>
+
+		<!-- module 2 -->
+		<Module xShift="0" yShift="0" zShift="4.983">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.622" yTranslation="0.1495" zTranslation="-14.123" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.1295" yTranslation="-0.0695" zTranslation="-5.003" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.1209" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.1295" yTranslation="0.0695" zTranslation="5.003" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.622" yTranslation="-0.1495" zTranslation="14.123" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-2.82455" yorig="0.079" xsize="6.0799" ysize="9.089" stripDirection="RightToLeft" lxborder="-2.82455" lyborder="9.168" rxborder="-8.90445" ryborder="0.079"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.010715" xorig="-2.8263" yorig="0.0883" xsize="6.0764" ysize="9.0704" stripDirection="LeftToRight" lxborder="-2.82891" lyborder="9.1587" rxborder="-8.90015" ryborder="0.0883"></Layer>
+		</Module>
+
+		<!-- module 3 -->
+		<Module xShift="0" yShift="0" zShift="1.97">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.622" yTranslation="0.1495" zTranslation="-14.123" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.1257" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.622" yTranslation="-0.1495" zTranslation="14.123" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="9.03795" yorig="-9.0845" xsize="6.0799" ysize="9.089" stripDirection="LeftToRight" lxborder="9.03795" lyborder="0.0045" rxborder="2.95805" ryborder="-9.0845"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.010715" xorig="9.0362" yorig="-9.0752" xsize="6.0764" ysize="9.0704" stripDirection="RightToLeft" lxborder="9.03365" lyborder="-0.0048" rxborder="2.96241" ryborder="-9.0752"></Layer>
+		</Module>
+
+		<!-- module 4 -->
+		<Module xShift="0" yShift="0" zShift="0.76">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.622" yTranslation="0.1495" zTranslation="-14.123" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.1257" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.622" yTranslation="-0.1495" zTranslation="14.123" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="3.03495" yorig="-12.0745" xsize="6.0799" ysize="9.089" stripDirection="LeftToRight" lxborder="3.03495" lyborder="-2.9855" rxborder="-3.04495" ryborder="-12.0745"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.010715" xorig="3.0332" yorig="-12.0652" xsize="6.0764" ysize="9.0704" stripDirection="RightToLeft" lxborder="3.03065" lyborder="-2.9948" rxborder="-3.04059" ryborder="-12.0652"></Layer>
+		</Module>
+
+		<!-- module 5 -->
+		<Module xShift="0" yShift="0" zShift="2.15">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.622" yTranslation="0.1495" zTranslation="-14.123" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.1257" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.622" yTranslation="-0.1495" zTranslation="14.123" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-2.96205" yorig="-9.0865" xsize="6.0799" ysize="9.089" stripDirection="RightToLeft" lxborder="-2.96205" lyborder="-9.0865" rxborder="-9.04195" ryborder="0.0025"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.010715" xorig="-2.9638" yorig="-9.0772" xsize="6.0764" ysize="9.0704" stripDirection="LeftToRight" lxborder="-2.96641" lyborder="-9.0772" rxborder="-9.03765" ryborder="-0.0068"></Layer>
+		</Module>
+
+	</Station>
+
+<!-- Station 1 -->
+	<Station xPosition="0.874" yPosition="-0.153" zPosition="22.806" rotAngleDeg="0.0" rotCenterX="0.0" rotCenterY="0.0">
+
+		<!-- module 0 -->
+		<Module xShift="0" yShift="0" zShift="6.3765">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.874" yTranslation="0.153" zTranslation="-22.806" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.021" yTranslation="0.0035" zTranslation="-5.1265" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.1148" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.021" yTranslation="-0.0035" zTranslation="5.1265" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.874" yTranslation="-0.153" zTranslation="22.806" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="15.035" yorig="6.2685" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="15.035" lyborder="6.2685" rxborder="8.95495" ryborder="12.3487"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="15.035" yorig="-0.035" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="15.035" lyborder="-0.035" rxborder="8.95495" ryborder="6.054"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="15.0332" yorig="6.2751" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="15.0264" lyborder="6.2751" rxborder="8.96745" ryborder="12.3487"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="15.0332" yorig="-0.0257" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="15.0264" lyborder="-0.0257" rxborder="8.9673" ryborder="6.0448"></Layer>
+		</Module>
+
+		<!-- module 1 -->
+		<Module xShift="0" yShift="0" zShift="5.2015">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.874" yTranslation="0.153" zTranslation="-22.806" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.021" yTranslation="0.0035" zTranslation="-5.1265" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.1148" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.021" yTranslation="-0.0035" zTranslation="5.1265" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.874" yTranslation="-0.153" zTranslation="22.806" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="9.01945" yorig="6.2705" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="9.01945" lyborder="6.2705" rxborder="2.93945" ryborder="12.3507"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="9.01945" yorig="-0.033" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="9.01945" lyborder="-0.033" rxborder="2.93945" ryborder="6.056"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="9.0177" yorig="6.2771" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="9.01095" lyborder="6.2771" rxborder="2.95195" ryborder="12.3507"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="9.0177" yorig="-0.0237" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="9.01095" lyborder="-0.0237" rxborder="2.9518" ryborder="6.0468"></Layer>
+		</Module>
+
+		<!-- module 2 -->
+		<Module xShift="0" yShift="0" zShift="6.3715">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.874" yTranslation="0.153" zTranslation="-22.806" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.021" yTranslation="0.0035" zTranslation="-5.1265" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.1148" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.021" yTranslation="-0.0035" zTranslation="5.1265" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.874" yTranslation="-0.153" zTranslation="22.806" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="3.03345" yorig="9.2725" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="3.03345" lyborder="9.2725" rxborder="-3.04655" ryborder="15.3527"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="3.03345" yorig="2.969" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="3.03345" lyborder="2.969" rxborder="-3.04655" ryborder="9.058"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="3.0317" yorig="9.2791" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="3.02495" lyborder="9.2791" rxborder="-3.03405" ryborder="15.3527"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="3.0317" yorig="2.9783" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="3.02495" lyborder="2.9783" rxborder="-3.0342" ryborder="9.0488"></Layer>
+		</Module>
+
+		<!-- module 3 -->
+		<Module xShift="0" yShift="0" zShift="5.0565">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.874" yTranslation="0.153" zTranslation="-22.806" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.021" yTranslation="0.0035" zTranslation="-5.1265" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.1148" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.021" yTranslation="-0.0035" zTranslation="5.1265" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.874" yTranslation="-0.153" zTranslation="22.806" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-2.97345" yorig="6.2725" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-2.97345" lyborder="12.3527" rxborder="-9.05345" ryborder="6.2725"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-2.97345" yorig="-0.031" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-2.97345" lyborder="6.058" rxborder="-9.05345" ryborder="-0.031"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="-2.978" yorig="6.2791" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-2.98595" lyborder="12.3527" rxborder="-9.04495" ryborder="6.2791"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="-2.978" yorig="-0.0217" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-2.9858" lyborder="6.0488" rxborder="-9.04495" ryborder="-0.0217"></Layer>
+		</Module>
+
+		<!-- module 4 -->
+		<Module xShift="0" yShift="0" zShift="6.2265">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.874" yTranslation="0.153" zTranslation="-22.806" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.021" yTranslation="0.0035" zTranslation="-5.1265" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.1148" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.021" yTranslation="-0.0035" zTranslation="5.1265" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.874" yTranslation="-0.153" zTranslation="22.806" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-8.96745" yorig="6.2705" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-8.96745" lyborder="12.3507" rxborder="-15.0474" ryborder="6.2705"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-8.96745" yorig="-0.033" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-8.96745" lyborder="6.056" rxborder="-15.0474" ryborder="-0.033"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="-8.972" yorig="6.2771" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-8.97995" lyborder="12.3507" rxborder="-15.0389" ryborder="6.2771"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="-8.972" yorig="-0.0237" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-8.9798" lyborder="6.0468" rxborder="-15.0389" ryborder="-0.0237"></Layer>
+		</Module>
+
+		<!-- module 5 -->
+		<Module xShift="0" yShift="0" zShift="0.785">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.874" yTranslation="0.153" zTranslation="-22.806" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.3336" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.874" yTranslation="-0.153" zTranslation="22.806" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="15.0325" yorig="-6.0525" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="15.0325" lyborder="0.0365" rxborder="8.95245" ryborder="-6.0525"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="15.0325" yorig="-12.3472" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="15.0325" lyborder="-6.267" rxborder="8.95245" ryborder="-12.3472"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="15.0307" yorig="-6.0433" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="15.024" lyborder="0.0272" rxborder="8.9648" ryborder="-6.0433"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="15.0307" yorig="-12.3472" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="15.024" lyborder="-6.2736" rxborder="8.96495" ryborder="-12.3472"></Layer>
+		</Module>
+
+		<!-- module 6 -->
+		<Module xShift="0" yShift="0" zShift="1.955">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.874" yTranslation="0.153" zTranslation="-22.806" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.3336" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.874" yTranslation="-0.153" zTranslation="22.806" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="9.04045" yorig="-6.0615" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="9.04045" lyborder="0.0275" rxborder="2.96045" ryborder="-6.0615"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="9.04045" yorig="-12.3562" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="9.04045" lyborder="-6.276" rxborder="2.96045" ryborder="-12.3562"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="9.0387" yorig="-6.0523" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="9.03195" lyborder="0.0182" rxborder="2.9728" ryborder="-6.0523"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="9.0387" yorig="-12.3562" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="9.03195" lyborder="-6.2826" rxborder="2.97295" ryborder="-12.3562"></Layer>
+		</Module>
+
+		<!-- module 7 -->
+		<Module xShift="0" yShift="0" zShift="0.805">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.874" yTranslation="0.153" zTranslation="-22.806" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.3336" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.874" yTranslation="-0.153" zTranslation="22.806" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="3.03495" yorig="-9.0565" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="3.03495" lyborder="-2.9675" rxborder="-3.04505" ryborder="-9.0565"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="3.03495" yorig="-15.3512" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="3.03495" lyborder="-9.271" rxborder="-3.04505" ryborder="-15.3512"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="3.0332" yorig="-9.0473" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="3.02645" lyborder="-2.9768" rxborder="-3.0327" ryborder="-9.0473"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="3.0332" yorig="-15.3512" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="3.02645" lyborder="-9.2776" rxborder="-3.03255" ryborder="-15.3512"></Layer>
+		</Module>
+
+		<!-- module 8 -->
+		<Module xShift="0" yShift="0" zShift="2.09">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.874" yTranslation="0.153" zTranslation="-22.806" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.3336" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.874" yTranslation="-0.153" zTranslation="22.806" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-2.95495" yorig="-6.0595" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-2.95495" lyborder="-6.0595" rxborder="-9.03495" ryborder="0.0295"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-2.95495" yorig="-12.3542" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-2.95495" lyborder="-12.3542" rxborder="-9.03495" ryborder="-6.274"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="-2.9595" yorig="-6.0503" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-2.9673" lyborder="-6.0503" rxborder="-9.02645" ryborder="0.0202"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="-2.9595" yorig="-12.3542" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-2.96745" lyborder="-12.3542" rxborder="-9.02645" ryborder="-6.2806"></Layer>
+		</Module>
+
+		<!-- module 9 -->
+		<Module xShift="0" yShift="0" zShift="0.87">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.874" yTranslation="0.153" zTranslation="-22.806" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.3336" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.874" yTranslation="-0.153" zTranslation="22.806" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-8.92495" yorig="-6.0555" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-8.92495" lyborder="-6.0555" rxborder="-15.0049" ryborder="0.0335"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-8.92495" yorig="-12.3502" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-8.92495" lyborder="-12.3502" rxborder="-15.0049" ryborder="-6.27"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="-8.9295" yorig="-6.0463" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-8.9373" lyborder="-6.0463" rxborder="-14.9964" ryborder="0.0242"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="-8.9295" yorig="-12.3502" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-8.93745" lyborder="-12.3502" rxborder="-14.9964" ryborder="-6.2766"></Layer>
+		</Module>
+
+	</Station>
+
+<!-- Station 2 -->
+	<Station xPosition="0.981" yPosition="-0.1" zPosition="31.367" rotAngleDeg="0.0" rotCenterX="0.0" rotCenterY="0.0">
+
+		<!-- module 0 -->
+		<Module xShift="0" yShift="0" zShift="5.364">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.981" yTranslation="0.1" zTranslation="-31.367" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.006" yTranslation="0.03" zTranslation="-5.279" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2566" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.006" yTranslation="-0.03" zTranslation="5.279" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.981" yTranslation="-0.1" zTranslation="31.367" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="21.0425" yorig="6.245" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="21.0425" lyborder="6.245" rxborder="14.9625" ryborder="12.3252"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="21.0425" yorig="-0.0585" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="21.0425" lyborder="-0.0585" rxborder="14.9625" ryborder="6.0305"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="21.0407" yorig="6.2516" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="21.034" lyborder="6.2516" rxborder="14.9749" ryborder="12.3252"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="21.0407" yorig="-0.0492" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="21.034" lyborder="-0.0492" rxborder="14.9748" ryborder="6.0213"></Layer>
+		</Module>
+
+		<!-- module 1 -->
+		<Module xShift="0" yShift="0" zShift="6.564">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.981" yTranslation="0.1" zTranslation="-31.367" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.006" yTranslation="0.03" zTranslation="-5.279" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2566" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.006" yTranslation="-0.03" zTranslation="5.279" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.981" yTranslation="-0.1" zTranslation="31.367" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="15.0274" yorig="6.242" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="15.0274" lyborder="6.242" rxborder="8.94745" ryborder="12.3222"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="15.0274" yorig="-0.0615" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="15.0274" lyborder="-0.0615" rxborder="8.94745" ryborder="6.0275"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="15.0257" yorig="6.2486" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="15.0189" lyborder="6.2486" rxborder="8.95995" ryborder="12.3222"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="15.0257" yorig="-0.0522" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="15.0189" lyborder="-0.0522" rxborder="8.9598" ryborder="6.0183"></Layer>
+		</Module>
+
+		<!-- module 2 -->
+		<Module xShift="0" yShift="0" zShift="5.294">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.981" yTranslation="0.1" zTranslation="-31.367" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.006" yTranslation="0.03" zTranslation="-5.279" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2566" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.006" yTranslation="-0.03" zTranslation="5.279" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.981" yTranslation="-0.1" zTranslation="31.367" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="9.04445" yorig="6.242" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="9.04445" lyborder="6.242" rxborder="2.96445" ryborder="12.3222"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="9.04445" yorig="-0.0615" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="9.04445" lyborder="-0.0615" rxborder="2.96445" ryborder="6.0275"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="9.0427" yorig="6.2486" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="9.03595" lyborder="6.2486" rxborder="2.97695" ryborder="12.3222"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="9.0427" yorig="-0.0522" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="9.03595" lyborder="-0.0522" rxborder="2.9768" ryborder="6.0183"></Layer>
+		</Module>
+
+		<!-- module 3 -->
+		<Module xShift="0" yShift="0" zShift="6.534">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.981" yTranslation="0.1" zTranslation="-31.367" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.006" yTranslation="0.03" zTranslation="-5.279" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2566" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.006" yTranslation="-0.03" zTranslation="5.279" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.981" yTranslation="-0.1" zTranslation="31.367" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="3.03845" yorig="9.258" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="3.03845" lyborder="9.258" rxborder="-3.04155" ryborder="15.3382"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="3.03845" yorig="2.9545" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="3.03845" lyborder="2.9545" rxborder="-3.04155" ryborder="9.0435"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="3.0367" yorig="9.2646" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="3.02995" lyborder="9.2646" rxborder="-3.02905" ryborder="15.3382"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="3.0367" yorig="2.9638" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="3.02995" lyborder="2.9638" rxborder="-3.0292" ryborder="9.0343"></Layer>
+		</Module>
+
+		<!-- module 4 -->
+		<Module xShift="0" yShift="0" zShift="5.224">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.981" yTranslation="0.1" zTranslation="-31.367" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.006" yTranslation="0.03" zTranslation="-5.279" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2566" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.006" yTranslation="-0.03" zTranslation="5.279" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.981" yTranslation="-0.1" zTranslation="31.367" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-2.94845" yorig="6.238" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-2.94845" lyborder="12.3182" rxborder="-9.02845" ryborder="6.238"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-2.94845" yorig="-0.0655" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-2.94845" lyborder="6.0235" rxborder="-9.02845" ryborder="-0.0655"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="-2.953" yorig="6.2446" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-2.96095" lyborder="12.3182" rxborder="-9.01995" ryborder="6.2446"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="-2.953" yorig="-0.0562" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-2.9608" lyborder="6.0143" rxborder="-9.01995" ryborder="-0.0562"></Layer>
+		</Module>
+
+		<!-- module 5 -->
+		<Module xShift="0" yShift="0" zShift="6.399">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.981" yTranslation="0.1" zTranslation="-31.367" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.006" yTranslation="0.03" zTranslation="-5.279" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2566" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.006" yTranslation="-0.03" zTranslation="5.279" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.981" yTranslation="-0.1" zTranslation="31.367" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-8.96445" yorig="6.249" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-8.96445" lyborder="12.3292" rxborder="-15.0444" ryborder="6.249"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-8.96445" yorig="-0.0545" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-8.96445" lyborder="6.0345" rxborder="-15.0444" ryborder="-0.0545"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="-8.969" yorig="6.2556" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-8.97695" lyborder="12.3292" rxborder="-15.0359" ryborder="6.2556"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="-8.969" yorig="-0.0452" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-8.9768" lyborder="6.0253" rxborder="-15.0359" ryborder="-0.0452"></Layer>
+		</Module>
+
+		<!-- module 6 -->
+		<Module xShift="0" yShift="0" zShift="5.254">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.981" yTranslation="0.1" zTranslation="-31.367" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.006" yTranslation="0.03" zTranslation="-5.279" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2566" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.006" yTranslation="-0.03" zTranslation="5.279" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.981" yTranslation="-0.1" zTranslation="31.367" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-14.9509" yorig="6.239" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-14.9509" lyborder="12.3192" rxborder="-21.0309" ryborder="6.239"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-14.9509" yorig="-0.0645" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-14.9509" lyborder="6.0245" rxborder="-21.0309" ryborder="-0.0645"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="-14.9555" yorig="6.2456" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-14.9634" lyborder="12.3192" rxborder="-21.0224" ryborder="6.2456"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="-14.9555" yorig="-0.0552" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-14.9633" lyborder="6.0153" rxborder="-21.0224" ryborder="-0.0552"></Layer>
+		</Module>
+
+		<!-- module 7 -->
+		<Module xShift="0" yShift="0" zShift="1.94">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.981" yTranslation="0.1" zTranslation="-31.367" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="-0.1563" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.981" yTranslation="-0.1" zTranslation="31.367" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="21.06" yorig="-6.0645" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="21.06" lyborder="0.0245" rxborder="14.9799" ryborder="-6.0645"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="21.06" yorig="-12.3592" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="21.06" lyborder="-6.279" rxborder="14.9799" ryborder="-12.3592"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="21.0582" yorig="-6.0553" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="21.0514" lyborder="0.0152" rxborder="14.9923" ryborder="-6.0553"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="21.0582" yorig="-12.3592" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="21.0514" lyborder="-6.2856" rxborder="14.9924" ryborder="-12.3592"></Layer>
+		</Module>
+
+		<!-- module 8 -->
+		<Module xShift="0" yShift="0" zShift="0.77">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.981" yTranslation="0.1" zTranslation="-31.367" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="-0.1563" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.981" yTranslation="-0.1" zTranslation="31.367" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="15.049" yorig="-6.0585" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="15.049" lyborder="0.0305" rxborder="8.96895" ryborder="-6.0585"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="15.049" yorig="-12.3532" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="15.049" lyborder="-6.273" rxborder="8.96895" ryborder="-12.3532"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="15.0472" yorig="-6.0493" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="15.0405" lyborder="0.0212" rxborder="8.9813" ryborder="-6.0493"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="15.0472" yorig="-12.3532" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="15.0405" lyborder="-6.2796" rxborder="8.98145" ryborder="-12.3532"></Layer>
+		</Module>
+
+		<!-- module 9 -->
+		<Module xShift="0" yShift="0" zShift="1.925">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.981" yTranslation="0.1" zTranslation="-31.367" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="-0.1563" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.981" yTranslation="-0.1" zTranslation="31.367" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="9.04695" yorig="-6.0575" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="9.04695" lyborder="0.0315" rxborder="2.96695" ryborder="-6.0575"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="9.04695" yorig="-12.3522" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="9.04695" lyborder="-6.272" rxborder="2.96695" ryborder="-12.3522"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="9.0452" yorig="-6.0483" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="9.03845" lyborder="0.0222" rxborder="2.9793" ryborder="-6.0483"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="9.0452" yorig="-12.3522" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="9.03845" lyborder="-6.2786" rxborder="2.97945" ryborder="-12.3522"></Layer>
+		</Module>
+
+		<!-- module 10 -->
+		<Module xShift="0" yShift="0" zShift="0.75">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.981" yTranslation="0.1" zTranslation="-31.367" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="-0.1563" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.981" yTranslation="-0.1" zTranslation="31.367" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="3.04145" yorig="-9.0565" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="3.04145" lyborder="-2.9675" rxborder="-3.03855" ryborder="-9.0565"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="3.04145" yorig="-15.3512" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="3.04145" lyborder="-9.271" rxborder="-3.03855" ryborder="-15.3512"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="3.0397" yorig="-9.0473" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="3.03295" lyborder="-2.9768" rxborder="-3.0262" ryborder="-9.0473"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="3.0397" yorig="-15.3512" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="3.03295" lyborder="-9.2776" rxborder="-3.02605" ryborder="-15.3512"></Layer>
+		</Module>
+
+		<!-- module 11 -->
+		<Module xShift="0" yShift="0" zShift="2.115">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.981" yTranslation="0.1" zTranslation="-31.367" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="-0.1563" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.981" yTranslation="-0.1" zTranslation="31.367" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-2.95395" yorig="-6.0665" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-2.95395" lyborder="-6.0665" rxborder="-9.03395" ryborder="0.0225"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-2.95395" yorig="-12.3612" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-2.95395" lyborder="-12.3612" rxborder="-9.03395" ryborder="-6.281"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="-2.9585" yorig="-6.0573" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-2.9663" lyborder="-6.0573" rxborder="-9.02545" ryborder="0.0132"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="-2.9585" yorig="-12.3612" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-2.96645" lyborder="-12.3612" rxborder="-9.02545" ryborder="-6.2876"></Layer>
+		</Module>
+
+		<!-- module 12 -->
+		<Module xShift="0" yShift="0" zShift="0.93">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.981" yTranslation="0.1" zTranslation="-31.367" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="-0.1563" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.981" yTranslation="-0.1" zTranslation="31.367" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-8.95495" yorig="-6.0585" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-8.95495" lyborder="-6.0585" rxborder="-15.035" ryborder="0.0305"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-8.95495" yorig="-12.3532" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-8.95495" lyborder="-12.3532" rxborder="-15.035" ryborder="-6.273"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="-8.9595" yorig="-6.0493" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-8.9673" lyborder="-6.0493" rxborder="-15.0264" ryborder="0.0212"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="-8.9595" yorig="-12.3532" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-8.96745" lyborder="-12.3532" rxborder="-15.0264" ryborder="-6.2796"></Layer>
+		</Module>
+
+		<!-- module 13 -->
+		<Module xShift="0" yShift="0" zShift="2.125">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.981" yTranslation="0.1" zTranslation="-31.367" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="-0.1563" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.981" yTranslation="-0.1" zTranslation="31.367" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-14.9565" yorig="-6.0675" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-14.9565" lyborder="-6.0675" rxborder="-21.0365" ryborder="0.0215"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-14.9565" yorig="-12.3622" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-14.9565" lyborder="-12.3622" rxborder="-21.0365" ryborder="-6.282"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="-14.961" yorig="-6.0583" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-14.9688" lyborder="-6.0583" rxborder="-21.028" ryborder="0.0122"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="-14.961" yorig="-12.3622" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-14.9689" lyborder="-12.3622" rxborder="-21.028" ryborder="-6.2886"></Layer>
+		</Module>
+
+	</Station>
+
+<!-- Station 3 -->
+	<Station xPosition="1.0065" yPosition="-0.0945" zPosition="40.1595" rotAngleDeg="0.0" rotCenterX="0.0" rotCenterY="0.0">
+
+		<!-- module 0 -->
+		<Module xShift="0" yShift="0" zShift="6.3875">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.2285" yTranslation="-0.4585" zTranslation="-5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2504" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.2285" yTranslation="0.4585" zTranslation="5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="27.2804" yorig="6.7435" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="27.2804" lyborder="6.7435" rxborder="21.2004" ryborder="12.8237"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="27.2804" yorig="0.44" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="27.2804" lyborder="0.44" rxborder="21.2004" ryborder="6.529"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="27.2787" yorig="6.7501" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="27.2719" lyborder="6.7501" rxborder="21.2129" ryborder="12.8237"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="27.2787" yorig="0.4493" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="27.2719" lyborder="0.4493" rxborder="21.2128" ryborder="6.5198"></Layer>
+		</Module>
+
+		<!-- module 1 -->
+		<Module xShift="0" yShift="0" zShift="5.1825">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.2285" yTranslation="-0.4585" zTranslation="-5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2504" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.2285" yTranslation="0.4585" zTranslation="5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="21.2729" yorig="6.7435" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="21.2729" lyborder="6.7435" rxborder="15.1929" ryborder="12.8237"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="21.2729" yorig="0.44" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="21.2729" lyborder="0.44" rxborder="15.1929" ryborder="6.529"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="21.2712" yorig="6.7501" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="21.2644" lyborder="6.7501" rxborder="15.2054" ryborder="12.8237"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="21.2712" yorig="0.4493" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="21.2644" lyborder="0.4493" rxborder="15.2053" ryborder="6.5198"></Layer>
+		</Module>
+
+		<!-- module 2 -->
+		<Module xShift="0" yShift="0" zShift="6.3325">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.2285" yTranslation="-0.4585" zTranslation="-5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2504" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.2285" yTranslation="0.4585" zTranslation="5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="15.2804" yorig="6.7445" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="15.2804" lyborder="6.7445" rxborder="9.20045" ryborder="12.8247"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="15.2804" yorig="0.441" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="15.2804" lyborder="0.441" rxborder="9.20045" ryborder="6.53"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="15.2787" yorig="6.7511" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="15.2719" lyborder="6.7511" rxborder="9.21295" ryborder="12.8247"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="15.2787" yorig="0.4503" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="15.2719" lyborder="0.4503" rxborder="9.2128" ryborder="6.5208"></Layer>
+		</Module>
+
+		<!-- module 3 -->
+		<Module xShift="0" yShift="0" zShift="5.1875">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.2285" yTranslation="-0.4585" zTranslation="-5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2504" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.2285" yTranslation="0.4585" zTranslation="5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="9.26745" yorig="6.7375" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="9.26745" lyborder="6.7375" rxborder="3.18745" ryborder="12.8177"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="9.26745" yorig="0.434" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="9.26745" lyborder="0.434" rxborder="3.18745" ryborder="6.523"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="9.2657" yorig="6.7441" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="9.25895" lyborder="6.7441" rxborder="3.19995" ryborder="12.8177"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="9.2657" yorig="0.4433" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="9.25895" lyborder="0.4433" rxborder="3.1998" ryborder="6.5138"></Layer>
+		</Module>
+
+		<!-- module 4 -->
+		<Module xShift="0" yShift="0" zShift="6.3725">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.2285" yTranslation="-0.4585" zTranslation="-5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2504" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.2285" yTranslation="0.4585" zTranslation="5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="3.26945" yorig="9.7405" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="3.26945" lyborder="9.7405" rxborder="-2.81055" ryborder="15.8207"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="3.26945" yorig="3.437" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="3.26945" lyborder="3.437" rxborder="-2.81055" ryborder="9.526"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="3.2677" yorig="9.7471" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="3.26095" lyborder="9.7471" rxborder="-2.79805" ryborder="15.8207"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="3.2677" yorig="3.4463" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="3.26095" lyborder="3.4463" rxborder="-2.7982" ryborder="9.5168"></Layer>
+		</Module>
+
+		<!-- module 5 -->
+		<Module xShift="0" yShift="0" zShift="5.0375">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.2285" yTranslation="-0.4585" zTranslation="-5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2504" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.2285" yTranslation="0.4585" zTranslation="5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-2.72495" yorig="6.7315" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-2.72495" lyborder="12.8117" rxborder="-8.80495" ryborder="6.7315"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-2.72495" yorig="0.428" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-2.72495" lyborder="6.517" rxborder="-8.80495" ryborder="0.428"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="-2.7295" yorig="6.7381" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-2.73745" lyborder="12.8117" rxborder="-8.79645" ryborder="6.7381"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="-2.7295" yorig="0.4373" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-2.7373" lyborder="6.5078" rxborder="-8.79645" ryborder="0.4373"></Layer>
+		</Module>
+
+		<!-- module 6 -->
+		<Module xShift="0" yShift="0" zShift="6.2125">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.2285" yTranslation="-0.4585" zTranslation="-5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2504" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.2285" yTranslation="0.4585" zTranslation="5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-8.73245" yorig="6.7395" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-8.73245" lyborder="12.8197" rxborder="-14.8125" ryborder="6.7395"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-8.73245" yorig="0.436" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-8.73245" lyborder="6.525" rxborder="-14.8125" ryborder="0.436"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="-8.737" yorig="6.7461" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-8.74495" lyborder="12.8197" rxborder="-14.804" ryborder="6.7461"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="-8.737" yorig="0.4453" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-8.7448" lyborder="6.5158" rxborder="-14.804" ryborder="0.4453"></Layer>
+		</Module>
+
+		<!-- module 7 -->
+		<Module xShift="0" yShift="0" zShift="5.0325">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.2285" yTranslation="-0.4585" zTranslation="-5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2504" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.2285" yTranslation="0.4585" zTranslation="5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-14.73" yorig="6.7325" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-14.73" lyborder="12.8127" rxborder="-20.81" ryborder="6.7325"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-14.73" yorig="0.429" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-14.73" lyborder="6.518" rxborder="-20.81" ryborder="0.429"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="-14.7345" yorig="6.7391" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-14.7425" lyborder="12.8127" rxborder="-20.8015" ryborder="6.7391"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="-14.7345" yorig="0.4383" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-14.7423" lyborder="6.5088" rxborder="-20.8015" ryborder="0.4383"></Layer>
+		</Module>
+
+		<!-- module 8 -->
+		<Module xShift="0" yShift="0" zShift="6.2175">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-0.2285" yTranslation="-0.4585" zTranslation="-5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.2504" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="0.2285" yTranslation="0.4585" zTranslation="5.1125" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-20.6305" yorig="6.7305" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-20.6305" lyborder="12.8107" rxborder="-26.7105" ryborder="6.7305"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="-20.6305" yorig="0.427" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-20.6305" lyborder="6.516" rxborder="-26.7105" ryborder="0.427"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="-20.635" yorig="6.7371" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-20.643" lyborder="12.8107" rxborder="-26.702" ryborder="6.7371"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="-20.635" yorig="0.4363" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-20.6428" lyborder="6.5068" rxborder="-26.702" ryborder="0.4363"></Layer>
+		</Module>
+
+		<!-- module 9 -->
+		<Module xShift="0" yShift="0" zShift="0.81">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.7422" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="27.0514" yorig="-6.0545" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="27.0514" lyborder="0.0345" rxborder="20.9714" ryborder="-6.0545"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="27.0514" yorig="-12.3492" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="27.0514" lyborder="-6.269" rxborder="20.9714" ryborder="-12.3492"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="27.0497" yorig="-6.0453" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="27.0429" lyborder="0.0252" rxborder="20.9838" ryborder="-6.0453"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="27.0497" yorig="-12.3492" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="27.0429" lyborder="-6.2756" rxborder="20.9839" ryborder="-12.3492"></Layer>
+		</Module>
+
+		<!-- module 10 -->
+		<Module xShift="0" yShift="0" zShift="1.935">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.7422" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="21.0399" yorig="-6.0515" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="21.0399" lyborder="0.0375" rxborder="14.9599" ryborder="-6.0515"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="21.0399" yorig="-12.3462" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="21.0399" lyborder="-6.266" rxborder="14.9599" ryborder="-12.3462"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="21.0382" yorig="-6.0423" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="21.0314" lyborder="0.0282" rxborder="14.9723" ryborder="-6.0423"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="21.0382" yorig="-12.3462" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="21.0314" lyborder="-6.2726" rxborder="14.9724" ryborder="-12.3462"></Layer>
+		</Module>
+
+		<!-- module 11 -->
+		<Module xShift="0" yShift="0" zShift="0.805">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.7422" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="15.0529" yorig="-6.0515" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="15.0529" lyborder="0.0375" rxborder="8.97295" ryborder="-6.0515"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="15.0529" yorig="-12.3462" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="15.0529" lyborder="-6.266" rxborder="8.97295" ryborder="-12.3462"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="15.0512" yorig="-6.0423" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="15.0444" lyborder="0.0282" rxborder="8.9853" ryborder="-6.0423"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="15.0512" yorig="-12.3462" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="15.0444" lyborder="-6.2726" rxborder="8.98545" ryborder="-12.3462"></Layer>
+		</Module>
+
+		<!-- module 12 -->
+		<Module xShift="0" yShift="0" zShift="1.96">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.7422" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="9.03795" yorig="-6.0545" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="9.03795" lyborder="0.0345" rxborder="2.95795" ryborder="-6.0545"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="9.03795" yorig="-12.3492" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="9.03795" lyborder="-6.269" rxborder="2.95795" ryborder="-12.3492"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="9.0362" yorig="-6.0453" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="9.02945" lyborder="0.0252" rxborder="2.9703" ryborder="-6.0453"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="9.0362" yorig="-12.3492" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="9.02945" lyborder="-6.2756" rxborder="2.97045" ryborder="-12.3492"></Layer>
+		</Module>
+
+		<!-- module 13 -->
+		<Module xShift="0" yShift="0" zShift="0.815">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.7422" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="3.03895" yorig="-9.0495" xsize="6.08" ysize="6.089" stripDirection="LeftToRight" lxborder="3.03895" lyborder="-2.9605" rxborder="-3.04105" ryborder="-9.0495"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="0" pitch="0.0095" xorig="3.03895" yorig="-15.3442" xsize="6.08" ysize="6.0802" stripDirection="LeftToRight" lxborder="3.03895" lyborder="-9.264" rxborder="-3.04105" ryborder="-15.3442"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="2.5" pitch="0.0102902" xorig="3.0372" yorig="-9.0403" xsize="6.0737" ysize="6.0705" stripDirection="RightToLeft" lxborder="3.03045" lyborder="-2.9698" rxborder="-3.0287" ryborder="-9.0403"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="2.5" pitch="0.0102902" xorig="3.0372" yorig="-15.3442" xsize="6.0737" ysize="6.0736" stripDirection="RightToLeft" lxborder="3.03045" lyborder="-9.2706" rxborder="-3.02855" ryborder="-15.3442"></Layer>
+		</Module>
+
+		<!-- module 14 -->
+		<Module xShift="0" yShift="0" zShift="2.105">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.7422" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-2.96195" yorig="-6.0545" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-2.96195" lyborder="-6.0545" rxborder="-9.04195" ryborder="0.0345"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-2.96195" yorig="-12.3492" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-2.96195" lyborder="-12.3492" rxborder="-9.04195" ryborder="-6.269"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="-2.9665" yorig="-6.0453" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-2.9743" lyborder="-6.0453" rxborder="-9.03345" ryborder="0.0252"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="-2.9665" yorig="-12.3492" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-2.97445" lyborder="-12.3492" rxborder="-9.03345" ryborder="-6.2756"></Layer>
+		</Module>
+
+		<!-- module 15 -->
+		<Module xShift="0" yShift="0" zShift="0.935">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.7422" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-8.95095" yorig="-6.0505" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-8.95095" lyborder="-6.0505" rxborder="-15.031" ryborder="0.0385"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-8.95095" yorig="-12.3452" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-8.95095" lyborder="-12.3452" rxborder="-15.031" ryborder="-6.265"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="-8.9555" yorig="-6.0413" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-8.9633" lyborder="-6.0413" rxborder="-15.0225" ryborder="0.0292"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="-8.9555" yorig="-12.3452" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-8.96345" lyborder="-12.3452" rxborder="-15.0225" ryborder="-6.2716"></Layer>
+		</Module>
+
+		<!-- module 16 -->
+		<Module xShift="0" yShift="0" zShift="2.06">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.7422" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-14.9555" yorig="-6.0655" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-14.9555" lyborder="-6.0655" rxborder="-21.0355" ryborder="0.0235"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-14.9555" yorig="-12.3602" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-14.9555" lyborder="-12.3602" rxborder="-21.0355" ryborder="-6.28"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="-14.96" yorig="-6.0563" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-14.9678" lyborder="-6.0563" rxborder="-21.027" ryborder="0.0142"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="-14.96" yorig="-12.3602" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-14.968" lyborder="-12.3602" rxborder="-21.027" ryborder="-6.2866"></Layer>
+		</Module>
+
+		<!-- module 17 -->
+		<Module xShift="0" yShift="0" zShift="0.905">
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="-1.0065" yTranslation="0.0945" zTranslation="-40.1595" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0.7422" zRotationDeg="0" xTranslation="0" yTranslation="0" zTranslation="0" />
+			<Transform rotOrder="XYZ" xRotationDeg="0" yRotationDeg="0" zRotationDeg="0" xTranslation="1.0065" yTranslation="-0.0945" zTranslation="40.1595" />
+
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-20.957" yorig="-6.0585" xsize="6.08" ysize="6.089" stripDirection="RightToLeft" lxborder="-20.957" lyborder="-6.0585" rxborder="-27.037" ryborder="0.0305"></Layer>
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="-20.957" yorig="-12.3532" xsize="6.08" ysize="6.0802" stripDirection="RightToLeft" lxborder="-20.957" lyborder="-12.3532" rxborder="-27.037" ryborder="-6.273"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="26" stripAngle="-2.5" pitch="0.0102902" xorig="-20.9615" yorig="-6.0493" xsize="6.0737" ysize="6.0705" stripDirection="LeftToRight" lxborder="-20.9693" lyborder="-6.0493" rxborder="-27.0285" ryborder="0.0212"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.0102902" xorig="-20.9615" yorig="-12.3532" xsize="6.0737" ysize="6.0736" stripDirection="LeftToRight" lxborder="-20.9695" lyborder="-12.3532" rxborder="-27.0285" ryborder="-6.2796"></Layer>
+		</Module>
+
+	</Station>
+
+</StationSet>

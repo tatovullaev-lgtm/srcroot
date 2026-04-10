@@ -1,0 +1,43 @@
+<StationSet>
+
+<!-- Station 0 -->
+	<Station xPosition="0.169" yPosition="0.003" zPosition="-263.11">
+
+		<!-- module 0 -->
+		<Module xShift="0" yShift="0" zShift="0" thickness="0.018">
+
+                    <Transform rotOrder="ZYX" xRotationDeg="0.0" yRotationDeg="0.0" zRotationDeg="0.0" xTranslation="-0.169" yTranslation="-0.003" zTranslation="0.0" />
+                    <Transform rotOrder="ZYX" xRotationDeg="0.0" yRotationDeg="0.0" zRotationDeg="-0.227" xTranslation="0.0" yTranslation="0.0" zTranslation="0.0" />
+                    <Transform rotOrder="ZYX" xRotationDeg="0.0" yRotationDeg="0.0" zRotationDeg="0.0" xTranslation="+0.169" yTranslation="+0.003" zTranslation="0.0" />
+
+                    <Layer zoneNumber="0" type="lower" stripAngle="0.0" pitch="0.0475" xorig="+3.04" yorig="-3.04" xsize="6.08" ysize="6.08" stripDirection="LeftToRight" lxborder="+3.04" lyborder="3.04" rxborder="-3.04" ryborder="-3.04">
+                    </Layer>
+
+                    <Layer zoneNumber="0" type="upper" stripAngle="+90.0" pitch="0.0475" xorig="+3.04" yorig="-3.04" xsize="6.08" ysize="6.08" stripDirection="LeftToRight" lxborder="+3.04" lyborder="3.04" rxborder="-3.04" ryborder="-3.04">
+                    </Layer>
+
+                </Module>
+
+	</Station>
+
+<!-- Station 1 -->
+	<Station xPosition="0.298" yPosition="-0.049" zPosition="-64.077">
+
+		<!-- module 0 -->
+		<Module xShift="0" yShift="0" zShift="0" thickness="0.018">
+
+                    <Transform rotOrder="ZYX" xRotationDeg="0.0" yRotationDeg="0.0" zRotationDeg="0.0" xTranslation="-0.298" yTranslation="+0.049" zTranslation="0.0" />
+                    <Transform rotOrder="ZYX" xRotationDeg="0.0" yRotationDeg="0.0" zRotationDeg="-0.059" xTranslation="0.0" yTranslation="0.0" zTranslation="0.0" />
+                    <Transform rotOrder="ZYX" xRotationDeg="0.0" yRotationDeg="0.0" zRotationDeg="0.0" xTranslation="+0.298" yTranslation="-0.049" zTranslation="0.0" />
+
+                    <Layer zoneNumber="0" type="lower" stripAngle="0.0" pitch="0.0475" xorig="+3.04" yorig="-3.04" xsize="6.08" ysize="6.08" stripDirection="LeftToRight" lxborder="+3.04" lyborder="3.04" rxborder="-3.04" ryborder="-3.04">
+                    </Layer>
+
+                    <Layer zoneNumber="0" type="upper" stripAngle="+90.0" pitch="0.0475" xorig="+3.04" yorig="-3.04" xsize="6.08" ysize="6.08" stripDirection="LeftToRight" lxborder="+3.04" lyborder="3.04" rxborder="-3.04" ryborder="-3.04">
+                    </Layer>
+
+                </Module>
+
+	</Station>
+
+</StationSet>

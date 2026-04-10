@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    A right-handed coordinates are used.
+    If you look at the Silicon detector from the target:
+        x-axis is directed to the left,
+        y-axis - to the top,
+        z-axis - to the Silicon.
+
+ * Baranov D.
+
+ * WARNING: all units is in cm!!!
+ *
+ */
+-->
+
+<StationSet>
+
+<!-- Station 0 -->
+	<Station xPosition="0.0" yPosition="0.0" zPosition="0.0" rotAngleDeg="0.0" rotCenterX="0.0" rotCenterY="0.0">
+
+		<!-- module 0 -->
+		<Module xShift="0" yShift="0" zShift="0.0">
+			<Layer zoneID="0" type="lower" firstStripNumber="0" stripAngle="-0" pitch="0.0095" xorig="9.16545" yorig="0.133" xsize="6.0799" ysize="9.089" stripDirection="LeftToRight" lxborder="9.16545" lyborder="0.133" rxborder="3.08555" ryborder="9.222"></Layer>
+			<Layer zoneID="1" type="upper" firstStripNumber="0" stripAngle="-2.5" pitch="0.010715" xorig="9.1637" yorig="0.1423" xsize="6.0764" ysize="9.0704" stripDirection="RightToLeft" lxborder="9.16115" lyborder="0.1423" rxborder="3.08991" ryborder="9.2127"></Layer>
+		</Module>
+
+	</Station>
+
+</StationSet>

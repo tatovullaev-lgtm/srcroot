@@ -1,0 +1,20 @@
+<jobs batch="sge">
+ <job name="mpd_sim">
+  <macro path="~/mpdroot/macro/mpd/runMC.C">
+   <file file_input="~/vhlle_urqmd.txt" output="root://eos-hlit.jinr.ru//eos/hybrilit.jinr.ru/nica/tmp/evetest_${file_name}.root" start_event="0" count_event="10"/>
+  </macro>
+  <run mode="global" count="0" config="~/mpdroot/build/config.sh" queue="skylake"/>
+ </job>
+ <job name="mpd_reco" dependency="mpd_sim">
+  <macro path="~/mpdroot/macro/mpd/reco.C">
+   <file job_input="mpd_simulation" output="root://eos-hlit.jinr.ru//eos/hybrilit.jinr.ru/nica/tmp/mpddst_${file_name:~8}.root" start_event="0" count_event="10"/>
+  </macro>
+  <run mode="global" count="0" config="~/mpdroot/build/config.sh" queue="skylake"/>
+ </job>
+ <job name="mpd_ana" dependency="mpd_reco">
+  <macro path="~/mpdroot/macro/physical_analysis/femto/femtoAna.C">
+   <file job_input="mpd_reconstruction" output="root://eos-hlit.jinr.ru//eos/hybrilit.jinr.ru/nica/tmp/femtoana_${file_name:~7}.root" start_event="0" count_event="10"/>
+  </macro>
+  <run mode="global" count="0" config="~/mpdroot/build/config.sh" queue="skylake"/>
+ </job>
+</jobs>

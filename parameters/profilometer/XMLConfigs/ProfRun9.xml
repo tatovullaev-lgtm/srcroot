@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Silicon Beam Profilometer (SiProf) configuration: Run9
+    Author: Baranov D.
+    Created: 25.04.2025
+
+    A right-handed coordinates are used.
+    If you look at the detecctor from the target:
+        x-axis is directed to the left,
+        y-axis - to the top,
+        z-axis - to the detector
+-->
+
+<StationSet>
+
+<!-- Station 0 -->
+	<Station xPosition="-0.066" yPosition="0.083" zPosition="-303.198">
+
+		<!-- module 0 -->
+		<Module xShift="0" yShift="0" zShift="0" thickness="0.018">
+
+                    <Transform rotOrder="ZYX" xRotationDeg="0.0" yRotationDeg="0.0" zRotationDeg="0.0" xTranslation="+0.066" yTranslation="-0.083" zTranslation="0.0" />
+                    <Transform rotOrder="ZYX" xRotationDeg="0.0" yRotationDeg="0.0" zRotationDeg="-0.111" xTranslation="0.0" yTranslation="0.0" zTranslation="0.0" />
+                    <Transform rotOrder="ZYX" xRotationDeg="0.0" yRotationDeg="0.0" zRotationDeg="0.0" xTranslation="-0.066" yTranslation="+0.083" zTranslation="0.0" />
+
+                    <Layer zoneNumber="0" type="lower" stripAngle="0.0" pitch="0.0475" xorig="+3.04" yorig="-3.04" xsize="6.08" ysize="6.08" stripDirection="LeftToRight" lxborder="+3.04" lyborder="3.04" rxborder="-3.04" ryborder="-3.04">
+                    </Layer>
+
+                    <Layer zoneNumber="0" type="upper" stripAngle="+90.0" pitch="0.0475" xorig="+3.04" yorig="-3.04" xsize="6.08" ysize="6.08" stripDirection="LeftToRight" lxborder="+3.04" lyborder="3.04" rxborder="-3.04" ryborder="-3.04">
+                    </Layer>
+
+                </Module>
+
+	</Station>
+
+<!-- Station 1 -->
+	<Station xPosition="0.349" yPosition="0.279" zPosition="-103.956">
+
+		<!-- module 0 -->
+		<Module xShift="0" yShift="0" zShift="0" thickness="0.018">
+
+                    <Transform rotOrder="ZYX" xRotationDeg="0.0" yRotationDeg="0.0" zRotationDeg="0.0" xTranslation="-0.349" yTranslation="-0.279" zTranslation="0.0" />
+                    <Transform rotOrder="ZYX" xRotationDeg="0.0" yRotationDeg="0.0" zRotationDeg="+0.08" xTranslation="0.0" yTranslation="0.0" zTranslation="0.0" />
+                    <Transform rotOrder="ZYX" xRotationDeg="0.0" yRotationDeg="0.0" zRotationDeg="0.0" xTranslation="+0.349" yTranslation="+0.279" zTranslation="0.0" />
+
+                    <Layer zoneNumber="0" type="lower" stripAngle="0.0" pitch="0.0475" xorig="+3.04" yorig="-3.04" xsize="6.08" ysize="6.08" stripDirection="LeftToRight" lxborder="+3.04" lyborder="3.04" rxborder="-3.04" ryborder="-3.04">
+                    </Layer>
+
+                    <Layer zoneNumber="0" type="upper" stripAngle="+90.0" pitch="0.0475" xorig="+3.04" yorig="-3.04" xsize="6.08" ysize="6.08" stripDirection="LeftToRight" lxborder="+3.04" lyborder="3.04" rxborder="-3.04" ryborder="-3.04">
+                    </Layer>
+
+                </Module>
+
+	</Station>
+
+</StationSet>

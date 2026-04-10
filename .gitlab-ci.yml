@@ -1,0 +1,381 @@
+stages:
+ - check_permissions
+ - check_formatting
+ - build
+ - test_all_macros
+ - test_form_digi
+ - test_run_reco
+ - deploy
+
+include:
+  - '/services/tests/.test-all-macros.yml'
+  - '/services/tests/.check-formatting.yml'
+
+workflow:
+  auto_cancel:
+    on_job_failure: all
+
+before_script:
+  - '[ $OS_TYPE == "centos7" ] && source /cvmfs/bmn.jinr.ru/config/x86_64-centos7/cluster_config.sh'
+  - '[ $OS_TYPE == "alma9" ] && source /cvmfs/bmn.jinr.ru/config/x86_64-alma9/cluster_config.sh'
+  - '[ $OS_TYPE == "centos7" ] && export FAIRSOFT_VERSION=jan24p2 FAIRROOT_VERSION=v18.8.1'
+  - export SIMPATH=/cvmfs/bmn.jinr.ru/fairsoft/${FAIRSOFT_VERSION}/x86_64-$OS_TYPE
+  - export FAIRROOTPATH=/cvmfs/bmn.jinr.ru/fairroot/${FAIRROOT_VERSION}/x86_64-$OS_TYPE
+  - source ./SetEnv.sh
+ 
+variables:
+ GIT_SUBMODULE_STRATEGY: recursive
+ GREEN: '\033[1;32m'
+ RED: '\033[1;31m'
+ NC: '\033[0m'
+
+.only-default: &only-default
+  only:
+    - merge_requests
+    - dev
+    - tags
+  except:
+    - schedules
+
+
+check_permissions:
+  image: git.jinr.ru:5005/nica/bmndist/base:centos7
+  variables:
+    OS_TYPE: "centos7"
+    PERMISSIONS_MESSAGE_FAUILURE: "Permissions check: ${RED}FAILED${NC}. You don't have permission to change some files, please contact your project maintainers."
+    PERMISSIONS_MESSAGE_SUCCESS: "Permissions check: ${GREEN}PASSED${NC}."
+  before_script:
+    - echo "Skipping global before_script"
+  tags:
+    - docker
+  stage: check_permissions
+  script:
+    - >
+      if git diff HEAD~ --name-only|grep .gitlab-ci.yml; then
+        if grep -q $GITLAB_USER_LOGIN <<< $MAINTAINERS; then echo -e $PERMISSIONS_MESSAGE_SUCCESS $(exit 0); else echo -e $PERMISSIONS_MESSAGE_FAUILURE; $(exit -1); fi
+      fi;
+  allow_failure: false
+  <<: *only-default
+
+
+.build_template: &build
+  stage: build
+  artifacts:
+    paths:
+      - install
+      - database/geo_db/local.db
+      - database/geo_db/storage
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_INSTALL_PREFIX="$CI_PROJECT_DIR/install" "$CI_PROJECT_DIR"
+    - make -j 5
+    - make install
+  allow_failure: false
+  <<: *only-default
+  
+build:
+  image: $IMAGE
+  variables:
+    OS_TYPE: $OS_TYPE
+  tags:
+    - docker
+    - cvmfs
+  needs: ["check_permissions"]
+  parallel:
+    matrix: &build_matrix
+      - OS_TYPE: "centos7"
+        IMAGE: "git.jinr.ru:5005/nica/bmndist/base:centos7"
+      - OS_TYPE: "ubuntu2404"
+        IMAGE: "git.jinr.ru:5005/nica/bmndist/base:ubuntu2404"
+      - OS_TYPE: "alma9"
+        IMAGE: "git.jinr.ru:5005/nica/bmndist/base:alma9"
+  <<: *build
+
+.macro_env_steps:
+  script:
+    - export VMCWORKDIR="$CI_PROJECT_DIR/install"
+    - export DBL_FILE_PATH="$CI_PROJECT_DIR/database/geo_db/local.db"
+    - export GEOMPATH="$CI_PROJECT_DIR/database/geo_db/storage/"
+    - find "$CI_PROJECT_DIR" -mindepth 1 -maxdepth 1 ! -name install ! -name database ! -name .git -exec rm -rf {} +
+    - source "$CONFIG_SOURCE"
+
+
+.run_sim_template: &run_sim
+  stage: test_form_digi
+  artifacts:
+    paths:
+      - install/macro/run/bmnsim.root
+  script:
+    - !reference [.macro_env_steps, script]
+    - root -b -q -l "$VMCWORKDIR/$MACRO_NAME" | tee output.txt || true
+    - (if grep -q "Macro finished successfully." output.txt; then $(exit 0); else $(exit -1); fi);
+  allow_failure: false
+  <<: *only-default
+  
+run_sim_bmn:
+  <<: *run_sim
+  image: $IMAGE
+  variables:
+    MACRO_NAME: "macro/run/run_sim_bmn.C"
+  tags:
+    - docker
+    - cvmfs
+  needs:
+    - job: build
+      artifacts: true
+      parallel:
+        matrix:
+          - OS_TYPE: ['$[[ matrix.OS_TYPE ]]']
+            IMAGE: ['$[[ matrix.IMAGE ]]']
+  parallel:
+    matrix: &os_variant_matrix
+      - OS_TYPE: "centos7"
+        IMAGE: "git.jinr.ru:5005/nica/bmndist/base:centos7"
+        CONFIG_SOURCE: "install/bmnroot_config.sh"
+        VARIANT: "install"
+      - OS_TYPE: "ubuntu2404"
+        IMAGE: "git.jinr.ru:5005/nica/bmndist/base:ubuntu2404"
+        CONFIG_SOURCE: "install/bmnroot_config.sh"
+        VARIANT: "install"
+      - OS_TYPE: "alma9"
+        IMAGE: "git.jinr.ru:5005/nica/bmndist/base:alma9"
+        CONFIG_SOURCE: "install/bmnroot_config.sh"
+        VARIANT: "install"
+
+
+.run_raw_template: &run_raw
+  stage: test_form_digi
+  artifacts:
+    paths:
+      - install/macro/run/bmn_exp_digi.root
+  script:
+    - !reference [.macro_env_steps, script]
+    - export MALLOC_CHECK_=0
+    - root -b -q -l "$MACRO_NAME" | tee output.txt
+    - (if grep -q "Macro finished successfully." output.txt; then $(exit 0); else $(exit -1); fi);
+  allow_failure: false
+  <<: *only-default
+
+run_raw_bmn:
+  <<: *run_raw
+  image: $IMAGE
+  variables:
+    MACRO_NAME: '$$VMCWORKDIR/macro/run/run_raw_bmn.C("/cvmfs/bmn.jinr.ru/ci/mpd_run_Top_7883_ev0_p0.data","$$VMCWORKDIR/macro/run/bmn_exp_digi.root",300)'
+  tags:
+    - docker
+    - cvmfs
+  needs:
+    - job: build
+      artifacts: true
+      parallel:
+        matrix:
+          - OS_TYPE: ['$[[ matrix.OS_TYPE ]]']
+            IMAGE: ['$[[ matrix.IMAGE ]]']
+  parallel:
+    matrix: *os_variant_matrix
+
+
+.run_reco_template: &run_reco
+  stage: test_run_reco
+  artifacts:
+    paths:
+      - install/macro/run/bmndst.root
+  script:
+    - !reference [.macro_env_steps, script]
+    - root -b -q -l "$VMCWORKDIR/$MACRO_NAME" | tee output.txt
+    - (if grep -q "Macro finished successfully." output.txt; then $(exit 0); else $(exit -1); fi);
+  allow_failure: false
+  <<: *only-default
+  
+run_reco_sim:
+  <<: *run_reco
+  image: $IMAGE
+  variables:
+    MACRO_NAME: "macro/run/run_reco_bmn.C"
+  tags:
+    - docker
+    - cvmfs
+  needs:
+    - job: build
+      artifacts: true
+      parallel:
+        matrix:
+          - OS_TYPE: ['$[[ matrix.OS_TYPE ]]']
+            IMAGE: ['$[[ matrix.IMAGE ]]']
+    - job: run_sim_bmn
+      artifacts: true
+      parallel:
+        matrix:
+          - OS_TYPE: ['$[[ matrix.OS_TYPE ]]']
+            IMAGE: ['$[[ matrix.IMAGE ]]']
+            CONFIG_SOURCE: ['$[[ matrix.CONFIG_SOURCE ]]']
+            VARIANT: ['$[[ matrix.VARIANT ]]']
+  parallel:
+    matrix: *os_variant_matrix
+
+
+.run_reco_exp_template: &reco_exp
+  stage: test_run_reco
+  script:
+    - !reference [.macro_env_steps, script]
+    - export MALLOC_CHECK_=0
+    - root -b -q -l "$MACRO_NAME" | tee output.txt
+    - (if grep -q "Macro finished successfully." output.txt; then $(exit 0); else $(exit -1); fi);
+  allow_failure: false
+  retry: 2
+  <<: *only-default
+
+run_reco_exp:
+  <<: *reco_exp
+  image: $IMAGE
+  variables:
+    MACRO_NAME: '$$VMCWORKDIR/macro/run/run_reco_bmn.C("$$VMCWORKDIR/macro/run/bmn_exp_digi.root","bmn_exp_dst.root",240,60)'
+  tags:
+    - docker
+    - cvmfs
+  needs:
+    - job: build
+      artifacts: true
+      parallel:
+        matrix:
+          - OS_TYPE: ['$[[ matrix.OS_TYPE ]]']
+            IMAGE: ['$[[ matrix.IMAGE ]]']
+    - job: run_raw_bmn
+      artifacts: true
+      parallel:
+        matrix:
+          - OS_TYPE: ['$[[ matrix.OS_TYPE ]]']
+            IMAGE: ['$[[ matrix.IMAGE ]]']
+            CONFIG_SOURCE: ['$[[ matrix.CONFIG_SOURCE ]]']
+            VARIANT: ['$[[ matrix.VARIANT ]]']
+  parallel:
+    matrix: *os_variant_matrix
+
+
+.deploy_template: &deploy
+  stage: deploy
+  before_script:
+    - echo "Skipping global before_script"
+  script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add /dev/stdin > /dev/null
+    - '[ $CI_ENVIRONMENT_NAME == "alma9" ] && echo "RequiredRSASize 1024" >> /etc/ssh/ssh_config'
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - rm -rf build
+    - mkdir build
+    - cd build
+    - export SIMPATH=/cvmfs/bmn.jinr.ru/fairsoft/${FAIRSOFT_VERSION}/x86_64-$CI_ENVIRONMENT_NAME
+    - export FAIRROOTPATH=/cvmfs/bmn.jinr.ru/fairroot/${FAIRROOT_VERSION}/x86_64-$CI_ENVIRONMENT_NAME
+    - '[ $CI_ENVIRONMENT_NAME == "centos7" ] && source /cvmfs/bmn.jinr.ru/config/x86_64-centos7/cluster_config.sh'
+    - '[ $CI_ENVIRONMENT_NAME == "alma9" ] && source /cvmfs/bmn.jinr.ru/config/x86_64-alma9/cluster_config.sh'
+    - source ../SetEnv.sh
+    - echo "Installing in /cvmfs/bmn.jinr.ru/bmnroot/$CI_COMMIT_REF_NAME/x86_64-$CI_ENVIRONMENT_NAME"
+    - cmake -DCMAKE_INSTALL_PREFIX=/cvmfs/bmn.jinr.ru/bmnroot/$CI_COMMIT_REF_NAME/x86_64-$CI_ENVIRONMENT_NAME -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
+    - make -j 5
+    - make install
+    - curl -L "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/archive.tar?sha=$CI_COMMIT_SHA"|tar -xC /cvmfs/bmn.jinr.ru/bmnroot/$CI_COMMIT_REF_NAME/x86_64-$CI_ENVIRONMENT_NAME/
+    - mv /cvmfs/bmn.jinr.ru/bmnroot/$CI_COMMIT_REF_NAME/x86_64-$CI_ENVIRONMENT_NAME/bmnroot-$CI_COMMIT_SHA-$CI_COMMIT_SHA /cvmfs/bmn.jinr.ru/bmnroot/$CI_COMMIT_REF_NAME/x86_64-$CI_ENVIRONMENT_NAME/src
+    - |
+      retries=5
+      cooldown=15
+
+      ready=0
+      for i in `seq 1 $retries`; do
+        echo -n "Checking if repository is in transaction... "
+        if ssh $STRATUM_0 "cvmfs_server list | grep -E 'bmn.*in transaction' 1>/dev/null" ; then
+          [ $i -le $retries ] && echo "${RED}YES${NC}, retry $i/$retries in ${cooldown}s"
+        else
+          echo '${GREEN}OK{NC}, ready to start new transaction'
+          ready=1
+          break
+        fi
+        sleep $cooldown
+      done
+
+      if [ $ready -eq 1 ]; then
+        echo "Starting transaction"
+        ssh $STRATUM_0 "sudo cvmfs_server transaction bmn.jinr.ru"
+        rsync --filter='-p .cvmfscatalog' --filter='-p .cvmfsautocatalog' -a --delete /cvmfs/bmn.jinr.ru/bmnroot/$CI_COMMIT_REF_NAME/x86_64-$CI_ENVIRONMENT_NAME $STRATUM_0:/cvmfs/bmn.jinr.ru/bmnroot/$CI_COMMIT_REF_NAME/
+        ssh $STRATUM_0 "sudo cvmfs_server publish bmn.jinr.ru"
+      else
+        echo "Failed to start new transaction"
+        exit 1
+      fi
+    - ssh-agent -k
+  only:
+    - tags
+    - dev
+  except:
+    - schedules
+  allow_failure: false
+
+deploy:centos7:
+  image: git.jinr.ru:5005/nica/bmndist/fair:jan24p2_v18.8.1-centos7-ci
+  variables:
+    FAIRSOFT_VERSION: "jan24p2"
+    FAIRROOT_VERSION: "v18.8.1"
+  environment:
+    name: centos7
+  tags:
+    - docker
+    - no-cvmfs
+  <<: *deploy
+
+deploy:alma9:
+  image: git.jinr.ru:5005/nica/bmndist/fair:${FAIRSOFT_VERSION}_${FAIRROOT_VERSION}-alma9-ci
+  environment:
+    name: alma9
+  tags:
+    - docker
+    - no-cvmfs
+  <<: *deploy
+
+
+build_docker:
+  before_script:
+    - echo "Skipping global before_script"
+  image: alpine:latest
+  stage: deploy
+  script:
+    - apk add --no-cache curl
+    - "curl -X POST -F token=$BUILD_TRIGGER_TOKEN -F ref=main -F variables[BMN]=true -F variables[VERSION]=$CI_COMMIT_REF_SLUG -F variables[SHA]=$CI_COMMIT_SHA https://git.jinr.ru/api/v4/projects/1622/trigger/pipeline"
+  only:
+    - tags
+    - dev
+  except:
+    - schedules
+
+
+pages:
+  image: git.jinr.ru:5005/nica/bmndist/base:ubuntu2404
+  stage: deploy
+  variables:
+    OS_TYPE: "ubuntu2404"
+  tags:
+    - docker
+    - cvmfs
+  before_script:
+    - echo "Skipping global before_script"
+  script:
+    - apt-get update && apt-get install -y doxygen graphviz
+    - export SIMPATH=/cvmfs/bmn.jinr.ru/fairsoft/${FAIRSOFT_VERSION}/x86_64-$OS_TYPE
+    - export FAIRROOTPATH=/cvmfs/bmn.jinr.ru/fairroot/${FAIRROOT_VERSION}/x86_64-$OS_TYPE
+    - source ./SetEnv.sh
+    - mkdir -p build
+    - cd build
+    - mkdir -p services/doxygen
+    - wget https://raw.githubusercontent.com/jothepro/doxygen-awesome-css/v2.3.2/doxygen-awesome.css -O services/doxygen/doxygen-awesome.css
+    - cmake -DBUILD_DOXYGEN=ON "$CI_PROJECT_DIR"
+    - make -j 5 DoxygenDoc
+    - mv services/doxygen/doc/html $CI_PROJECT_DIR/public
+  artifacts:
+    paths:
+      - public
+  only:
+    - dev
+  except:
+    - schedules

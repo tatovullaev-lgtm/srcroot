@@ -1,0 +1,6 @@
+<job name="bmn_simdb">
+ <macro path="$VMCWORKDIR/macro/run/run_sim_bmn.C" start_event="0" event_count="3" add_args="DCMQGSM">
+  <file sim_input="gen=dcmqgsm" output="/junk/${user}/${file_dir_name}/${file_name}.root"/>
+ </macro>
+ <run mode="global" count="100" config="/cvmfs/bmn.jinr.ru/config/x86_64-centos7/cluster_config.sh,/lhep/users/$USER/bmnroot/build/config.sh"/>
+</job>

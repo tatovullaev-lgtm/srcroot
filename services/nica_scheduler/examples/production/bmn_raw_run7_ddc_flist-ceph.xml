@@ -1,0 +1,10 @@
+<job name="convert_bmn_raw" batch="slurm">
+ <macro path="$VMCWORKDIR/macro/raw/BmnDataToRoot.C">
+  <file file_input="~/bmnroot/services/statistics/unsuccessful_list.txt" output="/eos/lpp/nica/bmn/exp/digi/run7/dev/3590-4707_BMN_Argon/bmn_run${last_number}_digi.root">
+   <put command="xrdcp -f -p -N" directory="/ceph/bmn/work/$USER/"/>
+   <get command="xrdcp -f -p -N" directory="/ceph/bmn/work/$USER/"/>
+   <clean path="/ceph/bmn/work/$USER/bmn_run${last_number}_raw.root"/>
+  </file>
+ </macro>
+ <run mode="global" count="40" config="~/bmnroot/build/config.sh"/>
+</job>

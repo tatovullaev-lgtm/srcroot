@@ -1,0 +1,13 @@
+[VERSION]
+id = 1.0
+
+[COMMENT]
+str = void
+
+[EXPERIMENT]
+# use (1) && FHCalDigi-> and then anything you want from BmnFHCalDigi class
+cut = (1) && FHCalDigi->fTimeMax>7 && FHCalDigi->fTimeMax<12 && FHCalDigi->fSignal>0.0
+
+[SIMULATION]
+# use (1) && FHCalDigit-> and then anything you want from BmnFHCalDigit class
+cut = (1)

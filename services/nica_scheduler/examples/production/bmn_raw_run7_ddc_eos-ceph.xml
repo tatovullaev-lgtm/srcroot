@@ -1,0 +1,25 @@
+<job name="convert_bmn_raw" batch="slurm">
+ <macro path="$VMCWORKDIR/macro/raw/BmnDataToRoot.C">
+  <file input="/eos/lpp/nica/bmn/exp/raw/run7/2001-2212_Test/*" output="/eos/lpp/nica/bmn/exp/digi/run7/dev/2001-2212_Test/bmn_run${last_number}_digi.root">
+   <put command="xrdcp -f -p -N" directory="/ceph/bmn/work/$USER/"/>
+   <get command="xrdcp -f -p -N" directory="/ceph/bmn/work/$USER/"/>
+   <clean path="/ceph/bmn/work/$USER/bmn_run${last_number}_raw.root"/>
+  </file>
+  <file input="/eos/lpp/nica/bmn/exp/raw/run7/3590-4707_BMN_Argon/*" output="/eos/lpp/nica/bmn/exp/digi/run7/dev/3590-4707_BMN_Argon/bmn_run${last_number}_digi.root">
+   <put command="xrdcp -f -p -N" directory="/ceph/bmn/work/$USER/"/>
+   <get command="xrdcp -f -p -N" directory="/ceph/bmn/work/$USER/"/>
+   <clean path="/ceph/bmn/work/$USER/bmn_run${last_number}_raw.root"/>
+  </file>
+  <file input="/eos/lpp/nica/bmn/exp/raw/run7/4720-5186_BMN_Krypton/*" output="/eos/lpp/nica/bmn/exp/digi/run7/dev/4720-5186_BMN_Krypton/bmn_run${last_number}_digi.root">
+   <put command="xrdcp -f -p -N" directory="/ceph/bmn/work/$USER/"/>
+   <get command="xrdcp -f -p -N" directory="/ceph/bmn/work/$USER/"/>
+   <clean path="/ceph/bmn/work/$USER/bmn_run${last_number}_raw.root"/>
+  </file>
+  <file input="/eos/lpp/nica/bmn/exp/raw/run7/2213-3588_SRC_Carbon/*" output="/eos/lpp/nica/bmn/exp/digi/run7/dev/2213-3588_SRC_Carbon/bmn_run${last_number}_digi.root">
+   <put command="xrdcp -f -p -N" directory="/ceph/bmn/work/$USER/"/>
+   <get command="xrdcp -f -p -N" directory="/ceph/bmn/work/$USER/"/>
+   <clean path="/ceph/bmn/work/$USER/bmn_run${last_number}_raw.root"/>
+  </file>
+ </macro>
+ <run mode="global" count="400" config="~/bmnroot/build/config.sh"/>
+</job>

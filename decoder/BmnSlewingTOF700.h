@@ -1,0 +1,204 @@
+#ifndef BmnSlewingTOF700_H
+#define BmnSlewingTOF700_H 1
+
+#include <bitset>
+#include <cstdio>
+#include <cstdlib>
+#include <deque>
+#include <fstream>
+#include <iostream>
+#include <list>
+#include <map>
+#include <stdio.h>
+#include <stdlib.h>
+#include <vector>
+// ROOT
+#include "TClonesArray.h"
+#include "TFile.h"
+#include "TString.h"
+#include "TSystem.h"
+#include "TTimeStamp.h"
+#include "TTree.h"
+// BmnRoot
+#include "BmnADCDigit.h"
+#include "BmnCscRaw2Digit.h"
+#include "BmnDchRaw2Digit.h"
+#include "BmnECALRaw2Digit.h"
+#include "BmnEnums.h"
+#include "BmnEventHeader.h"
+#include "BmnGemRaw2Digit.h"
+#include "BmnGemStripDigit.h"
+#include "BmnHRBDigit.h"
+#include "BmnMwpcRaw2Digit.h"
+#include "BmnSiliconRaw2Digit.h"
+#include "BmnSyncDigit.h"
+#include "BmnTDCDigit.h"
+#include "BmnTQDCADCDigit.h"
+#include "BmnTof1Raw2Digit.h"
+#include "BmnTof2Raw2DigitNew.h"
+#include "BmnTrigRaw2Digit.h"
+#include "BmnZDCRaw2Digit.h"
+#include "DigiArrays.h"
+#include "RawTypes.h"
+
+const UInt_t kRUNNUMBERSYNC1 = 0x236E7552;
+const size_t kWORDSIZE1 = sizeof(UInt_t);
+
+/********************************************************/
+
+// wait limit for input data (ms)
+using namespace std;
+
+class BmnSlewingTOF700
+{
+  public:
+    BmnSlewingTOF700(TString file, ULong_t nEvents = 0, ULong_t period = 4);
+    BmnSlewingTOF700();
+    virtual ~BmnSlewingTOF700();
+
+    BmnStatus InitUTCShift();
+    Int_t GetUTCShift(TTimeStamp t);
+
+    BmnStatus ClearArrays();
+    BmnStatus InitDecoder();
+    BmnStatus InitMaps();
+    void ResetDecoder(TString file);
+    BmnStatus DisposeDecoder();
+    BmnStatus SlewingTOF700Init();
+    BmnStatus SlewingTOF700();
+
+    BmnStatus PreparationTOF700Init() { return SlewingTOF700Init(); };
+    BmnStatus PreparationTOF700();
+
+    void SetQue(deque<UInt_t>* v) { fDataQueue = v; }
+
+    deque<UInt_t>* GetQue() { return fDataQueue; }
+
+    void SetRunId(UInt_t v) { fRunId = v; }
+
+    void SetPeriodId(UInt_t v) { fPeriodId = v; }
+
+    map<UInt_t, Long64_t> GetTimeShifts() { return fTimeShifts; }
+
+    UInt_t GetRunId() const { return fRunId; }
+
+    UInt_t GetPeriodId() const { return fPeriodId; }
+
+    UInt_t GetNevents() const { return fNevents; }
+
+    UInt_t GetEventId() const { return fEventId; }
+
+    BmnTof2Raw2DigitNew* GetTof700Mapper() { return fTof700Mapper; }
+
+    void SetTrigPlaceMapping(TString map) { fTrigPlaceMapFileName = map; }
+
+    void SetTrigChannelMapping(TString file) { fTrigChannelMapFileName = file; }
+
+    void SetTof700Mapping(TString map) { fTof700MapFileName = map; }
+
+    TString GetRootFileName() { return fRootFileName; }
+
+    BmnStatus SetDetectorSetup(Bool_t* setup)
+    {
+        for (Int_t i = 0; i < 11; ++i) {
+            fDetectorSetup[i] = setup[i];
+        }
+
+        return kBMNSUCCESS;
+    }
+
+    void SetBmnSetup(BmnSetup v) { this->fBmnSetup = v; }
+
+    BmnSetup GetBmnSetup() const { return fBmnSetup; }
+
+  private:
+    const TTimeStamp TimeZero = TTimeStamp(time_t(0), 0);
+
+    // 9 bits correspond to detectors which we need to decode
+    Bool_t fDetectorSetup[11];
+
+    bool isRawRootInputFile;
+
+    Int_t GetRunIdFromFile(TString name);
+
+    TString GetSubNameAfterRunId(TString name, Int_t RunID);
+
+    UInt_t fRunId;
+    TTimeStamp fRunStartTime;
+    TTimeStamp fRunEndTime;
+    UInt_t fPeriodId;
+    UInt_t fEventId;
+    UInt_t fNevents;
+    // for event
+    Long64_t fTime_s;
+    Long64_t fTime_ns;
+    // for run
+    Long64_t fTimeStart_s;
+    Long64_t fTimeStart_ns;
+    Long64_t fTimeFinish_s;
+    Long64_t fTimeFinish_ns;
+
+    Long64_t fLengthRawFile;
+    Long64_t fCurentPositionRawFile;
+
+    TTree* fRawTree;
+    TTree* fDigiTree;
+    TString fRootFileName;
+    TString fRawFileName;
+    TString fTof700MapFileName;
+    TString fTof700GeomFileName;
+    TString fTrigPlaceMapFileName;
+    TString fTrigChannelMapFileName;
+
+    ifstream fTrigMapFile;
+    ifstream fTrigINLFile;
+
+    TFile* fRootFileIn;
+    TFile* fRootFileOut;
+    FILE* fRawFileIn;
+
+    // DAQ arrays
+    TClonesArray* sync;
+    TClonesArray* adc32;    // gem
+    TClonesArray* adc128;   // sts
+    TClonesArray* adc;      // zdc & ecal
+    TClonesArray* hrb;
+    TClonesArray* tdc;
+    TClonesArray* tqdc_tdc;
+    TClonesArray* tqdc_adc;
+    TClonesArray* msc;
+    TClonesArray* eventHeaderDAQ;
+    //    TClonesArray *runHeaderDAQ;
+    TClonesArray* pedestalAdc;
+
+    // header array
+    TClonesArray* eventHeader;
+
+    UInt_t data[10000000];
+    ULong_t fMaxEvent;
+
+    UInt_t fDat;   // current 32-bits word
+    UInt_t syncCounter;
+    BmnTrigRaw2Digit* fTrigMapper;
+    BmnTof2Raw2DigitNew* fTof700Mapper;
+    BmnEventType fCurEventType;
+    BmnEventType fPrevEventType;
+    BmnSetup fBmnSetup;
+    UInt_t fT0Serial;
+    deque<UInt_t>* fDataQueue;
+
+    // Map to store pairs <Crate serial> - <crate time - T0 time>
+    map<UInt_t, Long64_t> fTimeShifts;
+    Double_t fT0Time;    // ns
+    Double_t fT0Width;   // ns
+
+    map<TTimeStamp, Int_t> leaps;
+    TTimeStamp utc_valid;
+    Int_t tai_utc_dif;
+
+    BmnStatus GetT0Info(Double_t& t0time, Double_t& t0width);
+    BmnStatus FillTimeShiftsMap();
+    BmnStatus FillTimeShiftsMapNoDB(UInt_t t0serial);
+};
+
+#endif

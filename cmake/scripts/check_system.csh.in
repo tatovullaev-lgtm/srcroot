@@ -1,0 +1,76 @@
+#!/bin/csh
+
+# Detects which OS and if it is Linux then it will detect which Linux Distribution
+define_system()
+{
+   if which lsb_release &>> /dev/null; then
+      set DISTRO=`lsb_release -sd | sed -e 's/^"//' -e 's/"$//'`
+   else
+      set OS=`uname -s`
+      set REV=`uname -r`
+      #set MACH=`uname -m`
+
+      if [ "$OS" = "SunOS" ] ; then
+         set OS=Solaris
+         #set ARCH=`uname -p`
+         set DISTRO="$OS $REV" #($ARCH `uname -v`)"
+      elif [ "$OS" = "AIX" ] ; then
+         set DISTRO="$OS `oslevel` (`oslevel -r`)"
+      elif [ "$OS" = "Linux" ] ; then
+         if [ -f /etc/redhat-release ] ; then
+            set DIST=`cat /etc/redhat-release | sed 's/\s.*$//'`
+            set PSUEDONAME=`cat /etc/redhat-release | sed s/.*\(// | sed s/\)//`
+            set REVISION=`cat /etc/redhat-release | sed s/.*release\ // | sed s/\ .*//`
+         elif [ -f /etc/SuSE-release ] ; then
+            set DIST=`cat /etc/SuSE-release | tr "\n" ' '| sed s/VERSION.*//`
+            set REVISION=`cat /etc/SuSE-release | tr "\n" ' ' | sed s/.*=\ //`
+         elif [ -f /etc/mandrake-release ] ; then
+            set DIST=`cat /etc/redhat-release | sed 's/\s.*$//'`
+            set PSUEDONAME=`cat /etc/mandrake-release | sed s/.*\(// | sed s/\)//`
+            set REVISION=`cat /etc/mandrake-release | sed s/.*release\ // | sed s/\ .*//`
+         elif [ -f /etc/os-release ] ; then
+            set DIST=`cat /etc/os-release | grep '^NAME=' | sed -e 's/.*=//g' -e 's/^"//' -e 's/"$//'`
+            set REVISION=`cat /etc/os-release | grep VERSION_ID= | sed -e 's/.*=//g' -e 's/^"//' -e 's/"$//'`
+         else
+            set DIST=`ls /etc/ | grep -e '[_-]release$' -e '[_-]version$' | xargs -I % -n 1 cat /etc/% | grep '^NAME=' | sed -e 's/.*=//g' -e 's/^"//' -e 's/"$//'`
+            set REVISION=`ls /etc/ | grep -e '[_-]release$' -e '[_-]version$' | xargs -I % -n 1 cat /etc/% | grep VERSION_ID= | sed -e 's/.*=//g' -e 's/^"//' -e 's/"$//'`
+         fi
+         if [ -f /etc/UnitedLinux-release ] ; then
+            set DIST="$DIST[`cat /etc/UnitedLinux-release | tr "\n" ' ' | sed s/VERSION.*//`]"
+         fi
+
+         #set OSSTR="$OS $DIST $REV($PSUEDONAME $REV $MACH)"
+         set DISTRO="$DIST $REVISION"
+      fi
+   fi
+
+   echo -n $DISTRO
+}
+
+set linux_flavour=$(define_system)
+if [ $# -ne 0 ] && [ $1 = "define_system" ]; then
+   echo -n $linux_flavour
+   return 0
+fi
+set system=`uname -m`
+setenv same_system 1
+
+echo "System during compilation: $Linux_Flavour_"
+echo "                           $System_"
+echo "System now               : $linux_flavour"
+echo "                           $system"
+
+if [ ! "$linux_flavour" = "$Linux_Flavour_" ]; then
+  echo "You try to run the software on a different"
+  echo "linux flavour than it was compiled on."
+  echo @SAME_SYSTEM_ERROR_MESSAGE@
+  setenv same_system @SAME_SYSTEM_FLAG@
+fi
+if [ ! "$system" = "$System_" ]; then
+  echo "You try to run the software on a different"
+  echo "linux architecture than it was compiled on."
+  echo @SAME_SYSTEM_ERROR_MESSAGE@
+  setenv same_system @SAME_SYSTEM_FLAG@
+fi
+
+export same_system

@@ -1,0 +1,11 @@
+*.ipynb
+.DS_Store
+.ipynb_checkpoints/
+file_size/__pycache__
+log_time/__pycache__
+file_size/myenv/
+log_time/myenv/
+__pycache__/
+myenv/
+output.png
+unsuccessful_list.txt

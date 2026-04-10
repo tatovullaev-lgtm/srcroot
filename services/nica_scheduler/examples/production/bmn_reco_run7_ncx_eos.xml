@@ -1,0 +1,14 @@
+<jobs batch="sge">
+ <job name="bmn_reco">
+  <macro path="$VMCWORKDIR/macro/run/run_reco_bmn.C" start_event="0" event_count="0">
+   <file input="/eos/nica/bmn/exp/digi/run7/19.10.0/bmn/*" output="/eos/nica/bmn/exp/dst/run7/19.10.0/bmn/bmn_run${last_number}_dst.root"/>
+  </macro>
+  <run mode="global" count="100" config="/cvmfs/bmn.jinr.ru/config/x86_64-centos7/cluster_config.sh,/lhep/users/$USER/bmnroot/build/config.sh"/>
+ </job>
+ <job name="src_reco">
+  <macro path="$VMCWORKDIR/macro/run/run_reco_src.C" start_event="0" event_count="0">
+   <file input="/eos/nica/bmn/exp/digi/run7/19.10.0/src/*" output="/eos/nica/bmn/exp/dst/run7/19.10.0/src/bmn_run${last_number}_dst.root"/>
+  </macro>
+  <run mode="global" count="70" config="/cvmfs/bmn.jinr.ru/config/x86_64-centos7/cluster_config.sh,/lhep/users/$USER/bmnroot/build/config.sh"/>
+ </job>
+</jobs>

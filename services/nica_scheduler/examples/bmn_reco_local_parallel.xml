@@ -1,0 +1,6 @@
+<job>
+ <macro name="bmn_reco" path="$VMCWORKDIR/macro/run/run_reco_bmn.C" start_event="0" event_count="0">
+  <file input="$VMCWORKDIR/macro/run/DCMSMM_XeCsI_3.9_AGeV_mb_50k_new_30.root" output="$VMCWORKDIR/macro/run/dst_${file_name}.root" parallel_mode="20" merge="false"/>
+ </macro>
+ <run mode="local" count="10" config="~/bmnroot/build/config.sh"/>
+</job>

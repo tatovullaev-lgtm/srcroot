@@ -1,0 +1,6 @@
+<job>
+ <macro path="$VMCWORKDIR/macro/run/run_sim_bmn.C">
+  <file input="$VMCWORKDIR/macro/run/dC.04gev.mbias.100k.urqmd23.f14" output="$VMCWORKDIR/macro/run/evetest.root" start_event="0" event_count="5"/>
+ </macro>
+ <run mode="local" count="1" config="~/bmnroot/build/config.sh"/>
+</job>

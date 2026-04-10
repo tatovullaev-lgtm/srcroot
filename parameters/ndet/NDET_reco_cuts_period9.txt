@@ -1,0 +1,13 @@
+[VERSION]
+id = 1.0
+
+[COMMENT]
+str = void
+
+[EXPERIMENT]
+# use (1) && NdetDigi-> and then anything you want from BmnNdetDigi class
+cut = (1)
+
+[SIMULATION]
+# use (1) && NdetDigit-> and then anything you want from BmnNdetDigit class
+cut = (1)

@@ -1,0 +1,9 @@
+{
+    "extensions": [".out"],
+    "success": "1",
+    "failure": "File::Recover",
+    "db_user": "db_reader",
+    "db_pass": "reader_pass",
+    "db_name": "uni_db",
+    "db_host": "bmn-unidb.jinr.ru"
+}

@@ -1,0 +1,13 @@
+#!/bin/bash
+#PBS -N your-task-name
+#PBS -j oe
+#PBS -d .
+# request Bourne again shell as shell for job
+#PBS -S /bin/bash
+
+echo "  Start date: `date` (`hostname`)"
+
+#source "[PATH_TO_BUILD_DIR]/build/config.sh"
+#root -b -q '$VMCWORKDIR/macro/your_root_macro.C(your_int_parameter, "your_string_parameter"...)'
+
+echo "  End date: `date`"
