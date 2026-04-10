@@ -1,0 +1,8 @@
+build/
+macro/
+input/
+database/
+.DS_Store
+*.log
+*.tmp
+*.swp
