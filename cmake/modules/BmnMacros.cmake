@@ -97,33 +97,55 @@ Macro(FairSoftVersion)
 EndMacro()
 
 Macro(Generate_BmnRoot_Version)
-  Find_Package(Git)
+  find_package(Git)
+  set(BMNROOT_GIT_VERSION "v0.0.0-unknown")
+  set(BMNROOT_GIT_DATE    "unknown")
 
-  set (Git_VERSION ${GIT_VERSION_STRING})
-  string(REPLACE "git" " " Git_ROOT ${GIT_EXECUTABLE})
-  If(GIT_FOUND AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
-    Execute_Process(COMMAND ${GIT_EXECUTABLE} describe --tags
-                    OUTPUT_VARIABLE BMNROOT_GIT_VERSION
-                    OUTPUT_STRIP_TRAILING_WHITESPACE
-                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-                   )
-    Execute_Process(COMMAND ${GIT_EXECUTABLE} log -1 --format=%cd
-                    OUTPUT_VARIABLE BMNROOT_GIT_DATE
-                    OUTPUT_STRIP_TRAILING_WHITESPACE
-                    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-                   )
-    String(REGEX MATCH "^([0-9]+)\\.([0-9]+)\\.([0-9]+)" BMNROOT_GIT_MATCH ${BMNROOT_GIT_VERSION})
-    Set(BMNROOT_MAJOR_VERSION ${CMAKE_MATCH_1})
-    Set(BMNROOT_MINOR_VERSION ${CMAKE_MATCH_2})
-    Set(BMNROOT_PATCH_VERSION ${CMAKE_MATCH_3})
-  Else()
-    SET(BMNROOT_MAJOR_VERSION 0)
-    SET(BMNROOT_MINOR_VERSION 0)
-    SET(BMNROOT_PATCH_VERSION 0)
-    Set(BMNROOT_GIT_VERSION v${BMNROOT_MAJOR_VERSION}.${BMNROOT_MINOR_VERSION}.${BMNROOT_PATCH_VERSION})
-  EndIf()
-  Message(STATUS "BmnRoot Version - ${BMNROOT_GIT_VERSION} from ${BMNROOT_GIT_DATE}")
-  Configure_File(${CMAKE_SOURCE_DIR}/cmake/scripts/BmnRootVersion.h.tmp ${CMAKE_BINARY_DIR}/BmnRootVersion.h @ONLY)
+  if(GIT_FOUND AND EXISTS "${CMAKE_SOURCE_DIR}/.git")
+    execute_process(
+      COMMAND ${GIT_EXECUTABLE} describe --tags --always --dirty
+      OUTPUT_VARIABLE BMNROOT_GIT_VERSION
+      ERROR_QUIET
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    )
+    if(NOT BMNROOT_GIT_VERSION)
+      set(BMNROOT_GIT_VERSION "v0.0.0-unknown")
+    endif()
+
+    execute_process(
+      COMMAND ${GIT_EXECUTABLE} log -1 --format=%cd
+      OUTPUT_VARIABLE BMNROOT_GIT_DATE
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    )
+  endif()
+
+  # Надёжное извлечение версий (работает и с v0.0.0-dirty, и с обычными тегами)
+  string(REGEX MATCH "^v?([0-9]+)\\.([0-9]+)\\.([0-9]+)" _ver_match "${BMNROOT_GIT_VERSION}")
+  if(_ver_match)
+    set(BMNROOT_MAJOR_VERSION ${CMAKE_MATCH_1})
+    set(BMNROOT_MINOR_VERSION ${CMAKE_MATCH_2})
+    set(BMNROOT_PATCH_VERSION ${CMAKE_MATCH_3})
+  else()
+    set(BMNROOT_MAJOR_VERSION 0)
+    set(BMNROOT_MINOR_VERSION 0)
+    set(BMNROOT_PATCH_VERSION 0)
+  endif()
+
+  message(STATUS "BmnRoot Version - ${BMNROOT_GIT_VERSION} from ${BMNROOT_GIT_DATE}")
+
+  # Умный поиск шаблона: сначала относительно макроса, потом относительно корня
+  set(_VERSION_TEMPLATE "${CMAKE_CURRENT_LIST_DIR}/../scripts/BmnRootVersion.h.tmp")
+  if(NOT EXISTS "${_VERSION_TEMPLATE}")
+    set(_VERSION_TEMPLATE "${CMAKE_SOURCE_DIR}/cmake/scripts/BmnRootVersion.h.tmp")
+  endif()
+
+  if(EXISTS "${_VERSION_TEMPLATE}")
+    configure_file("${_VERSION_TEMPLATE}" "${CMAKE_BINARY_DIR}/BmnRootVersion.h" @ONLY)
+  else()
+    message(FATAL_ERROR "Cannot find BmnRootVersion.h.tmp at:\n${_VERSION_TEMPLATE}")
+  endif()
 EndMacro()
 
 Macro(show_dependency_info)
