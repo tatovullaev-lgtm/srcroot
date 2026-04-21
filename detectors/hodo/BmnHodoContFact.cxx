@@ -7,19 +7,21 @@
  *  Version:  28-03-2021
  *
  ************************************************************************************/
+
+using namespace std;
 #include "BmnHodoContFact.h"
+
+#include <iomanip>
+#include <iostream>
 
 #include "BmnHodoGeoPar.h"
 #include "FairParAsciiFileIo.h"
 #include "FairParRootFileIo.h"
 #include "FairRuntimeDb.h"
 
-#include <iomanip>
-#include <iostream>
+ClassImp(BmnHodoContFact)
 
-using namespace std;
-
-static BmnHodoContFact gBmnHodoContFact;
+    static BmnHodoContFact gBmnHodoContFact;
 
 BmnHodoContFact::BmnHodoContFact() {
     // Constructor (called when the library is loaded)

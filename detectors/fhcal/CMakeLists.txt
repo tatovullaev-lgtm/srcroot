@@ -26,14 +26,14 @@ link_directories(${LINK_DIRECTORIES})
 # List of source files
 set(SRCS
 BmnFHCal.cxx
-BmnFHCalPoint.h
-BmnFHCalAddress.h
+BmnFHCalPoint.cxx
+BmnFHCalAddress.cxx
 BmnFHCalContFact.cxx
-BmnFHCalGeo.h
+BmnFHCalGeo.cxx
 BmnFHCalGeoPar.cxx
 BmnFHCalDigitizer.cxx
-BmnFHCalDigi.h
-BmnFHCalDigit.h
+BmnFHCalDigi.cxx
+BmnFHCalDigit.cxx
 BmnFHCalModule.cxx
 BmnFHCalEvent.cxx
 )

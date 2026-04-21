@@ -9,9 +9,14 @@
 
 void BmnFHCalEvent::SummarizeEvent()
 {
-  fTotalEnergy = 0.0;
-  for (auto& module : fModulesVec) {
-    module.SummarizeModule();
-    fTotalEnergy += module.GetEnergy();
+  float TotalEnergy = 0.;
+  for(auto &it:fModulesArr){
+    it.SummarizeModule();
+    TotalEnergy += it.GetEnergy();
   }
+  SetTotalEnergy(TotalEnergy);
 }
+
+
+ClassImp(BmnFHCalEvent)
+

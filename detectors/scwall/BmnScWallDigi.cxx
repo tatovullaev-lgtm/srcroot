@@ -10,3 +10,5 @@
  **/
 
 #include "BmnScWallDigi.h"
+
+ClassImp(BmnScWallDigi)

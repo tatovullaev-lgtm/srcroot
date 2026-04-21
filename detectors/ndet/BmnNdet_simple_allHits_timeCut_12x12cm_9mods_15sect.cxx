@@ -584,3 +584,6 @@ BmnNdetPoint* BmnNdet::AddHit(Int_t trackID, Int_t detID, Int_t copyNo, Int_t co
   return new(clref[size]) BmnNdetPoint(trackID, detID, copyNo, copyNoMother, pos, mom, time, length, eLoss, EventId);
 
 }
+
+
+ClassImp(BmnNdet)

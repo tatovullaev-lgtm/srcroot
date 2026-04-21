@@ -1,48 +1,49 @@
 /********************************************************************************
  *    BmnFillDstTask.h                                                          *
  *    BM@N Fill DST Task class declaration                                      *
- *    Add necessary data and event header to the DST file after reconstruction  *
+ *    Fill Event Headers in the DST file after reconstruction                   *
+ *    Konstantin Gertsenberger                                                  *
+ *    Created: Apr. 25 2019                                                     *
  *******************************************************************************/
 
 #ifndef BMNFILLDSTTASK_H
 #define BMNFILLDSTTASK_H
 
-#include "BmnEventHeader.h"
-#include "BmnMCInfoDst.h"
-#include "BmnTask.h"
-#include "CbmVertex.h"
-#include "DstEventHeader.h"
 #include "DstRunHeader.h"
+#include "DstEventHeader.h"
+#include "BmnEventHeader.h"
+
+#include "FairTask.h"
 #include "FairMCEventHeader.h"
+
 #include "TClonesArray.h"
 
 #include <map>
 
-class BmnFillDstTask : public BmnTask
-{
-  public:
+class BmnFillDstTask : public FairTask {
+   public:
     /** Default constructor **/
     BmnFillDstTask();
 
-    /** Constructor with start event and event number to be processed, and autodefinition whether experimental data are
-     * used **/
-    BmnFillDstTask(Long64_t nStartEvent, Long64_t nEvents);
+    /** Constructor with the given event number to be processed
+     ** in order to activate printing only progress bar in terminal **/
+    BmnFillDstTask(Long64_t nEvents);
 
-    /** Constructor with start event and event number to be processed, experimental data flag, period and run numbers
-     * **/
-    BmnFillDstTask(Long64_t nStartEvent,
-                   Long64_t nEvents,
-                   Bool_t isExp,
-                   Int_t period_number = -1,
-                   Int_t run_number = -1);
+    /** Constructor with input Event Header Name and event number to be processed
+     ** in order to activate printing only progress bar in terminal (if not equal -1) **/
+    BmnFillDstTask(TString input_event_header_name, Long64_t nEvents = -1);
+
+    /** Constructor with input and output Event Header Name, and event number to be processed
+     ** in order to activate printing only progress bar in terminal (if not equal -1) **/
+    BmnFillDstTask(TString input_event_header_name, TString output_event_header_name, Long64_t nEvents = -1);
 
     /** Destructor **/
     ~BmnFillDstTask();
 
-    /** Initialization of task at the beginning **/
+    /** Initiliazation of task at the beginning **/
     virtual InitStatus Init();
 
-    /** ReInitialization of task when the runID/file changes **/
+    /** ReInitiliazation of task when the runID/file changes **/
     virtual InitStatus ReInit();
 
     /** Executed for each event **/
@@ -55,51 +56,47 @@ class BmnFillDstTask : public BmnTask
     virtual void Finish();
 
     /** Setting period-number information to fill RunHeader **/
-    void SetRunNumber(Int_t period_number, Int_t run_number)
-    {
+    void SetRunNumber(Int_t period_number, Int_t run_number) {
         fPeriodNumber = period_number;
         fRunNumber = run_number;
     }
-    void DoZCalibration(Bool_t cal) { fDoCalibration = cal; }
+    void DoZCalibration(Bool_t cal) {
+        fDoCalibration = cal;
+    }
 
     /** Fill map with weight-charge of possible particles **/
     void InitParticleInfo();
 
-    struct stParticleInfo
-    {
+    struct stParticleInfo {
         Int_t A;
         Int_t Z;
     };
 
-  private:
-    int isExpData;
+   private:
+    TString fInputEventHeaderName;
+    TString fOutputEventHeaderName;
+
+    /** Input MCEventHeader from Simulation File **/
+    FairMCEventHeader* fMCEventHead;
+    /** Input BmnEventHeader from Digit File **/
+    BmnEventHeader* fEventHead;
+    /** whether input file contains simulation data **/
+    Bool_t isSimulationInput;
+    /** Output DstEventHeader prepared in FairRunAna **/
+    DstEventHeader* fDstHead;
+    /** Output BmnRunHeader **/
+    DstRunHeader* fRunHead;
+    /*For ADC, charge calculation*/
+    TClonesArray *fT01_1, *fT01_2, *fBC1_1, *fBC1_2, *fBC2_1, *fBC2_2, *fBC3_1, *fBC3_2, *fBC3_S, *fBC4_1, *fBC4_2, *fBC4_S, *fBC5_1, *fBC5_2, *fBC5_S, *fVeto;
+    /** event count to be processed for progress bar **/
+    Long64_t fNEvents;
+    /** current event being processed for progress bar **/
+    Long64_t fIEvent;
+
     /** period number **/
     Int_t fPeriodNumber;
     /** run number **/
     Int_t fRunNumber;
-
-    /** Input MCEventHeader from Simulation File **/
-    FairMCEventHeader* fMCEventHeader;   //!
-    /** Input Monte-Carlo tracks from Simulation File **/
-    TClonesArray* fMCTracks;   //!
-    /** Output MC Information for physics analysis **/
-    BmnMCInfoDst* fMCInfoDst;   //!
-    /** Input BmnEventHeader from Experimental Digit File **/
-    BmnEventHeader* fEventHeader;   //!
-    /** Output DstEventHeader prepared in FairRunAna **/
-    DstEventHeader* fDstHeader;   //!
-    /** Output BmnRunHeader **/
-    DstRunHeader* fRunHeader;   //!
-    /** start event from which the processing is started **/
-    Long64_t fNStartEvent;
-    /** event count to be processed **/
-    Long64_t fNEvents;
-    /** current event being processed for progress bar **/
-    Long64_t fIEvent;
-    /** pointer to primary vertex in the current event **/
-    CbmVertex* fPrimaryVertex;
-    /** pointer to global tracks in the current event **/
-    TClonesArray* fGlobalTracks;
 
     /** z calibration parameters: **/
     Double_t fZCalib1;
@@ -108,23 +105,14 @@ class BmnFillDstTask : public BmnTask
     Double_t fBC2Calib;
     Bool_t fDoCalibration;
 
-    /*For ADC, charge calculation*/
-    TClonesArray *fT0, *fBC1, *fBC2, *fBC3, *fBC4;   //!
-
     /** map with particle names and corresponding weight-charge pairs **/
     map<TString, stParticleInfo> mapParticleInfo;
 
     BmnFillDstTask(const BmnFillDstTask&) = delete;
     BmnFillDstTask operator=(const BmnFillDstTask&) = delete;
 
-    /** Reset variables between events **/
-    void Reset();
-
-    void applyZCalibration();
-    /** set headers with autodefinition whether experimental or simulation data are used **/
-    bool autoSetHeaders();
-
-    ClassDef(BmnFillDstTask, 2);
+    ClassDef(BmnFillDstTask, 1);
 };
 
 #endif
+                                                                                                                                                                                                                                                                                                                                                                                                                  

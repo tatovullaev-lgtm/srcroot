@@ -4,6 +4,6 @@
 #pragma link C++ nestedclasses;
 #pragma link C++ nestedtypedefs;
 
-#pragma link C++ class BmnNdetReconstructor + ;
+// #pragma link C++ class BmnNdetReconstructor + ;
 
 #endif

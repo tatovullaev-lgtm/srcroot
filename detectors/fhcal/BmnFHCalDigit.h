@@ -1,35 +1,53 @@
-/** @author Nikolay Karpushkin <karpushkin@inr.ru>
- ** @date 10.01.2024
- **
- ** Class for simulation data at digi level
- **/
+/*************************************************************************************
+ *
+ *            BmnFHCalDigi
+ *    Class for digital data taken from BmnFHCal detector
+ *
+ *  Author:   Sergey Morozov
+ *  Version:  17-03-2022
+ *
+ ************************************************************************************/
 
 #ifndef BMNFHCALDIGIT_H
 #define BMNFHCALDIGIT_H
 
-#include "BmnAbstractDigit.h"          // for Abstract digit
-#include "BmnFHCalAddress.h"           // for BmnFHCalAddress
+#include "BmnFHCalPoint.h"
 
-class BmnFHCalDigit : public BmnAbstractDigit {
-public:
+class BmnFHCalDigit: public TObject
+{
+ public:
 
-  BmnFHCalDigit() : BmnAbstractDigit() {}
-  BmnFHCalDigit(uint32_t address, double time, double signal = 0) 
-    : BmnAbstractDigit(address, time, signal) {}
+  BmnFHCalDigit();
+  BmnFHCalDigit(Int_t pfModuleID, Int_t pfSectionID, Double_t   pfELoss, Double_t   pfELossDigi=0 );
+  BmnFHCalDigit(BmnFHCalPoint *p);
 
-  ~BmnFHCalDigit() {};
+  virtual ~BmnFHCalDigit();
+  void Clear();
 
-  // Getters
-  uint32_t GetSystemId() const { return BmnFHCalAddress::GetSystemId(fAddress); }
-  uint32_t GetModuleType() const { return BmnFHCalAddress::GetModuleType(fAddress); };
-  uint32_t GetModuleId() const { return BmnFHCalAddress::GetModuleId(fAddress); }
-  uint32_t GetSectionId() const { return BmnFHCalAddress::GetSectionId(fAddress); }
+  virtual void Print(const Option_t* opt ="");
 
-  // Member Functions
-  virtual const char* GetClassName() { return "BmnFHCalDigit"; }
-  virtual void Print(const Option_t* opt = "") { printf("%s: ModuleId %d Section %d Data %s \n", GetClassName(), GetModuleId(), GetSectionId(), GetStringData().Data()); }
 
-  ClassDef(BmnFHCalDigit, 2);
+  inline Int_t  GetModuleID() { return fModuleID; }
+  inline Int_t  GetSectionID()  { return fSectionID; }
+  inline Double_t GetELossDigi()  { return fELossDigi; }
+  inline Double_t GetELoss()  { return fELoss; }
+
+  inline Int_t SetModuleID(UInt_t pfModuleID) { fModuleID = pfModuleID; return fModuleID; }
+  inline Int_t SetSectionID(UInt_t pfSectionID) { fSectionID = pfSectionID; return fSectionID; }
+  inline Double_t SetELoss(Double_t pfELoss) { fELoss = pfELoss; return fELoss; }
+  inline Double_t SetELossDigi(Double_t pfELossDigi) { fELossDigi = pfELossDigi; return fELossDigi; }
+
+
+
+ protected:
+
+
+  Int_t    fModuleID;        // Module number
+  Int_t    fSectionID;       // Section number
+  Double_t   fELossDigi;     // Digitized signal
+  Double_t fELoss;           // Sum of the energy losses from MC
+
+  ClassDef(BmnFHCalDigit,1);
 
 };
 

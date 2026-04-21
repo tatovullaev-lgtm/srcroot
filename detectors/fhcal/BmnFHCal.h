@@ -1,105 +1,152 @@
+/******************************************************************************
+ *
+ *         Class BmnFHCal
+ *
+ *  Adopted for BMN by:   Elena Litvinenko
+ *  e-mail:   litvin@nf.jinr.ru
+ *  Version:  06-11-2015
+ *
+ *  Modified by M.Golubeva
+ *
+ *****************************************************************************/
+
 #ifndef BMNFHCAL_H
 #define BMNFHCAL_H
 
-#include "BmnFHCalGeo.h"
-#include "BmnFHCalGeoPar.h"
-#include "BmnFHCalPoint.h"
-#include "FairDetector.h"
 #include "TClonesArray.h"
-#include "TLorentzVector.h"
 #include "TVector3.h"
+#include "TLorentzVector.h"
+#include "FairDetector.h"
+#include "BmnFHCalGeoPar.h"
 
-#include <map>
-#include <string>
-#include <unordered_map>
+using namespace std;
 
-class BmnFHCal : public FairDetector
-{
-  public:
-    /** Default constructor **/
-    BmnFHCal();
+class TClonesArray;
+class BmnFHCalPoint;
+class FairVolume;
 
-    /** Standard constructor.
-     *@param name    Detector name
-     *@param active  Sensitivity flag
-     **/
-    BmnFHCal(const char* name, Bool_t active);
+class BmnFHCal : public FairDetector {
 
-    /** Destructor **/
-    virtual ~BmnFHCal();
+public:
 
-    /** Initializes detector and FairRun **/
-    virtual void Initialize() override;
+  /** Default constructor **/
+  BmnFHCal();
 
-    /** Processes hits and creates BmnFHCalPoints.
-     *@param vol  Pointer to the active volume
-     *@return     kTRUE if the volume is sensitive and a hit is processed, otherwise kFALSE
-     **/
-    virtual Bool_t ProcessHits(FairVolume* vol = nullptr) override;
 
-    /** Called at the end of each event **/
-    virtual void EndOfEvent() override;
+  /** Standard constructor.
+   *@param name    detetcor name
+   *@param active  sensitivity flag
+   **/
+  BmnFHCal(const char* name, Bool_t active);
 
-    /** Called at the beginning of each event **/
-    virtual void BeginEvent() override;
+  /** Destructor **/
+  virtual ~BmnFHCal();
 
-    /** Registers the hit collection in the ROOT manager **/
-    virtual void Register() override;
+  /** Virtual method Initialize
+   ** Initialises detector. Stores volume IDs for MUO detector and mirror.
+   **/
+  virtual void Initialize();
 
-    /** Accessor to the hit collection
-     *@param iColl  Index of the collection
-     *@return       Pointer to the hit collection
-     **/
-    virtual TClonesArray* GetCollection(Int_t iColl) const override;
+  /** Virtual method ProcessHits
+   **
+   ** Defines the action to be taken when a step is inside the
+   ** active volume. Creates BmnFHCalPoints and BmnFHCalMirrorPoints and adds
+   ** them to the collections.
+   *@param vol  Pointer to the active volume
+   **/
+  virtual Bool_t ProcessHits(FairVolume* vol = 0);
 
-    /** Screen output of hit collection **/
-    virtual void Print(Option_t*) const override;
+  /** Virtual method EndOfEvent
+   **
+   ** If verbosity level is set, print hit collection at the
+   ** end of the event and resets it afterwards.
+   **/
+  virtual void EndOfEvent();
 
-    /** Clears the hit collection **/
-    virtual void Reset() override;
+  virtual void BeginEvent();
 
-    /** Constructs geometry from files **/
-    virtual void ConstructGeometry() override;
+  /** Virtual method Register
+   **
+   ** Registers the hit collection in the ROOT manager.
+   **/
+  virtual void Register();
 
-    /** Checks whether a volume is sensitive based on its name.
-     *@param name    Volume name
-     *@return        kTRUE if the volume is sensitive, otherwise kFALSE
-     **/
-    virtual Bool_t CheckIfSensitive(std::string name) override;
+  /** Accessor to the hit collection **/
+  virtual TClonesArray* GetCollection(Int_t iColl) const;
 
-    /** Adds the hit to hits collection.
-     *@param point  BmnFHCalPoint
-     *@return       Pointer to the hit
-     **/
-    BmnFHCalPoint* AddHit(BmnFHCalPoint* point);
+  /** Virtual method Print
+   **
+   ** Screen output of hit collection.
+   **/
+  virtual void Print() const;
 
-    /** Updates an existing hit by merging information from a new hit,
-     * weighting position, momentum, time, and length according to their energy loss.
-     * @param existing      Reference to the existing BmnFHCalPoint hit, which will be updated
-     * @param update        Reference to the new BmnFHCalPoint hit, providing additional information
-     **/
-    void UpdateHit(BmnFHCalPoint& existing, const BmnFHCalPoint& update);
+  /** Virtual method Reset
+   **
+   ** Clears the hit collection
+   **/
+  virtual void Reset();
 
-    /** Retrieves a hit from the collection based on the detector address.
-     * @param address  Detector address of the hit
-     * @return         Pointer to the retrieved hit, or nullptr if not found
-     **/
-    BmnFHCalPoint* GetHit(uint32_t address);
+  /** Virtual method CopyClones
+   **
+   ** Copies the hit collection with a given track index offset
+   *@param cl1     Origin
+   *@param cl2     Target
+   *@param offset  Index offset
+   **/
+  virtual void CopyClones(TClonesArray* cl1, TClonesArray* cl2,
+    Int_t offset);
 
-    /** Determines the surface-level Monte Carlo track ID associated with the given
-     * starting track ID.
-     * @param start_track_id  Initial track ID to trace back to the surface MC track
-     * @return                Surface-level MC track ID
-     **/
-    int GetSurfaceMCTrack(int start_track_id);
+  /** Virtual method Construct geometry
+   **
+   **/
+  virtual void ConstructGeometry();
 
-  private:
-    TClonesArray* fCollection;                  // Collection of hits for the event
-    std::unique_ptr<BmnFHCalGeo> fGeoHandler;   // Pointer to the geometry handler
-    std::unique_ptr<BmnFHCalPoint> fPoint;      // Temp storage for the current hit being processed
-    std::map<uint32_t, FairMultiLinkedData> fMultiLinkMap;
+  // Check whether a volume is sensitive.
+    // The decision is based on the volume name. Only used in case
+    // of GDML and ROOT geometry.
+    // @param name    Volume name
+    // @value         kTRUE if volume is sensitive, else kFALSE
+  virtual Bool_t CheckIfSensitive(std::string name);
 
-    ClassDefOverride(BmnFHCal, 4)
+  BmnFHCalPoint* GetHit(Int_t i) const;
+  BmnFHCalPoint* GetHit(Int_t vsc, Int_t mod) const;
+  BmnFHCalPoint* GetHitPrint(Int_t vsc, Int_t mod) const;
+  Int_t GetVSCVolId() { return fVSCVolId; }
+  Int_t GetVSCNICAVolId() { return fVSCNICAVolId; }
+
+  BmnFHCalPoint* AddHit(Int_t trackID, Int_t detID, Int_t copyNo, Int_t copyNoMother, TVector3 pos, TVector3 mom, Double_t tof, Double_t length, Double_t eLoss);
+
+private:
+  Int_t          fTrackID;           //!  track index
+  Int_t          fVolumeID;          //!  volume id
+  Int_t          fEventID;           //!  event id
+  TLorentzVector fPos;               //!  position
+  TLorentzVector fMom;               //!  momentum
+  Double32_t     fTime;              //!  time
+  Double32_t     fLength;            //!  length
+  Int_t          fHitNb;
+  Int_t          fVSCVolId;
+  Int_t          fVSCNICAVolId;
+  Double32_t     fELoss;             //!  energy loss
+  Int_t fPosIndex;      //! 
+  Int_t volDetector;     //!  MC volume ID of MUO
+
+  TClonesArray* fFHCalCollection;        //! Hit collection
+
+// reset all parameters   
+  void ResetParameters();
+
+  ClassDef(BmnFHCal, 2)
+
 };
+
+inline void BmnFHCal::ResetParameters() {
+  fTrackID = fVolumeID = 0;
+  fPos.SetXYZM(0.0, 0.0, 0.0, 0.0);
+  fMom.SetXYZM(0.0, 0.0, 0.0, 0.0);
+  fTime = fLength = fELoss = 0;
+  fPosIndex = 0;
+};
+
 
 #endif

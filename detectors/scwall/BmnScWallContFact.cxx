@@ -7,19 +7,21 @@
  *  Version:  28-03-2021
  *
  ************************************************************************************/
+
+using namespace std;
 #include "BmnScWallContFact.h"
+
+#include <iomanip>
+#include <iostream>
 
 #include "BmnScWallGeoPar.h"
 #include "FairParAsciiFileIo.h"
 #include "FairParRootFileIo.h"
 #include "FairRuntimeDb.h"
 
-#include <iomanip>
-#include <iostream>
+ClassImp(BmnScWallContFact)
 
-using namespace std;
-
-static BmnScWallContFact gBmnScWallContFact;
+    static BmnScWallContFact gBmnScWallContFact;
 
 BmnScWallContFact::BmnScWallContFact() {
     // Constructor (called when the library is loaded)

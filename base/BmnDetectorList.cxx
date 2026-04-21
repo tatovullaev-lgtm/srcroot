@@ -27,6 +27,9 @@ void BmnDetectorList::GetSystemName(DetectorId det, TString& name)
         case kTOF701:
             name = "tof700";
             break;
+        case kTOF700:
+            name = "tof700";
+            break;
         case kZDC:
             name = "zdc";
             break;
@@ -84,6 +87,12 @@ void BmnDetectorList::GetSystemName(DetectorId det, TString& name)
         default:
             name = "unknown";
             break;
+        case kLAND: 
+            name = "land"; 
+            break;
+        case kTofCal: 
+            name = "tofcal"; 
+            break;
     }
 }
 
@@ -119,6 +128,9 @@ void BmnDetectorList::GetSystemNameCaps(DetectorId det, TString& name)
             name = "TOF";
             break;
         case kTOF701:
+            name = "TOF700";
+            break;
+        case kTOF700:
             name = "TOF700";
             break;
         case kZDC:
@@ -177,6 +189,12 @@ void BmnDetectorList::GetSystemNameCaps(DetectorId det, TString& name)
             break;
         default:
             name = "UNKNOWN";
+            break;
+        case kLAND: 
+            name = "LAND"; 
+            break;
+        case kTofCal: 
+            name = "TofCal"; 
             break;
     }
 }

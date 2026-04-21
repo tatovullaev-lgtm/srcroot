@@ -114,6 +114,7 @@ set(SRCS
  data/BmnLink.cxx
  data/BmnMatch.cxx
  data/BmnTrack.cxx
+ data/BmnTacquilaDigit.cxx
  data/BmnGlobalTrack.cxx
  data/BmnIdentifiableTrack.cxx
  data/BmnTrackMatch.cxx

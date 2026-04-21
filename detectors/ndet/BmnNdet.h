@@ -1,120 +1,170 @@
+/******************************************************************************
+ *
+ *         Class BmnNdet
+ *         
+ *  Adopted for BMN by:   Elena Litvinenko
+ *  e-mail:   litvin@nf.jinr.ru
+ *  Version:  06-11-2015   
+ *
+ *  Modified by M.Golubeva July 2022
+ *
+ *****************************************************************************/
+
 #ifndef BMNNDET_H
 #define BMNNDET_H
 
-#include "BmnNdetGeo.h"
-#include "BmnNdetGeoPar.h"
-#include "BmnNdetPoint.h"
-#include "FairDetector.h"
-#include "TClonesArray.h"
-#include "TLorentzVector.h"
-#include "TVector3.h"
-
-#include <boost/functional/hash.hpp>
 #include <map>
-#include <string>
-#include <unordered_map>
+#include "TClonesArray.h"
+#include "TVector3.h"
+#include "TLorentzVector.h"
+#include "FairDetector.h"
+#include "BmnNdetGeoPar.h"
+
+using namespace std;
+
+class TClonesArray;
+class BmnNdetPoint;
+class FairVolume;
 
 class BmnNdet : public FairDetector
 {
-  public:
-    /** Default constructor **/
-    BmnNdet();
 
-    /** Standard constructor.
-     *@param name    Detector name
-     *@param active  Sensitivity flag
-     **/
-    BmnNdet(const char* name, Bool_t active);
+ public:
 
-    /** Destructor **/
-    virtual ~BmnNdet();
+/** Default constructor **/
+  BmnNdet();
 
-    /** Initialises detector and FairRun **/
-    virtual void Initialize();
 
-    /** Processes hits and creates BmnNdetPoints.
-     *@param vol  Pointer to the active volume
-     *@return     kTRUE if the volume is sensitive and a hit is processed, otherwise kFALSE
-     **/
-    virtual Bool_t ProcessHits(FairVolume* vol = nullptr);
+/** Standard constructor.
+ *@param name    detetcor name
+ *@param active  sensitivity flag
+ **/
+  BmnNdet(const char* name, Bool_t active);
 
-    /** Removes zero-energy hits
-     *@param point  Pointer to the hit
-     *@return       true if the track has non zero impact, otherwise removes it from collection and returns false
-     **/
-    bool FinaliseTrackProcessing(BmnNdetPoint* point);
+/** Destructor **/
+  virtual ~BmnNdet();
 
-    /** Called at the end of each event **/
-    virtual void EndOfEvent();
+/** Virtual method Initialize
+ ** Initialises detector. Stores volume IDs for MUO detector and mirror.
+ **/
+  virtual void Initialize();
 
-    /** Called at the beginning of each event **/
-    virtual void BeginEvent();
+/** Virtual method ProcessHits
+ **
+ ** Defines the action to be taken when a step is inside the
+ ** active volume. Creates BmnNdetPoints and BmnNdetMirrorPoints and adds 
+ ** them to the collections.
+ *@param vol  Pointer to the active volume
+ **/
+  virtual Bool_t ProcessHits(FairVolume* vol = 0);
 
-    /** Registers the hit collection in the ROOT manager **/
-    virtual void Register();
+/** Virtual method EndOfEvent
+ **
+ ** If verbosity level is set, print hit collection at the
+ ** end of the event and resets it afterwards.
+ **/
+  virtual void EndOfEvent();
 
-    /** Accessor to the hit collection
-     *@param iColl  Index of the collection
-     *@return       Pointer to the hit collection
-     **/
-    virtual TClonesArray* GetCollection(Int_t iColl) const;
+  virtual void BeginEvent();
 
-    /** Screen output of hit collection **/
-    virtual void Print(Option_t*) const;
+/** Virtual method Register
+ **
+ ** Registers the hit collection in the ROOT manager.
+ **/
+  virtual void Register();
 
-    /** Clears the hit collection **/
-    virtual void Reset();
+/** Accessor to the hit collection **/
+  virtual TClonesArray* GetCollection(Int_t iColl) const;
 
-    /** Constructs geometry from files **/
-    virtual void ConstructGeometry();
+/** Virtual method Print
+ **
+ ** Screen output of hit collection.
+ **/
+  virtual void Print() const;    
 
-    /** Checks whether a volume is sensitive based on its name.
-     *@param name    Volume name
-     *@return        kTRUE if the volume is sensitive, otherwise kFALSE
-     **/
-    virtual Bool_t CheckIfSensitive(std::string name);
+/** Virtual method Reset
+ **
+ ** Clears the hit collection
+ **/
+  virtual void Reset();
 
-    /** Checks whether current volume is vacuum
-     *@return        kTRUE if the volume is vacuum, otherwise kFALSE
-     **/
-    virtual Bool_t CheckIfVacuum();
+/** Virtual method CopyClones
+ **
+ ** Copies the hit collection with a given track index offset
+ *@param cl1     Origin
+ *@param cl2     Target
+ *@param offset  Index offset
+ **/
+  virtual void CopyClones(TClonesArray* cl1, TClonesArray* cl2,
+			  Int_t offset);
 
-    /** Retrieves the hit index corresponding to a specific address and trackID.
-     *@param trackID  trackID
-     *@param address  BmnNdetAddress
-     *@return         index of the hit if found, otherwise -1
-     **/
-    Int_t FindHitIndex(int trackID, uint32_t address);
+/** Virtual method Construct geometry
+ **
+ **/
+  virtual void ConstructGeometry();
 
-    /** Retrieves the hit corresponding to a specific address and trackID.
-     *@param trackID  trackID
-     *@param address  BmnNdetAddress
-     *@return         Pointer to the hit if found, otherwise nullptr
-     **/
-    BmnNdetPoint* GetHit(int trackID, uint32_t address);
+// Check whether a volume is sensitive.
+  // The decision is based on the volume name. Only used in case
+  // of GDML and ROOT geometry.
+  // @param name    Volume name
+  // @value         kTRUE if volume is sensitive, else kFALSE
+  virtual Bool_t CheckIfSensitive(std::string name);
 
-    /** Adds the hit to hits collection.
-     *@param point  BmnNdetPoint
-     *@return       Pointer to the hit
-     **/
-    BmnNdetPoint* AddHit(BmnNdetPoint* point);
+  BmnNdetPoint* GetHit(Int_t i) const;
+  BmnNdetPoint* GetHit(Int_t vsc, Int_t mod) const;
+  BmnNdetPoint* GetHitPrint(Int_t vsc, Int_t mod) const;
+  Int_t GetVSCVolId() { return fVSCVolId; }
+  Int_t GetVSCNICAVolId() { return fVSCNICAVolId; }
+  Int_t GetVSCVETOVolId() { return fVSCVETOVolId; }
+  //Int_t GetNHits() { return fNHits; }
+  
+  //BmnNdetPoint* AddHit(Int_t trackID, Int_t detID,  Int_t copyNo, Int_t copyNoMother, TVector3 pos, TVector3 mom, Double_t tof, Double_t length, Double_t eLoss);
+  BmnNdetPoint* AddHit(Int_t trackID, Int_t detID,  Int_t copyNo, Int_t copyNoMother, TVector3 pos, TVector3 mom, Double_t tof, Double_t length, Double_t eLoss, UInt_t EventId);
+  //BmnNdetPoint* AddHit(Int_t trackID, Int_t detID,  Int_t copyNo, Int_t copyNoMother, TVector3 pos, TVector3 mom, Double_t tof, Double_t length, Double_t eLoss, Int_t nHits);
+   inline void SetMappingFile_modules(TString mappingFile_modules) { fMappingFile_modules = mappingFile_modules;}
+   inline void SetMappingFile_sections(TString mappingFile_sections) { fMappingFile_sections = mappingFile_sections;}
 
-    /** Remove hit from hits collection by index.
-     *@param index  hit index
-     **/
-    void RemoveHit(Int_t index);
+ private:
+  Int_t          fTrackID;           //!  track index
+  Int_t          fVolumeID;          //!  volume id
+  UInt_t          fEventID;           //!  event id
+  TLorentzVector fPos;               //!  position
+  TLorentzVector fMom;               //!  momentum
+  Double32_t     fTime;              //!  time
+  Double32_t     fLength;            //!  length
+  Int_t          fHitNb;
+  Int_t          fVSCVolId;
+  Int_t          fVSCNICAVolId;
+  Int_t          fVSCVETOVolId;
+  Double32_t     fELoss;             //!  energy loss
+  //Int_t     fNHits;             //!  number of hits
+  Int_t fPosIndex;      //! 
+  Int_t volDetector;     //!  MC volume ID of MUO
+  Double_t fTofArray[70][1000]; //[slice][module]
+  TClonesArray* fNdetCollection;        //! Hit collection
+  //Int_t fEvNb; //event number
+  //Int_t evNbCheck; 
+  TString fMappingFile_modules;  // mapping file for nDet modules (X,Y)
+  TString fMappingFile_sections;  // mapping file for nDet sections 
+  Double_t scintPos_X[1000][70],scintPos_Y[1000][70],scintPos_Z[1000][70];//[module][slice] scint. center coordinates
+  
+// reset all parameters   
+  void ResetParameters();
 
-    /** Returns index of surface point.
-     *@param start track index
-     **/
-    int GetSurfacePoint(int start_track_id);
+  ClassDef(BmnNdet,2)
 
-  private:
-    BmnNdetGeo* fGeoHandler;            // Geometry handler
-    TClonesArray* fCollection;          // Output Point collection
-    TClonesArray* fSurfaceCollection;   // Output Surface Point collection
+}; 
 
-    ClassDef(BmnNdet, 8)
+inline void BmnNdet::ResetParameters() 
+{
+  fTrackID = fVolumeID = 0;
+  fPos.SetXYZM(0.0, 0.0, 0.0, 0.0);
+  fMom.SetXYZM(0.0, 0.0, 0.0, 0.0);
+  fTime = 100000;
+  fLength = fELoss = 0;
+  //fLength = fELoss = fNHits = 0;
+  fPosIndex = 0;
 };
+
 
 #endif

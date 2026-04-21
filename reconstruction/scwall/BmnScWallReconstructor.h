@@ -1,61 +1,53 @@
-/** \file BmnScWallReconstructor.h
- ** \author Nikolay Karpushkin <karpushkin@inr.ru>
- ** \date 03.04.2021
- **/
-
-/** \class BmnScWallReconstructor
- ** \brief Class for BmnScWallEvent reconstruction (creation) from BmnScWallDigi {Data} or BmnScWallDigit {Sim}
- ** \version 1.0
- **/
+/* 
+ * File:   BmnScWallReconstructor.h
+ * Author: Sergey Nepochatykh
+ *
+ */
 
 #ifndef BMNSCWALLRECONSTRUCTOR_H
 #define BMNSCWALLRECONSTRUCTOR_H
 
-#include "BmnTask.h"
-#include "BmnScWallDigi.h"
-#include "BmnScWallDigit.h"
-#include "BmnScWallCell.h"
-#include "BmnScWallEvent.h"
-#include "BmnScWallGeo.h"
+#include <TNamed.h>
 
-#include "FairLogger.h"
-#include "FairRootManager.h"
-
-#include <TStopwatch.h>
-#include <TClonesArray.h>
-
-#include <iostream>
-#include <fstream>
-#include <boost/program_options.hpp>
-
-class BmnScWallReconstructor : public BmnTask {
+class BmnScWallReconstructor : public TNamed {
   public:
-    BmnScWallReconstructor(bool isExp, bool isGlobalCoordinates);
-    ~BmnScWallReconstructor();
+    BmnScWallReconstructor();
+    
+    virtual ~BmnScWallReconstructor();
+    
+    void SetELosses(Double_t ELosses);
 
-    virtual InitStatus Init();
-    void ParseGeometry();
-    void SetRecoCutsFile(TString reco_cuts_file);
-    void ParseCuts();
-    virtual void Exec(Option_t* opt);
-    virtual void Finish();
-
-    virtual void OnlineWrite(const std::unique_ptr<TTree> &resultTree);
+    Double_t GetELosses();
+    
+    void SetCellId(UInt_t CellId);
+    
+    UInt_t GetCellId();
+    
+    void SetX1(Double_t X1);
+    
+    Double_t GetX1();
+    
+    void SetX2(Double_t X2);
+    
+    Double_t GetX2();
+    
+    void SetY1(Double_t Y1);
+    
+    Double_t GetY1();
+    
+    void SetY2(Double_t Y2);
+    
+    Double_t GetY2();
 
   private:
-    FairRootManager* fpFairRootMgr = nullptr;
-    TClonesArray* fArrayOfDigits; // input
-    std::vector<TObject*> GetSelectedDigiVector(TString formulaString); // selected input
-    std::vector<TObject*> fSelectedDigiVector; // selected input
-    BmnScWallEvent* fBmnScWallEvent = nullptr; // output
-
-    TString fRecoCutsFile; // config file with cuts
-    TString fSelectionString = "(1)"; // selection cuts
-    bool fIsExp;
-    bool fIsGlobal;
-
-    float fworkTime;
-  ClassDef(BmnScWallReconstructor,3);
+    Double_t fELosses;
+    
+    UInt_t fCellId;
+    
+    Double_t fX1, fX2, fY1, fY2;
+    
+    ClassDef(BmnScWallReconstructor, 2);
 };
 
 #endif /* BMNSCWALLRECONSTRUCTOR_H */
+

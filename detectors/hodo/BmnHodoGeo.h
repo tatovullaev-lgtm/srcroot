@@ -1,50 +1,26 @@
-#ifndef BMNHODOGEO_H
-#define BMNHODOGEO_H
+/*************************************************************************************
+ *
+ *         Class BmnHodoGeo
+ *         
+ ************************************************************************************/
 
-#include "BmnGeoTemplate.h"
-#include "BmnHodoAddress.h"
-#include "BmnHodoGeoPar.h"
+#ifndef BMNGEOHODO_H
+#define BMNGEOHODO_H
 
-#include <regex>
+#include "FairGeoSet.h"
 
-static const std::regex kHodoRegex{BmnHodoGeoPar::fElementPattern};
+class BmnHodoGeo : public FairGeoSet {
+   protected:
+    char mod1Name[100];  // name of module
+    char ele1Name[100];  // substring for elements in module
 
-class BmnHodoGeo
-    : public FairGeoSet
-    , public BmnGeoTemplate<BmnHodoGeo>
-{
-  public:
-    BmnHodoGeo()
-        : FairGeoSet()
-    {
-        SetName("BmnHodoGeo");
-    }
+   public:
+    BmnHodoGeo();
+    ~BmnHodoGeo() {}
+    const char* getModule1Name(Int_t);
+    const char* getEle1Name(Int_t);
 
-    static bool CheckIfSensitive(const std::string& vol) { return BmnHodoGeoPar::CheckIfSensitive(vol); }
-    static const char* PathBeforeLocalSystem() { return BmnHodoGeoPar::fPathBeforeLocalSystem; }
-    static const char* DetectorVolumeName() { return BmnHodoGeoPar::fDetectorVolumeName; }
-    static const char* TopVolumeName() { return BmnHodoGeoPar::fTopVolumeName; }
-
-    uint32_t GetAddressFromPath(const std::string& spath) const
-    {
-        std::smatch m;
-        if (std::regex_search(spath, m, kHodoRegex) && m.size() == 2) {
-            return BmnHodoAddress::GetAddress(std::stoi(m[1]), 0, 0);
-        }
-        LOG(error) << GetName() << ": no address for " << spath;
-        return 0;
-    }
-
-    int GetMaxStripId() const
-    {
-        uint32_t mx = 0;
-        for (auto& kv : fPositionMap) {
-            mx = std::max(mx, BmnHodoAddress::GetStripId(kv.first));
-        }
-        return mx;
-    }
-
-    ClassDef(BmnHodoGeo, 1)
+    ClassDef(BmnHodoGeo, 0)  // Class for Hyp
 };
 
-#endif   // BMNHODOGEO_H
+#endif

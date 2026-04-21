@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <numeric>
-#include <optional>
 
 #include "FairLogger.h"
 #include "TString.h"
@@ -15,8 +14,6 @@
 #include <cstdlib>
 #include <UniRun.h>
 
-#include <unordered_map>
-#include <boost/functional/hash.hpp>
 #include <boost/program_options.hpp>
 #include "BmnFHCalDigi.h"
 #include "WfmProcessor.h"
@@ -29,28 +26,37 @@ public:
 
     ~BmnFHCalRaw2Digit();
 
-    TString GetName() { return "BmnHodoRaw2Digit"; }
     void ParseConfig(TString mappingFile);
     void ParseCalibration(TString calibrationFile);
     void fillEvent(TClonesArray *data, TClonesArray *FHCaldigit);
     void print();
 
+    std::vector<unsigned int> GetFHCalSerials() {return fSerials;}
+    std::vector<short> GetUniqueXpositions() {return fUniqueX;}
+    std::vector<short> GetUniqueYpositions() {return fUniqueY;}
+    std::vector<short> GetUniqueZpositions() {return fUniqueZ;}
     digiPars GetDigiPars() {return fdigiPars;}
-    auto GetChannelMap() {return fuoChannelMap;}
-    std::optional<std::pair<float, float>> GetCalibPairFromAddress(uint32_t address);
-    std::optional<uint32_t> GetAddressFromBoard(std::pair<size_t,size_t> key);
+    int GetFlatChannelFromAdcChannel(unsigned int board_id, unsigned int channel);
+    int GetFlatIndex(int mod_id, int sec_id);
+    std::vector<unsigned int> GetChannelVect() {return fChannelVect;}
+    std::pair<float,float> GetCalibPairFromAddress(unsigned int address);
     
 private:
+    static constexpr int CHANNELS_PER_BOARD = 64; // ADC64 boards
 
     int fPeriodId; 
     int fRunId;
     TString fmappingFileName;
     TString fcalibrationFileName;
 
-    std::unordered_map<std::pair<size_t,size_t>, uint32_t, boost::hash<std::pair<size_t,size_t>>> fuoChannelMap; // physical channel <board, ch> to digi address
-    std::unordered_map<uint32_t, std::pair<float,float>> fuoCalibMap; // digi address to pair<calib, calibError>
+    std::vector<unsigned int> fSerials;
+    std::vector<short> fUniqueX;
+    std::vector<short> fUniqueY;
+    std::vector<short> fUniqueZ;
+    std::vector<unsigned int> fChannelVect; // flat_channel to unique_address
+    std::vector<std::pair<float,float>> fCalibVect; // flat_calo_channel to pair<calib, calibError>
 
-    ClassDef(BmnFHCalRaw2Digit, 2);
+    ClassDef(BmnFHCalRaw2Digit, 1);
 };
 #endif	/* BmnFHCalRaw2Digit_H */
 

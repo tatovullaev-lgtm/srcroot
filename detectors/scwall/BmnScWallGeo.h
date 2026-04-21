@@ -1,50 +1,26 @@
-#ifndef BMNSCWALLGEO_H
-#define BMNSCWALLGEO_H
+/*************************************************************************************
+ *
+ *         Class BmnScWallGeo
+ *         
+ ************************************************************************************/
 
-#include "BmnGeoTemplate.h"
-#include "BmnScWallAddress.h"
-#include "BmnScWallGeoPar.h"
+#ifndef BMNGEOSCWALL_H
+#define BMNGEOSCWALL_H
 
-#include <regex>
+#include "FairGeoSet.h"
 
-static const std::regex kScWallRegex{BmnScWallGeoPar::fElementPattern};
+class BmnScWallGeo : public FairGeoSet {
+   protected:
+    char mod1Name[100];  // name of module
+    char ele1Name[100];  // substring for elements in module
 
-class BmnScWallGeo
-    : public FairGeoSet
-    , public BmnGeoTemplate<BmnScWallGeo>
-{
-  public:
-    BmnScWallGeo()
-        : FairGeoSet()
-    {
-        SetName("BmnScWallGeo");
-    }
+   public:
+    BmnScWallGeo();
+    ~BmnScWallGeo() {}
+    const char* getModule1Name(Int_t);
+    const char* getEle1Name(Int_t);
 
-    static bool CheckIfSensitive(const std::string& vol) { return BmnScWallGeoPar::CheckIfSensitive(vol); }
-    static const char* PathBeforeLocalSystem() { return BmnScWallGeoPar::fPathBeforeLocalSystem; }
-    static const char* DetectorVolumeName() { return BmnScWallGeoPar::fDetectorVolumeName; }
-    static const char* TopVolumeName() { return BmnScWallGeoPar::fTopVolumeName; }
-
-    uint32_t GetAddressFromPath(const std::string& spath) const
-    {
-        std::smatch m;
-        if (std::regex_search(spath, m, kScWallRegex) && m.size() == 2) {
-            return BmnScWallAddress::GetAddress(std::stoi(m[1]));
-        }
-        LOG(error) << GetName() << ": no address for " << spath;
-        return 0;
-    }
-
-    int GetMaxCellId() const
-    {
-        uint32_t mx = 0;
-        for (auto& kv : fPositionMap) {
-            mx = std::max(mx, BmnScWallAddress::GetCellId(kv.first));
-        }
-        return mx;
-    }
-
-    ClassDef(BmnScWallGeo, 2)
+    ClassDef(BmnScWallGeo, 0)  // Class for Hyp
 };
 
-#endif   // BMNSCWALLGEO_H
+#endif

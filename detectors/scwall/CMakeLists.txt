@@ -6,6 +6,7 @@ set(INCLUDE_DIRECTORIES
  ${CMAKE_SOURCE_DIR}/base/data
  ${CMAKE_SOURCE_DIR}/detectors/scwall
  ${CMAKE_SOURCE_DIR}/detectors/common
+
 )
 
 Set(SYSTEM_INCLUDE_DIRECTORIES
@@ -30,12 +31,10 @@ set(SRCS
  BmnScWallDigi.cxx
  BmnScWallAddress.cxx
  BmnScWallContFact.cxx
- BmnScWallGeo.h
+ BmnScWallGeo.cxx
  BmnScWallGeoPar.cxx
  BmnScWallDigit.cxx
  BmnScWallDigitizer.cxx
- BmnScWallEvent.cxx
- BmnScWallCell.cxx
 )
 
 Set(HEADERS)

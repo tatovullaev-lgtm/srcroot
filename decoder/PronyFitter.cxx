@@ -63,10 +63,15 @@ float PronyFitter::GoToLevel(float Level, int *point, int iterator,
 }
 
 int PronyFitter::CalcSignalBeginStraight() {
-  auto const max_iter = std::max_element(fWfm.begin() + fGateBeg, fWfm.begin() + fGateEnd);
-  int Amplitude = (int) *max_iter - fZeroLevel;
-  int timeMax = (int) std::distance(fWfm.begin(), max_iter);
-
+  int WfmMax = std::numeric_limits<int>::min();
+  int timeMax = -1;
+  for (uint16_t i = 0; i < fWfm.size(); i++) {
+    if (fWfm.at(i) > WfmMax) {
+      WfmMax = fWfm.at(i);
+      timeMax = i;
+    }
+  }
+  int Amplitude = WfmMax - fZeroLevel;
   float trsh_03 = fZeroLevel + Amplitude * 0.3;
   float trsh_09 = fZeroLevel + Amplitude * 0.9;
 
@@ -128,9 +133,8 @@ void PronyFitter::CalculateFitHarmonics() {
   }
 
   int total_roots;
-  if(fModelOrder % 2 == 0) polynomComplexRoots(zr, zi, fModelOrder, a_arr, total_roots);
-  else polynomRealRoots(zr, fModelOrder, a_arr, total_roots);
-  
+  polynomRealRoots(zr, fModelOrder, a_arr, total_roots);
+  //polynomComplexRoots(zr, zi, fModelOrder, a_arr, total_roots);
   if (fIsDebug) {
     printf("forward polinom roots ");
     for (int i = 0; i < fModelOrder; i++)
@@ -1002,7 +1006,7 @@ int PronyFitter::ChooseBestSignalBeginFast(int first_sample, int last_sample, in
 int PronyFitter::SearchSignalBeginByHarmo(int first_sample, int last_sample, int signal_length, std::complex<float> **Zpower) {
 
   std::complex<double> *Zyk_arr = new std::complex<double>[fExpNumber + 1];
-  //const std::complex<double> unit = {1., 0.};
+  const std::complex<double> unit = {1., 0.};
   int mode = (std::abs(std::imag(fz[1])) > 0.01)? 1 : 0; //choose whether harmonics are complex (1) or real (0)
   if (fIsDebug) printf("search begin in complex (1) or real (0) mode: %i\n", mode);
 

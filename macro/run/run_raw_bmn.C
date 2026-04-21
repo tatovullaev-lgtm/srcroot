@@ -10,9 +10,9 @@
 #include <TSystem.h>
 #include <FairLogger.h>
 #include <TStopwatch.h>
-#include </zfs/scratch/lhep-src/srcroot/bmnroot/decoder/BmnRawDataDecoder.h>
-#include </zfs/scratch/lhep-src/srcroot/bmnroot/base/BmnEnums.h>
-#include "run_raw_bmn_Sasha.h"
+// #include </zfs/scratch/lhep-src/srcroot_1/srcroot/decoder/BmnRawDataDecoder.h>
+// #include </zfs/scratch/lhep-src/srcroot_1/srcroot/base/BmnEnums.h>
+// #include "run_raw_bmn_Sasha.h"
 
 
 TString gRawRootFilePath = "";   // store intermediate RAW ROOT file path
@@ -54,17 +54,17 @@ void run_raw_bmn(TString file = "mpd_run_Top_4032.data",
     setup.insert(std::make_pair(kSILICON, 1));   // SILICON
     // setup.insert(std::make_pair(kGEM, 1));       // GEM
     setup.insert(std::make_pair(kTOF1, 1));      // TOF-400
-    // setup.insert(std::make_pair(kTOF, 1));       // TOF-700
+    setup.insert(std::make_pair(kTOF, 1));       // TOF-700
     // setup.insert(std::make_pair(kTOF701, 1));   // TOF-701
     setup.insert(std::make_pair(kDCH, 1));      // DCH
     // // setup.insert(std::make_pair(kZDC,       0)); // ZDC
     // // setup.insert(std::make_pair(kECAL,      0)); // ECAL
-    setup.insert(std::make_pair(kLAND,      0)); // LAND
-    setup.insert(std::make_pair(kTOFCAL,    1)); // LAND
+    setup.insert(std::make_pair(kLAND,      1)); // LAND
+    setup.insert(std::make_pair(kTofCal,    1)); // LAND
     // setup.insert(std::make_pair(kCSC, 1));      // CSC
-    // setup.insert(std::make_pair(kSCWALL, 1));   // SCWALL
+    setup.insert(std::make_pair(kSCWALL, 1));   // SCWALL
     // setup.insert(std::make_pair(kFHCAL, 1));    // FHCAL
-    // setup.insert(std::make_pair(kHODO, 1));     // HODO
+    setup.insert(std::make_pair(kHODO, 1));     // HODO
     // setup.insert(std::make_pair(kNDET, 1));     // Neutron Calorimeter Prototype
     // setup.insert(std::make_pair(kHGND, 1));     // Neutron Calorimeter
     // setup.insert(std::make_pair(kSiBT, 1));     // SiBD
@@ -108,13 +108,17 @@ void run_raw_bmn(TString file = "mpd_run_Top_4032.data",
                                   TString("TOF701_StripMap_RUN") + PeriodSetupExt);
         // decoder->SetZDCMapping("ZDC_map_period_5.txt");
         // decoder->SetZDCCalibration("zdc_muon_calibration.txt");
-        decoder->SetScWallMapping(TString("SCWALL_map_period") + PeriodSetupExt);
-        decoder->SetScWallCalibration(TString("SCWALL_calibration_period") + PeriodSetupExt);
+        // decoder->SetScWallMapping(TString("SCWALL_map_period") + PeriodSetupExt);
+        // decoder->SetScWallCalibration(TString("SCWALL_calibration_period") + PeriodSetupExt);
+        decoder->SetScWallMapping("SCWALL_map_dry_run_2022.txt");
+        decoder->SetScWallCalibration("SCWALL_calibration_2022.txt");
         decoder->SetFHCalMapping(TString("FHCAL_map_period") + PeriodSetupExt);
         decoder->SetFHCalCalibration(TString("FHCAL_calibration_period") + PeriodSetupExt);
-        decoder->SetHodoMapping(Form("HODO_map_period%d%s.json", period, ((stp == kBMNSETUP) ? "" : "_SRC")));
-        decoder->SetHodoCalibration(
-            Form("HODO_Q_calibration_period%d%s.json", period, ((stp == kBMNSETUP) ? "" : "_SRC")));
+        decoder->SetHodoMapping("HODO_Q_map_dry_run_2022.txt");
+        decoder->SetHodoCalibration("HODO_Q_calibration_2022.txt");
+        // decoder->SetHodoMapping(Form("HODO_map_period%d%s.json", period, ((stp == kBMNSETUP) ? "" : "_SRC")));
+        // decoder->SetHodoCalibration(
+        //     Form("HODO_Q_calibration_period%d%s.json", period, ((stp == kBMNSETUP) ? "" : "_SRC")));
         decoder->SetNdetMapping(TString("NDET_map_period") + PeriodSetupExt);
         if ((decoder->GetRunId() >= 7506 && decoder->GetRunId() <= 7534)
             || (decoder->GetRunId() >= 8203 && decoder->GetRunId() <= 8258))

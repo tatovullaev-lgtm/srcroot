@@ -28,6 +28,8 @@ set(INCLUDE_DIRECTORIES
  ${CMAKE_SOURCE_DIR}/detectors/hodo
  ${CMAKE_SOURCE_DIR}/detectors/fhcal
  ${CMAKE_SOURCE_DIR}/detectors/ndet
+ ${CMAKE_SOURCE_DIR}/detectors/land
+ ${CMAKE_SOURCE_DIR}/detectors/tofcal
  ${CMAKE_SOURCE_DIR}/decoder
  ${CMAKE_SOURCE_DIR}/decoder/fles_cbm
  ${CMAKE_SOURCE_DIR}/decoder/fles_ipc
@@ -68,6 +70,8 @@ set(SRCS
  BmnTof2Raw2DigitNew.cxx
  BmnTof1Raw2Digit.cxx
  BmnTof701Raw2Digit.cxx
+ BmnTofCalRaw2Digit.cxx
+ BmnLANDRaw2Digit.cxx
  BmnSiliconRaw2Digit.cxx
  BmnSiBTRaw2Digit.cxx
  BmnRawDataDecoder.cxx
@@ -89,8 +93,8 @@ set(SRCS
  BmnMscRaw2Digit.cxx
  WfmProcessor.cxx
  PronyFitter.cxx
- BmnHgndRaw2Digit.cxx
- BmnHgndCalibration.h
+#  BmnHgndRaw2Digit.cxx
+#  BmnHgndCalibration.h
  #MatrixInversion.h
  #PolynomComplexRoots.h
  #PolynomRealRoots.h
@@ -127,7 +131,7 @@ endif()
 Set(HEADERS)
 Set(LINKDEF DecoderLinkDef.h)
 Set(LIBRARY_NAME BmnDecoder)
-Set(DEPENDENCIES FHCal Hodo ScWall Ndet Zdc Ecal TOF TOF1 CSC Gem Silicon SiProf VSP
+Set(DEPENDENCIES FHCal Hodo ScWall Ndet Zdc Ecal TOF TOF1 LAND TofCal CSC Gem Silicon SiProf VSP
 SiBT Dch Mwpc BmnBase DbTools UniDb ElogDb TangoData Base Minuit Core ROOTDataFrame TreePlayer boost_program_options fmt)
 
 GENERATE_LIBRARY()

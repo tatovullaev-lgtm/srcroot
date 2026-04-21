@@ -16,9 +16,9 @@
 #include <TClonesArray.h>
 
 #include "BmnScWallDigit.h"
-#include "BmnScWallGeoPar.h"
 
 #include "TRandom3.h"
+#include <TStopwatch.h>
 
 class BmnScWallDigitizer : public FairTask {
 public:
@@ -38,6 +38,7 @@ public:
 
     virtual InitStatus Init();
     virtual void Exec(Option_t* opt);
+    virtual void Finish();
 
 private:
 

@@ -1,313 +1,433 @@
-#include "BmnFHCal.h"
+/******************************************************************************
+ *
+ *         Class BmnFHCal
+ *
+ *  Adopted for BMN by:   Elena Litvinenko (EL)
+ *  e-mail:   litvin@nf.jinr.ru
+ *  Version:  06-11-2015
+ *  Last update:  22-Feb-2012 (EL)
+ *
+ *  Modified by M.Golubeva
+ *
+ *****************************************************************************/
 
-#include "CbmStack.h"
-#include "FairLinkManager.h"
-#include "FairRootManager.h"
-#include "FairRun.h"
-#include "FairRuntimeDb.h"
-#include "FairVolume.h"
+#include <iostream>
+
+#include "TClonesArray.h"
+#include "TGeoMCGeometry.h"
 #include "TGeoManager.h"
 #include "TLorentzVector.h"
 #include "TParticle.h"
 #include "TVirtualMC.h"
+#include "TGeoArb8.h"
 
-#include <cassert>
-#include <iostream>
+#include "FairGeoInterface.h"
+#include "FairGeoLoader.h"
+#include "FairGeoNode.h"
+#include "BmnFHCalGeo.h"
+#include "FairGeoRootBuilder.h"
+ //#include "FairStack.h"
+#include "CbmStack.h"
+#include "BmnFHCal.h"
+#include "BmnFHCalPoint.h"
 
-BmnFHCal::BmnFHCal()
-    : FairDetector("BmnFHCal", true)
-    , fCollection(new TClonesArray("BmnFHCalPoint"))
-    , fGeoHandler(std::make_unique<BmnFHCalGeo>())
-    , fPoint(nullptr)
-{
-    LOG(debug3) << "BmnFHCal default constructor called";
+#include "FairRootManager.h"
+#include "FairVolume.h"
+// add on for debug
+//#include "FairGeoG3Builder.h"
+#include "FairRuntimeDb.h"
+#include "TObjArray.h"
+#include "FairRun.h"
+
+#include "TParticlePDG.h"
+
+// -----   Default constructor   -------------------------------------------
+BmnFHCal::BmnFHCal() {
+  fFHCalCollection = new TClonesArray("BmnFHCalPoint");
+  volDetector = 0;
+  fPosIndex = 0;
+  fEventID = -1;
+  fHitNb = 0;
+  fVSCVolId = 0;
+  fVSCNICAVolId = 0;
+  fVerboseLevel = 1;
+
 }
 
+// -----   Standard constructor   ------------------------------------------
 BmnFHCal::BmnFHCal(const char* name, Bool_t active)
-    : FairDetector(name, active)
-    , fCollection(new TClonesArray("BmnFHCalPoint"))
-    , fGeoHandler(std::make_unique<BmnFHCalGeo>())
-    , fPoint(nullptr)
-{
-    LOG(debug3) << "BmnFHCal constructor called with name: " << name << " and active: " << active;
+  : FairDetector(name, active) {
+  fFHCalCollection = new TClonesArray("BmnFHCalPoint");
+  fPosIndex = 0;
+  volDetector = 0;
+  fEventID = -1;
+  fHitNb = 0;
+  fVSCVolId = 0;
+  fVSCNICAVolId = 0;
+  fVerboseLevel = 1;
 }
 
-BmnFHCal::~BmnFHCal()
-{
-    LOG(debug3) << "BmnFHCal destructor called";
-    if (fCollection) {
-        fCollection->Delete();
-        delete fCollection;
-        fCollection = nullptr;
-    }
+// -----   Destructor   ----------------------------------------------------
+BmnFHCal::~BmnFHCal() {
+  if (fFHCalCollection) {
+    fFHCalCollection->Delete();
+    delete fFHCalCollection;
+  }
 
-    fMultiLinkMap.clear();
-    fGeoHandler.reset();
-    fPoint.reset();
 }
 
-void BmnFHCal::Initialize()
-{
-    LOG(debug3) << "BmnFHCal Initialize method called";
-    FairDetector::Initialize();
+// -----   Public method Intialize   ---------------------------------------
+void BmnFHCal::Initialize() {
+  // Init function
+
+  FairDetector::Initialize();
+  FairRun* sim = FairRun::Instance();
+  FairRuntimeDb* rtdb = sim->GetRuntimeDb();
+
+  //fVSCVolId = gMC->VolId("zdc01s");
+  //fVSCNICAVolId = gMC->VolId("zdc01s_NICA");
+  fVSCVolId = gMC->VolId("fhcal01s");
+  fVSCNICAVolId = gMC->VolId("fhcal01s_NICA");
+
 }
 
-void BmnFHCal::BeginEvent()
-{
-    LOG(debug3) << "BmnFHCal BeginEvent method called";
-    fMultiLinkMap.clear();
+// -------------------------------------------------------------------------
+void BmnFHCal::BeginEvent() {
+  // Begin of the event
+
 }
 
-BmnFHCalPoint* BmnFHCal::GetHit(uint32_t address)
-{
-    LOG(debug4) << "BmnFHCal GetHit method called";
-    Int_t nEntries = fCollection->GetEntriesFast();
-    for (Int_t i = nEntries - 1; i >= 0; i--) {
-        auto* hit = static_cast<BmnFHCalPoint*>(fCollection->At(i));
-        if (hit->GetAddress() == address) {
-            return hit;
-        }
-    }
-    return nullptr;
+//_____________________________________________________________________________
+BmnFHCalPoint* BmnFHCal::GetHit(Int_t i) const {
+  // Returns the hit for the specified layer.
+  // ---
+
+  return (BmnFHCalPoint*)fFHCalCollection->At(i);
 }
 
-static double CalculateEnergyLoss(double step, double edep)
-{
-    constexpr double BirkConst = 12.6;   // Static constant.
-    return (step > 0) ? edep / (1.0 + (BirkConst / step) * edep) : edep;
+//_____________________________________________________________________________
+BmnFHCalPoint* BmnFHCal::GetHit(Int_t vsc, Int_t mod) const {
+  // Returns the hit for the specified vsc and module.
+  // ---
+
+  BmnFHCalPoint* hit;
+  Int_t nofHits = fFHCalCollection->GetEntriesFast();
+  for (Int_t i = 0; i < nofHits; i++) {
+    hit = GetHit(i);
+    //cout <<"fEdep " <<i <<" " <<hit->GetEdep() <<endl;
+    //int iVSCId = hit->GetVSCId();
+    //int iMODId = hit->GetMODId();
+    //if(iVSCId == vsc && iMODId == mod)
+    if (hit->GetCopy() == vsc && hit->GetCopyMother() == mod)
+      return hit;
+  }
+
+  return 0;
 }
 
-Bool_t BmnFHCal::ProcessHits(FairVolume* vol)
-{
-    LOG(debug4) << "BmnFHCal ProcessHits method called for event " << gMC->CurrentEvent();
+//_____________________________________________________________________________
+BmnFHCalPoint* BmnFHCal::GetHitPrint(Int_t vsc, Int_t mod) const {
+  // Returns the hit for the specified vsc and module.
+  // ---
 
-    // Skip non-sensitive volumes or invalid energies
-    if (!CheckIfSensitive(gMC->CurrentVolName()) || gMC->Edep() < 0) {
-        return kFALSE;
-    }
+  BmnFHCalPoint* hit;
+  Int_t nofHits = fFHCalCollection->GetEntriesFast();
 
-    LOG(debug4) << "BmnFHCal::ProcessHits. trackID = " << gMC->GetStack()->GetCurrentTrackNumber() << " "
-                << BmnFHCalAddress::GetInfoString(fGeoHandler->GetAddressFromPath(gMC->CurrentVolPath()))
-                << ". Edep = " << gMC->Edep() << " Time = " << gMC->TrackTime() * 1.0e09;
+  for (Int_t i = 0; i < nofHits; i++) {
+    hit = GetHit(i);
+    if (hit->GetCopy() == vsc && hit->GetCopyMother() == mod)
+      cout << "GetHitPrint method " << hit->GetCopyMother() << " " << hit->GetCopy() << " " << hit->GetEnergyLoss() << " " << hit->GetZ() << endl;
+  }
+  /*
+  for (Int_t i=0; i<nofHits; i++) {
+    hit =  GetHit(i);
+    //cout <<"fEdep " <<i <<" " <<hit->GetEdep() <<endl;
+    //int iVSCId = hit->GetVSCId();
+    //int iMODId = hit->GetMODId();
+    //if(iVSCId == vsc && iMODId == mod)
+    if(hit->GetCopy() == vsc && hit->GetCopyMother() == mod)
+      return hit;
+  }
+  */
 
-    if (gMC->IsTrackEntering() || !fPoint) {
-        fPoint.reset(new BmnFHCalPoint());
-        fPoint->SetEventID(gMC->CurrentEvent());
-        fPoint->SetAddress(fGeoHandler->GetAddressFromPath(gMC->CurrentVolPath()));
-        TLorentzVector tPos, tMom;
-        gMC->TrackPosition(tPos);
-        gMC->TrackMomentum(tMom);
-        fPoint->SetPosition(tPos.Vect());
-        fPoint->SetMomentum(tMom.Vect());
-        fPoint->SetEnergyLoss(CalculateEnergyLoss(gMC->TrackStep(), gMC->Edep()));
-        fPoint->SetTime(gMC->TrackTime() * 1.0e09);
-        fPoint->SetLength(gMC->TrackLength());
-    }
-
-    assert(fPoint);
-    assert(fPoint->GetAddress() == fGeoHandler->GetAddressFromPath(gMC->CurrentVolPath()));
-    double dEdep = CalculateEnergyLoss(gMC->TrackStep(), gMC->Edep());
-    double weighted_time = fPoint->GetEnergyLoss() * fPoint->GetTime() + dEdep * gMC->TrackTime() * 1.0e09;
-    fPoint->SetEnergyLoss(fPoint->GetEnergyLoss() + dEdep);
-    if (fPoint->GetEnergyLoss() > 0.)
-        fPoint->SetTime(weighted_time / fPoint->GetEnergyLoss());
-
-    if (gMC->IsTrackExiting() || gMC->IsTrackStop() || gMC->IsTrackDisappeared()) {
-        if (fPoint->GetEnergyLoss() > std::numeric_limits<double>::epsilon()) {
-            int surface_track = GetSurfaceMCTrack(gMC->GetStack()->GetCurrentTrackNumber());
-            if (surface_track >= 0) {
-                fPoint->SetTrackID(surface_track);
-                fMultiLinkMap[fPoint->GetAddress()].AddLink(
-                    FairLink("MCTrack", surface_track, fPoint->GetEnergyLoss()));
-                ((CbmStack*)gMC->GetStack())->AddPoint(kFHCAL, surface_track);
-            }
-            auto* existing = GetHit(fPoint->GetAddress());
-            if (existing)
-                UpdateHit(*existing, *fPoint);
-            else
-                AddHit(fPoint.get());
-        }
-        fPoint.reset();
-    }
-
-    return kTRUE;
+  return 0;
 }
 
-void BmnFHCal::EndOfEvent()
-{
-    LOG(debug3) << "BmnFHCal EndOfEvent method called";
-    Print("");
-    Reset();
-}
 
-void BmnFHCal::Register()
-{
-    LOG(debug3) << "BmnFHCal Register method called";
-    FairRootManager::Instance()->Register("FHCalPoint", "FHCal", fCollection, kTRUE);
-}
 
-TClonesArray* BmnFHCal::GetCollection(Int_t iColl) const
-{
-    LOG(debug3) << "BmnFHCal GetCollection method called with iColl: " << iColl;
-    for (Int_t i = 0; i < fCollection->GetEntriesFast(); i++) {
-        auto* hit = static_cast<BmnFHCalPoint*>(fCollection->At(i));
-        hit->SetEntryNr(FairLink("FHCalPoint", i, hit->GetEnergyLoss()));
-        uint32_t address = hit->GetAddress();
-        if (fMultiLinkMap.find(address) != fMultiLinkMap.end()) {
-            hit->SetLinks(fMultiLinkMap.at(address));   // Overwrite
-            LOG(debug3) << "BmnFHCal::GetCollection Links: " << hit->GetNLinks();
-            if (FairLogger::GetLogger()->IsLogNeeded(fair::Severity::debug3) && hit->GetNLinks()) {
-                hit->PrintLinkInfo();
-                printf("\n");
-            }
-        }
-    }
-    return (iColl == 0) ? fCollection : nullptr;
-}
 
-void BmnFHCal::Print(Option_t*) const
-{
-    LOG(debug3) << "BmnFHCal Print method called";
-    Int_t nHits = fCollection->GetEntriesFast();
-    std::cout << "-I- BmnFHCal: " << nHits << " points registered in event " << gMC->CurrentEvent() << std::endl;
+// -----   Public method ProcessHits  --------------------------------------
+Bool_t BmnFHCal::ProcessHits(FairVolume* vol) {
+  // if (TMath::Abs(gMC->TrackCharge()) <= 0) return kFALSE;
 
-    if (FairLogger::GetLogger()->IsLogNeeded(fair::Severity::debug4)) {
-        for (Int_t i = 0; i < nHits; ++i) {
-            auto hit = static_cast<BmnFHCalPoint*>((*fCollection)[i]);
-            hit->Print();
-        }
-    }
-}
+  Int_t copyNoVSC, copyNoVTYVEC, copyNoVMOD, copyNoVFHCal;
+  Int_t copyNoVSCNICA, copyNoVTYVECNICA, copyNoVMODNICA, copyNoVFHCalNICA;
+  Int_t copyNoVSCCom, copyNoVTYVECCom, copyNoVMODCom, copyNoVFHCalCom;
 
-void BmnFHCal::Reset()
-{
-    LOG(debug3) << "BmnFHCal Reset method called";
-    fCollection->Delete();
-}
+  Int_t      ivol;
+  TLorentzVector tPos1, tMom1;
+  TLorentzVector tPos, tMom;
 
-void BmnFHCal::ConstructGeometry()
-{
-    TString fileName = GetGeometryFileName();
-    if (fileName.EndsWith(".root")) {
-        LOG(info) << "Constructing FHCal geometry from ROOT file %s" << fileName.Data();
-        ConstructRootGeometry();
-    }
+  Int_t module, module_nica;
+  Int_t slice, slice_nica;
+  Int_t zdc, zdc_nica;
 
-    FairGeoLoader* geoLoad = FairGeoLoader::Instance();
-    FairGeoInterface* geoFace = geoLoad->getGeoInterface();
-    fGeoHandler->setGeomFile(GetGeometryFileName());
-    geoFace->addGeoModule(fGeoHandler.get());
+  Double_t time = 0;
+  Double_t length = 0;
 
-    Bool_t rc = geoFace->readSet(fGeoHandler.get());
-    if (rc)
-        fGeoHandler->create(geoLoad->getGeoBuilder());
-    TList* volList = fGeoHandler->getListOfVolumes();
+  TParticle* part;
+  Double_t charge;
 
-    // store geo parameter
-    FairRun* fRun = FairRun::Instance();
-    FairRuntimeDb* rtdb = FairRun::Instance()->GetRuntimeDb();
-    BmnFHCalGeoPar* par = (BmnFHCalGeoPar*)(rtdb->getContainer("BmnFHCalGeoPar"));
-    TObjArray* fSensNodes = par->GetGeoSensitiveNodes();
-    TObjArray* fPassNodes = par->GetGeoPassiveNodes();
+  Double_t  QCF = 1; //quenching for Birk
+  Double_t  BirkConst = 12.6; //0.126 mm/MeV for polystyrene 
+  //0.126 *(0.1/0.001) = 12.6 cm/GeV
+  //(0.126 mm/MeV - from Wikipedia, 0.07943mm/MeV є in Geant4)
 
-    TListIter iter(volList);
-    FairGeoNode* node = NULL;
-    FairGeoVolume* aVol = NULL;
-    while ((node = (FairGeoNode*)iter.Next())) {
-        aVol = dynamic_cast<FairGeoVolume*>(node);
-        if (node->isSensitive()) {
-            fSensNodes->AddLast(aVol);
+
+  //#define EDEBUG
+#ifdef EDEBUG
+  static Int_t lEDEBUGcounter = 0;
+  if (lEDEBUGcounter < 1)
+    std::cout << "EDEBUG-- BmnFHCal::ProcessHits: entered" << gMC->CurrentVolPath() << endl;
+#endif
+
+
+  if (gMC->CurrentVolID(copyNoVSC) != fVSCVolId &&
+    gMC->CurrentVolID(copyNoVSCNICA) != fVSCNICAVolId) {
+    return kFALSE;
+  }
+
+  ivol = vol->getMCid();
+
+  if (gMC->CurrentVolID(copyNoVSC) == fVSCVolId || gMC->CurrentVolID(copyNoVSCNICA) == fVSCNICAVolId) {
+    gMC->CurrentVolOffID(1, slice);
+    gMC->CurrentVolOffID(2, module);
+    //gMC->CurrentVolOffID(3, zdc);
+    copyNoVTYVECCom = slice; copyNoVMODCom = module; //copyNoVZDCCom = zdc;
+  }
+
+  if (gMC->IsTrackEntering()) {
+
+    ResetParameters();
+    fELoss = 0.;
+    time = 0.;
+    length = 0.;
+    gMC->TrackPosition(tPos);
+    gMC->TrackMomentum(tMom);
+
+#ifdef EDEBUG
+    gMC->TrackPosition(tPos1);
+    gMC->TrackMomentum(tMom1);
+#endif
+  }//if (gMC->IsTrackEntering())
+
+  if (gMC->IsTrackInside()) {
+
+    gMC->TrackPosition(tPos);
+    gMC->TrackMomentum(tMom);
+    length += gMC->TrackStep();
+
+    //fELoss +=gMC->Edep();
+//Birk corrections
+    if (gMC->TrackStep() > 0) QCF = 1. + (BirkConst / gMC->TrackStep()) * gMC->Edep();
+    else QCF = 1;
+    fELoss += (gMC->Edep()) / QCF;
+
+    time += gMC->TrackTime() * 1.0e09;
+
+    if (gMC->IsTrackStop() || gMC->IsTrackDisappeared()) {
+
+      part = gMC->GetStack()->GetCurrentTrack();
+      charge = part->GetPDG()->Charge() / 3.;
+
+      // Create BmnFHCalPoint
+      fTrackID = gMC->GetStack()->GetCurrentTrackNumber();
+
+      if (fELoss > 0) {
+
+        //std::cout << "INSIDE MpdFHCal::ProcessHits: TrackID:" <<part->GetPdgCode() <<" " << fTrackID << "  " <<fELoss <<" " << gMC->CurrentVolPath() << " " << tPos.Z() <<"   "  <<tMom.Pz() <<" " << ivol <<" " <<gMC->CurrentVolOffName(2) << " " <<gMC->CurrentVolOffName(1) << " " << gMC->CurrentVolOffName(0) <<std::endl;
+
+        if (copyNoVTYVECCom == slice && copyNoVMODCom == module) {//module
+          if (!GetHit(slice, module)) {
+            AddHit(fTrackID, ivol, slice, module, TVector3(tPos.X(), tPos.Y(), tPos.Z()), TVector3(tMom.Px(), tMom.Py(), tMom.Pz()), time, length, fELoss);
+          } else {
+            GetHit(slice, module)->AddVSC(fTrackID, ivol, slice, module, TVector3(tPos.X(), tPos.Y(), tPos.Z()), TVector3(tMom.Px(), tMom.Py(), tMom.Pz()), time, length, fELoss);
+          }
+        }//if(copyNoVTYVECCom==slice && copyNoVMODCom==module)	  
+
+      }//if(fELoss>0)
+    }//if ( gMC->IsTrackStop() || gMC->IsTrackDisappeared() )
+  }//if ( gMC->IsTrackInside())
+
+  if (gMC->IsTrackExiting()) {
+
+    part = gMC->GetStack()->GetCurrentTrack();
+
+    // Create BmnFHCalPoint
+    fTrackID = gMC->GetStack()->GetCurrentTrackNumber();
+    time += gMC->TrackTime() * 1.0e09;
+    length += gMC->TrackLength();
+
+    //fELoss +=gMC->Edep();
+//Birk corrections
+    if (gMC->TrackStep() > 0) QCF = 1. + (BirkConst / gMC->TrackStep()) * gMC->Edep();
+    else QCF = 1;
+    fELoss += (gMC->Edep()) / QCF;
+
+    gMC->TrackPosition(tPos);
+    gMC->TrackMomentum(tMom);
+
+    if (fELoss > 0) {
+
+      if (copyNoVTYVECCom == slice && copyNoVMODCom == module) {
+        if (!GetHit(slice, module)) {
+          AddHit(fTrackID, ivol, slice, module, TVector3(tPos.X(), tPos.Y(), tPos.Z()), TVector3(tMom.Px(), tMom.Py(), tMom.Pz()), time, length, fELoss);
         } else {
-            fPassNodes->AddLast(aVol);
+          GetHit(slice, module)->AddVSC(fTrackID, ivol, slice, module, TVector3(tPos.X(), tPos.Y(), tPos.Z()), TVector3(tMom.Px(), tMom.Py(), tMom.Pz()), time, length, fELoss);
         }
+      }//if(copyNoVTYVECCom==slice && copyNoVMODCom==module)	  
+
+    }//if(fELoss>0)
+  }//if ( gMC->IsTrackExiting()) {
+
+  Int_t points = gMC->GetStack()->GetCurrentTrack()->GetMother(1);
+
+  points = (points & (~(1 << 30))) | (1 << 30);
+
+  gMC->GetStack()->GetCurrentTrack()->SetMother(1, points);
+
+  ((CbmStack*)gMC->GetStack())->AddPoint(kFHCAL);
+
+  return kTRUE;
+
+}
+
+// -----   Public method EndOfEvent   -----------------------------------------
+void BmnFHCal::EndOfEvent() {
+  if (fVerboseLevel)  Print();
+  Reset();
+}
+
+
+// -----   Public method Register   -------------------------------------------
+void BmnFHCal::Register() {
+  FairRootManager::Instance()->Register("FHCalPoint", "FHCal", fFHCalCollection, kTRUE);
+}
+
+// -----   Public method GetCollection   --------------------------------------
+TClonesArray* BmnFHCal::GetCollection(Int_t iColl) const {
+  if (iColl == 0) return fFHCalCollection;
+
+  return NULL;
+}
+
+// -----   Public method Print   ----------------------------------------------
+void BmnFHCal::Print() const {
+  Int_t nHits = fFHCalCollection->GetEntriesFast();
+  cout << "-I- BmnFHCal: " << nHits << " points registered in this event."
+    << endl;
+
+  if (fVerboseLevel > 1)
+    for (Int_t i = 0; i < nHits; i++) (*fFHCalCollection)[i]->Print();
+}
+
+// -----   Public method Reset   ----------------------------------------------
+void BmnFHCal::Reset() {
+  fFHCalCollection->Delete();
+
+  fPosIndex = 0;
+}
+
+// guarda in FairRootManager::CopyClones
+// -----   Public method CopyClones   -----------------------------------------
+void BmnFHCal::CopyClones(TClonesArray* cl1, TClonesArray* cl2, Int_t offset) {
+  Int_t nEntries = cl1->GetEntriesFast();
+  //cout << "-I- BmnFHCal: " << nEntries << " entries to add." << endl;
+  TClonesArray& clref = *cl2;
+  BmnFHCalPoint* oldpoint = NULL;
+  for (Int_t i = 0; i < nEntries; i++) {
+    oldpoint = (BmnFHCalPoint*)cl1->At(i);
+    Int_t index = oldpoint->GetTrackID() + offset;
+    oldpoint->SetTrackID(index);
+    new (clref[fPosIndex]) BmnFHCalPoint(*oldpoint);
+    fPosIndex++;
+  }
+  cout << " -I- BmnFHCal: " << cl2->GetEntriesFast() << " merged entries."
+    << endl;
+}
+
+// -----   Public method ConstructGeometry   ---------------------------------
+void BmnFHCal::ConstructGeometry() {
+
+  TString fileName = GetGeometryFileName();
+  if (fileName.EndsWith(".root")) {
+    LOG(info) << ("Constructing FHCal geometry from ROOT file %s", fileName.Data());
+    ConstructRootGeometry();
+  }
+  /*
+    else if ( fileName.EndsWith(".geo") )
+    {
+    FairLogger::GetLogger()->Info(MESSAGE_ORIGIN, "Constructing FHCal geometry from ASCII file %s", fileName.Data());
+    ConstructAsciiGeometry();
     }
-    par->setChanged();
-    par->setInputVersion(fRun->GetRunId(), 1);
+    else	FairLogger::GetLogger()->Fatal(MESSAGE_ORIGIN, "Geometry format of FHCal file %S not supported.", fileName.Data());
+  */
 
-    ProcessNodes(volList);
-}
+  FairGeoLoader* geoLoad = FairGeoLoader::Instance();
+  FairGeoInterface* geoFace = geoLoad->getGeoInterface();
+  BmnFHCalGeo* FHCalGeo = new BmnFHCalGeo();
+  FHCalGeo->setGeomFile(GetGeometryFileName());
+  geoFace->addGeoModule(FHCalGeo);
 
-Bool_t BmnFHCal::CheckIfSensitive(std::string name)
-{
-    LOG(debug4) << "BmnFHCal CheckIfSensitive method called with name: " << name;
-    TString tsname = name.c_str();
-    return tsname.Contains(BmnFHCalGeoPar::SensitiveVolume_name);
-}
+  Bool_t rc = geoFace->readSet(FHCalGeo);
+  if (rc) FHCalGeo->create(geoLoad->getGeoBuilder());
+  TList* volList = FHCalGeo->getListOfVolumes();
 
-BmnFHCalPoint* BmnFHCal::AddHit(BmnFHCalPoint* point)
-{
-    TClonesArray& clref = *fCollection;
-    Int_t size = clref.GetEntriesFast();
-    return new (clref[size]) BmnFHCalPoint(*point);
-}
+  // store geo parameter
+  FairRun* fRun = FairRun::Instance();
+  FairRuntimeDb* rtdb = FairRun::Instance()->GetRuntimeDb();
+  BmnFHCalGeoPar* par = (BmnFHCalGeoPar*)(rtdb->getContainer("BmnFHCalGeoPar"));
+  TObjArray* fSensNodes = par->GetGeoSensitiveNodes();
+  TObjArray* fPassNodes = par->GetGeoPassiveNodes();
 
-void BmnFHCal::UpdateHit(BmnFHCalPoint& existing, const BmnFHCalPoint& update)
-{
-    LOG(debug4) << "UpdateHit: Updating hit at address " << existing.GetAddress()
-                << " with current E_loss = " << existing.GetEnergyLoss()
-                << " update E_loss += " << update.GetEnergyLoss();
+  TListIter iter(volList);
+  FairGeoNode* node = NULL;
+  FairGeoVolume* aVol = NULL;
 
-    const double eloss_existing = existing.GetEnergyLoss();
-    const double eloss_update = update.GetEnergyLoss();
-    const double eloss_total = eloss_existing + eloss_update;
+  while ((node = (FairGeoNode*)iter.Next())) {
+    aVol = dynamic_cast<FairGeoVolume*> (node);
 
-    if (eloss_total == 0)
-        return;
 
-    const double weight_existing = eloss_existing / eloss_total;
-    const double weight_update = eloss_update / eloss_total;
-
-    TVector3 pos_existing, mom_existing;
-    existing.Position(pos_existing);
-    existing.Momentum(mom_existing);
-
-    TVector3 pos_update, mom_update;
-    update.Position(pos_update);
-    update.Momentum(mom_update);
-
-    existing.SetPosition(weight_existing * pos_existing + weight_update * pos_update);
-    existing.SetMomentum(weight_existing * mom_existing + weight_update * mom_update);
-    existing.SetTime(weight_existing * existing.GetTime() + weight_update * update.GetTime());
-    existing.SetLength(weight_existing * existing.GetLength() + weight_update * update.GetLength());
-    if (weight_update > weight_existing)
-        existing.SetTrackID(update.GetTrackID());
-    existing.SetEnergyLoss(eloss_total);
-}
-
-int BmnFHCal::GetSurfaceMCTrack(int start_track_id)
-{
-    int current_id = start_track_id;
-    TParticle* current = ((CbmStack*)gMC->GetStack())->GetParticle(current_id);
-    while (current) {
-        if (current->IsPrimary()) {
-            LOG(debug4) << Form("BmnFHCal::GetSurfaceMCTrack. Current particle %d is primary", current_id);
-            return current_id;
-        }
-        int mother_id = current->GetFirstMother();
-        TParticle* mother = ((CbmStack*)gMC->GetStack())->GetParticle(mother_id);
-        if (!mother) {
-            LOG(error) << Form("BmnFHCal::GetSurfaceMCTrack. Current track with id %d has mother but it is "
-                               "not stored in MC stack",
-                               current_id);
-            return -1;
-        }
-        if (mother_id == current_id) {
-            LOG(error) << "BmnFHCal::GetSurfaceMCTrack. Infinite loop detected for track ID: " << current_id;
-            return -1;
-        }
-
-        TVector3 current_vtx(current->Vx(), current->Vy(), current->Vz());
-        TVector3 mother_vtx(mother->Vx(), mother->Vy(), mother->Vz());
-        if (fGeoHandler->IsPointInside(current_vtx) && !fGeoHandler->IsPointInside(mother_vtx))
-        {   // daughter vtx is inside detector, mother vtx is not
-            LOG(debug4) << Form("BmnFHCal::GetSurfaceMCTrack. Current track with id %d has vtx (%.2f %.2f "
-                                "%.2f) inside detector. Its mother %d vtx (%.2f %.2f %.2f) is outside",
-                                current_id, current_vtx.X(), current_vtx.Y(), current_vtx.Z(), mother_id,
-                                mother_vtx.X(), mother_vtx.Y(), mother_vtx.Z());
-            return mother_id;
-        }
-        current = mother;
-        current_id = mother_id;
+    if (node->isSensitive()) {
+      fSensNodes->AddLast(aVol);
+    } else {
+      fPassNodes->AddLast(aVol);
     }
-    return -1;
+  }
+  par->setChanged();
+  par->setInputVersion(fRun->GetRunId(), 1);
+
+  ProcessNodes(volList);
 }
+
+//Check if Sensitive-----------------------------------------------------------
+Bool_t BmnFHCal::CheckIfSensitive(std::string name) {
+  TString tsname = name;
+  //if (tsname.Contains("zdc01s") || tsname.Contains("zdc01s_NICA")) {
+  if (tsname.Contains("fhcal01s") || tsname.Contains("fhcal01s_NICA")) {
+    return kTRUE;
+  }
+  return kFALSE;
+}
+
+// -----   Private method AddHit   --------------------------------------------
+BmnFHCalPoint* BmnFHCal::AddHit(Int_t trackID, Int_t detID, Int_t copyNo, Int_t copyNoMother, TVector3 pos, TVector3 mom, Double_t time, Double_t length, Double_t eLoss) {
+  TClonesArray& clref = *fFHCalCollection;
+  Int_t size = clref.GetEntriesFast();
+
+  return new(clref[size]) BmnFHCalPoint(trackID, detID, copyNo, copyNoMother, pos, mom, time, length, eLoss);
+
+}
+
+
+ClassImp(BmnFHCal)

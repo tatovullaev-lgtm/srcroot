@@ -1,49 +1,51 @@
-/** @author Nikolay Karpushkin <karpushkin@inr.ru>
- ** @date 10.01.2024
- **
- ** Class for simulation data at digi level
- **/
+/*************************************************************************************
+ *
+ *            BmnHodoDigi
+ *    Class for digital data taken from BmnHodo detector
+ *
+ *  Author:   Sergey Morozov
+ *  Version:  17-03-2022
+ *
+ ************************************************************************************/
 
 #ifndef BMNHODOGIGIT_H
 #define BMNHODOGIGIT_H
 
-#include "BmnAbstractDigit.h"   // for Abstract digit
-#include "BmnHodoAddress.h"     // for BmnHodoAddress
+#include "BmnHodoPoint.h"
 
-class BmnHodoDigit : public BmnAbstractDigit
+class BmnHodoDigit: public TObject
 {
-  public:
-    BmnHodoDigit()
-        : BmnAbstractDigit()
-        , fIsSaturated(false)
-    {}
-    BmnHodoDigit(uint32_t address, double time, double signal = 0)
-        : BmnAbstractDigit(address, time, signal)
-        , fIsSaturated(false)
-    {}
+ public:
 
-    ~BmnHodoDigit() {};
+  BmnHodoDigit();
+  BmnHodoDigit(Int_t pfStripID, Double_t   pfELoss, Double_t   pfELossDigi=0 );
+  BmnHodoDigit(BmnHodoPoint *p);
 
-    // Getters
-    uint32_t GetSystemId() const { return BmnHodoAddress::GetSystemId(fAddress); }
-    uint32_t GetStripId() const { return BmnHodoAddress::GetStripId(fAddress); }
-    uint32_t GetStripSide() const { return BmnHodoAddress::GetStripSide(fAddress); }
-    uint32_t GetGain() const { return BmnHodoAddress::GetGain(fAddress); }
-    bool GetIsSaturated() const { return fIsSaturated; }
+  virtual ~BmnHodoDigit();
+  void Clear();
 
-    // Member Functions
-    virtual const char* GetClassName() { return "BmnHodoDigit"; }
-    virtual void Print(const Option_t* opt = "")
-    {
-        printf("%s: StripId %d Data %s \n", GetClassName(), GetStripId(), GetStringData().Data());
-    }
+  virtual void Print(const Option_t* opt ="");
 
-    void SetIsSaturated(bool satur) { fIsSaturated = satur; }
 
-  private:
-    bool fIsSaturated;
+  inline Int_t  GetStripID() { return fStripID; }
+  inline Double_t GetELossDigi()  { return fELossDigi; }
+  inline Double_t GetELoss()  { return fELoss; }
 
-    ClassDef(BmnHodoDigit, 3);
+  inline Int_t SetStripID(UInt_t pfStripID) { fStripID = pfStripID; return fStripID; }
+  inline Double_t SetELoss(Double_t pfELoss) { fELoss = pfELoss; return fELoss; }
+  inline Double_t SetELossDigi(Double_t pfELossDigi) { fELossDigi = pfELossDigi; return fELossDigi; }
+
+
+
+ protected:
+
+
+  Int_t    fStripID;          // Strip number
+  Double_t   fELossDigi;     // Digitized signal
+  Double_t fELoss;           // Sum of the energy losses from MC
+
+  ClassDef(BmnHodoDigit,1);
+
 };
 
-#endif   // BMNHODOGIGIT_H
+#endif // BMNHODOGIGIT_H

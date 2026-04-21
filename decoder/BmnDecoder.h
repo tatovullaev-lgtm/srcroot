@@ -26,7 +26,7 @@
 #include "BmnEventHeader.h"
 #include "BmnFHCalRaw2Digit.h"
 #include "BmnGemRaw2Digit.h"
-#include "BmnHgndRaw2Digit.h"
+// #include "BmnHgndRaw2Digit.h"
 #include "BmnHodoRaw2Digit.h"
 #include "BmnMetadataRaw.h"
 #include "BmnMscRaw2Digit.h"
@@ -39,10 +39,14 @@
 #include "BmnTof1Raw2Digit.h"
 #include "BmnTof2Raw2DigitNew.h"
 #include "BmnTof701Raw2Digit.h"
+#include "BmnLANDRaw2Digit.h"
+#include "BmnTofCalRaw2Digit.h"
 #include "BmnTrigRaw2Digit.h"
 #include "BmnVspRaw2Digit.h"
 #include "BmnZDCRaw2Digit.h"
 #include "DigiArrays.h"
+
+
 /********************************************************/
 // wait limit for input data (ms)
 #define WAIT_LIMIT 40000000
@@ -99,8 +103,10 @@ class BmnDecoder : public BmnTask
         d.fhcal = fhcal;
         d.hodo = hodo;
         d.ndet = ndet;
-        d.hgnd = hgnd;
+        // d.hgnd = hgnd;
         d.ecal = ecal;
+        d.land = land;
+        d.tofcal = tofcal;
         d.dch = dch;
         d.mwpc = mwpc;
         d.sibt = sibt;
@@ -151,9 +157,13 @@ class BmnDecoder : public BmnTask
 
     BmnNdetRaw2Digit* GetNdetMapper() { return fNdetMapper; }
 
-    BmnHgndRaw2Digit* GetHgndMapper() { return fHgndMapper; }
+    // BmnHgndRaw2Digit* GetHgndMapper() { return fHgndMapper; }
 
     BmnECALRaw2Digit* GetECALMapper() { return fECALMapper; }
+
+    BmnLANDRaw2Digit *GetLANDMapper() { return fLANDMapper; }
+
+    BmnTofCalRaw2Digit *GetTofCalMapper() { return fTofCalMapper; }
 
     void SetTrigPlaceMapping(TString map) { fTrigPlaceMapFileName = map; }
 
@@ -212,15 +222,55 @@ class BmnDecoder : public BmnTask
 
     void SetNdetCalibration(TString cal) { fNdetCalibrationFileName = cal; }
 
-    void SetHgndMapping(TString map) { fHgndMapFileName = map; }
+    // void SetHgndMapping(TString map) { fHgndMapFileName = map; }
 
-    void SetHgndCalibration(TString cal) { fHgndCalibrationFileName = cal; }
+    // void SetHgndCalibration(TString cal) { fHgndCalibrationFileName = cal; }
 
     void SetECALMapping(TString map) { fECALMapFileName = map; }
 
     void SetECALCalibration(TString cal) { fECALCalibrationFileName = cal; }
 
     void SetMSCMapping(TString map) { fMSCMapFileName = map; }
+
+    void SetLANDMapping(TString map) {
+        fLANDMapFileName = map;
+    }
+
+    void SetLANDPedestal(TString clock) {
+        fLANDClockFileName = clock;
+    }
+
+    void SetLANDTCal(TString tcal) {
+        fLANDTCalFileName = tcal;
+    }
+
+    void SetLANDDiffSync(TString diff_sync) {
+        fLANDDiffSyncFileName = diff_sync;
+    }
+
+    void SetLANDVScint(TString vscint) {
+        fLANDVScintFileName = vscint;
+    }
+
+    void SetTofCalMapping(TString map) {
+        fTofCalMapFileName = map;
+    }
+
+    void SetTofCalPedestal(TString clock) {
+        fTofCalClockFileName = clock;
+    }
+
+    void SetTofCalTCal(TString tcal) {
+        fTofCalTCalFileName = tcal;
+    }
+
+    void SetTofCalDiffSync(TString diff_sync) {
+        fTofCalDiffSyncFileName = diff_sync;
+    }
+
+    void SetTofCalVScint(TString vscint) {
+        fTofCalVScintFileName = vscint;
+    }
 
     TString GetRootFileName() { return fRootFileName; }
 
@@ -340,11 +390,21 @@ class BmnDecoder : public BmnTask
     TString fHodoCalibrationFileName;
     TString fNdetMapFileName;
     TString fNdetCalibrationFileName;
-    TString fHgndMapFileName;
-    TString fHgndCalibrationFileName;
+    // TString fHgndMapFileName;
+    // TString fHgndCalibrationFileName;
     TString fECALMapFileName;
     TString fECALCalibrationFileName;
     TString fMSCMapFileName;
+    TString fLANDMapFileName;
+    TString fLANDClockFileName;
+    TString fLANDTCalFileName;
+    TString fLANDDiffSyncFileName;
+    TString fLANDVScintFileName;
+    TString fTofCalMapFileName;
+    TString fTofCalClockFileName;
+    TString fTofCalTCalFileName;
+    TString fTofCalDiffSyncFileName;
+    TString fTofCalVScintFileName;
     TString fSiliconMapFileName;
     TString fSiBTMapFileName;
     TString fCscMapFileName;
@@ -368,10 +428,12 @@ class BmnDecoder : public BmnTask
     TClonesArray* adc;      // zdc & ecal & scwall & fhcal
     TClonesArray* vsp_raw;
     TClonesArray* hrb;
+    TClonesArray *tacquila; // LAND.
+    TClonesArray *tacquila2; // ToF-Cal
     TClonesArray* tdc;
     TClonesArray* tqdc_tdc;
     TClonesArray* tqdc_adc;
-    TClonesArray* tdc_hgnd;
+    // TClonesArray* tdc_hgnd;
     BmnEventHeader* eventHeaderDAQ;
     DigiRunHeader* rawRunHeader;
     BmnMetadataRaw* metadata;
@@ -393,8 +455,10 @@ class BmnDecoder : public BmnTask
     TClonesArray* fhcal;
     TClonesArray* hodo;
     TClonesArray* ndet;
-    TClonesArray* hgnd;
+    // TClonesArray* hgnd;
     TClonesArray* ecal;
+    TClonesArray* land;
+    TClonesArray* tofcal;
     TClonesArray* dch;
     TClonesArray* mwpc;
     TClonesArray* msc_copy;
@@ -426,8 +490,10 @@ class BmnDecoder : public BmnTask
     BmnFHCalRaw2Digit* fFHCalMapper;
     BmnHodoRaw2Digit* fHodoMapper;
     BmnNdetRaw2Digit* fNdetMapper;
-    BmnHgndRaw2Digit* fHgndMapper;
+    // BmnHgndRaw2Digit* fHgndMapper;
     BmnECALRaw2Digit* fECALMapper;
+    BmnLANDRaw2Digit *fLANDMapper;
+    BmnTofCalRaw2Digit *fTofCalMapper;
     BmnMscRaw2Digit* fMSCMapper;
 
     BmnAdcQA* fFsdQa;
@@ -505,6 +571,7 @@ class BmnDecoder : public BmnTask
     BmnStatus InitUTCShift();
     Int_t GetUTCShift(TTimeStamp t);
     BmnStatus GetT0Info(Double_t& t0time, Double_t& t0width);
+    //BmnStatus Process_Tacquila(UInt_t *data, UInt_t len);
     inline void FillWR(UInt_t iSerial, ULong64_t iEvent, Long64_t t_sec, Long64_t t_ns);
     BmnStatus FillTimeShiftsMap();
     BmnStatus LoadCalibFile(TString& FileName);

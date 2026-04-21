@@ -14,10 +14,13 @@
 #include "BmnT0Raw.h"
 #include "BmnTDCDigit.h"
 #include "BmnTQDCADCDigit.h"
+#include "BmnTacquilaDigit.h"
 #include "BmnVspRawDigit.h"
 // CBM
 #include "StorableTimeslice.h"
 #include "StsXyterMessage.h"
+
+#include <arpa/inet.h> /* For ntohl for Big Endian LAND. */
 
 using namespace std::chrono;
 
@@ -35,6 +38,8 @@ void BmnConverterThread::RegisterBranches()
     fRawTree->Branch("TDC", &tdc);
     fRawTree->Branch("TQDC_ADC", &tqdc_adc);
     fRawTree->Branch("TQDC_TDC", &tqdc_tdc);
+    fRawTree->Branch("Tacquila", &tacquila);
+    fRawTree->Branch("Tacquila2", &tacquila2);
     fRawTree->Branch("TDC_HGND", &tdc_hgnd);
     fRawTree->Branch("HRB", &hrb);
 }
@@ -67,6 +72,8 @@ void BmnConverterThread::CreateTrees()
     tdc = new TClonesArray(BmnTDCDigit::Class());
     tqdc_adc = new TClonesArray(BmnTQDCADCDigit::Class());
     tqdc_tdc = new TClonesArray(BmnTDCDigit::Class());
+    tacquila = new TClonesArray(BmnTacquilaDigit::Class());
+    tacquila2 = new TClonesArray(BmnTacquilaDigit::Class());
     tdc_hgnd = new TClonesArray(BmnAbstractTDCDigit::Class());
     hrb = new TClonesArray(BmnHRBDigit::Class());
     msc = new TClonesArray(fPeriodId > 7 ? BmnMSCDigit<UChar_t>::Class() : BmnMSCDigit<UInt_t>::Class());
@@ -86,6 +93,9 @@ void BmnConverterThread::SetTrees(TTree* tree, TTree* treeSpills)
     fRawTree->SetBranchAddress("TDC", &tdc);
     fRawTree->SetBranchAddress("TQDC_ADC", &tqdc_adc);
     fRawTree->SetBranchAddress("TQDC_TDC", &tqdc_tdc);
+    fRawTree->SetBranchAddress("Tacquila", &tacquila);
+    fRawTree->SetBranchAddress("Tacquila2", &tacquila2);
+    
     fRawTree->SetBranchAddress("TDC_HGND", &tdc_hgnd);
     fRawTree->SetBranchAddress("HRB", &hrb);
     fRawTreeSpills = treeSpills;
@@ -108,6 +118,8 @@ void BmnConverterThread::WriteSpill(Int_t spillId)
     tree->Branch("TDC", &tdc);
     tree->Branch("TQDC_ADC", &tqdc_adc);
     tree->Branch("TQDC_TDC", &tqdc_tdc);
+    tree->Branch("Tacquila", &tacquila);
+    tree->Branch("Tacquila2", &tacquila2);
     tree->Branch("TDC_HGND", &tdc_hgnd);
     tree->Branch("HRB", &hrb);
     treeSpills->Branch("MSC", &msc);
@@ -255,8 +267,11 @@ BmnStatus BmnConverterThread::ProcessEvent(UInt_t* d, UInt_t len)
             case kTTVXS:
                 FillTTVXS(&d[idx], serial, payload);
                 break;
-            case kGENERIC_DEVICE:
-                ProcessGenericDevice(&d[idx], dh);
+            // case kGENERIC_DEVICE:
+            //     ProcessGenericDevice(&d[idx], dh);
+            //     break;
+            case kTACQUILADAQ:
+                Process_Tacquila(&d[idx], payload);
                 break;
             case kMSC16VE_E:
                 //                                printf("MSC16VE-E serial 0x%08X  words %u\n", serial, payload);
@@ -335,6 +350,114 @@ BmnStatus BmnConverterThread::ProcessEvent(UInt_t* d, UInt_t len)
     //     eventHeaderDAQ->SetEventId(0);
     return kBMNSUCCESS;
 }
+
+BmnStatus BmnConverterThread::Process_Tacquila(UInt_t *d, UInt_t len) {
+    /* LAND Tacquila data in big endian. */
+    uint32_t *p32 = d;
+
+    /* 64-bit TRLO II timestamp. */
+    //p32 += 0;
+
+    //Make initial check how many scaler words to skip
+    //for ToF-Cal vs. LAND
+    uint32_t scaler_header = ntohl(*p32);
+    unsigned chain = 0;
+    if (scaler_header == 0x5) { //ToF-Cal
+        p32 += 7;
+    } else if (scaler_header == 0x4) { //LAND
+        p32 += 6;
+        //might change ... veto not connected yet
+        //thus gives still error messages
+        chain = 0;
+    } else {
+        cerr << __FILE__ << ':' << __LINE__ << ": Wrong NIM scalers " << scaler_header << ".\n";
+        return kBMNFINISH;
+    }
+
+    /*
+     * Tacquila data!
+     * We have 2 chains of 10 Tacquila cards each.
+     */
+    //for (unsigned chain = 0; chain < 2; ++chain) {
+    for (chain; chain < 2; ++chain) {
+        uint32_t header = ntohl(*p32++);
+        //JK
+        if (header == 0x5a5a5a5a) header = ntohl(*p32++);
+#define TACQUILA_PRINT_HEADER << "(header=" << header << ")" <<
+        //std::cout << std::hex << header << std::endl;
+        //std::cout << "#############" << std::endl;
+        unsigned count = header & 0x1ff;
+        if (count & 1) {
+            cerr << __FILE__ << ':' << __LINE__ << ": Odd data count forbidden "
+                    TACQUILA_PRINT_HEADER ".\n";
+            return kBMNFINISH;
+        }
+        unsigned gtb = (header >> 24) & 0xf;
+        if (chain != gtb) {
+            cerr << __FILE__ << ':' << __LINE__ << ": GTB=" << gtb << "!=" << chain
+                    << " forbidden " TACQUILA_PRINT_HEADER ".\n";
+            return kBMNFINISH;
+        }
+        unsigned sam = header >> 28;
+        if ((3 != sam) && (5 != sam)) { //ToF-Cal or LAND
+            cerr << __FILE__ << ':' << __LINE__ << ": SAM=" << sam << "!=3 or 5"
+                    "forbidden " TACQUILA_PRINT_HEADER ".\n";
+            return kBMNFINISH;
+        }
+        unsigned tac, clock;
+        for (unsigned i = 0; i < count; ++i) {
+            uint32_t u32 = ntohl(*p32++);
+            //JK
+            if (u32 == 0x5a5a5a5a) ntohl(*p32++);
+#define TACQUILA_PRINT_DATA << "(data=" << std::hex << u32 << std::dec << ")" <<
+            /*
+             * Channels 0..15 are normal, 16 = common stop,
+             * anything else is bogus.
+             */
+            unsigned channel = (u32 >> 22) & 0x1f;
+            if (channel > 16) {
+                cerr << __FILE__ << ':' << __LINE__ << ": Channel=" << channel <<
+                        ">16 forbidden " TACQUILA_PRINT_DATA ".\n";
+                return kBMNFINISH;
+            }
+            /* 10 + 10 Tacquila cards used for LAND. */
+            unsigned module = u32 >> 27;
+            if (module < 1 || module > 10) {
+                cerr << __FILE__ << ':' << __LINE__ << ": Module=" << module <<
+                        " forbidden " TACQUILA_PRINT_DATA ".\n";
+                return kBMNFINISH;
+            }
+            unsigned be_qdc = 1 & i;
+            unsigned is_qdc = 1 & (u32 >> 21);
+            if (be_qdc != is_qdc) {
+                cerr << __FILE__ << ':' << __LINE__ << ": TDC/QDC word mismatch "
+                        TACQUILA_PRINT_DATA ".\n";
+                return kBMNFINISH;
+            }
+            if (0 == (1 & i)) {
+                /* Tacqcuila measures reverse time. */
+                tac = 0xfff - (u32 & 0xfff);
+                clock = 0x3f - ((u32 >> 12) & 0x3f);
+            } else {
+                /* QDC:s are not reversed :) */
+                unsigned qdc = u32 & 0xfff;
+                if (sam == 3) {
+                    TClonesArray &ar_tacquila = *tacquila;
+                    new(ar_tacquila[tacquila->GetEntriesFast()])
+                            BmnTacquilaDigit(sam, gtb, module - 1, channel, tac, clock, qdc);
+                } else if (sam == 5) {
+                    TClonesArray &ar_tacquila2 = *tacquila2;
+                    new(ar_tacquila2[tacquila2->GetEntriesFast()])
+                            BmnTacquilaDigit(sam, gtb, module - 1, channel, tac, clock, qdc);
+                } else {
+                    cerr << __FILE__ << ':' << __LINE__ << ": Wrong SAM for TClonesArray.\n";
+                }
+            }
+        }
+    }
+    return kBMNSUCCESS;
+}
+
 
 BmnStatus BmnConverterThread::Process_FVME(UInt_t* d, UInt_t len, UInt_t serial, BmnTrigInfo& spillInfo)
 {
@@ -741,18 +864,18 @@ BmnStatus BmnConverterThread::FillTTVXS(UInt_t* d, UInt_t serial, UInt_t& len)
     return kBMNSUCCESS;
 }
 
-BmnStatus BmnConverterThread::ProcessGenericDevice(UInt_t* d, DeviceHeader* dev_hdr)
-{
-    //    dev_hdr->Print();
-    if ((dev_hdr->Serial & 0x00FFFFFF) == kVSP_SERIALS)
-        return MapVSP(d, dev_hdr);
-    else if (dev_hdr->Serial == kHGND_SERIALS)
-        return FillTDC250HGND(d, dev_hdr->Serial, dev_hdr->Len);
-    else
-        LOGF(error, "BmnRawSource::ProcessGenericDevice: Unknown device serial 0x%08X", dev_hdr->Serial);
+// BmnStatus BmnConverterThread::ProcessGenericDevice(UInt_t* d, DeviceHeader* dev_hdr)
+// {
+//     //    dev_hdr->Print();
+//     if ((dev_hdr->Serial & 0x00FFFFFF) == kVSP_SERIALS)
+//         return MapVSP(d, dev_hdr);
+//     else if (dev_hdr->Serial == kHGND_SERIALS)
+//         return FillTDC250HGND(d, dev_hdr->Serial, dev_hdr->Len);
+//     else
+//         LOGF(error, "BmnRawSource::ProcessGenericDevice: Unknown device serial 0x%08X", dev_hdr->Serial);
 
-    return kBMNSUCCESS;
-}
+//     return kBMNSUCCESS;
+// }
 
 BmnStatus BmnConverterThread::FillTDC250HGND(UInt_t* d, UInt_t serial, UInt_t len)
 {

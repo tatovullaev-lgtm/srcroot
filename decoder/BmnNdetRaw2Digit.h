@@ -1,30 +1,32 @@
 #ifndef BmnNdetRaw2Digit_H
-#define BmnNdetRaw2Digit_H
+#define	BmnNdetRaw2Digit_H
 
-#include "BmnADCDigit.h"
-#include "BmnNdetDigi.h"
-#include "BmnSyncDigit.h"
-#include "BmnTDCDigit.h"
-#include "BmnTQDCADCDigit.h"
-#include "FairLogger.h"
-#include "TClonesArray.h"
-#include "TString.h"
-#include "WfmProcessor.h"
-
-#include <boost/functional/hash.hpp>
-#include <boost/program_options.hpp>
-#include <boost/property_tree/ini_parser.hpp>
-#include <boost/property_tree/ptree.hpp>
-#include <cstdlib>
 #include <iostream>
 #include <numeric>
-#include <optional>
+
+#include "FairLogger.h"
+#include "TString.h"
+#include "TClonesArray.h"
+#include "BmnTQDCADCDigit.h"
+#include "BmnADCDigit.h"
+#include "BmnTDCDigit.h"
+#include "BmnSyncDigit.h"
+
+#include "Riostream.h"
+#include <cstdlib>
+
 #include <unordered_map>
+#include <boost/functional/hash.hpp>
+#include <boost/program_options.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
+#include "BmnNdetDigi.h"
+#include "WfmProcessor.h"
 
-class BmnNdetRaw2Digit : public WfmProcessor
-{
 
-  public:
+class BmnNdetRaw2Digit : public WfmProcessor {
+
+public:
     BmnNdetRaw2Digit(Int_t period, Int_t run, TString mappingFile, TString calibrationFile = "");
     BmnNdetRaw2Digit();
 
@@ -33,36 +35,37 @@ class BmnNdetRaw2Digit : public WfmProcessor
     void ParseConfig(TString mappingFile);
     void ParseCalibration(TString calibrationFile);
     void ParseINLcorrections();
-    void fillEvent(TClonesArray* tdc_data,
-                   TClonesArray* adc_data,
-                   unordered_map<UInt_t, Long64_t>* mapTS,
-                   TClonesArray* Ndetdigit);
-    uint32_t correctINL(uint32_t time, std::pair<size_t, size_t> key);
+    void fillEvent(TClonesArray *tdc_data, TClonesArray *adc_data, TClonesArray *Hododigit);
     void print();
 
-    digiPars GetDigiPars() { return fdigiPars; }
-    auto GetChannelMap() { return fuoChannelMap; }
-
-    std::optional<std::pair<float, float>> GetCalibPairFromAddress(uint32_t address);
-    std::optional<uint32_t> GetAddressFromBoard(std::pair<size_t, size_t> key);
-    std::vector<float> GetCalibSlewShiftFromAddress(uint32_t address);
-
-  private:
-    int fPeriodId;
+    std::vector<unsigned int> GetNdetSerials() {return fSerials;}
+    std::vector<short> GetUniqueXpositions() {return fUniqueX;}
+    std::vector<short> GetUniqueYpositions() {return fUniqueY;}
+    std::vector<short> GetUniqueZpositions() {return fUniqueZ;}
+    digiPars GetDigiPars() {return fdigiPars;}
+    int GetFlatChannelFromAdcChannel(unsigned int board_id, unsigned int channel);
+    std::vector<unsigned int> GetChannelVect() {return fChannelVect;}
+    std::pair<float,float> GetCalibPairFromAddress(unsigned int address);
+    
+private:
+    static constexpr int CHANNELS_PER_BOARD = 16; // TQDC boards
+    
+    int fPeriodId; 
     int fRunId;
     TString fmappingFileName;
     TString fcalibrationFileName;
     bool fApplyINL = false;
-    bool fApplyAmplCalib = false;
-    bool fApplyTimeCalib = false;
 
-    std::unordered_map<std::pair<size_t, size_t>, uint32_t, boost::hash<std::pair<size_t, size_t>>>
-        fuoChannelMap;   // physical channel <board, ch> to digi address
-    std::unordered_map<std::pair<size_t, size_t>, std::vector<float>, boost::hash<pair<int, int>>>
-        fINLcorrMap;   // physical channel <board, ch> to vector<corrections>
-    std::unordered_map<uint32_t, std::pair<float, float>> fuoCalibMap;       // digi address to pair<calib, calibError>
-    std::unordered_map<uint32_t, std::vector<float>> fuoCalibSlewShiftMap;   // digi address to vector<calib>
-
-    ClassDef(BmnNdetRaw2Digit, 2);
+    std::vector<unsigned int> fSerials;
+    std::vector<short> fUniqueX;
+    std::vector<short> fUniqueY;
+    std::vector<short> fUniqueZ;
+    std::vector<unsigned int> fChannelVect; // flat_channel to unique_address
+    std::unordered_map<std::pair<int,int>, std::pair<float,float>, boost::hash<pair<int,int>>> fuoCalibMap; // physical channel <board, ch> to pair<calib, calibError>
+    std::unordered_map<std::pair<int,int>, std::vector<float>, boost::hash<pair<int,int>>> fINLcorrMap; // physical channel <board, ch> to vector<corrections>
+    
+    ClassDef(BmnNdetRaw2Digit, 1);
 };
-#endif /* BmnNdetRaw2Digit_H */
+#endif	/* BmnNdetRaw2Digit_H */
+
+

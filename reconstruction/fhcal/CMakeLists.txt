@@ -2,13 +2,13 @@
 
 set(INCLUDE_DIRECTORIES
  ${BASE_INCLUDE_DIRECTORIES}
- ${CMAKE_SOURCE_DIR}/base
- ${CMAKE_SOURCE_DIR}/base/data
- ${CMAKE_SOURCE_DIR}/base/raw
- ${CMAKE_SOURCE_DIR}/database/uni_db
- ${CMAKE_SOURCE_DIR}/detectors/fhcal
- ${CMAKE_SOURCE_DIR}/detectors/common
- ${CMAKE_SOURCE_DIR}/decoder
+#  ${CMAKE_SOURCE_DIR}/base
+#  ${CMAKE_SOURCE_DIR}/base/data
+#  ${CMAKE_SOURCE_DIR}/base/raw
+#  ${CMAKE_SOURCE_DIR}/database/uni_db
+#  ${CMAKE_SOURCE_DIR}/detectors/fhcal
+#  ${CMAKE_SOURCE_DIR}/detectors/common
+#  ${CMAKE_SOURCE_DIR}/decoder
  ${CMAKE_SOURCE_DIR}/reconstruction/fhcal
 )
 
@@ -30,7 +30,7 @@ link_directories(${LINK_DIRECTORIES})
 
 # List of source files
 set(SRCS
- BmnFHCalReconstructor.cxx
+#  BmnFHCalReconstructor.cxx
 )
 
 Set(HEADERS)

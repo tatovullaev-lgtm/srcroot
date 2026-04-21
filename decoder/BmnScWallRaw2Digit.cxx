@@ -1,238 +1,304 @@
-#include "BmnScWallRaw2Digit.h"
-
 #include "TMath.h"
 #include "TSystem.h"
-
-#include <bitset>
+#include "BmnScWallRaw2Digit.h"
 
 void BmnScWallRaw2Digit::print()
 {
-    LOG(info) << Form("BmnScWallRaw2Digit");
+  printf("BmnScWallRaw2Digit : \n");
 }
 
-BmnScWallRaw2Digit::BmnScWallRaw2Digit()
-    : WfmProcessor()
+BmnScWallRaw2Digit::BmnScWallRaw2Digit() : WfmProcessor()
 {
-    fPeriodId = 0;
-    fRunId = 0;
+  fPeriodId = 0;
+  fRunId = 0;
 }
 
-BmnScWallRaw2Digit::BmnScWallRaw2Digit(int period, int run, TString mappingFile, TString CalibrationFile)
-    : WfmProcessor()
+BmnScWallRaw2Digit::BmnScWallRaw2Digit(int period, int run, TString mappingFile, TString CalibrationFile) : WfmProcessor()
 {
-    LOG(info) << Form("BmnScWallRaw2Digit : Config file: %s", mappingFile.Data());
-    LOG(info) << Form("BmnScWallRaw2Digit : Calibration file: %s", CalibrationFile.Data());
-    fPeriodId = period;
-    fRunId = run;
-    fmappingFileName = mappingFile;
-    ParseConfig(fmappingFileName);
-    fcalibrationFileName = CalibrationFile;
-    ParseCalibration(fcalibrationFileName);
+  fPeriodId = period;
+  fRunId = run;
+  fmappingFileName = mappingFile;
+  ParseConfig(fmappingFileName);
+  fcalibrationFileName = CalibrationFile;
+  ParseCalibration(fcalibrationFileName);
 }
 
 void BmnScWallRaw2Digit::ParseConfig(TString mappingFile)
 {
 
-    namespace po = boost::program_options;
+  namespace po = boost::program_options;
 
-    TString dir = getenv("VMCWORKDIR");
-    TString path = dir + "/input/";
+  TString dir = getenv("VMCWORKDIR");
+  TString path = dir + "/input/";
 
-    float version;
-    std::string comment;
-    std::vector<std::string> configuration;
+  typedef std::vector<std::string> vect_string_t;
+  float version;
+  std::string comment;
+  std::vector<std::string> adc_serials;
+  std::vector<std::string> configuration;
 
-    // Setup options.
-    po::options_description desc("Options");
-    desc.add_options()("VERSION.id", po::value<float>(&version),
-                       "version identificator")("COMMENT.str", po::value<std::string>(&comment), "comment")(
-        "CONFIGURATION.config", po::value<std::vector<std::string>>(&configuration)->multitoken(), "configuration");
+  // Setup options.
+  po::options_description desc("Options");
+  desc.add_options()
+    ("VERSION.id", po::value<float>(&version), "version identificator")
+    ("COMMENT.str", po::value<std::string>(&comment), "comment")
+    ("ADCSERIALS.serial", po::value<vect_string_t>(&adc_serials)->multitoken(), "adc serials")
+    ("CONFIGURATION.config", po::value<vect_string_t>(&configuration)->multitoken(), "configuration")
+    ;
 
-    // Load config file.
-    po::variables_map vm;
-    std::ifstream config_file((path + mappingFile).Data(), std::ifstream::in);
-    if (!config_file.is_open()) {
-        LOG(error) << Form("BmnScWallRaw2Digit : Loading Config from file: %s - file open error!", mappingFile.Data());
-        return;
-    }
-    LOG(debug) << Form("BmnScWallRaw2Digit : Loading Config from file: %s", mappingFile.Data());
-    po::store(po::parse_config_file(config_file, desc), vm);
-    config_file.close();
-    po::notify(vm);
+  // Load config file.
+  po::variables_map vm;
+  std::ifstream config_file((path + mappingFile).Data(), std::ifstream::in);
+  if (!config_file.is_open())
+  {
+    printf("BmnScWallRaw2Digit : Loading Config from file: %s - file open error!\n", mappingFile.Data());
+    return;
+  }
+  printf("BmnScWallRaw2Digit : Loading Config from file: %s\n", mappingFile.Data());
+  po::store(po::parse_config_file(config_file, desc), vm);
+  config_file.close();
+  po::notify(vm);
 
-    std::string board_serial;
-    size_t board_channel;
-    int cell_id;
-    std::string zone;
+  fSerials.clear();
+  for (auto it : adc_serials)
+    fSerials.push_back(std::stoul(it, nullptr, 16));
+  std::sort(fSerials.begin(), fSerials.end());
 
-    fuoChannelMap.clear();
-    for (auto it : configuration) {
-        istringstream ss(it);
-        ss >> board_serial >> board_channel >> cell_id >> zone;
-        if (zone == 'Z')
-            continue;
+  std::string adc_ser;
+  int adc_chan;
+  int cell_id;
+  std::string zone;
+  short x_position;
+  short y_position;
+  short size;
 
-        auto key = std::make_pair(std::stoul(board_serial, nullptr, 16), board_channel);
-        fuoChannelMap[key] = BmnScWallAddress::GetAddress(cell_id);
-    }
-    // std::LOG(debug) << "COMMENT.str: " << comment;
+  std::set<short> UniqueX;
+  std::set<short> UniqueY;
+  std::set<short> UniqueSize;
+  // First pass for unique.
+  for (auto it : configuration)
+  {
+    istringstream ss(it);
+    ss >> adc_ser >> adc_chan >> cell_id >> zone >> x_position >> y_position >> size;
+    UniqueX.insert(x_position);
+    UniqueY.insert(y_position);
+    UniqueSize.insert(size);
+  }
+  std::copy(UniqueX.begin(), UniqueX.end(), std::back_inserter(fUniqueX));
+  std::copy(UniqueY.begin(), UniqueY.end(), std::back_inserter(fUniqueY));
+  std::copy(UniqueSize.begin(), UniqueSize.end(), std::back_inserter(fUniqueSize));
+
+  fChannelVect.clear();
+  fChannelVect.resize(fSerials.size() * CHANNELS_PER_BOARD);
+  // Second pass for mapping.
+  for (auto it : configuration)
+  {
+    istringstream ss(it);
+    ss >> adc_ser >> adc_chan >> cell_id >> zone >> x_position >> y_position >> size;
+    int adc_board_index, xIdx, yIdx, SizeIdx, ZoneIdx = -1;
+    auto iter = find(fSerials.begin(), fSerials.end(), std::stoul(adc_ser, nullptr, 16));
+    if (iter != fSerials.end())
+      adc_board_index = std::distance(fSerials.begin(), iter);
+    else
+      printf("BmnScWallRaw2Digit : unknown adc serial\n");
+
+    xIdx = std::distance(UniqueX.begin(), UniqueX.find(x_position));
+    yIdx = std::distance(UniqueY.begin(), UniqueY.find(y_position));
+    SizeIdx = std::distance(UniqueSize.begin(), UniqueSize.find(size));
+
+    int last_letter = 'V' - 'A' + 1;
+    ZoneIdx = (int)(zone[0] - 'A' + 1);
+    if (ZoneIdx > last_letter)
+      LOG(debug) << "MAX zone letter is " << last_letter << endl;
+
+    unsigned int flat_channel = (unsigned int)GetFlatChannelFromAdcChannel(std::stoul(adc_ser, nullptr, 16), adc_chan);
+    unsigned int unique_address = (ZoneIdx > last_letter) ? 0 : BmnScWallAddress::GetAddress(cell_id, xIdx, yIdx, SizeIdx, ZoneIdx);
+    fChannelVect.at(flat_channel) = unique_address;
+  }
+  //std::LOG(debug) << "COMMENT.str: " << comment << std::endl;
 }
 
 void BmnScWallRaw2Digit::ParseCalibration(TString calibrationFile)
 {
 
-    namespace po = boost::program_options;
+  namespace po = boost::program_options;
 
-    TString dir = getenv("VMCWORKDIR");
-    TString path = dir + "/parameters/scwall/";
+  TString dir = getenv("VMCWORKDIR");
+  TString path = dir + "/parameters/scwall/";
 
-    float version;
-    std::string comment;
-    std::vector<std::string> harmonics;
-    std::vector<std::string> calibrations;
+  typedef std::vector<std::string> vect_string_t;
+  typedef std::vector<std::complex<float>> vect_complf_t;
+  float version;
+  std::string comment;
+  std::vector<std::string> calibrations;
 
-    // Setup options.
-    po::options_description desc("Options");
-    desc.add_options()("VERSION.id", po::value<float>(&version),
-                       "version identificator")("COMMENT.str", po::value<std::string>(&comment), "comment")(
-        "CHECKER.isWriteWfm", po::value<bool>(&fdigiPars.isWriteWfm),
-        "writing waveforms")("PARAMETERS.gateBegin", po::value<int>(&fdigiPars.gateBegin), "digi parameters")(
-        "PARAMETERS.gateEnd", po::value<int>(&fdigiPars.gateEnd),
-        "digi parameters")("PARAMETERS.threshold", po::value<float>(&fdigiPars.threshold), "digi parameters")(
-        "PARAMETERS.signalType", po::value<int>(&fdigiPars.signalType),
-        "digi parameters")("PARAMETERS.doInvert", po::value<bool>(&fdigiPars.doInvert), "digi parameters")(
-        "FITPARAMETERS.isfit", po::value<bool>(&fdigiPars.isfit), "digi parameters")(
-        "FITPARAMETERS.harmonic", po::value<std::vector<std::string>>(&harmonics)->multitoken(), "fit harmonics")(
-        "CALIBRATION.calib", po::value<std::vector<std::string>>(&calibrations)->multitoken(), "calibrations");
+  // Setup options.
+  po::options_description desc("Options");
+  desc.add_options()
+    ("VERSION.id", po::value<float>(&version), "version identificator")
+    ("COMMENT.str", po::value<std::string>(&comment), "comment")
+    ("CHECKER.isWriteWfm", po::value<bool>(&fdigiPars.isWriteWfm), "writing waveforms")
+    ("PARAMETERS.gateBegin", po::value<int>(&fdigiPars.gateBegin), "digi parameters")
+    ("PARAMETERS.gateEnd", po::value<int>(&fdigiPars.gateEnd), "digi parameters")
+    ("PARAMETERS.threshold", po::value<float>(&fdigiPars.threshold), "digi parameters")
+    ("PARAMETERS.signalType", po::value<int>(&fdigiPars.signalType), "digi parameters")
+    ("PARAMETERS.doInvert", po::value<bool>(&fdigiPars.doInvert), "digi parameters")
+    ("FITPARAMETERS.isfit", po::value<bool>(&fdigiPars.isfit), "digi parameters")
+    ("FITPARAMETERS.harmonic", po::value<vect_complf_t>(&fdigiPars.harmonics)->multitoken(), "fit harmonics")
+    ("CALIBRATION.calib", po::value<vect_string_t>(&calibrations)->multitoken(), "calibrations")
+    ;
 
-    // Load config file.
-    po::variables_map vm;
-    std::ifstream calib_file((path + calibrationFile).Data(), std::ifstream::in);
-    if (!calib_file.is_open()) {
-        LOG(error) << Form("BmnScWallRaw2Digit : Loading Calibration from file: %s - file open error!",
-                           calibrationFile.Data());
-        return;
+  // Load config file.
+  po::variables_map vm;
+  std::ifstream calib_file((path + calibrationFile).Data(), std::ifstream::in);
+  if (!calib_file.is_open())
+  {
+    printf("BmnScWallRaw2Digit : Loading Calibration from file: %s - file open error!\n", calibrationFile.Data());
+    return;
+  }
+  printf("BmnScWallRaw2Digit : Loading Calibration from file: %s\n", calibrationFile.Data());
+  po::store(po::parse_config_file(calib_file, desc), vm);
+  calib_file.close();
+  po::notify(vm);
+
+  int cell_id;
+  float calibration;
+  float calibError;
+  int max_cell_id = 0;
+  // First pass for max cell id.
+  for (auto it : calibrations)
+  {
+    istringstream ss(it);
+    ss >> cell_id >> calibration >> calibError;
+    if (cell_id > max_cell_id) max_cell_id = cell_id;
+  }
+  fCalibVect.clear();
+  fCalibVect.resize(max_cell_id+1);
+
+  // Second pass for calibrations.
+  for (auto it : calibrations)
+  {
+    istringstream ss(it);
+    ss >> cell_id >> calibration >> calibError;
+    fCalibVect.at(cell_id) = std::make_pair(calibration, calibError);
+  }
+
+  if(fdigiPars.isfit) {
+    int model_order = fdigiPars.harmonics.size() + 1;
+    fSignalLength = fdigiPars.gateEnd - fdigiPars.gateBegin + 1;
+    fAZik = new std::complex<float> *[model_order];
+    for (int i = 0; i < model_order; i++) {
+      fAZik[i] = new std::complex<float>[model_order];
+      for (int j = 0; j < model_order; j++)
+        fAZik[i][j] = {0., 0.};
     }
-    LOG(debug) << Form("BmnScWallRaw2Digit : Loading Calibration from file: %s", calibrationFile.Data());
-    po::store(po::parse_config_file(calib_file, desc), vm);
-    calib_file.close();
-    po::notify(vm);
+    PsdSignalFitting::PronyFitter Pfitter;
+    Pfitter.Initialize(fdigiPars.harmonics.size(), fdigiPars.harmonics.size(), fdigiPars.gateBegin, fdigiPars.gateEnd);
+    Pfitter.SetExternalHarmonics(fdigiPars.harmonics);
+    Pfitter.MakeInvHarmoMatrix(fSignalLength, fAZik);
+  }
 
-    for (auto str : harmonics) {
-        if (str.find(',') != std::string::npos) {
-            // Split the string into real and imaginary parts
-            std::string real_part_str, imaginary_part_str;
-            std::istringstream iss(str);
-            std::getline(iss, real_part_str, ',');
-            std::getline(iss, imaginary_part_str);
-
-            // Convert the real and imaginary parts to floats
-            float real_part = std::stof(real_part_str);
-            float imaginary_part = std::stof(imaginary_part_str);
-
-            // Set the value to the complex number
-            fdigiPars.harmonics.push_back(std::complex<float>(real_part, imaginary_part));
-        } else
-            fdigiPars.harmonics.push_back(std::stof(str));
-    }
-
-    int cell_id;
-    float calibration;
-    float calibError;
-    fuoCalibMap.clear();
-    for (auto it : calibrations) {
-        istringstream ss(it);
-        ss >> cell_id >> calibration >> calibError;
-        uint32_t address = BmnScWallAddress::GetAddress(cell_id);
-        fuoCalibMap[address] = std::make_pair(calibration, calibError);
-    }
-
-    if (fdigiPars.isfit) {
-        int model_order = fdigiPars.harmonics.size() + 1;
-        fSignalLength = fdigiPars.gateEnd - fdigiPars.gateBegin + 1;
-        auto maxElement = std::max_element(
-            fdigiPars.harmonics.begin(), fdigiPars.harmonics.end(),
-            [](const std::complex<float>& a, const std::complex<float>& b) { return std::abs(a) < std::abs(b); });
-        if (maxElement != fdigiPars.harmonics.end()) {
-            // set signal length as 5 * harmonic length
-            int maxElementLength = floor(5. / (-log(real(*maxElement))));
-            if (maxElementLength < fSignalLength)
-                fSignalLength = maxElementLength;
-        }
-
-        fAZik = new std::complex<float>*[model_order];
-        for (int i = 0; i < model_order; i++) {
-            fAZik[i] = new std::complex<float>[model_order];
-            for (int j = 0; j < model_order; j++)
-                fAZik[i][j] = {0., 0.};
-        }
-        PsdSignalFitting::PronyFitter Pfitter;
-        Pfitter.Initialize(fdigiPars.harmonics.size(), fdigiPars.harmonics.size(), fdigiPars.gateBegin,
-                           fdigiPars.gateEnd);
-        Pfitter.SetExternalHarmonics(fdigiPars.harmonics);
-        Pfitter.MakeInvHarmoMatrix(fSignalLength, fAZik);
-    }
 }
 
-std::optional<uint32_t> BmnScWallRaw2Digit::GetAddressFromBoard(std::pair<size_t, size_t> key)
+std::pair<float,float> BmnScWallRaw2Digit::GetCalibPairFromAddress(unsigned int address)
 {
-    try {
-        return fuoChannelMap.at(key);
-    } catch (const std::out_of_range& e) {
-        LOG(debug) << "BmnScWallRaw2Digit:: GetAddressFromBoard. Board serial " << std::hex << key.first << std::dec
-                   << " channel " << key.second << " is not connected. Skipping it";
-        return std::nullopt;
-    }
+  auto cell_id = BmnScWallAddress::GetCellId(address);
+  return fCalibVect.at(cell_id);
 }
 
-std::optional<std::pair<float, float>> BmnScWallRaw2Digit::GetCalibPairFromAddress(uint32_t address)
+int BmnScWallRaw2Digit::GetFlatChannelFromAdcChannel(unsigned int board_serial, unsigned int channel)
 {
-    try {
-        return fuoCalibMap.at(address);
-    } catch (const std::out_of_range& e) {
-        LOG(debug) << "BmnScWallRaw2Digit:: GetCalibPairFromAddress " << std::bitset<32>(address)
-                   << " is marked badly in calibration file.";
-        return std::nullopt;
-    }
+  auto it = find(fSerials.begin(), fSerials.end(), board_serial);
+  if (it != fSerials.end())
+  {
+    int adc_board_index = std::distance(fSerials.begin(), it);
+    return adc_board_index * CHANNELS_PER_BOARD + channel;
+  }
+
+  printf("BmnScWallRaw2Digit :: Serial 0x%08x Not found in map %s.\n", board_serial, fmappingFileName.Data());
+  return -1;
 }
-void BmnScWallRaw2Digit::fillEvent(TClonesArray* data, TClonesArray* ScWalldigit)
+
+void BmnScWallRaw2Digit::fillEvent(TClonesArray *data, TClonesArray *ScWalldigit)
 {
 
-    LOG(debug) << "BmnScWallRaw2Digit::fillEvent";
+  LOG(debug) << "BmnScWallRaw2Digit::fillEvent" << endl;
 
-    for (int i = 0; i < data->GetEntriesFast(); i++) {
-        BmnADCDigit* digit = (BmnADCDigit*)data->At(i);
-        auto key = std::make_pair(digit->GetSerial(), digit->GetChannel());
-        auto catch_address = GetAddressFromBoard(key);
-        if (!catch_address.has_value())
-            continue;   // Not connected lines
-        auto address = catch_address.value();
-        if (address == 0)
-            continue;   // Not connected lines
-
-        auto catch_calib = GetCalibPairFromAddress(address);
-        if (!catch_calib.has_value())
-            continue;   // not involved in the analysis
-        auto calib_pair = catch_calib.value();
-
-        std::vector<float> wfm((short*)digit->GetUShortValue(), (short*)digit->GetUShortValue() + digit->GetNSamples());
-        BmnScWallDigi ThisDigi;
-        ThisDigi.reset();
-        ThisDigi.SetAddress(address);
-        ProcessWfm(wfm, &ThisDigi);
-
-        // Apply calibration
-        LOG(debug4) << "BmnScWallRaw2Digit::ProcessWfm  Calibration";
-        if (fdigiPars.signalType == 0)
-            ThisDigi.SetSignal((float)ThisDigi.fAmpl * calib_pair.first);
-        if (fdigiPars.signalType == 1)
-            ThisDigi.SetSignal((float)ThisDigi.fIntegral * calib_pair.first);
-        if (ThisDigi.GetSignal() < fdigiPars.threshold)
-            continue;
-
-        TClonesArray& ar_ScWall = *ScWalldigit;
-        new (ar_ScWall[ScWalldigit->GetEntriesFast()]) BmnScWallDigi(ThisDigi);
+  for (int i = 0; i < data->GetEntriesFast(); i++)
+  {
+    BmnADCDigit *digit = (BmnADCDigit *)data->At(i);
+    // check if serial is from ScWall
+    // cout<<digit->GetSerial() << " " << digit->GetChannel() << endl;
+    if (std::find(fSerials.begin(), fSerials.end(), digit->GetSerial()) == fSerials.end()) {
+      LOG(debug) << "BmnScWallRaw2Digit::fillEvent" << std::hex << digit->GetSerial() << " Not found in ";
+      for (auto it : fSerials)
+        LOG(debug) << "BmnScWallRaw2Digit::fSerials " << std::hex << it << endl;
+      continue;
     }
+    std::vector<float> wfm((short*) digit->GetUShortValue(), (short*) digit->GetUShortValue()+digit->GetNSamples());
+    BmnScWallDigi ThisDigi;
+    ThisDigi.reset();
+    unsigned int flat_channel = (unsigned int)GetFlatChannelFromAdcChannel(digit->GetSerial(), digit->GetChannel());
+    assert(flat_channel < fChannelVect.size());
+    ThisDigi.fuAddress = fChannelVect.at(flat_channel);
+    if (ThisDigi.fuAddress == 0)
+      continue; // not connected lines
+
+    //hehe
+    unsigned int cellId = ThisDigi.GetCellId();
+    if (cellId == 29 || cellId == 112 /*|| cellId == 40*/) {
+      fdigiPars.harmonics[0] = 0.35;
+      fdigiPars.harmonics[1] = 0.9; 
+      int model_order = fdigiPars.harmonics.size() + 1;
+      fSignalLength = fdigiPars.gateEnd - fdigiPars.gateBegin + 1;
+      fAZik = new std::complex<float> *[model_order];
+      for (int i2 = 0; i2 < model_order; i2++) {
+        fAZik[i2] = new std::complex<float>[model_order];
+        for (int j2 = 0; j2 < model_order; j2++)
+          fAZik[i2][j2] = {0., 0.};
+      }
+      PsdSignalFitting::PronyFitter Pfitter;
+      Pfitter.Initialize(fdigiPars.harmonics.size(), fdigiPars.harmonics.size(), fdigiPars.gateBegin, fdigiPars.gateEnd);
+      Pfitter.SetExternalHarmonics(fdigiPars.harmonics);
+      Pfitter.MakeInvHarmoMatrix(fSignalLength, fAZik);
+    }
+    else {
+      fdigiPars.harmonics[0] = 0.35;
+      fdigiPars.harmonics[1] = 0.6;
+      int model_order = fdigiPars.harmonics.size() + 1;
+      fSignalLength = fdigiPars.gateEnd - fdigiPars.gateBegin + 1;
+      fAZik = new std::complex<float> *[model_order];
+      for (int i2 = 0; i2 < model_order; i2++) {
+        fAZik[i2] = new std::complex<float>[model_order];
+        for (int j2 = 0; j2 < model_order; j2++)
+          fAZik[i2][j2] = {0., 0.};
+      }
+      PsdSignalFitting::PronyFitter Pfitter;
+      Pfitter.Initialize(fdigiPars.harmonics.size(), fdigiPars.harmonics.size(), fdigiPars.gateBegin, fdigiPars.gateEnd);
+      Pfitter.SetExternalHarmonics(fdigiPars.harmonics);
+      Pfitter.MakeInvHarmoMatrix(fSignalLength, fAZik);
+    }
+
+    ProcessWfm(wfm, &ThisDigi);
+    
+    //Apply calibration
+    LOG(debug) << "BmnScWallRaw2Digit::ProcessWfm  Calibration" << endl;
+    unsigned int cell_id = ThisDigi.GetCellId();
+    assert(cell_id < fCalibVect.size());
+    if (fdigiPars.signalType == 0)
+      ThisDigi.fSignal = (float) ThisDigi.fAmpl * fCalibVect.at(cell_id).first;
+    if (fdigiPars.signalType == 1)
+      ThisDigi.fSignal = (float) ThisDigi.fIntegral * fCalibVect.at(cell_id).first;
+    if (abs(ThisDigi.fSignal) < fdigiPars.threshold)
+      continue;
+
+    TClonesArray &ar_ScWall = *ScWalldigit;
+    new (ar_ScWall[ScWalldigit->GetEntriesFast()]) BmnScWallDigi(ThisDigi);
+  }
 }
 
-BmnScWallRaw2Digit::~BmnScWallRaw2Digit() {}
+BmnScWallRaw2Digit::~BmnScWallRaw2Digit()
+{
+}
+
+ClassImp(BmnScWallRaw2Digit)

@@ -17,6 +17,7 @@ enum DetectorId
     kDCH,       // Drift Chambers
     kTOF,       // Rear Time-of-Flight Detector
     kTOF701,    // new TOF400-like code for the TOF700 (2025)
+    kTOF700,    // TOF700 SRC
     kZDC,       // Zero Degree Calorimeter
     kVSP,       // Vertex Silicon Plane
     kMWPC,      // MWPC
@@ -36,6 +37,8 @@ enum DetectorId
     kHGND,      // Full scale neutron detector
     kSSD,       //
     kVACWALL,   // Vacuum Wall
+    kLAND,         // Large-Area Neutron Detector
+    kTofCal,       // SRC ToF-Calorimeter
     kNOFDETS    // Number of elements (e.g. for loops)
 };
 
@@ -86,7 +89,13 @@ enum DataType
     kFHCalDigi,   // FHCAL
     kNdetPoint,
     kNdetDigi,     // NDET
-    kGlobalTrack   // Global
+    kGlobalTrack,   // Global
+    kLandPoint,     // LAND
+    kLandDigi, 
+    kLandHit,                       
+    kTofCalPoint,   // ToF-Cal
+    kTofCalDigi, 
+    kTofCalHit                 
 };
 
 /** @class BmnDetectorList

@@ -1,73 +1,115 @@
 /** \file BmnFHCalModule.h
  ** \author Nikolay Karpushkin <karpushkin@inr.ru>
- ** \date 22.01.2025
+ ** \date 27.03.2022
  **/
 
 /** \class BmnFHCalModule
  ** \brief Class for Bmn FHCal module data container in event
- ** \version 3.0
+ ** \version 1.0
  **/
 
 #ifndef BMNFHCALMODULE_H
 #define BMNFHCALMODULE_H
 
-#include <FairHit.h>
+#include <array>
 #include <numeric>
-#include <vector>
+#include <TClonesArray.h>
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/base_object.hpp>
 
-class BmnFHCalModule : public FairHit
+class BmnFHCalModule
 {
-  public:
-    /** @brief Default constructor. **/
-    BmnFHCalModule();
+public:
+  /** @brief Default constructor.
+   **/
+  BmnFHCalModule();
 
-    /** @brief Constructor with parameters. **/
-    BmnFHCalModule(int ModuleId, const TVector3& posHit, const TVector3& posHitErr, int pointIndx);
 
-    /** Copy constructor. **/
-    BmnFHCalModule(const BmnFHCalModule&);
+  /**  Copy constructor **/
+  BmnFHCalModule(const BmnFHCalModule&);
 
-    /** Move constructor. **/
-    BmnFHCalModule(BmnFHCalModule&&) noexcept;
 
-    /** Assignment operator. **/
-    BmnFHCalModule& operator=(const BmnFHCalModule&);
+  /** Move constructor  **/
+  BmnFHCalModule(BmnFHCalModule&&);
 
-    /** Move Assignment operator. **/
-    BmnFHCalModule& operator=(BmnFHCalModule&&) noexcept;
 
-    /** Destructor. **/
-    virtual ~BmnFHCalModule() = default;
+  /** Assignment operator  **/
+  BmnFHCalModule& operator=(const BmnFHCalModule&);
 
-    /** @brief Module id. **/
-    int GetModuleId() const { return fModId; };
 
-    /** @brief Deposited Energy. **/
-    float GetEnergy() const { return fModuleEnergy; };
+  /** Move Assignment operator  **/
+  BmnFHCalModule& operator=(BmnFHCalModule&&);
 
-    /** @brief Sections number. **/
-    int GetNsections() const { return fSectVec.size(); };
 
-    /** @brief Section energy. **/
-    float GetSectionEnergy(int sec_id) const { return fSectVec.at(sec_id - 1); }
+  /** Destructor **/
+  virtual ~BmnFHCalModule(){};
 
-    void SetModuleId(int ModId) { fModId = ModId; }
-    void SetEnergy(float Energy) { fModuleEnergy = Energy; }
-    void SetNsections(int Nsections) { fSectVec.resize(Nsections); }
-    void SetSectionEnergy(int sec_id, float Energy) { fSectVec.at(sec_id - 1) = Energy; }
 
-    void SummarizeModule(double section_threshold = 0.0);
-    void reset();
-    void ResetSections();
+  /** @brief Class name
+   ** @return BmnFHCalModule
+   **/
+  virtual const char *GetClassName() { return "BmnFHCalModule"; }
 
-    virtual void Print(Option_t* option = "") const;
 
-  private:
-    int fModId;
-    float fModuleEnergy;
-    std::vector<float> fSectVec;
+  /** @brief Module id
+   ** @return BmnFHCalModule index
+   **/
+  int GetModuleId() const { return fModId; };
 
-    ClassDef(BmnFHCalModule, 3);
+
+  /** @brief Deposited Energy
+   ** @return Deposited Energy in module in event [mip]
+   **/
+  float GetEnergy() const { return fModuleEnergy; };
+  
+
+  /** @brief Sections number
+   ** @return number of sections in module
+   **/
+  int GetNsections() const { return fNsections; };
+
+
+  /** @brief Section energy
+   ** @return Get Energy in section with index sec_id
+   **/
+  float GetSectionEnergy(int sec_id) const { return fSectArr.at(sec_id-1); }
+
+  /** @brief X
+   ** @return module X position [mm]
+   **/
+  float GetX() const { return fX; };
+
+
+  /** @brief Y
+   ** @return module Y position [mm]
+   **/
+  float GetY() const { return fY; };
+
+
+  void SetModuleId(int ModId) { fModId = ModId; }
+  void SetEnergy(float Energy) { fModuleEnergy = Energy; }
+  void SetX(float X) { fX = X; }
+  void SetY(float Y) { fY = Y; }
+  void SetNsections(int Nsections) { fNsections = Nsections; }
+  void SetSectionEnergy(int sec_id, float Energy) { fSectArr.at(sec_id-1) = Energy; }
+  void ResetSections() { fSectArr.fill({}); }
+
+  void SummarizeModule(){ SetEnergy(std::accumulate(std::begin(fSectArr), std::end(fSectArr), 0.0)); }
+  void reset();
+
+  virtual void Print(Option_t *option = "") const;
+
+
+  static const int fgkMaxSections = 10; // 10 sections numbered from 1 to 10 inclusively
+private:
+  int fModId;
+  float fModuleEnergy;
+  float fX;
+  float fY;
+  int fNsections;
+  std::array<float, fgkMaxSections> fSectArr;
+
+  ClassDef(BmnFHCalModule, 1);
 };
 
 #endif /* BMNFHCALMODULE_H */

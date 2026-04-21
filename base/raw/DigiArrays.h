@@ -17,6 +17,8 @@ class DigiArrays : public TObject
         , tof400(nullptr)
         , tof700(nullptr)
         , tof701(nullptr)
+        , land(nullptr)
+        , tofcal(nullptr)
         , zdc(nullptr)
         , scwall(nullptr)
         , fhcal(nullptr)
@@ -76,6 +78,14 @@ class DigiArrays : public TObject
             tof701->Delete();
             delete tof701;
         }
+        if (tofcal) {
+            tofcal->Delete();
+            delete tofcal;
+        }
+        if (land) {
+            land->Delete();
+            delete land;
+        }
         if (zdc) {
             zdc->Delete();
             delete zdc;
@@ -129,6 +139,8 @@ class DigiArrays : public TObject
     TClonesArray* tof400;
     TClonesArray* tof700;
     TClonesArray* tof701;
+    TClonesArray* tofcal;
+    TClonesArray* land;
     TClonesArray* zdc;
     TClonesArray* scwall;
     TClonesArray* fhcal;

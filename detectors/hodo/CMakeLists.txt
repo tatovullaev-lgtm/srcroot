@@ -27,30 +27,16 @@ link_directories(${LINK_DIRECTORIES})
 set(SRCS
  BmnHodo.cxx
  BmnHodoPoint.cxx
+ BmnHodoDigi.cxx
+ BmnHodoAddress.cxx
  BmnHodoContFact.cxx
+ BmnHodoGeo.cxx
  BmnHodoGeoPar.cxx
+ BmnHodoDigit.cxx
  BmnHodoDigitizer.cxx
- BmnHodoStrip.cxx
- BmnHodoEvent.cxx
 )
 
-Set(HEADERS
- BmnHodo.h
- BmnHodoPoint.h
- BmnHodoDigit.h
- BmnHodoDigi.h
- BmnHodoAddress.h
- BmnHodoGeo.h
- BmnHodoGeoPar.h
- BmnHodoContFact.h
- BmnHodoDigitizer.h
- BmnHodoStrip.h
- BmnHodoEvent.h
- BmnHodoResolution.h
- #../common/BmnGeoTemplate.h
-)
-
-
+Set(HEADERS)
 Set(LINKDEF HodoLinkDef.h)
 Set(LIBRARY_NAME Hodo)
 Set(DEPENDENCIES BmnBase GeoBase Base Core BmnGeoTemplate)

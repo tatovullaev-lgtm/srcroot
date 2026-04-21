@@ -9,6 +9,7 @@
  *
  ************************************************************************************/
 
+using namespace std;
 #include "BmnNdetContFact.h"
 #include "FairRuntimeDb.h"
 #include "FairParRootFileIo.h"
@@ -17,7 +18,7 @@
 #include <iostream>
 #include <iomanip>
 
-using namespace std;
+ClassImp(BmnNdetContFact)
 
 static BmnNdetContFact gBmnNdetContFact;
 

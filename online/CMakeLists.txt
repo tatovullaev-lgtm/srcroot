@@ -94,15 +94,15 @@ set(EXE_DEPENDENCIES
   rt
 )
 
-add_executable(bmn-online-sampler sampler.cxx)
-target_link_libraries(bmn-online-sampler PRIVATE ${EXE_DEPENDENCIES})
-install(PROGRAMS ${EXECUTABLE_OUTPUT_PATH}/bmn-online-sampler DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/)
+# add_executable(bmn-online-sampler sampler.cxx)
+# target_link_libraries(bmn-online-sampler PRIVATE ${EXE_DEPENDENCIES})
+# install(PROGRAMS ${EXECUTABLE_OUTPUT_PATH}/bmn-online-sampler DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/)
 
-add_executable(bmn-online-decoder-proxy decoder_proxy.cxx)
-target_link_libraries(bmn-online-decoder-proxy PRIVATE ${EXE_DEPENDENCIES})
-install(PROGRAMS ${EXECUTABLE_OUTPUT_PATH}/bmn-online-decoder-proxy DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/)
+# add_executable(bmn-online-decoder-proxy decoder_proxy.cxx)
+# target_link_libraries(bmn-online-decoder-proxy PRIVATE ${EXE_DEPENDENCIES})
+# install(PROGRAMS ${EXECUTABLE_OUTPUT_PATH}/bmn-online-decoder-proxy DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/)
 
-add_executable(bmn-online-reco-processor reco_processor.cxx)
-target_link_libraries(bmn-online-reco-processor PRIVATE ${EXE_DEPENDENCIES})
-install(PROGRAMS ${EXECUTABLE_OUTPUT_PATH}/bmn-online-reco-processor DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/)
+# add_executable(bmn-online-reco-processor reco_processor.cxx)
+# target_link_libraries(bmn-online-reco-processor PRIVATE ${EXE_DEPENDENCIES})
+# install(PROGRAMS ${EXECUTABLE_OUTPUT_PATH}/bmn-online-reco-processor DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/)
 

@@ -5,39 +5,30 @@
  * Created on 16.09.2021, 12:00
  */
 
-#include "BmnScWallDigitizer.h"
-
-#include "BmnScWallAddress.h"
-#include "BmnScWallPoint.h"
-#include "FairRootManager.h"
-
 #include <FairRun.h>
 #include <FairRunSim.h>
+#include "FairRootManager.h"
 
-BmnScWallDigitizer::BmnScWallDigitizer()
-{
+#include "BmnScWallDigitizer.h"
+#include "BmnScWallPoint.h"
 
-    fArrayOfScWallDigits = nullptr;
+static Double_t workTime = 0.0;
+
+BmnScWallDigitizer::BmnScWallDigitizer() {
 
     fGeV2MIP = 0.005;
-    fMIP2Pix = 55.;
+    fMIP2Pix = 15.;
     fMIPNoise = 0.2;
+
 }
 
-BmnScWallDigitizer::~BmnScWallDigitizer()
-{
-
-    if (fArrayOfScWallDigits) {
-        fArrayOfScWallDigits->Delete();
-        delete fArrayOfScWallDigits;
-    }
+BmnScWallDigitizer::~BmnScWallDigitizer() {
 }
 
-InitStatus BmnScWallDigitizer::Init()
-{
+InitStatus BmnScWallDigitizer::Init() {
 
     FairRootManager* ioman = FairRootManager::Instance();
-    fArrayOfScWallPoints = (TClonesArray*)ioman->GetObject("ScWallPoint");
+    fArrayOfScWallPoints = (TClonesArray*) ioman->GetObject("ScWallPoint");
     if (!fArrayOfScWallPoints) {
         cout << "BmnScWallDigitizer::Init(): branch ScWallPoint not found! Task will be deactivated" << endl;
         SetActive(kFALSE);
@@ -46,37 +37,39 @@ InitStatus BmnScWallDigitizer::Init()
     fArrayOfScWallDigits = new TClonesArray("BmnScWallDigit");
     ioman->Register("ScWallDigit", "ScWall", fArrayOfScWallDigits, kTRUE);
 
-    LOG(detail) << "ScWall digitizer ready";
+    Info(__func__,"ScWall digitizer ready");
     return kSUCCESS;
 }
 
-void BmnScWallDigitizer::Exec(Option_t* opt)
-{
+void BmnScWallDigitizer::Exec(Option_t* opt) {
 
     if (!IsActive())
         return;
-
+    
+    TStopwatch sw;
+    sw.Start();
+    
     // Initialize
     fArrayOfScWallDigits->Delete();
 
-    float eSumCell[BmnScWallGeoPar::fTotalCells + 1];
+    float eSumCell[217];
 
-    for (Int_t i = 0; i <= BmnScWallGeoPar::fTotalCells; i++)
-        eSumCell[i] = 0;
+    for (Int_t i = 0; i < 216; i++) eSumCell[i] = 0;
+
 
     // Collect points
     Int_t N = fArrayOfScWallPoints->GetEntries();
 
     for (Int_t i = 0; i < N; i++) {
-        BmnScWallPoint* p = (BmnScWallPoint*)fArrayOfScWallPoints->At(i);
+        BmnScWallPoint * p = (BmnScWallPoint *)fArrayOfScWallPoints->At(i);
 
         Int_t iCell = p->GetCopyMother();
 
-        if (iCell <= BmnScWallGeoPar::fTotalCells) {
-            // collect and sum up energy losses for sections
+        if (iCell <= 216) {
+            //collect and sum up energy losses for sections
             eSumCell[iCell] += p->GetEnergyLoss();
         } else {
-            LOG(error) << Form("ScWall cell %d ignored", iCell);
+            Error(__func__,"ScWall cell %d ignored", iCell);
         }
     }
 
@@ -85,33 +78,49 @@ void BmnScWallDigitizer::Exec(Option_t* opt)
     Double_t eSumScWall = 0.;
     Double_t eSumScWallMC = 0.;
 
-    for (Int_t iCell = 1; iCell <= BmnScWallGeoPar::fTotalCells; iCell++) {
+    for (Int_t iCell = 1; iCell <= 216; iCell++) {
 
-        Double_t eSumGeant = eSumCell[iCell];
-        Double_t eSumMIP = eSumGeant / fGeV2MIP;   // convert energy to MIP
-        Double_t eSumPix = eSumMIP * fMIP2Pix;     // convert MIP to Npix in SiPM
-        Double_t eSumMIPSmeared = gRandom->Gaus(eSumPix, sqrt(eSumPix)) / fMIP2Pix;
-        Double_t eMIPNoise = gRandom->Gaus(0, fMIPNoise);   // MIP electronic noise
-        eSumMIPSmeared += eMIPNoise;
-        Double_t eSumSmeared = eSumMIPSmeared * fGeV2MIP;   // from MIP to energy
+      Double_t eSumGeant = eSumCell[iCell];
+      Double_t eSumMIP = eSumGeant / fGeV2MIP; // convert energy to MIP
+      Double_t eSumPix = eSumMIP * fMIP2Pix; // convert MIP to Npix in SiPM
+      Double_t eSumMIPSmeared =
+        gRandom->Gaus(eSumPix, sqrt(eSumPix)) / fMIP2Pix;
+      Double_t eMIPNoise = gRandom->Gaus(0,fMIPNoise); // MIP electronic noise
+      eSumMIPSmeared += eMIPNoise;
+      Double_t eSumSmeared = eSumMIPSmeared * fGeV2MIP; //from MIP to energy
 
-        Double_t amp = eSumSmeared * fScale;
+      Double_t amp = eSumSmeared * fScale;
 
-        // if (amp == 0.) continue;
+      //if (amp == 0.) continue;
 
-        if (iCell <= BmnScWallGeoPar::fSmallCells) {
-            if (amp < fSmallModThreshold)
-                continue;
-        } else {
-            if (amp < fLargeModThreshold)
-                continue;
-        }
+      if (iCell <= 40) {
+          if (amp < fSmallModThreshold) continue;
+      } else {
+          if (amp < fLargeModThreshold) continue;
+      }
 
-        eSumScWallMC += eSumGeant;
-        eSumScWall += amp;
+      eSumScWallMC += eSumGeant;
+      eSumScWall += amp;
 
-        auto address = BmnScWallAddress::GetAddress(iCell);
-        /*BmnScWallDigit * p = */
-        new ((*fArrayOfScWallDigits)[fArrayOfScWallDigits->GetEntriesFast()]) BmnScWallDigit(address, 0, amp);
-    }   // for (Int_t iCell
+      BmnScWallDigit * p = new((*fArrayOfScWallDigits)[fArrayOfScWallDigits->GetEntriesFast()]) BmnScWallDigit();
+      p->SetCellID(iCell);
+      p->SetELoss(eSumGeant);
+      p->SetELossDigi(amp);
+
+    } //for (Int_t iCell
+
+    //BmnScWallDigit * p = new((*fArrayOfScWallDigits)[fArrayOfScWallDigits->GetEntriesFast()]) BmnScWallDigit();
+    //p->SetCellID(0);
+    //p->SetELoss(eSumScWallMC);
+    //p->SetELossDigi(eSumScWall);
+    
+    sw.Stop();
+    workTime += sw.RealTime();
+    
 }
+
+void BmnScWallDigitizer::Finish() {
+    printf("Work time of the ScWall digitizer: %4.4f sec.\n", workTime);
+}
+
+ClassImp(BmnScWallDigitizer)

@@ -15,91 +15,72 @@
 #ifndef BmnHodoDigi_H
 #define BmnHodoDigi_H 1
 
-#include "BmnDigiContainerTemplate.h"   // for BmnDigiContainerTemplate
-#include "BmnHodoAddress.h"             // for BmnHodoAddress
-#include "BmnHodoDigit.h"               // for BmnHodoDigit
+#include "BmnDigiContainerTemplate.h"  // for BmnDigiContainerTemplate
+#include "BmnDetectorList.h"           // for kHodo
+#include "BmnHodoAddress.h"            // for BmnHodoAddress
 
-class BmnHodoDigi
-    : public BmnHodoDigit
-    , public BmnDigiContainerTemplate
-{
+class BmnHodoDigi : public BmnDigiContainerTemplate {
 
-  public:
-    /**@brief Default constructor.
-     **/
-    BmnHodoDigi()
-        : BmnHodoDigit()
-        , BmnDigiContainerTemplate()
-        , fNpeaks(0)
-        , fR2history{}
-        , fSignalIntegral{0.0}
-        , fCrosstalk{0.0}
-    {}
+public:
+  /**@brief Default constructor.
+       **/
+  BmnHodoDigi() : BmnDigiContainerTemplate() {};
 
-    /** Destructor **/
-    ~BmnHodoDigi() {};
 
-    void reset() override final
-    {
-        BmnHodoDigit::reset();
-        BmnDigiContainerTemplate::reset();
-        fNpeaks = 0;
-        fR2history.clear();
-        fSignalIntegral = 0.0;
-        fCrosstalk = 0.0;
-    }
+  /** @brief Constructor with detailed assignment.
+       **/
+  BmnHodoDigi(uint32_t address, float signal, double timestamp, 
+                int ampl, int zl, int integral, int time_max,
+                float fit_ampl, float fit_zl, float fit_integral, float fit_R2, float fit_time_max,
+                std::vector<float> wfm, std::vector<float> fit_wfm)
 
-    size_t fNpeaks = 0;
-    std::vector<float> fR2history;
-    float fSignalIntegral;
-    float fCrosstalk;
+  : BmnDigiContainerTemplate(address, signal, timestamp, 
+                ampl, zl, integral, time_max,
+                fit_ampl, fit_zl, fit_integral, fit_R2, fit_time_max,
+                wfm, fit_wfm)
+  {
+  }
 
-    /** @brief Class name
-     ** @return BmnHodoDigi
-     **/
-    virtual const char* GetClassName() override final { return "BmnHodoDigi"; }
 
-    /** @brief Strip Side
-     ** @return Strip Side from Unique channel address (see BmnHodoAddress)
-     **/
-    uint32_t GetStripSide() const { return BmnHodoAddress::GetStripSide(fAddress); };
+  /** Destructor **/
+  ~BmnHodoDigi() {};
 
-    /** @brief Gain
-     ** @return Gain from Unique channel address (see BmnHodoAddress)
-     **/
-    uint32_t GetGain() const { return BmnHodoAddress::GetGain(fAddress); };
 
-    const int DrawWfm()
-    {
-        TString hist_name =
-            (fNpeaks > 1)
-                ? Form("Strip%u. From deconv. Amplitude %.0f ZL %.0f TimeMax %.0f FitR2 %.4f; time [sample]; ampl "
-                       "[a.u.]",
-                       GetStripId(), fFitAmpl, fFitZL, fFitTimeMax, GetFitR2())
-                : Form("Strip%u. From raw. Amplitude %d ZL %d TimeMax %d FitR2 %.4f; time [sample]; ampl [a.u.]",
-                       GetStripId(), fAmpl, fZL, fTimeMax, GetFitR2());
-        TCanvas* canvas = new TCanvas();
-        canvas->Divide(1, 2);
-        DrawWfmWithTitle(canvas, hist_name);
-        DrawR2history(canvas);
+  /** @brief Class name
+       ** @return BmnHodoDigi
+       **/
+  virtual const char* GetClassName() override final { return "BmnHodoDigi"; }
 
-        return 1;
-    }
 
-    void DrawR2history(TCanvas* canvas)
-    {
-        if (fR2history.empty())
-            return;
-        canvas->cd(2);
+  /** @brief Strip Id
+       ** @return Strip Id from Unique channel address (see BmnHodoAddress)
+       **/
+  uint32_t GetStripId() const { return BmnHodoAddress::GetStripId(GetAddress()); };
 
-        std::vector<float> points(fR2history.size());
-        std::iota(std::begin(points), std::end(points), 0);   // Fill with 0, 1, ..., wfm.back().
-        TGraph* tgr_ptr = new TGraph(fR2history.size(), &points[0], &fR2history[0]);
-        tgr_ptr->SetTitle(Form("R2 history; iteration; R2"));
-        tgr_ptr->Draw();
-    }
+  /** @brief Strip Side
+       ** @return Strip Side from Unique channel address (see BmnHodoAddress)
+       **/
+  uint32_t GetStripSide() const { return BmnHodoAddress::GetStripSide(GetAddress()); };
 
-    ClassDefOverride(BmnHodoDigi, 4);
+  /** @brief Gain
+       ** @return Gain from Unique channel address (see BmnHodoAddress)
+       **/
+  uint32_t GetGain() const { return BmnHodoAddress::GetGain(GetAddress()); };
+
+
+  /** @brief System identifier
+       ** @return System ID 
+       **/
+  static int GetSystemId() { return kHODO; }
+
+
+  const int DrawWfm() {
+    TString hist_name = Form("Strip%u. Signal %.2f FitR2 %.2f", GetStripId(), GetSignal(), GetFitR2());
+    DrawWfmWithTitle(hist_name);
+    return 1;
+  }
+
+  ClassDefOverride(BmnHodoDigi, 1);
 };
 
-#endif   // BmnHodoDigi_H
+#endif  // BmnHodoDigi_H

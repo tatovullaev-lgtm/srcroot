@@ -45,9 +45,9 @@
 // run8
 #pragma link C++ class BmnTriggerEfficiencyRun8++;
 
-#pragma link C++ class BmnFunctionAna + ;
-#pragma link C++ class BmnAnalysisTask + ;
-#pragma link C++ class BmnEventSelector + ;
-#pragma link C++ class BmnBC1hitInfo + ;
+// #pragma link C++ class BmnFunctionAna + ;
+// #pragma link C++ class BmnAnalysisTask + ;
+// #pragma link C++ class BmnEventSelector + ;
+// #pragma link C++ class BmnBC1hitInfo + ;
 
 #endif

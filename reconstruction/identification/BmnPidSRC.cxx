@@ -1,119 +1,29 @@
 #include "BmnPidSRC.h"
+#include "MDF.C"
+#include "MDF_Tx.C"
 
 static Float_t workTime = 0.0;
-
+const double Bdl=2.63;
 using namespace std;
 using namespace TMath;
+const Double_t X0_offset  = 1.21651;
+const Double_t TX0_offset = -3.32e-03;
+const Double_t TX1_offset = 0;
 
-Int_t nFoundAZ = 0;
-Int_t nFoundPZ = 0;
 
-
-    const Double_t AzUpBorder[8][14] = {    // so called "pupochki"
-//A  0     1     2     3     4     5     6     7     8     9    10    11    12    13
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0}, // for Z=0
-    {0, 1.11, 2.17,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0}, // for Z=1
-    {0,    0,    0, 1.53, 2.15,    0,    0,    0,    0,    0,    0,    0,    0,    0}, // for Z=2
-    {0,    0,    0,    0,    0, 1.55, 2.15,    0,    0,    0,    0,    0,    0,    0}, // for Z=3
-    {0,    0,    0,    0,    0,    0,    0, 1.93,    0, 2.50,    0,    0,    0,    0}, // for Z=4
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 2.15, 2.30,    0,    0}, // for Z=5
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0, 2.00, 2.08,    0}, // for Z=6
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0}  // for Z=7
-    };
-    const Double_t AzDownBorder[8][14] = {
-//A  0     1     2     3     4     5     6     7     8     9     10    11    12    13
-               
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=0
-    {0,    0, 0.83, 1.83,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=1
-    {0,    0,    0, 1.01, 1.85,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=2
-    {0,    0,    0,    0,    0, 1.03, 1.85,    0,    0,    0,     0,    0,    0,    0}, // for Z=3
-    {0,    0,    0,    0,    0,    0,    0, 1.45,    0, 2.06,     0,    0,    0,    0}, // for Z=4
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,  1.91,  2.1,    0,    0}, // for Z=5
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0, 1.68, 1.92,    0}, // for Z=6
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}  // for Z=7
-    };
-
-    const Double_t ZAOutUpBorder[8][14] = {
-//A  0     1     2     3     4     5     6     7     8     9     10    11    12    13
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=0
-    {0,  1.3,  1.3,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=1
-    {0,    0,    0,  2.6,  2.6,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=2
-    {0,    0,    0,    0,    0,  3.3,  3.3,    0,    0,    0,     0,    0,    0,    0}, // for Z=3
-    {0,    0,    0,    0,    0,    0,    0,  4.2,    0,  4.2,     0,    0,    0,    0}, // for Z=4
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,  5.25, 5.25,    0,    0}, // for Z=5
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,  6.3,  6.3,    0}, // for Z=6
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}  // for Z=7
-    };
-    const Double_t ZAOutDownBorder[8][14] = {
-//A  0     1     2     3     4     5     6     7     8     9     10    11    12    13
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=0
-    {0,  0.9,  0.9,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=1
-    {0,    0,    0,   2.,   2.,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=2
-    {0,    0,    0,    0,    0,  2.7,  2.7,    0,    0,    0,     0,    0,    0,    0}, // for Z=3
-    {0,    0,    0,    0,    0,    0,    0,  2.6,    0,  2.6,     0,    0,    0,    0}, // for Z=4
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,  4.75, 4.75,    0,    0}, // for Z=5
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,  5.7,  5.7,    0}, // for Z=6
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}  // for Z=7
-    };        
-
-    const Double_t RigidityUpBorder[8][14] = {
-//A  0     1     2     3     4     5     6     7     8     9     10    11    12    13
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=0
-    {0,    0,  9.1,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=1
-    {0,    0,    0,  6.9,  8.9,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=2
-    {0,    0,    0,    0,    0,  6.9,    7,    0,    0,    0,     0,    0,    0,    0}, // for Z=3
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=4
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=5
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,  8.7,    0}, // for Z=6
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}  // for Z=7
-    };
-    const Double_t RigidityDownBorder[8][14] = {
-//A  0     1     2     3     4     5     6     7     8     9     10    11    12    13
-               
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=0
-    {0,    0,  7.3,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=1
-    {0,    0,    0,  5.5,  7.5,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=2
-    {0,    0,    0,    0,    0,  5.5,  7.6,    0,    0,    0,     0,    0,    0,    0}, // for Z=3
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=4
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=5
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,  7.5,    0}, // for Z=6
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}  // for Z=7
-    };
-    const Double_t ZOutUpBorder[8][14] = {
-//A  0     1     2     3     4     5     6     7     8     9     10    11    12    13
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=0
-    {0,    0,  1.7,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=1
-    {0,    0,    0,  2.6,  2.6,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=2
-    {0,    0,    0,    0,    0,  3.3,  3.3,    0,    0,    0,     0,    0,    0,    0}, // for Z=3
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=4
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=5
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,  6.3,    0}, // for Z=6
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}  // for Z=7
-    };
-    const Double_t ZOutDownBorder[8][14] = {
-//A  0     1     2     3     4     5     6     7     8     9     10    11    12    13
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=0
-    {0,    0,  1.1,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=1
-    {0,    0,    0,   2.,   2.,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=2
-    {0,    0,    0,    0,    0,  2.7,  2.7,    0,    0,    0,     0,    0,    0,    0}, // for Z=3
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=4
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}, // for Z=5
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,  5.7,    0}, // for Z=6
-    {0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,    0,    0,    0}  // for Z=7
-    };        
 
 BmnPidSRC::BmnPidSRC() {
-    fEventNo = 0;
-    fGlobalTracksArray = nullptr;
+
     fDstEventHeader = nullptr;
     fBmnDchTrack=nullptr;
-    fBmnTofHit=nullptr;
-    fKalman = nullptr;
-    fZout=0.0;
-    fGlobalTracksBranchName = "BmnGlobalTrack";
+    fBmnMwpcTrack=nullptr;
+    fDCH_Mult=0;
+    fMWPC_Mult=0;
+   
+    fMwpcTrackBranchName = "BmnMwpcTrack";
     fDstEventHeaderBranchName = "DstEventHeader.";
     fDchTrackBranchName = "BmnDchTrack";
-    fTofHitBranchName = "BmnTof700Hit";   
+    
 }
 
 InitStatus BmnPidSRC::Init() {
@@ -124,9 +34,9 @@ InitStatus BmnPidSRC::Init() {
     FairRootManager* ioman = FairRootManager::Instance();
     if (NULL == ioman) Fatal("Init", "FairRootManager is not instantiated");
 
-    fGlobalTracksArray = (TClonesArray*) ioman->GetObject(fGlobalTracksBranchName); //in
-    if (!fGlobalTracksArray) {
-        cout << "BmnPidSRC::Init(): branch " << fGlobalTracksBranchName << " not found! Task will be deactivated" << endl;
+    fBmnMwpcTrack = (TClonesArray*) ioman->GetObject(fMwpcTrackBranchName); //in
+    if (!fBmnMwpcTrack) {
+        cout << "BmnPidSRC::Init(): branch " << fMwpcTrackBranchName << " not found! Task will be deactivated" << endl;
         SetActive(kFALSE);
         return kERROR;
     }
@@ -138,12 +48,7 @@ InitStatus BmnPidSRC::Init() {
         return kERROR;
     }
 
-    fBmnTofHit = (TClonesArray*) ioman->GetObject(fTofHitBranchName); //in
-    if (!fBmnTofHit) {
-        cout << "BmnPidSRC::Init(): branch " << fTofHitBranchName << " not found! Task will be deactivated" << endl;
-        SetActive(kFALSE);
-        return kERROR;
-    }
+   
 
     fDstEventHeader=(DstEventHeader*) ioman->GetObject(fDstEventHeaderBranchName);
     if (!fDstEventHeader) {
@@ -152,12 +57,6 @@ InitStatus BmnPidSRC::Init() {
         return kERROR;
     }
 
-    //fField = FairRunAna::Instance()->GetField();
-    fKalman = new BmnKalmanFilter();
-
-    hPIDdch = new TH2F("PIDdch", "; total charge of the event Z; A/z", 500, 0, 10, 500, -2, 7);
-    hPIDgem = new TH2F("PIDgem", "; total charge of the event Z; P/q", 500, 0, 10, 500, 0, 15);
-    
     if (fVerbose > 1) cout << "=========================== Pid init finished ===================" << endl<<endl<<endl<<endl<<endl;
 
     return kSUCCESS;
@@ -168,12 +67,9 @@ void BmnPidSRC::Exec(Option_t* opt) {
         return;
     clock_t tStart = clock();
     
-    AzPID();
 
-//    RigidityPID();
 
-    DrawPID();
-        
+    PReco();
 
     if (fVerbose > 1) cout << "\n======================== Pid exec finished ======================" << endl;
 
@@ -181,114 +77,182 @@ void BmnPidSRC::Exec(Option_t* opt) {
     workTime += ((Float_t) (tFinish - tStart)) / CLOCKS_PER_SEC;
 }
 
-void BmnPidSRC::RigidityPID(){
-    if (fDstEventHeader->GetZ2out() > 0) {
-            fZout=sqrt(fDstEventHeader->GetZ2out());
-        //	fZin=sqrt(fDstEventHeader->GetZ2in());
-            
-        //    Double_t fZoutTrue=fZout;//*0.797+0.235;
-        // cout << "fZoutTrue = " << fZoutTrue << endl;
-            for (int i=0; i<8; i++){
-                for (int j=0; j<14; j++){
-                    if (RigidityDownBorder[i][j]==0) continue;
-                    if (fZout>ZOutUpBorder[i][j] || fZout<ZOutDownBorder[i][j]) continue; // Charge cut for isotopes
-                    for (int k=0; k<fGlobalTracksArray->GetEntriesFast(); k++){
-                        BmnGlobalTrack* track = (BmnGlobalTrack*) fGlobalTracksArray->At(k);
-                        //if (track->GetA() > -1) continue;
-                        Double_t rigid = 1/track->GetParamLast()->GetQp();
-                        //hPIDgem->Fill(fZout, rigid);
-                        if (rigid>RigidityUpBorder[i][j] || rigid<RigidityDownBorder[i][j]) continue; // Rigidity cut
-                        track->SetA(j);
-                        track->SetZ(i);
-                        //nFoundPZ++;
-                    }
-                }
-            
-        }
-    }
-    
-}
+void BmnPidSRC::PReco(){
 
-void BmnPidSRC::AzPID(){
-    
-    if (fDstEventHeader->GetZ2out() > 0) {
-        //Double_t fZoutTrue=fZout;//*0.797+0.235;
-        // cout << "fZoutTrue = " << fZoutTrue << endl;
-        for (int i=0; i<8; i++){
-            for (int j=0; j<14; j++){
 
-                if (AzDownBorder[i][j]==0) continue; //unfounded isotopes cut
-
-                fZout=sqrt(fDstEventHeader->GetZ2out());
-                if (fZout>ZAOutUpBorder[i][j] || fZout<ZAOutDownBorder[i][j]) continue; // Charge cut for isotopes
-                //if(fGlobalTracksArray->GetEntriesFast()>1) continue; // no more than one track in entry
-                for (int k=0; k<fGlobalTracksArray->GetEntriesFast(); k++){
-
-                    BmnGlobalTrack* track = (BmnGlobalTrack*) fGlobalTracksArray->At(k);
-                    
-                    //Int_t index=track->GetTof2HitIndex();
-                    //Int_t index1=track->GetDch1TrackIndex();
-                    //if(index==-1 || index1==-1) continue; //DCH Tof cut
-                    //fZin=sqrt(fDstEventHeader->GetZ2in());
-                    //if (fZin>6.5 || fZin<5.5) continue; // Zin only Carbon
-                    
-                    //for(int m=0; m<fBmnDchTrack->GetEntries(); m++){
-                        //BmnDchTrack *dchTrack = (BmnDchTrack *)fBmnDchTrack->At(m);
-                        //if(dchTrack->GetParamFirst()->GetZ()<550 || dchTrack->GetParamFirst()->GetZ()>650) continue; // global dch tracks
-                        FairTrackParam parPrev(*(track->GetParamLast()));
-                        fKalman->TGeoTrackPropagate(&parPrev, 750, 2212, NULL, NULL, kTRUE);
-                        Double_t xdch=parPrev.GetX();
-                        Double_t Txdch=parPrev.GetTx();
-                        Double_t Az=(xdch - Txdch * 1470.88) * 0.026106 + 4.33385;
-                        //hPIDdch->Fill(fZout, Az); 
-                        if (Az>AzUpBorder[i][j] || Az<AzDownBorder[i][j]) continue; // Az cut
-                        track->SetA(j);
-                        track->SetZ(i);
-                        //nFoundAZ++;
-                    
-                }
+         fDCH_Mult=0;
+         fMWPC_Mult=0;
+         double edata[10], txdata[9];
+         vector <double> DCH_X, DCH_Y, DCH_Z, DCH_Ty, DCH_Tx, MWPC_X, MWPC_Y, MWPC_Z, MWPC_Ty, MWPC_Tx;
+         for (int i=0; i<fBmnDchTrack->GetEntries(); i++){
+           BmnDchTrack *dch = (BmnDchTrack *)fBmnDchTrack->At(i);
+           if (dch->GetParamFirst()->GetZ()>550 && dch->GetParamFirst()->GetZ()<650) {
+              fDCH_Mult=fDCH_Mult+1;
+              DCH_X.push_back(dch->GetParamFirst()->GetX());
+              DCH_Y.push_back(dch->GetParamFirst()->GetY());
+              DCH_Z.push_back(dch->GetParamFirst()->GetZ());
+              DCH_Ty.push_back(dch->GetParamFirst()->GetTy());
+              DCH_Tx.push_back(dch->GetParamFirst()->GetTx());
+           }
+         }  
+         
+          for (int j=0; j<fBmnMwpcTrack->GetEntries(); j++){
+            BmnMwpcTrack *mwpc = (BmnMwpcTrack *)fBmnMwpcTrack->At(j);
+            if(mwpc->GetParamFirst()->GetZ()>-400){
+              fMWPC_Mult=fMWPC_Mult+1;
+              MWPC_X.push_back(-mwpc->GetParamFirst()->GetX());
+              MWPC_Y.push_back(mwpc->GetParamFirst()->GetY());
+              MWPC_Z.push_back(mwpc->GetParamFirst()->GetZ());
+              MWPC_Ty.push_back(mwpc->GetParamFirst()->GetTy());
+              MWPC_Tx.push_back(-mwpc->GetParamFirst()->GetTx());
             }
+          }
+               
+          for (int i=0; i<fDCH_Mult; i++){
+            for (int j=0; j<fMWPC_Mult; j++){
+               if (i!=j) continue;   
+	             fPq.push_back(0.3*Bdl/(atan(DCH_Tx[i])-atan(MWPC_Tx[j])));
+               UInt_t k=0;	
+               
+               
+               
+//               double Ztarg=-647.5;
+//               double Xtarg=MWPC_X[j]+MWPC_Tx[j]*(Ztarg-MWPC_Z[j]);
+//               double Ytarg=MWPC_Y[j]+MWPC_Ty[j]*(Ztarg-MWPC_Z[j]);
+               //pos_vec.SetXYZ(Xtarg, Ytarg, Ztarg);
+               
+             	 edata[k]	= MWPC_X[j]+X0_offset;
+            	 edata[++k]	= MWPC_Y[j];
+            	 edata[++k]	= MWPC_Z[j];
+//               edata[k]	= Xtarg;
+//           	 edata[++k]	= Ytarg;
+//            	 edata[++k]	= Ztarg;
+            	 edata[++k]	= MWPC_Tx[j]+TX0_offset;
+            	 edata[++k]	= MWPC_Ty[j];
+            
+            	 edata[++k]	= DCH_X[i];
+            	 edata[++k]	= DCH_Y[i];
+            	 edata[++k]	= DCH_Z[i];
+            	 edata[++k]	= DCH_Tx[i];
+            	 edata[++k]	= DCH_Ty[i];
+               fPq_MDF.push_back(MDF(edata));
+               
+               
+               k=0;
+               edata[k]	= -MWPC_X[j]+X0_offset;
+            	 edata[++k]	= MWPC_Y[j];
+            	 edata[++k]	= MWPC_Z[j];
+//               edata[k]	= Xtarg;
+//           	 edata[++k]	= Ytarg;
+//            	 edata[++k]	= Ztarg;
+            	 edata[++k]	= MWPC_Tx[j]+TX0_offset;
+            	 edata[++k]	= MWPC_Ty[j];
+            
+            	 edata[++k]	= DCH_X[i];
+            	 edata[++k]	= DCH_Y[i];
+            	 edata[++k]	= DCH_Z[i];
+            	 edata[++k]	= DCH_Tx[i];
+             	 edata[++k]	= DCH_Ty[i];
+               fPq_MDF1.push_back(MDF(edata));
+               
+               
+               k=0;
+               edata[k]	= MWPC_X[j]+X0_offset;
+            	 edata[++k]	= MWPC_Y[j];
+            	 edata[++k]	= MWPC_Z[j];
+//               edata[k]	= Xtarg;
+//           	 edata[++k]	= Ytarg;
+//            	 edata[++k]	= Ztarg;
+            	 edata[++k]	= -MWPC_Tx[j]+TX0_offset;
+            	 edata[++k]	= MWPC_Ty[j];
+            
+            	 edata[++k]	= DCH_X[i];
+            	 edata[++k]	= DCH_Y[i];
+            	 edata[++k]	= DCH_Z[i];
+            	 edata[++k]	= DCH_Tx[i];
+            	 edata[++k]	= DCH_Ty[i];
+               fPq_MDF2.push_back(MDF(edata));
+               
+               
+               k=0;
+               edata[k]	= -MWPC_X[j]+X0_offset;
+            	 edata[++k]	= MWPC_Y[j];
+            	 edata[++k]	= MWPC_Z[j];
+//               edata[k]	= Xtarg;
+//           	 edata[++k]	= Ytarg;
+//            	 edata[++k]	= Ztarg;
+            	 edata[++k]	= -MWPC_Tx[j]+TX0_offset;
+            	 edata[++k]	= MWPC_Ty[j];
+            
+            	 edata[++k]	= DCH_X[i];
+            	 edata[++k]	= DCH_Y[i];
+            	 edata[++k]	= DCH_Z[i];
+            	 edata[++k]	= DCH_Tx[i];
+            	 edata[++k]	= DCH_Ty[i];
+               fPq_MDF3.push_back(MDF(edata));
+               
+               k=0;
+               txdata[k]	= MWPC_X[j]+X0_offset;
+            	 txdata[++k]	= MWPC_Y[j];
+            	 txdata[++k]	= MWPC_Z[j];
+            	 txdata[++k]	= MWPC_Ty[j];
+            
+            	 txdata[++k]	= DCH_X[i];
+            	 txdata[++k]	= DCH_Y[i];
+            	 txdata[++k]	= DCH_Z[i];
+            	 txdata[++k]	= DCH_Tx[i];
+            	 txdata[++k]	= DCH_Ty[i];
+               fTx_MDF.push_back(MDF_TX(txdata));
+               //std:
+            }  
+         }
+         
+         double charge34=fDstEventHeader->GetZoutBC34_12();
+         double charge35=fDstEventHeader->GetZoutBC35_12();
+         double charge45=fDstEventHeader->GetZoutBC45_12();
+         for ( int i=0; i<fPq.size(); i++) {
+          if (fPq[i]>6.9 && fPq[i]<7.7 && charge34==5 && charge45==5 && charge35==5) fB10.push_back(1);
+          else fB10.push_back(0);
+          if (fPq[i]>7.9 && fPq[i]<8.6 && charge34==5 && charge45==5 && charge35==5) fB11.push_back(1);
+          else fB11.push_back(0);
         }
-    }
-    
-}
+        fDstEventHeader->SetPq(fPq);
+        fDstEventHeader->SetPq_MDF(fPq_MDF);
+        fDstEventHeader->SetPq_MDF1(fPq_MDF1);
+        fDstEventHeader->SetPq_MDF2(fPq_MDF2);
+        fDstEventHeader->SetPq_MDF3(fPq_MDF3);
+        fDstEventHeader->SetTx_MDF(fTx_MDF);
+        fDstEventHeader->SetB11(fB11);
+        fDstEventHeader->SetB10(fB10); 
+        fDstEventHeader->SetDCH_Mult(fDCH_Mult); 
+        fDstEventHeader->SetMWPC_Mult(fMWPC_Mult);  
+        fPq.clear();
+        fPq_MDF.clear();
+        fPq_MDF1.clear();
+        fPq_MDF2.clear();
+        fPq_MDF3.clear();    
+        fTx_MDF.clear();    
+        fB10.clear();
+        fB11.clear();
+        DCH_Tx.clear();
+        DCH_Y.clear();
+        DCH_Z.clear();
+        DCH_Ty.clear();
+        DCH_Tx.clear();
+        MWPC_X.clear();
+        MWPC_Y.clear();
+        MWPC_Z.clear();
+        MWPC_Ty.clear();
+        MWPC_Tx.clear();
+                 
+}                    
+               
 
-void BmnPidSRC::DrawPID(){
-
-    if (fDstEventHeader->GetZ2out() > 0) {
-        fZout=sqrt(fDstEventHeader->GetZ2out());
-        // draw Gem-based PID
-        for (int k=0; k<fGlobalTracksArray->GetEntriesFast(); k++){
-            BmnGlobalTrack* track = (BmnGlobalTrack*) fGlobalTracksArray->At(k);
-            Double_t rigid = 1/track->GetParamLast()->GetQp();
-            hPIDgem->Fill(fZout, rigid);
-        }
-
-        // draw Dch-based PID
-        for(int m=0; m<fBmnDchTrack->GetEntries(); m++){
-            BmnDchTrack *dchTrack = (BmnDchTrack *)fBmnDchTrack->At(m);
-            if(dchTrack->GetParamFirst()->GetZ()<550 || dchTrack->GetParamFirst()->GetZ()>650) continue; // global dch tracks
-            FairTrackParam parPrev(*(dchTrack->GetParamFirst()));
-            Double_t xdch=parPrev.GetX();
-            Double_t Txdch=parPrev.GetTx();
-            Double_t Az=(xdch - Txdch * 1470.88) * 0.026106 + 3.508280;
-            hPIDdch->Fill(fZout, Az);
-        }
-    }
-}
 
 void BmnPidSRC::Finish() {
-    delete fKalman;
+    
     cout << "Work time of PID: " << workTime << endl;
 
-    TFile pidFile("pid.root", "RECREATE");
-
-    pidFile.Add(hPIDdch);
-    pidFile.Add(hPIDgem);
-
-    pidFile.Write();
-    pidFile.Close();
-
-    cout << "nFoundAZ = " << nFoundAZ << "     nFoundPZ = " << nFoundPZ << endl;
 }
 
+ 

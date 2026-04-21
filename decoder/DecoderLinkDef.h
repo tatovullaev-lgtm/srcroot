@@ -15,6 +15,8 @@
 #pragma link C++ class BmnTof2Raw2DigitNew + ;
 #pragma link C++ class BmnTof1Raw2Digit + ;
 #pragma link C++ class BmnTof701Raw2Digit + ;
+#pragma link C++ class BmnTofCalRaw2Digit + ;
+#pragma link C++ class BmnLANDRaw2Digit + ;
 #pragma link C++ class BmnGemRaw2Digit + ;
 #pragma link C++ class BmnTrigRaw2Digit + ;
 #pragma link C++ class BmnAdcProcessor + ;
@@ -37,7 +39,7 @@
 #pragma link C++ class WfmProcessor + ;
 #pragma link C++ class PsdSignalFitting::PronyFitter;
 #pragma link C++ class RLDeconvolutor + ;
-#pragma link C++ class BmnHgndRaw2Digit + ;
+// #pragma link C++ class BmnHgndRaw2Digit + ;
 #pragma link C++ class BmnVspRaw2Digit + ;
 // #pragma link C++ class fles::StorableTimeslice + ;
 #pragma link C++ class fles::Timeslice + ;

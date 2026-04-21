@@ -15,118 +15,150 @@
 #ifndef BmnDigiContainerTemplate_H
 #define BmnDigiContainerTemplate_H 1
 
+#include "TROOT.h"
+#include "TObject.h"
 #include "TCanvas.h"
 #include "TGraph.h"
-#include "TROOT.h"
+#include <Rtypes.h>      // for THashConsistencyHolder, ClassDefNV
 
-#include <Rtypes.h>   // for THashConsistencyHolder, ClassDefNV
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/base_object.hpp>
-#include <numeric>
+
 #include <stdint.h>
-#include <string>   // for string
+#include <numeric>
+#include <string>  // for string
 
-class BmnDigiContainerTemplate
-{
 
-  public:
-    /**@brief Default constructor.
-     **/
-    BmnDigiContainerTemplate();
+class BmnDigiContainerTemplate : public TObject {
 
-    /** @brief Constructor with detailed assignment.
-     **/
-    BmnDigiContainerTemplate(int ampl,
-                             int zl,
-                             int integral,
-                             int time_max,
-                             int tot,
-                             float fit_ampl,
-                             float fit_zl,
-                             float fit_integral,
-                             float fit_R2,
-                             float fit_time_max,
-                             std::vector<float> wfm,
-                             std::vector<float> fit_wfm);
+public:
+  /**@brief Default constructor.
+       **/
+  BmnDigiContainerTemplate();
 
-    /**  Copy constructor **/
-    BmnDigiContainerTemplate(const BmnDigiContainerTemplate&);
 
-    /** Move constructor  **/
-    BmnDigiContainerTemplate(BmnDigiContainerTemplate&&);
+  /** @brief Constructor with detailed assignment.
+       **/
+  BmnDigiContainerTemplate(uint32_t address, float signal, double timestamp, 
+                int ampl, int zl, int integral, int time_max,
+                float fit_ampl, float fit_zl, float fit_integral, float fit_R2, float fit_time_max,
+                std::vector<float> wfm, std::vector<float> fit_wfm);
 
-    /** Assignment operator  **/
-    BmnDigiContainerTemplate& operator=(const BmnDigiContainerTemplate&);
 
-    /** Move Assignment operator  **/
-    BmnDigiContainerTemplate& operator=(BmnDigiContainerTemplate&&);
+  /**  Copy constructor **/
+  BmnDigiContainerTemplate(const BmnDigiContainerTemplate&);
 
-    /** Destructor **/
-    virtual ~BmnDigiContainerTemplate()
-    {
-        std::vector<float>().swap(fWfm);
-        std::vector<float>().swap(fFitWfm);
-    }
 
-    /** @brief Class name (static)
-     ** @return BmnDigiContainerTemplate
-     **/
-    virtual const char* GetClassName() { return "BmnDigiContainerTemplate"; }
+  /** Move constructor  **/
+  BmnDigiContainerTemplate(BmnDigiContainerTemplate&&);
 
-    /** @brief Fit R2 quality
-     ** @return Fit R2 quality
-     **/
-    float GetFitR2() const { return fFitR2; };
 
-    /** @brief Waveform
-     ** @return Signal Waveform
-     **/
-    std::vector<float> GetWfm() const { return fWfm; }
+  /** Assignment operator  **/
+  BmnDigiContainerTemplate& operator=(const BmnDigiContainerTemplate&);
 
-    void reset();
 
-    void DrawWfmWithTitle(TCanvas* canvas, TString hist_name);
-    const void DeleteCanvases() { gROOT->GetListOfCanvases()->Delete(); }
+  /** Move Assignment operator  **/
+  BmnDigiContainerTemplate& operator=(BmnDigiContainerTemplate&&);
 
-    int fAmpl = 0;       /// Amplitude from waveform [adc counts]
-    int fZL = 0;         /// ZeroLevel from waveform [adc counts]
-    int fIntegral = 0;   /// Energy deposition from waveform [adc counts]
-    int fTimeMax = 0;    /// Time of maximum in waveform [adc samples]
-    int fToT = 0;        /// Time over threshold [adc samples]
 
-    float fFitAmpl = 0.;       /// Amplitude from fit of waveform [adc counts]
-    float fFitZL = 0.;         /// ZeroLevel from fit of waveform [adc counts]
-    float fFitIntegral = 0.;   /// Energy deposition from fit of waveform [adc counts]
-    float fFitR2 = 2.;         /// Quality of waveform fit [] -- good near 0
-    float fFitTimeMax = -1.;   /// Time of maximum in fit of waveform [adc samples]
+  /** Destructor **/
+  virtual ~BmnDigiContainerTemplate()
+  {
+    std::vector<float>().swap(fWfm);
+    std::vector<float>().swap(fFitWfm);
+  }
 
-    std::vector<float> fWfm;
-    std::vector<float> fFitWfm;
 
-    template<class Archive>
-    void serialize(Archive& ar, const unsigned int /*version*/)
-    {
-        ar & fAmpl;
-        ar & fZL;
-        ar & fIntegral;
-        ar & fTimeMax;
-        ar & fToT;
+  /** @brief Class name (static)
+       ** @return BmnDigiContainerTemplate
+       **/
+  virtual const char* GetClassName() { return "BmnDigiContainerTemplate"; }
 
-        ar & fFitAmpl;
-        ar & fFitZL;
-        ar & fFitIntegral;
-        ar & fFitR2;
-        ar & fFitTimeMax;
 
-        ar & fWfm;
-        ar & fFitWfm;
-    }
+  /** @brief Address
+       ** @return Unique channel address (see BmnScWallAddress)
+       **/
+  uint32_t GetAddress() const { return fuAddress; };
 
-  private:
-    /// BOOST serialization interface
-    friend class boost::serialization::access;
 
-    ClassDefNV(BmnDigiContainerTemplate, 3);
+  /** @brief calibrated Signal
+       ** @return calibrated Signal
+       **/
+  float GetSignal() const { return fSignal; };
+
+
+  /** @brief Fit R2 quality
+       ** @return Fit R2 quality
+       **/
+  float GetFitR2() const { return fFitR2; };
+
+
+  /** @brief Signal timestamp
+       ** @return Signal timestamp
+       **/
+  double GetTimestamp() const { return fTimestamp; };
+
+
+  /** @brief Waveform
+       ** @return Signal Waveform
+       **/
+  std::vector<float> GetWfm() const { return fWfm; }
+
+
+  /** Modifiers **/
+  void SetAddress(UInt_t address) { fuAddress = address; };
+
+  void reset();
+
+  void DrawWfmWithTitle(TString hist_name);
+  const void DeleteCanvases() { gROOT->GetListOfCanvases()->Delete(); }
+
+  uint32_t fuAddress  = 0;   /// Unique channel address
+  float fSignal       = 0.;  /// Signal [MeV]
+  double fTimestamp   = -1.; /// Signal timestamp
+
+  int fAmpl           = 0;  /// Amplitude from waveform [adc counts]
+  int fZL             = 0;  /// ZeroLevel from waveform [adc counts]
+  int fIntegral       = 0;  /// Energy deposition from waveform [adc counts]
+  int fTimeMax        = 0;  /// Time of maximum in waveform [adc samples]
+
+  float fFitAmpl      = 0.;  /// Amplitude from fit of waveform [adc counts]
+  float fFitZL        = 0.;  /// ZeroLevel from fit of waveform [adc counts]
+  float fFitIntegral  = 0.;  /// Energy deposition from fit of waveform [adc counts]
+  float fFitR2        = 2.;  /// Quality of waveform fit [] -- good near 0
+  float fFitTimeMax   = -1.; /// Time of maximum in fit of waveform [adc samples]
+
+  std::vector<float> fWfm;
+  std::vector<float> fFitWfm;
+
+  template<class Archive>
+  void serialize(Archive& ar, const unsigned int /*version*/)
+  {
+    ar& fuAddress;
+    ar& fSignal;
+    ar& fTimestamp;
+
+    ar& fAmpl;
+    ar& fZL;
+    ar& fIntegral;
+    ar& fTimeMax;
+
+    ar& fFitAmpl;
+    ar& fFitZL;
+    ar& fFitIntegral;
+    ar& fFitR2;
+    ar& fFitTimeMax;
+
+    ar& fWfm;
+    ar& fFitWfm;
+  }
+
+private:
+  /// BOOST serialization interface
+  friend class boost::serialization::access;
+
+
+  ClassDefNV(BmnDigiContainerTemplate, 1);
 };
 
-#endif   // BmnDigiContainerTemplate_H
+#endif  // BmnDigiContainerTemplate_H

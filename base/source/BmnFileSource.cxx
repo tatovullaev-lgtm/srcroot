@@ -212,8 +212,8 @@ int BmnFileSource::ExtractRunNumber()
     } else {
         DstRunHeader* dst_run_header = (DstRunHeader*)fRootFile->Get("DstRunHeader");   // read DstRunHeader if present
         if (dst_run_header) {
-            fPeriodNumber = dst_run_header->GetPeriodId();
-            fRunNumber = dst_run_header->GetRunId();
+            fPeriodNumber = dst_run_header->GetPeriodNumber();
+            fRunNumber = dst_run_header->GetRunNumber();
             fFileType = 1 + 10 * isSimulationFile;
             delete dst_run_header;
         } else   // temporary solution supporting run 4 - run 7

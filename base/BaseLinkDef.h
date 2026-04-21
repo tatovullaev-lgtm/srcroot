@@ -95,6 +95,7 @@
 #pragma link C++ class BmnTrack + ;
 #pragma link C++ class BmnGlobalTrack + ;
 #pragma link C++ class BmnIdentifiableTrack + ;
+#pragma link C++ class BmnTacquilaDigit+;
 #pragma link C++ class BmnTrackMatch + ;
 #pragma link C++ class BmnVertex + ;
 #pragma link C++ class BmnEventQuality + ;

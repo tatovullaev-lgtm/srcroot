@@ -1,54 +1,55 @@
+/*
+ * File:   BmnHodoDigitizer.h
+ * Author: Sergey Morozov
+ *
+ * Created on 16.09.2021, 12:00
+ */
+
 #ifndef BMNHODODIGITIZER_H
 #define BMNHODODIGITIZER_H
 
-#include "BmnHodoDigit.h"
-#include "BmnHodoPoint.h"
-#include "BmnHodoResolution.h"
+#include <iostream>
+#include <fstream>
+
+#include <FairTask.h>
 #include "FairLogger.h"
-#include "FairTask.h"
-#include "TClonesArray.h"
+#include <TClonesArray.h>
 
-#include <TF1.h>
-#include <TRandom3.h>
-#include <unordered_map>
-#include <vector>
+#include "BmnHodoDigit.h"
 
-using BmnHodoResolution::Kernel;
+#include "TRandom3.h"
+#include <TStopwatch.h>
 
-class BmnHodoDigitizer : public FairTask
-{
-  public:
-    // Constructor and Destructor
-    BmnHodoDigitizer(const char* name = "BmnHodo Digi Producer");
+class BmnHodoDigitizer : public FairTask {
+public:
+    BmnHodoDigitizer();
     virtual ~BmnHodoDigitizer();
 
-    // Overridden FairTask methods
+    void SetScale(Double_t val) { fScale = val; }
+    void SetThreshold(Double_t val) { fThreshold = val; }
+
+    void SetGeV2MIP(Double_t val) { fGeV2MIP = val; }
+    void SetMIP2Pix(Double_t val) { fMIP2Pix = val; }
+    void SetMIPNoise(Double_t val) { fMIPNoise = val; }
+
     virtual InitStatus Init();
     virtual void Exec(Option_t* opt);
     virtual void Finish();
 
-    // Setter methods
-    void SetScale(double scale) { fScale = scale; }
-    void SetThreshold(double threshold) { fThreshold = threshold; }
-    void SetSaturation(double satur) { fSaturation = satur; }
-    void SetConfig(const string& config);
+private:
 
-  private:
-    double fScale;        // Scale factor [Z^2/GeV]
-    double fThreshold;    // Noise threshold level [Z^2]
-    double fSaturation;   // Saturation [adc]
+    TClonesArray * fArrayOfHodoPoints; // input
+    TClonesArray * fArrayOfHodoDigits; // output
 
-    TClonesArray* fPointArray;   // Input array of BmnHodoPoints
-    TClonesArray* fDigiArray;    // Output array of BmnHodoDigits
+    Double_t fScale = 1.;
+    Double_t fThreshold = 0.;
 
-    std::unordered_map<uint32_t, std::vector<BmnHodoPoint*>> fuoHitMap;   // strip to point vector map
-    std::unordered_map<uint32_t, std::pair<double, Kernel>>
-        fuoResolutionMap;   // Address to pair calib & resolution function
-    void FillHitMap();
-    void ParseConfig(const string& config);
+    Double_t fGeV2MIP;
+    Double_t fMIP2Pix;
+    Double_t fMIPNoise;
 
-    float fworkTime;   // Accumulated work time for the digitizer
-    ClassDef(BmnHodoDigitizer, 5);
+    ClassDef(BmnHodoDigitizer,1);
 };
 
 #endif /* BMNHODODIGITIZER_H */
+

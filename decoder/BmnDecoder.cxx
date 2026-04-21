@@ -20,6 +20,7 @@
 #include "BmnSyncDigit.h"
 #include "BmnTDCDigit.h"
 #include "BmnTQDCADCDigit.h"
+#include "BmnTacquilaDigit.h"
 #include "DigiRunHeader.h"
 #include "TangoData.h"
 #include "UniDetectorParameter.h"
@@ -61,6 +62,16 @@ BmnDecoder::BmnDecoder(TString file, TString outfile, ULong_t nEvents, ULong_t p
     , fTof701StripMapFileName("")
     , fTof700MapFileName("")
     , fTof700GeomFileName("")
+    , fLANDMapFileName("")
+    , fLANDClockFileName("")
+    , fLANDTCalFileName("")
+    , fLANDDiffSyncFileName("")
+    , fLANDVScintFileName("")
+    , fTofCalMapFileName("")
+    , fTofCalClockFileName("")
+    , fTofCalTCalFileName("")
+    , fTofCalDiffSyncFileName("")
+    , fTofCalVScintFileName("")
     , fZDCMapFileName("")
     , fZDCCalibrationFileName("")
     , fScWallMapFileName("")
@@ -71,8 +82,8 @@ BmnDecoder::BmnDecoder(TString file, TString outfile, ULong_t nEvents, ULong_t p
     , fHodoCalibrationFileName("")
     , fNdetMapFileName("")
     , fNdetCalibrationFileName("")
-    , fHgndMapFileName("")
-    , fHgndCalibrationFileName("")
+    // , fHgndMapFileName("")
+    // , fHgndCalibrationFileName("")
     , fECALMapFileName("")
     , fECALCalibrationFileName("")
     , fCscMapFileName("")
@@ -95,7 +106,9 @@ BmnDecoder::BmnDecoder(TString file, TString outfile, ULong_t nEvents, ULong_t p
     , tdc(nullptr)
     , tqdc_tdc(nullptr)
     , tqdc_adc(nullptr)
-    , tdc_hgnd(nullptr)
+    , tacquila(nullptr)
+    , tacquila2(nullptr)
+    // , tdc_hgnd(nullptr)
     , eventHeaderDAQ(nullptr)
     , rawRunHeader(nullptr)
     , msc(nullptr)
@@ -108,12 +121,14 @@ BmnDecoder::BmnDecoder(TString file, TString outfile, ULong_t nEvents, ULong_t p
     , tof400(nullptr)
     , tof700(nullptr)
     , tof701(nullptr)
+    , tofcal(nullptr)
+    , land(nullptr)
     , zdc(nullptr)
     , scwall(nullptr)
     , fhcal(nullptr)
     , hodo(nullptr)
     , ndet(nullptr)
-    , hgnd(nullptr)
+    // , hgnd(nullptr)
     , ecal(nullptr)
     , dch(nullptr)
     , mwpc(nullptr)
@@ -133,14 +148,16 @@ BmnDecoder::BmnDecoder(TString file, TString outfile, ULong_t nEvents, ULong_t p
     , fMwpcMapper(nullptr)
     , fTrigMapper(nullptr)
     , fTof400Mapper(nullptr)
-    //, fTof700Mapper(nullptr) //Legacy
+    , fTof700Mapper(nullptr) //Legacy
     , fTof701Mapper(nullptr)
     , fZDCMapper(nullptr)
     , fScWallMapper(nullptr)
     , fFHCalMapper(nullptr)
     , fHodoMapper(nullptr)
     , fNdetMapper(nullptr)
-    , fHgndMapper(nullptr)
+    // , fHgndMapper(nullptr)
+    , fLANDMapper(nullptr)
+    , fTofCalMapper(nullptr)
     , fECALMapper(nullptr)
     , fMSCMapper(nullptr)
     , nSpillEvents(0)
@@ -206,10 +223,14 @@ BmnDecoder::~BmnDecoder()
     if (fTof400Mapper)
         delete fTof400Mapper;
     // Legacy
-    //  if (fTof700Mapper)
-    //      delete fTof700Mapper;
+    if (fTof700Mapper)
+        delete fTof700Mapper;
     if (fTof701Mapper)
         delete fTof701Mapper;
+    if (fLANDMapper)
+        delete fLANDMapper;
+    if (fTofCalMapper)
+        delete fTofCalMapper;
     if (fZDCMapper)
         delete fZDCMapper;
     if (fScWallMapper)
@@ -220,8 +241,8 @@ BmnDecoder::~BmnDecoder()
         delete fHodoMapper;
     if (fNdetMapper)
         delete fNdetMapper;
-    if (fHgndMapper)
-        delete fHgndMapper;
+    // if (fHgndMapper)
+    //     delete fHgndMapper;
     if (fECALMapper)
         delete fECALMapper;
     if (fMSCMapper)
@@ -259,10 +280,14 @@ BmnDecoder::~BmnDecoder()
         delete hodo;
     if (ndet)
         delete ndet;
-    if (hgnd)
-        delete hgnd;
+    // if (hgnd)
+    //     delete hgnd;
     if (ecal)
         delete ecal;
+    if (land)
+        delete land;
+    if (tofcal)
+        delete tofcal;
 
     if (eventHeader)
         delete eventHeader;
@@ -685,10 +710,10 @@ BmnStatus BmnDecoder::DecodeOffline()
                 // ctime = timer.CpuTime();
                 //                                     printf("Real time %f s, CPU time %f s  fHodoMapper\n", rtime,
                 //                                     ctime);
-                timer.Start();
-                if (fNdetMapper)
-                    fNdetMapper->fillEvent(tqdc_tdc, tqdc_adc, &fTimeShifts, ndet);
-                timer.Stop();
+                // timer.Start();
+                // if (fNdetMapper)
+                //     fNdetMapper->fillEvent(tqdc_tdc, tqdc_adc, &fTimeShifts, ndet);
+                // timer.Stop();
                 // rtime = timer.RealTime();
                 // ctime = timer.CpuTime();
                 //                                     printf("Real time %f s, CPU time %f s  fNdetMapper\n", rtime,
@@ -700,7 +725,18 @@ BmnStatus BmnDecoder::DecodeOffline()
                 // rtime = timer.RealTime();
                 // ctime = timer.CpuTime();
                 //                                 printf("Real time %f s, CPU time %f s  fECALMapper\n", rtime, ctime);
-            }
+                timer.Start();
+                if (fLANDMapper) fLANDMapper->fillEvent(tacquila2, land);
+                timer.Stop();
+                // rtime = timer.RealTime();
+                // ctime = timer.CpuTime();
+                //                    printf("Real time %f s, CPU time %f s  fLANDMapper\n", rtime, ctime);
+                if (fTofCalMapper) fTofCalMapper->fillEvent(tacquila, tofcal);
+                timer.Stop();
+                // rtime = timer.RealTime();
+                // ctime = timer.CpuTime();
+                //                    printf("Real time %f s, CPU time %f s  fTOFCALMapper\n", rtime, ctime);
+                }
         }
         if (fMSCMapper && (fPeriodId == 8))
             fMSCMapper->SumEvent7(msc, eventHeader, spillHeader, fPedEvCntrBySpill);
@@ -827,10 +863,10 @@ BmnStatus BmnDecoder::DecodeOffline()
                 LOG(info) << "T0 time " << BmnFunctionSet::TimePoint2String(dig->GetTime()) << " iEntry "
                           << iSpillEntry;
             }
-            timer.Start();
-            if (fHgndMapper)
-                fHgndMapper->fillEvent(tdc_hgnd, fT0SyncTime, hgnd);
-            timer.Stop();
+            // timer.Start();
+            // if (fHgndMapper)
+            //     fHgndMapper->fillEvent(tdc_hgnd, fT0SyncTime, hgnd);
+            // timer.Stop();
             // rtime = timer.RealTime();
             // ctime = timer.CpuTime();
             //                                     printf("Real time %f s, CPU time %f s  fHgndMapper\n", rtime,
@@ -922,6 +958,8 @@ void BmnDecoder::AssignInputs()
     Assignment_Fun("TDC", &tdc);
     Assignment_Fun("TQDC_ADC", &tqdc_adc);
     Assignment_Fun("TQDC_TDC", &tqdc_tdc);
+    Assignment_Fun("Tacquila", &tacquila);
+    Assignment_Fun("Tacquila2", &tacquila2);
     Assignment_Fun("HRB", &hrb);
     Assignment_Fun("BmnEventHeader.", &eventHeaderDAQ);
     if ((!isForwardMode) && (!isTaskMode)) {
@@ -929,7 +967,7 @@ void BmnDecoder::AssignInputs()
         if (fRawTreeSpills) {
             fRawTreeSpills->SetBranchAddress("MSC", &msc);
             fRawTreeSpills->SetBranchAddress("T0Raw", &t0raw);
-            fRawTreeSpills->SetBranchAddress("TDC_HGND", &tdc_hgnd);
+            // fRawTreeSpills->SetBranchAddress("TDC_HGND", &tdc_hgnd);
         }
         rawRunHeader = static_cast<DigiRunHeader*>(fRootFileIn->Get(fRawRunHdrName));
         metadata = static_cast<BmnMetadataRaw*>(fRootFileIn->Get(fMetadataName));
@@ -980,8 +1018,8 @@ void BmnDecoder::InitMappers(std::function<void(TString, TObject*)> branch_reg_f
         fDigiTreeSpills->Branch("MSC", &msc_copy);
         t0_copy = new TClonesArray(t0raw->GetClass());
         fDigiTreeSpills->Branch("T0Raw", &t0_copy);
-        hgnd = new TClonesArray("BmnHgndDigi");
-        fDigiTreeSpills->Branch("HgndDigi", &hgnd);
+        // hgnd = new TClonesArray("BmnHgndDigi");
+        // fDigiTreeSpills->Branch("HgndDigi", &hgnd);
     }
     cout<<12<<endl; 
     // check if detector is in setup and is active
@@ -1145,19 +1183,19 @@ void BmnDecoder::InitMappers(std::function<void(TString, TObject*)> branch_reg_f
         fHodoMapper->print();
     }
 
-    if (fDetectorSetup.count(kNDET) > 0 && fDetectorSetup.at(kNDET) == 1) {
-        LOG(info) << "ndet in setup";
-        ndet = new TClonesArray("BmnNdetDigi");
-        Register_Fun("NdetDigi", &ndet);
-        fNdetMapper = new BmnNdetRaw2Digit(fPeriodId, run4init, fNdetMapFileName, fNdetCalibrationFileName);
-        fNdetMapper->print();
-    }
+    // if (fDetectorSetup.count(kNDET) > 0 && fDetectorSetup.at(kNDET) == 1) {
+    //     LOG(info) << "ndet in setup";
+    //     ndet = new TClonesArray("BmnNdetDigi");
+    //     Register_Fun("NdetDigi", &ndet);
+    //     fNdetMapper = new BmnNdetRaw2Digit(fPeriodId, run4init, fNdetMapFileName, fNdetCalibrationFileName);
+    //     fNdetMapper->print();
+    // }
 
-    if (fDetectorSetup.count(kHGND) > 0 && fDetectorSetup.at(kHGND) == 1) {
-        LOG(info) << "hgnd in setup";
-        fHgndMapper = new BmnHgndRaw2Digit(fPeriodId, fRunId, fHgndMapFileName.Data(), fHgndCalibrationFileName.Data());
-        fHgndMapper->print();
-    }
+    // if (fDetectorSetup.count(kHGND) > 0 && fDetectorSetup.at(kHGND) == 1) {
+    //     LOG(info) << "hgnd in setup";
+    //     fHgndMapper = new BmnHgndRaw2Digit(fPeriodId, fRunId, fHgndMapFileName.Data(), fHgndCalibrationFileName.Data());
+    //     fHgndMapper->print();
+    // }
 
     if (fDetectorSetup.count(kCSC) > 0 && fDetectorSetup.at(kCSC) == 1) {
         csc = new TClonesArray("BmnCSCDigit");
@@ -1167,6 +1205,23 @@ void BmnDecoder::InitMappers(std::function<void(TString, TObject*)> branch_reg_f
         fCscQa = new BmnAdcQA(fPeriodId, run4init, "CSC");
 #endif
     }
+
+    if (fDetectorSetup.count(kLAND) > 0 && fDetectorSetup.at(kLAND) == 1) {
+        land = new TClonesArray("BmnLANDDigit");
+        fDigiTree->Branch("LAND", &land);
+        fLANDMapper = new BmnLANDRaw2Digit(fLANDMapFileName,
+                fLANDClockFileName, fLANDTCalFileName, fLANDDiffSyncFileName,
+                fLANDVScintFileName);
+    }
+
+    if (fDetectorSetup.count(kTofCal) > 0 && fDetectorSetup.at(kTofCal) == 1) {
+        tofcal = new TClonesArray("BmnTofCalDigit");
+        fDigiTree->Branch("TofCal", &tofcal);
+        fTofCalMapper = new BmnTofCalRaw2Digit(fTofCalMapFileName,
+                fTofCalClockFileName, fTofCalTCalFileName, fTofCalDiffSyncFileName,
+                fTofCalVScintFileName);
+    }
+
     return;
 }
 
@@ -1249,6 +1304,10 @@ void BmnDecoder::ClearDigiArrays()
         ndet->Delete();
     if (ecal)
         ecal->Delete();
+    if (land)
+        land->Delete();
+    if (tofcal)
+        tofcal->Delete();
     if (fTrigMapper)
         fTrigMapper->ClearArrays();
     fTimeShifts.clear();
@@ -1263,8 +1322,8 @@ void BmnDecoder::ClearSpillDigiArrays()
         msc_copy->Delete();
     if (t0_copy)
         t0_copy->Delete();
-    if (hgnd)
-        hgnd->Delete();
+    // if (hgnd)
+    //     hgnd->Delete();
 }
 
 void BmnDecoder::RecalculatePedestals()
@@ -1444,10 +1503,10 @@ BmnStatus BmnDecoder::DecodeDataToDigiIterate()
         if (fTof400Mapper)
             fTof400Mapper->FillEvent(tdc, &fTimeShifts, tof400);
         // Legacy
-        //        if (fTof700Mapper && fT0Time != 0. && fT0Width != 0.) fTof700Mapper->fillEvent(tdc, &fTimeShifts,
-        //        fT0Time, fT0Width, tof700);
-        // if (fTof700Mapper)
-        //     fTof700Mapper->fillEvent(tdc, &fTimeShifts, fT0Time, fT0Width, tof700);
+        if (fTof700Mapper && fT0Time != 0. && fT0Width != 0.) fTof700Mapper->fillEvent(tdc, &fTimeShifts,
+               fT0Time, fT0Width, tof700);
+        if (fTof700Mapper)
+            fTof700Mapper->fillEvent(tdc, &fTimeShifts, fT0Time, fT0Width, tof700);
         if (fTof701Mapper)
             fTof701Mapper->FillEvent(tdc, &fTimeShifts, tof701);
         if (fZDCMapper)
@@ -1458,12 +1517,16 @@ BmnStatus BmnDecoder::DecodeDataToDigiIterate()
             fFHCalMapper->fillEvent(adc, fhcal);
         if (fHodoMapper)
             fHodoMapper->fillEvent(tqdc_tdc, tqdc_adc, hodo);
-        if (fNdetMapper)
-            fNdetMapper->fillEvent(tqdc_tdc, tqdc_adc, &fTimeShifts, ndet);
-        if (fHgndMapper)
-            fHgndMapper->fillEvent(tdc_hgnd, fT0SyncTime, hgnd);
+        // if (fNdetMapper)
+        //     fNdetMapper->fillEvent(tqdc_tdc, tqdc_adc, &fTimeShifts, ndet);
+        // if (fHgndMapper)
+        //     fHgndMapper->fillEvent(tdc_hgnd, fT0SyncTime, hgnd);
         if (fECALMapper)
             fECALMapper->fillEvent(adc, ecal);
+        if (fLANDMapper) 
+            fLANDMapper->fillEvent(tacquila2, land);
+        if (fTofCalMapper) 
+            fTofCalMapper->fillEvent(tacquila, tofcal);
     }
     fRunEndTime = TTimeStamp(time_t(fTime_s), fTime_ns);
     eventHeader->SetRunId(eventHeaderDAQ->GetRunId());
@@ -1687,8 +1750,8 @@ void* BmnDecoder::GetMapper(DetectorId id)
             return fFHCalMapper;
         case DetectorId::kGEM:
             return fGemMapper;
-        case DetectorId::kHGND:
-            return fHgndMapper;
+        // case DetectorId::kHGND:
+        //     return fHgndMapper;
         case DetectorId::kHODO:
             return fHodoMapper;
         case DetectorId::kNDET:
@@ -1705,6 +1768,12 @@ void* BmnDecoder::GetMapper(DetectorId id)
             return fTof701Mapper;
         case DetectorId::kVSP:
             return fVspMapper;
+        case DetectorId::kTOF700:
+            return fTof700Mapper;
+        case DetectorId::kLAND:
+            return fLANDMapper;
+        case DetectorId::kTofCal:
+            return fTofCalMapper;
         default:
             LOGF(error, "Unsupported DetectorID");
             return nullptr;

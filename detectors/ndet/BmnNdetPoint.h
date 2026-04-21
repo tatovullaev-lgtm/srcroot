@@ -1,105 +1,105 @@
+// ------------------------------------------------------------------------
+// -----                     BmnNdetPoint header file                  -----
+// -----                     litvin@nf.jinr.ru                        -----
+// -----                     Last updated 22-Feb-2012                 -----
+//
+//                           Modified by M.Golubeva July 2022
+// ------------------------------------------------------------------------
+
 #ifndef BMNNDETPOINT_H
 #define BMNNDETPOINT_H
 
-#include "BmnNdetAddressMixin.h"
-#include "FairMCPoint.h"
+#include "TObject.h"
 #include "TVector3.h"
-
-#include <iostream>
+#include "TLorentzVector.h"
+#include "FairMCPoint.h"
 
 using namespace std;
 
-class BmnNdetPoint
-    : public FairMCPoint
-    , public BmnNdetAddressMixin<BmnNdetPoint>
+class BmnNdetPoint : public FairMCPoint
 {
-  public:
-    //! Default constructor
-    BmnNdetPoint()
-        : FairMCPoint()
-        , fAddress(0)
-    {
-        fDetectorID = kNDET;
-    }
 
-    /*! Constructor with arguments
-     *@param trackID  Index of MCTrack
-     *@param address  see BmnNdetAddress
-     *@param pos      Coordinates  [cm]
-     *@param mom      Momentum of track [GeV]
-     *@param tof      Time of flight [ns]
-     *@param length   Track length since creation [cm]
-     *@param eLoss    Energy deposit [GeV]
-     */
-    BmnNdetPoint(Int_t trackID,
-                 uint32_t address,
-                 const TVector3& pos,
-                 const TVector3& mom,
-                 Double_t tof,
-                 Double_t length,
-                 Double_t eLoss,
-                 UInt_t EventId = 0)
-        : FairMCPoint(trackID, kNDET, pos, mom, tof, length, eLoss, EventId)
-        , fAddress(address)
-    {}
+ public:
 
-    //! Copy constructor
-    BmnNdetPoint(const BmnNdetPoint& point)
-        : FairMCPoint(point)
-        , fAddress(point.fAddress)
-    {}
+/** Default constructor **/
+  BmnNdetPoint();
 
-    //! Move constructor
-    BmnNdetPoint(BmnNdetPoint&& point) noexcept
-        : FairMCPoint(std::move(point))
-        , fAddress(point.fAddress)
-    {
-        point.fAddress = 0;
-    }
 
-    //! Copy assignment operator
-    BmnNdetPoint& operator=(const BmnNdetPoint& point)
-    {
-        if (this != &point) {
-            FairMCPoint::operator=(point);
-            fAddress = point.fAddress;
-        }
-        return *this;
-    }
+/** Constructor with arguments
+ *@param trackID  Index of MCTrack
+ *@param detID    Detector ID (at present, volume MC number)
+ *@param copyNo         Number of active layer inside NDET module
+ *@param copyNoMother   NDET module number
+ *@param pos      Coordinates  [cm]
+ *@param mom      Momentum of track [GeV]
+ *@param tof      min Time in scint [ns]
+ *@param length   Track length since creation [cm]
+ *@param eLoss    Energy deposit [GeV]
+ #*@param nHits    number of hits in scint
+ **/
+  
+  BmnNdetPoint(Int_t trackID, Int_t detID, 
+	      Int_t copyNo, Int_t copyNoMother, 
+	      TVector3 pos, TVector3 mom,
+	      Double_t tof, Double_t length, 
+	      Double_t eLoss, UInt_t EventId=0 );
+  
+/** Copy constructor **/
+  BmnNdetPoint(const BmnNdetPoint& point) { *this = point; };
+  
+/** Destructor **/
+  virtual ~BmnNdetPoint();
+  
+  /** Accessors **/
+  Short_t GetCopy()        const {return nCopy; };
+  Short_t GetCopyMother()  const {return nCopyMother; };
+  //int GetNHits()   {return fNHits; }; 
 
-    //! Move assignment operator
-    BmnNdetPoint& operator=(BmnNdetPoint&& point) noexcept
-    {
-        if (this != &point) {
-            FairMCPoint::operator=(std::move(point));
-            fAddress = point.fAddress;
-            point.fAddress = 0;
-        }
-        return *this;
-    }
+/** Modifiers **/
+  void SetCopy(Short_t i)          { nCopy    = i; }; 
+  void SetCopyMother(Short_t i)    { nCopyMother  = i; }; 
+  //void SetNHits(Int_t i)    { fNHits  = i; }; 
+   
+/** Output to screen **/
+  virtual void Print(const Option_t* opt) const;
 
-    //! Destructor
-    virtual ~BmnNdetPoint() = default;
+  //  fTrackID    = trackID;
+  //  fDetectorID = detID; 
+  
+  //  fX          = pos.X();
+  //  fY          = pos.Y();
+  //  fZ          = pos.Z();
+  //  fPx         = mom.Px();
+  //  fPy         = mom.Py();
+  //  fPz         = mom.Pz();
+  //  fTime       = tof;
+  //  fLength     = length;
+  //  fELoss      = eLoss;
+  //  //fNHits      = nHits;
+  //  fEventId
 
-    uint32_t GetAddress() const { return fAddress; }
-    void SetAddress(uint32_t address) { fAddress = address; }
+  void AddVSC(Int_t trackID, Int_t detID, Int_t idvsc, Int_t idmod, TVector3 pos,TVector3 mom,Double_t dt, Double_t dl, Double_t de, UInt_t EventId) { 
+    if(nCopy != idvsc)
+      cerr << "Warning: idvsc not equal in BmnNdetPoint::AddVSC";
+    if(nCopyMother != idmod)
+      cerr << "Warning: idmod not equal in BmNNdetPoint::AddVSC";
+    fTrackID=trackID; fDetectorID=detID; 
+    fX=pos.X(); fY=pos.Y(); fZ=pos.Z();
+    fPx=mom.Px(); fPy=mom.Py(); fPz=mom.Pz();
+    //nCopy=idvsc; nCopyMother=idmod; fELoss += de; fLength += dl; fTime+=dt;
+    nCopy=idvsc; nCopyMother=idmod; fELoss += de; fLength += dl; fTime = dt;
+    //nCopy=idvsc; nCopyMother=idmod; fELoss += de; fLength += dl; fTime = dt; fEventID=EventId;
+    //nCopy=idvsc; nCopyMother=idmod; fELoss += de; fLength += dl; fTime = dt; fNHits += nhits;;
+  }
+  
+ protected:
 
-    //! Output to screen
-    virtual const char* GetClassName() const { return "BmnNdetPoint"; }
-    virtual void Print(const Option_t* opt = "") const
-    {
-        printf("%s: %s\n", GetClassName(), BmnNdetAddress::GetInfoString(fAddress).c_str());
-        printf("    track %d\n", GetTrackID());
-        printf("    Position (%.2f, %.2f, %.2f) cm\n", GetX(), GetY(), GetZ());
-        printf("    Momentum (%.2f, %.2f, %.2f) GeV\n", GetPx(), GetPy(), GetPz());
-        printf("    Time %.2f ns, Length %.2f cm\n", GetTime(), GetLength());
-        printf("    Energy loss %.6f GeV\n", GetEnergyLoss());
-    }
+  Short_t nCopy;                // Copy number 
+  Short_t nCopyMother;          // Copy number of mother volume 
+  //Int_t fNHits                 //number of hits in slice
 
-  private:
-    uint32_t fAddress;
-
-    ClassDef(BmnNdetPoint, 5)
+  ClassDef(BmnNdetPoint,2)
+    
 };
 
-#endif /* BMNNDETPOINT_H */
+#endif

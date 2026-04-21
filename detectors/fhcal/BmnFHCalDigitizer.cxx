@@ -1,134 +1,150 @@
-#include "BmnFHCalDigitizer.h"
-
-#include "BmnFHCalAddress.h"
-#include "FairRootManager.h"
-#include "TStopwatch.h"
-#include "TVirtualMC.h"
+/*
+ * File:   BmnFHCalDigitizer.cxx
+ * Author: Sergey Morozov
+ *
+ * Created on 16.09.2021, 12:00
+ */
 
 #include <FairRun.h>
 #include <FairRunSim.h>
+#include "FairRootManager.h"
 
-// Constructor
-BmnFHCalDigitizer::BmnFHCalDigitizer(const char* name)
-    : FairTask(name)
-    , fScale(1.0)
-    , fThreshold(0.0)
-    , fTimeCut(1000.0)
-    , fSiPM()
-    , fPointArray(nullptr)
-    , fDigiArray(nullptr)
-{}
+#include "BmnFHCalDigitizer.h"
+#include "BmnFHCalPoint.h"
+#include <TStopwatch.h>
 
-// Destructor
-BmnFHCalDigitizer::~BmnFHCalDigitizer()
-{
-    if (fDigiArray) {
-        fDigiArray->Delete();
-        delete fDigiArray;
-    }
+static Double_t workTime = 0.0;
+
+BmnFHCalDigitizer::BmnFHCalDigitizer() {
 }
 
-// Initialization method
-InitStatus BmnFHCalDigitizer::Init()
-{
-    fworkTime = 0.0;
-    LOG(detail) << "-I- BmnFHCalDigitizer: Init started..." << std::endl;
+BmnFHCalDigitizer::~BmnFHCalDigitizer() {
+}
+
+InitStatus BmnFHCalDigitizer::Init() {
+
+    fGeV2MIP = 0.005;
+    fMIP2Pix = 15.;
+    fMIPNoise = 0.2;
 
     FairRootManager* ioman = FairRootManager::Instance();
-    if (!ioman) {
-        LOG(error) << "-E- BmnFHCalDigitizer::Init: RootManager not instantiated!" << std::endl;
-        return kFATAL;
-    }
-
-    fPointArray = static_cast<TClonesArray*>(ioman->GetObject("FHCalPoint"));
-    if (!fPointArray) {
-        LOG(error) << "-W- BmnFHCalDigitizer::Init: No FHCalPoint array!" << std::endl;
+    fArrayOfFHCalPoints = (TClonesArray*)ioman->GetObject("FHCalPoint");
+    if (!fArrayOfFHCalPoints) {
+        cout << "BmnFHCalDigitizer::Init(): branch FHCalPoint not found! Task will be deactivated" << endl;
+        SetActive(kFALSE);
         return kERROR;
     }
+    fArrayOfFHCalDigits = new TClonesArray("BmnFHCalDigit");
+    ioman->Register("FHCalDigit", "FHCal", fArrayOfFHCalDigits, kTRUE);
 
-    fDigiArray = new TClonesArray("BmnFHCalDigit");
-    ioman->Register("FHCalDigit", "FHCal", fDigiArray, kTRUE);
-
-    LOG(detail) << "-I- BmnFHCalDigitizer: Initialization successful" << std::endl;
+    Info(__func__,"FHCal digitizer ready");
     return kSUCCESS;
 }
 
-void BmnFHCalDigitizer::Exec(Option_t* opt)
-{
+void BmnFHCalDigitizer::Exec(Option_t* opt) {
+    
     if (!IsActive())
         return;
+    
     TStopwatch sw;
     sw.Start();
 
-    LOG(debug2) << "BmnFHCalDigitizer::Exec() started..." << std::endl;
-    if (!fDigiArray)
-        Fatal("Exec", "No DigiArray");
+    // Initialize
+    fArrayOfFHCalDigits->Delete();
 
-    fDigiArray->Clear();
-    FillHitMap();   // One address (key) is now associated with a sorted vector of tracks which fired it
+    float eSumModSect[55][11];
 
-    for (auto& it : fuoHitMap) {
-        uint32_t address = it.first;
-        const auto& tracks_contributions = it.second;
+    for (Int_t i = 0; i < 55; i++) {
+        for (Int_t j = 0; j < 11; j++) eSumModSect[i][j] = 0;
+    }
 
-        double totalEnergy = 0.0;
-        double crossTime = 0.0;   // time when threshold is crossed
-        bool reachedThreshold = false;
-        for (const auto* point : tracks_contributions) {
-            if (point->GetTime() > fTimeCut)
-                break;
-            if (FairLogger::GetLogger()->IsLogNeeded(fair::Severity::debug2))
-                point->Print();
 
-            totalEnergy += point->GetEnergyLoss();
-            if (!reachedThreshold && totalEnergy * fScale > fThreshold) {
-                crossTime = point->GetTime();
-                reachedThreshold = true;
-                LOG(debug2) << Form("Reached threshold. Energy %.4f Weighted time %.4f", totalEnergy, crossTime);
-            }
-        }
-        totalEnergy = fSiPM.ModelResponse(totalEnergy);
-        totalEnergy *= fScale;
+    // Collect points
+    Int_t N = fArrayOfFHCalPoints->GetEntriesFast();
+    for (Int_t i = 0; i < N; i++) {
+        BmnFHCalPoint * p = (BmnFHCalPoint *)fArrayOfFHCalPoints->At(i);
 
-        if (!reachedThreshold || totalEnergy < std::numeric_limits<double>::epsilon()) {
-            LOG(debug2) << "BmnFHCalDigitizer::Skip Digit " << BmnFHCalAddress::GetInfoString(address).c_str();
-            continue;
+        Int_t iModule = p->GetCopyMother();
+        Int_t iChannel = p->GetCopy();
+
+        Int_t iSect = (iChannel / 6) + 1; //calculate section number
+
+        if (iModule <= 54) {
+            //collect and sum up energy losses for sections
+            eSumModSect[iModule][iSect] += p->GetEnergyLoss();
         } else {
-            TClonesArray& ar = *fDigiArray;
-            long entries = fDigiArray->GetEntriesFast();
-            new (ar[entries]) BmnFHCalDigit(address, crossTime, totalEnergy);
-            if (FairLogger::GetLogger()->IsLogNeeded(fair::Severity::debug2))
-                static_cast<BmnFHCalDigit*>(ar.At(entries))->Print();
+            Error(__func__,"FHCal module %d ignored", iModule);
         }
     }
 
+    // Digitize SiPM response and store digits
+
+    Double_t eSumFHCal = 0.;
+    Double_t eSumFHCalMC = 0.;
+
+    for (Int_t iModule = 1; iModule <= 54; iModule++) {
+
+      Double_t eSumModule = 0.;
+      Double_t eSumModuleMC = 0.;
+
+      Int_t nSect = 10;
+      if (iModule <= 34) nSect = 7;
+
+      for (Int_t iSect = 1; iSect <= nSect; iSect++) {
+
+        Double_t eSumGeant = eSumModSect[iModule][iSect];
+        Double_t eSumMIP = eSumGeant / fGeV2MIP; // convert energy to MIP
+        Double_t eSumPix = eSumMIP * fMIP2Pix; // convert MIP to Npix in SiPM
+        Double_t eSumMIPSmeared =
+          gRandom->Gaus(eSumPix, sqrt(eSumPix)) / fMIP2Pix;
+        Double_t eMIPNoise = gRandom->Gaus(0,fMIPNoise); // MIP electronic noise
+        eSumMIPSmeared += eMIPNoise;
+        Double_t eSumSmeared = eSumMIPSmeared * fGeV2MIP; //from MIP to energy
+
+        Double_t amp = eSumSmeared * fScale;
+
+        if (amp == 0.) continue;
+
+        if (iModule <= 34) {
+            if (amp < fSmallModThreshold) continue;
+        } else {
+            if (amp < fLargeModThreshold) continue;
+        }
+
+        eSumModuleMC += eSumGeant;
+        eSumFHCalMC += eSumGeant;
+        eSumModule += amp;
+        eSumFHCal += amp;
+
+        BmnFHCalDigit * p = new((*fArrayOfFHCalDigits)[fArrayOfFHCalDigits->GetEntriesFast()]) BmnFHCalDigit();
+        p->SetModuleID(iModule);
+        p->SetSectionID(iSect);
+        p->SetELoss(eSumGeant);
+        p->SetELossDigi(amp);
+
+      } //for (Int_t iSect
+
+      BmnFHCalDigit * p = new((*fArrayOfFHCalDigits)[fArrayOfFHCalDigits->GetEntriesFast()]) BmnFHCalDigit();
+      p->SetModuleID(iModule);
+      p->SetSectionID(0);
+      p->SetELoss(eSumModuleMC);
+      p->SetELossDigi(eSumModule);
+
+    } //for (Int_t iModule
+
+    BmnFHCalDigit * p = new((*fArrayOfFHCalDigits)[fArrayOfFHCalDigits->GetEntriesFast()]) BmnFHCalDigit();
+    p->SetModuleID(0);
+    p->SetSectionID(0);
+    p->SetELoss(eSumFHCalMC);
+    p->SetELossDigi(eSumFHCalMC);
+
+    
     sw.Stop();
-    fworkTime += sw.RealTime();
+    workTime += sw.RealTime();
 }
 
-void BmnFHCalDigitizer::FillHitMap()
-{
-    fuoHitMap.clear();
-
-    // Fill the hit map with points from the TClonesArray
-    for (int iPoint = 0; iPoint < fPointArray->GetEntriesFast(); ++iPoint) {
-        auto* point = static_cast<BmnFHCalPoint*>(fPointArray->At(iPoint));
-        uint32_t address = BmnFHCalAddress::GetPhysicalAddress(point->GetAddress());
-        fuoHitMap[address].push_back(point);
-    }
-
-    // Sort each vector of points by their time
-    for (auto& pair : fuoHitMap) {
-        std::vector<BmnFHCalPoint*>& points = pair.second;
-        std::sort(points.begin(), points.end(),
-                  [](BmnFHCalPoint* a, BmnFHCalPoint* b) { return a->GetTime() < b->GetTime(); });
-    }
-
-    LOG(debug2) << "BmnFHCalDigitizer::FillHitMap() event " << gMC->CurrentEvent() << " fired sections "
-                << fuoHitMap.size();
+void BmnFHCalDigitizer::Finish() {
+    printf("Work time of the FHCal digitizer: %4.4f sec.\n", workTime);
 }
 
-void BmnFHCalDigitizer::Finish()
-{
-    printf("Work time of the FHCal digitizer: %4.4f sec.\n", fworkTime);
-}
+ClassImp(BmnFHCalDigitizer)

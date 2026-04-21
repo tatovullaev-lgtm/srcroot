@@ -3,6 +3,8 @@
  *         Class BmnFHCalContFact
  *
  ************************************************************************************/
+
+using namespace std;
 #include "BmnFHCalContFact.h"
 
 #include <iomanip>
@@ -12,7 +14,8 @@
 #include "FairParAsciiFileIo.h"
 #include "FairParRootFileIo.h"
 #include "FairRuntimeDb.h"
-using namespace std;
+
+ClassImp(BmnFHCalContFact)
 
 static BmnFHCalContFact gBmnFHCalContFact;
 

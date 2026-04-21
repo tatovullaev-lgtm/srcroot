@@ -28,9 +28,9 @@ link_directories(${LINK_DIRECTORIES})
 
 # List of source files
 set(SRCS
-BmnCentralityClass.cxx
-BmnEventCentrality.cxx
-CentralityClusterizer.cxx
+# BmnCentralityClass.cxx
+# BmnEventCentrality.cxx
+# CentralityClusterizer.cxx
 )
 
 Set(HEADERS)

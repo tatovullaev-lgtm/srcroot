@@ -25,22 +25,17 @@ link_directories(${LINK_DIRECTORIES})
 
 # List of source files
 set(SRCS
-BmnNdetAddress.h
-BmnNdetAddressMixin.h
-BmnNdetPoint.h  
-BmnNdetSurfacePoint.h
-BmnNdetDigi.h
-BmnNdetDigit.h
-BmnHgndDigi.h
 BmnNdet.cxx 
+BmnNdetPoint.cxx  
 BmnNdetContFact.cxx  
-BmnNdetGeo.cxx
+BmnNdetAddress.cxx
+BmnNdetDigi.cxx
+BmnNdetGeo.cxx 
 BmnNdetGeoPar.cxx
+BmnNdetDigit.cxx
+BmnNdetDigitPar.cxx
+BmnNdetDigitScheme.cxx
 BmnNdetDigitizer.cxx
-BmnNdetEvent.cxx
-BmnNdetCell.cxx
-BmnNdetCluster.cxx
-BmnNdetClusterFinder.cxx
 )
 
 

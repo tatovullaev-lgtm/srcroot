@@ -5,16 +5,18 @@ set(INCLUDE_DIRECTORIES
  ${CMAKE_SOURCE_DIR}/base
  ${CMAKE_SOURCE_DIR}/base/data
  ${CMAKE_SOURCE_DIR}/base/raw
+ ${CMAKE_SOURCE_DIR}/base/header
  ${CMAKE_SOURCE_DIR}/database/uni_db
  ${CMAKE_SOURCE_DIR}/detectors/scwall
+ ${CMAKE_SOURCE_DIR}/detectors/dch
  ${CMAKE_SOURCE_DIR}/detectors/common
  ${CMAKE_SOURCE_DIR}/decoder
  ${CMAKE_SOURCE_DIR}/reconstruction/scwall
+
 )
 
 Set(SYSTEM_INCLUDE_DIRECTORIES
- ${ROOT_INCLUDE_DIR}
- ${JSON_INCLUDE_DIR}
+ ${ROOT_INCLUDE_DIR} 
 )
 
 include_directories(${INCLUDE_DIRECTORIES})
@@ -31,6 +33,7 @@ link_directories(${LINK_DIRECTORIES})
 # List of source files
 set(SRCS
  BmnScWallReconstructor.cxx
+ BmnScWallAnalyzer.cxx
 )
 
 Set(HEADERS)

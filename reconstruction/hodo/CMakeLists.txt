@@ -2,12 +2,12 @@
 
 set(INCLUDE_DIRECTORIES
  ${BASE_INCLUDE_DIRECTORIES}
- ${CMAKE_SOURCE_DIR}/base
- ${CMAKE_SOURCE_DIR}/base/data
- ${CMAKE_SOURCE_DIR}/base/raw
- ${CMAKE_SOURCE_DIR}/database/uni_db
- ${CMAKE_SOURCE_DIR}/detectors/hodo
- ${CMAKE_SOURCE_DIR}/decoder
+#  ${CMAKE_SOURCE_DIR}/base
+#  ${CMAKE_SOURCE_DIR}/base/data
+#  ${CMAKE_SOURCE_DIR}/base/raw
+#  ${CMAKE_SOURCE_DIR}/database/uni_db
+#  ${CMAKE_SOURCE_DIR}/detectors/hodo
+#  ${CMAKE_SOURCE_DIR}/decoder
  ${CMAKE_SOURCE_DIR}/reconstruction/hodo
 )
 
@@ -29,8 +29,8 @@ link_directories(${LINK_DIRECTORIES})
 
 # List of source files
 set(SRCS
- BmnHodoReconstructor.cxx
- BmnHodoCuts.h
+#  BmnHodoReconstructor.cxx
+#  BmnHodoCuts.h
 )
 
 Set(HEADERS)

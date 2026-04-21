@@ -1,53 +1,46 @@
+/*************************************************************************************
+ *
+ *         Class BmnNdetGeo
+ *         
+ *  Adopted for BMN by:   Elena Litvinenko
+ *  e-mail:   litvin@nf.jinr.ru
+ *  Version:  06-11-2015   
+ *  Modified by M.Golubeva July 2022
+ *
+ ************************************************************************************/
+
+#include <iostream>
+
 #include "BmnNdetGeo.h"
+#include "FairGeoNode.h"
+#include <iostream>
 
-#include <FairLogger.h>
-#include <TGeoBBox.h>
-#include <TGeoManager.h>
+using std::cout;
+using std::endl;
 
-std::pair<BmnNdetGeo::BoxFace, BmnNdetGeo::Direction> BmnNdetGeo::GetEnteredFace(const TVector3& globalPos,
-                                                                                 const TVector3& globalMom)
-{
-    if (!gGeoManager)
-        return {BoxFace::Unknown, Direction::Unknown};
+ClassImp(BmnNdetGeo)
 
-    TGeoNode* envelopeNode = gGeoManager->GetCurrentNode();
-    if (!envelopeNode)
-        return {BoxFace::Unknown, Direction::Unknown};
+// -----   Default constructor   -------------------------------------------
+BmnNdetGeo::BmnNdetGeo() {
+  // Constructor
+  fName="ndet";
+  maxSectors=0;
+  maxModules=4;
+ }
+// -------------------------------------------------------------------------
 
-    auto* box = dynamic_cast<TGeoBBox*>(envelopeNode->GetVolume()->GetShape());
-    if (!box)
-        return {BoxFace::Unknown, Direction::Unknown};
+const char* BmnNdetGeo::getModuleName(Int_t m) {
+  // Returns the module name of muo number m
 
-    double gpos[3] = {globalPos.X(), globalPos.Y(), globalPos.Z()};
-    double gdir[3] = {globalMom.X(), globalMom.Y(), globalMom.Z()};
-    double lpos[3], ldir[3];
+  sprintf(modName,"ndet0%i",m+1);
+  return modName;
+  cout << "MODNAME: " << modName << endl;
+}
 
-    gGeoManager->MasterToLocal(gpos, lpos);
-    gGeoManager->MasterToLocalVect(gdir, ldir);
-
-    TVector3 local(lpos[0], lpos[1], lpos[2]);
-    TVector3 direc(ldir[0], ldir[1], ldir[2]);
-
-    struct
-    {
-        BoxFace face;
-        double coord;
-        TVector3 normal;
-    } checks[] = {{BoxFace::Xplus, local.X() - box->GetDX(), TVector3(1, 0, 0)},
-                  {BoxFace::Xminus, local.X() + box->GetDX(), TVector3(-1, 0, 0)},
-                  {BoxFace::Yplus, local.Y() - box->GetDY(), TVector3(0, 1, 0)},
-                  {BoxFace::Yminus, local.Y() + box->GetDY(), TVector3(0, -1, 0)},
-                  {BoxFace::Zplus, local.Z() - box->GetDZ(), TVector3(0, 0, 1)},
-                  {BoxFace::Zminus, local.Z() + box->GetDZ(), TVector3(0, 0, -1)}};
-
-    const double eps = 1e-3;
-    for (const auto& check : checks) {
-        if (std::abs(check.coord) < eps) {
-            double dot = direc.Dot(check.normal);
-            Direction d = (dot > 0) ? Direction::FromInside : (dot < 0) ? Direction::FromOutside : Direction::Unknown;
-            return {check.face, d};
-        }
-    }
-
-    return {BoxFace::Unknown, Direction::Unknown};
+const char* BmnNdetGeo::getEleName(Int_t m) {
+  // Returns the element name of muo number m
+ 
+  sprintf(eleName,"s%i",m+1);
+  return eleName;
+  cout << "ELENAME: " << eleName << endl;
 }

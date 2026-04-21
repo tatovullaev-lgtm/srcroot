@@ -92,10 +92,10 @@ set(SRCS
  
  run8/BmnTriggerEfficiencyRun8.cxx
 
- BmnFunctionAna.cxx
- # analysis template
- BmnAnalysisTask.cxx
- BmnEventSelector.cxx
+#  BmnFunctionAna.cxx
+#  # analysis template
+#  BmnAnalysisTask.cxx
+#  BmnEventSelector.cxx
 )
 
 Set(HEADERS)

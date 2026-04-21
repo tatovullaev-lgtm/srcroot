@@ -213,6 +213,8 @@ class BmnRawSource : public FairSource
     TClonesArray* tdc;
     TClonesArray* tqdc_tdc;
     TClonesArray* tqdc_adc;
+    TClonesArray* tacquila;
+    TClonesArray* tacquila2;
     TClonesArray* tdc_hgnd;   // hgnd
     // Spill tree arrays
     TClonesArray* msc;
@@ -279,6 +281,7 @@ class BmnRawSource : public FairSource
     BmnStatus FillBlockADC(UInt_t* d, UInt_t serial, uint8_t channel, uint16_t& len, TClonesArray* ar);
     BmnStatus FillTDC(UInt_t* d, UInt_t serial, UInt_t slot, UInt_t modId, UInt_t& idx);
     BmnStatus FillTQDC(UInt_t* d, UInt_t serial, UInt_t slot, UInt_t modId, UInt_t& idx);
+    BmnStatus Process_Tacquila(UInt_t *data, UInt_t len);
     /**
      * Parse TQDC16VS-E MStream data block
      * https://afi.jinr.ru/DataFormatTQDC16VSE
