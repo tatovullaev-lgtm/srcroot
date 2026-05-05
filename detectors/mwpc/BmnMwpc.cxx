@@ -152,7 +152,7 @@ Bool_t  BmnMwpc::ProcessHits(FairVolume* vol)
 //------------------------------------------------------------------------------------------------------------------------
 void BmnMwpc::EndOfEvent() 
 {
-    if(fVerboseLevel) Print("");
+	if(fVerboseLevel) Print();
   	fPointCollection->Clear();
   	fPosIndex = 0;
 }
@@ -166,7 +166,7 @@ TClonesArray* BmnMwpc::GetCollection(Int_t iColl) const
 return NULL;
 }
 //------------------------------------------------------------------------------------------------------------------------
-void BmnMwpc::Print(Option_t*) const
+void BmnMwpc::Print() const 
 {
 	Int_t nHits = fPointCollection->GetEntriesFast();
 	cout << "-I- BmnMwpc: " << nHits << " points registered in this event." << endl;
@@ -473,7 +473,7 @@ void BmnMwpc::ExpandNodeForGdml(TGeoNode* node)
             else
             {
                LOG(debug) << "    Found media in Geo file" << medName;
-               /*Int_t nmed = */geobuild->createMedium(curMedInGeo);
+               Int_t nmed = geobuild->createMedium(curMedInGeo);
                fFixedMedia[medName] = (TGeoMedium*)gGeoManager->GetListOfMedia()->Last();
                gGeoManager->RemoveMaterial(curMatOfMedInGeoManager->GetIndex());
                LOG(debug) << "    removing material " << curMatOfMedInGeoManager->GetName()
@@ -550,3 +550,5 @@ BmnMwpcPoint* BmnMwpc::AddHit(Int_t trackID, Int_t detID, TVector3 pos, Double_t
     return new(clref[size]) BmnMwpcPoint(trackID, detID, pos, radius, mom, time, length, eLoss, isPrimary, charge, pdgId, trackPos);
 }
 //------------------------------------------------------------------------------------------------------------------------
+
+ClassImp(BmnMwpc)

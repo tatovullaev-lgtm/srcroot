@@ -13,9 +13,9 @@
 typedef struct
 {
     Int_t N;
-    Double_t min;
-    Double_t max;
-    Double_t step;
+    Float_t min;
+    Float_t max;
+    Float_t step;
 } coordinate_info_t;
 
 class BmnFieldMap : public FairField

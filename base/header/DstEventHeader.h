@@ -27,6 +27,7 @@ class DstEventHeader : public FairEventHeader {
     /** Total charge before and after the target **/
     Int_t ftrigger;
     Double_t fBC1_12, fBC2_12, fBC3_12, fBC4_12, fBC5_12, fBC3_12_X10, fBC4_12_X10, fBC5_12_X10, fBC3_S, fBC4_S, fBC5_S;          
+    Double_t fBC1_Time0, fBC1_Time1, fBC2_Time0, fBC2_Time1;  // new        
     vector <bool> fB10, fB11;
     vector <Double_t>  fPq, fPq_MDF, fPq_MDF1, fPq_MDF2, fPq_MDF3, fTx_MDF;
     Short_t fZinBC12, fZoutBC34_12, fZoutBC35_12, fZoutBC45_12, fZoutBC34_S, fZoutBC35_S, fZoutBC45_S, fVeto, fDCH_Mult, fMWPC_Mult;
@@ -43,6 +44,18 @@ class DstEventHeader : public FairEventHeader {
     // Info from Veto-Box
     UInt_t fVBMult;
     vector <UInt_t> fVBCellId;
+    
+
+    // Info from TofCal
+    vector <Double_t> fTofCal_Time0, fTofCal_Time1, fTofCal_Amp0, fTofCal_Amp1, fTofCal_X, fTofCal_Y;
+    vector <Int_t> fTofCal_Plane, fTofCal_Bar;
+    Int_t fTofCal_nHits;
+
+    vector <Int_t> fTofCal_Arm; 
+    vector <Int_t> fTofCal_GlobalBar; 
+
+    Int_t fIs_laser; // 0, 1
+
     
     
 
@@ -107,6 +120,30 @@ Double_t f;
     Short_t GetVeto() { return fVeto; }
     Short_t GetDCH_Mult() { return fDCH_Mult; }
     Short_t GetMWPC_Mult() { return fMWPC_Mult; }
+
+    Double_t GetBC1_Time0() { return fBC1_Time0; }
+    Double_t GetBC1_Time1() { return fBC1_Time1; }
+    Double_t GetBC2_Time0() { return fBC2_Time0; }
+    Double_t GetBC2_Time1() { return fBC2_Time1; }
+
+    // Info from TofCal
+    vector <Double_t> GetTofCal_Time0() { return fTofCal_Time0; }
+    vector <Double_t> GetTofCal_Time1() { return fTofCal_Time1; }
+    vector <Double_t> GetTofCal_Amp0() { return fTofCal_Amp0; }
+    vector <Double_t> GetTofCal_Amp1() { return fTofCal_Amp1; }
+    vector <Double_t> GetTofCal_X() { return fTofCal_X; }
+    vector <Double_t> GetTofCal_Y() { return fTofCal_Y; }
+    vector <Int_t> GetTofCal_Plane() { return fTofCal_Plane; }
+    vector <Int_t> GetTofCal_Bar() { return fTofCal_Bar; }
+    Int_t GetTofCal_nHits() { return fTofCal_nHits; }
+
+    vector <Int_t> GetTofCal_Arm() { return fTofCal_Arm; }
+    vector <Int_t> GetTofCal_GlobalBar() { return fTofCal_GlobalBar; }
+
+    Int_t GetIs_laser() { return fIs_laser; }
+
+  
+
     
     // Info from Scint. Wall
     vector <Double_t> GetScWallELoss() { return fScWallELoss; }
@@ -173,6 +210,28 @@ Double_t f;
     void SetVeto(Short_t Veto) { fVeto = Veto; }
     void SetDCH_Mult(Short_t DCH_Mult) { fDCH_Mult = DCH_Mult; }
     void SetMWPC_Mult(Short_t MWPC_Mult) { fMWPC_Mult = MWPC_Mult; }
+
+    void SetBC1_Time0(Double_t BC1_Time0) { fBC1_Time0 = BC1_Time0; }
+    void SetBC1_Time1(Double_t BC1_Time1) { fBC1_Time1 = BC1_Time1; }
+    void SetBC2_Time0(Double_t BC2_Time0) { fBC2_Time0 = BC2_Time0; }
+    void SetBC2_Time1(Double_t BC2_Time1) { fBC2_Time1 = BC2_Time1; }
+
+    // Info from TofCal
+    void SetTofCal_Plane(vector <Int_t> TofCal_Plane) { fTofCal_Plane = TofCal_Plane; }
+    void SetTofCal_Bar(vector <Int_t> TofCal_Bar) { fTofCal_Bar = TofCal_Bar; }
+    void SetTofCal_Time0(vector <Double_t> TofCal_Time0) { fTofCal_Time0 = TofCal_Time0; }
+    void SetTofCal_Time1(vector <Double_t> TofCal_Time1) { fTofCal_Time1 = TofCal_Time1; }
+    void SetTofCal_Amp0(vector <Double_t> TofCal_Amp0) { fTofCal_Amp0 = TofCal_Amp0; }
+    void SetTofCal_Amp1(vector <Double_t> TofCal_Amp1) { fTofCal_Amp1 = TofCal_Amp1; }
+    void SetTofCal_X(vector <Double_t> TofCal_X) { fTofCal_X = TofCal_X; }
+    void SetTofCal_Y(vector <Double_t> TofCal_Y) { fTofCal_Y = TofCal_Y; }
+    void SetTofCal_nHits(Int_t TofCal_nHits) { fTofCal_nHits = TofCal_nHits; }
+    void SetTofCal_Arm(vector <Int_t> TofCal_Arm) { fTofCal_Arm = TofCal_Arm; }
+    void SetTofCal_GlobalBar(vector <Int_t> TofCal_GlobalBar) { fTofCal_GlobalBar = TofCal_GlobalBar; }
+
+    void SetIs_laser(Int_t Is_laser) { fIs_laser = Is_laser; }
+    
+
     
     // Info from Scint. Wall
     void SetScWallELoss(vector <Double_t> ScWallELoss) { fScWallELoss = ScWallELoss; }

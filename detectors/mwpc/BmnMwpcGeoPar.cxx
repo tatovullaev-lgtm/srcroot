@@ -1,9 +1,10 @@
+using namespace std;
 #include "BmnMwpcGeoPar.h"
 #include "FairParamList.h"
 #include <iostream>
 #include <iomanip>
 
-using namespace std;
+ClassImp(BmnMwpcGeoPar)
 
 BmnMwpcGeoPar::BmnMwpcGeoPar(const char* name,const char* title,const char* context)
            : FairParGenericSet(name,title,context) {

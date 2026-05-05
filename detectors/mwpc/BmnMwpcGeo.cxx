@@ -8,6 +8,8 @@
 #include "BmnMwpcGeo.h"
 #include "FairGeoNode.h"
 
+ClassImp(BmnMwpcGeo)
+
 BmnMwpcGeo::BmnMwpcGeo() {
   // Constructor
   fName="MWPC";

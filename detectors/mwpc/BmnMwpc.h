@@ -49,7 +49,7 @@ class BmnMwpc : public FairDetector
   	virtual TClonesArray* GetCollection(Int_t iColl) const;
 
    	// Screen output of hit collection.
-    virtual void Print(Option_t*) const;
+	virtual void Print() const;
 
    	// Clears the hit collection
 	virtual void Reset();

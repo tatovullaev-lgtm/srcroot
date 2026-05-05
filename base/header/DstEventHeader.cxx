@@ -45,7 +45,24 @@ DstEventHeader::DstEventHeader() : FairEventHeader(),
                                    fScWallNMatchTracks(0),
                                    fScWallOrderId(0,0),
                                    fVBCellId(0,0),
-                                   fVBMult(0) {}
+                                   fVBMult(0), 
+                                   fBC1_Time0(-100),
+                                   fBC1_Time1(-100),
+                                   fBC2_Time0(-100),
+                                   fBC2_Time1(-100),
+                                   fTofCal_Plane(0,0),
+                                   fTofCal_Bar(0,0),
+                                   fTofCal_Time0(0,0),
+                                   fTofCal_Time1(0,0),
+                                   fTofCal_Amp0(0,0),
+                                   fTofCal_Amp1(0,0),
+                                   fTofCal_X(0,0),
+                                   fTofCal_Y(0,0),
+                                   fTofCal_nHits(-100),
+                                   fTofCal_Arm(0,0),
+                                   fTofCal_GlobalBar(0,0),
+                                   fIs_laser(-1)
+                                   {}
 
 // -----   Constructor with parameters   -----------------------------------
 DstEventHeader::DstEventHeader(UInt_t run_id, UInt_t event_id, TTimeStamp event_time, BmnTriggerType trigger_type, Double_t b) : FairEventHeader(),
@@ -92,7 +109,23 @@ DstEventHeader::DstEventHeader(UInt_t run_id, UInt_t event_id, TTimeStamp event_
                                                                                                                                  fScWallNMatchTracks(0),
                                                                                                                                  fScWallOrderId(0,0),
                                                                                                                                  fVBCellId(0,0),
-                                                                                                                                 fVBMult(0) {                                                                                                          
+                                                                                                                                 fVBMult(0),
+                                                                                                                                 fBC1_Time0(-100),
+                                                                                                                                 fBC1_Time1(-100),
+                                                                                                                                 fBC2_Time0(-100),
+                                                                                                                                 fBC2_Time1(-100),
+                                                                                                                                 fTofCal_Plane(0,0),
+                                                                                                                                 fTofCal_Bar(0,0),
+                                                                                                                                 fTofCal_Time0(0,0),
+                                                                                                                                 fTofCal_Time1(0,0),
+                                                                                                                                 fTofCal_Amp0(0,0),
+                                                                                                                                 fTofCal_Amp1(0,0),
+                                                                                                                                 fTofCal_X(0,0),
+                                                                                                                                 fTofCal_Y(0,0),
+                                                                                                                                 fTofCal_nHits(-100),
+                                                                                                                                 fTofCal_Arm(0,0),
+                                                                                                                                 fTofCal_GlobalBar(0,0),
+                                                                                                                                 fIs_laser(-1) {                                                                                                          
     SetRunId(run_id);
     SetEventTime(event_time.AsDouble());
 }
@@ -145,6 +178,22 @@ void DstEventHeader::CopyFrom(DstEventHeader * hdr) {
     fScWallOrderId = hdr->fScWallOrderId;
     fVBCellId = hdr->fVBCellId;
     fVBMult = hdr->fVBMult;
+    fBC1_Time0 = hdr->fBC1_Time0;
+    fBC1_Time1 = hdr->fBC1_Time1;
+    fBC2_Time0 = hdr->fBC2_Time0;
+    fBC2_Time1 = hdr->fBC2_Time1;
+    fTofCal_Plane = hdr->fTofCal_Plane;
+    fTofCal_Bar = hdr->fTofCal_Bar;
+    fTofCal_Time0 = hdr->fTofCal_Time0;
+    fTofCal_Time1 = hdr->fTofCal_Time1;
+    fTofCal_Amp0 = hdr->fTofCal_Amp0;
+    fTofCal_Amp1 = hdr->fTofCal_Amp1;
+    fTofCal_X = hdr->fTofCal_X;
+    fTofCal_Y = hdr->fTofCal_Y;
+    fTofCal_nHits = hdr->fTofCal_nHits;
+    fTofCal_Arm = hdr->fTofCal_Arm;
+    fTofCal_GlobalBar = hdr->fTofCal_GlobalBar;
+    fIs_laser = hdr->fIs_laser;
     
 }
 

@@ -47,6 +47,6 @@ set(SRCS
 Set(HEADERS)
 Set(LINKDEF MwpcLinkDef.h)
 Set(LIBRARY_NAME Mwpc)
-Set(DEPENDENCIES BmnBase GeoBase Base Core Gdml)
+Set(DEPENDENCIES BmnBase GeoBase Gdml Base Core)
 
 GENERATE_LIBRARY()

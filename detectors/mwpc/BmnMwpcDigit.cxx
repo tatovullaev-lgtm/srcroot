@@ -29,3 +29,5 @@ BmnMwpcDigit::BmnMwpcDigit(Short_t iStation, Short_t iPlane, Int_t iWire, UInt_t
 BmnMwpcDigit::~BmnMwpcDigit() {
 
 }
+
+ClassImp(BmnMwpcDigit)

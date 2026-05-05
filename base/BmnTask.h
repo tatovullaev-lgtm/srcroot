@@ -34,8 +34,20 @@ class BmnTask : public FairTask {
      */
     virtual void OnlineWrite(const std::unique_ptr<TTree> &resultTree) {}
 
+    Bool_t IsOnlineActive() { return fOnlineActive; }
+
+    /**
+     * @brief Set the Online Active status
+     *
+     * @param onlineActive
+     */
+    void SetOnlineActive(Bool_t onlineActive = kTRUE) { fOnlineActive = onlineActive; }
+
     BmnTask(const BmnTask &) = delete;
     BmnTask &operator=(const BmnTask &) = delete;
+
+  private:
+    Bool_t fOnlineActive;
 
   ClassDef(BmnTask, 1);
 };

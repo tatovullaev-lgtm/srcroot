@@ -10,3 +10,5 @@ BmnMwpcTrack::BmnMwpcTrack()
 
 BmnMwpcTrack::~BmnMwpcTrack() {
 }
+
+ClassImp(BmnMwpcTrack)

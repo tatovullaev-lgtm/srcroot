@@ -18,5 +18,8 @@ BmnMwpcHit::BmnMwpcHit(Int_t detID, TVector3 pos, TVector3 dpos, Int_t index)
     fUsing = kFALSE;
 }
 
-BmnMwpcHit::~BmnMwpcHit()
-{}
+BmnMwpcHit::~BmnMwpcHit() {
+
+}
+
+ClassImp(BmnMwpcHit)

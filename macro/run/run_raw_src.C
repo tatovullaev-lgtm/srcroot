@@ -17,8 +17,8 @@
 
 TString gRawRootFilePath = "";   // store intermediate RAW ROOT file path
 
-void run_raw_bmn(TString file = "mpd_run_Top_4032.data",
-                 TString outfile = "4032_digi_test.root",
+void run_raw_src(TString file = "/zfs/scratch/lhep-src/srcroot_1/mpd_run_Top_4032.data",
+                 TString outfile = "/zfs/scratch/lhep-src/srcroot_1/4032_digi_test.root",
                  Long_t nEvents = 0,
                  UInt_t period = 8,
                  UInt_t todo = 1,
@@ -170,5 +170,5 @@ void run_raw_bmn(TString file = "mpd_run_Top_4032.data",
 }
 
 void func() {
-    run_raw_bmn();
+    run_raw_src();
 }

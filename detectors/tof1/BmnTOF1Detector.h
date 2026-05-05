@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/*
+/* 
  * File:   BmnTOF1Detector.h
  * Author: mikhail
  *
@@ -14,135 +14,120 @@
 #ifndef BMNTOF1DETECTOR_H
 #define BMNTOF1DETECTOR_H 1
 
-#include "BmnEnums.h"
-#include "BmnEventHeader.h"
-#include "BmnTOF1Conteiner.h"
-#include "BmnTOF1Point.h"
-#include "BmnTof1Digit.h"
-#include "BmnTof1GeoUtils.h"
-#include "BmnTof701Digit.h"
-#include "BmnTofHit.h"
-#include "BmnTrigDigit.h"
-#include "TClonesArray.h"
-#include "TDirectory.h"
-#include "TF1.h"
-#include "TFile.h"
-#include "TGraphErrors.h"
-#include "TH1I.h"
-#include "TH2I.h"
-#include "TList.h"
 #include "TString.h"
 #include "TSystem.h"
+#include "BmnEnums.h"
+#include "BmnTof1Digit.h"
+#include "BmnEventHeader.h"
+#include "BmnTrigDigit.h"
+#include "BmnTOF1Point.h"
+#include "BmnTof1GeoUtils.h"
+#include "BmnTofHit.h"
+#include "BmnTOF1Conteiner.h"
+#include "TF1.h"
+#include "TH1I.h"
+#include "TH2I.h"
+#include "TFile.h"
 #include "TTree.h"
+#include "TList.h"
+#include "TClonesArray.h"
+#include "TGraphErrors.h"
 #include "TVector3.h"
-
-#include <RtypesCore.h>
+#include "TDirectory.h"
 #include <TGeoManager.h>
 #include <TKey.h>
-#include <cstdio>
-#include <cstdlib>
-#include <deque>
-#include <fstream>
 #include <iostream>
-#include <list>
-#include <map>
+#include <vector>
+#include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <vector>
+#include <cstdlib>
+#include <cstdio>
+#include <list>
+#include <map>
+#include <deque>
 
 using namespace std;
 
-class BmnTOF1Detector
-{
-  private:
-    static const Int_t fHalfMaxInt = kMaxInt * 0.5 - 1;
-    static const Int_t fNStrMax = 48;
-    DetectorId fTofId;
+class BmnTOF1Detector {
+private:
+
+    static const Int_t fNStr = 48;
     Int_t fVerbose;
-    Double_t fStripLength, fSignalVelosity, fSignalVelosityStr[fNStrMax];
+    Double_t fStripLength, fSignalVelosity;
     TString fName;
-    Int_t fNPlane, fNStr;
+    Int_t fNPlane;
+    Int_t fMaxL, fMaxR, fMax;
     Int_t fFillHist;
-
-    std::vector<std::vector<std::vector<Double_t>>> vHitsL;
-    std::vector<std::vector<std::vector<Double_t>>> vHitsR;
-    // std::vector<std::vector<std::vector<Double_t>>> vHits;
-
-    Short_t fIndexL[fNStrMax], fIndexR[fNStrMax], fIndexLtemp[fNStrMax], fIndexRtemp[fNStrMax];
-    Double_t fTimeL[fNStrMax], fTimeR[fNStrMax], fTimeLtemp[fNStrMax], fTimeRtemp[fNStrMax], fTime[fNStrMax];
-    Double_t fWidthL[fNStrMax], fWidthR[fNStrMax], fWidthLtemp[fNStrMax], fWidthRtemp[fNStrMax], fWidth[fNStrMax];
-    Double_t fTof[fNStrMax];
+    Double_t fTimeL[fNStr], fTimeR[fNStr], fTimeLtemp[fNStr], fTimeRtemp[fNStr], fTime[fNStr];
+    Double_t fWidthL[fNStr], fWidthR[fNStr], fWidthLtemp[fNStr], fWidthRtemp[fNStr], fWidth[fNStr];
+    Double_t fTof[fNStr];
     Double_t fDoubleTemp, fMaxDelta;
     Int_t fHit_Per_Ev, fNEvents, fStrip;
-    Bool_t fFlagHit[fNStrMax], fKilled[fNStrMax];
+    Bool_t fFlagHit[fNStr], fKilled[fNStr];
     Int_t fKillSide;
-    Double_t fCorrLR[fNStrMax], fCorrTimeShift[fNStrMax];
-    Int_t fDigitL[fNStrMax], fDigitR[fNStrMax], fHit[fNStrMax];
+    Double_t fCorrLR[fNStr], fCorrTimeShift[fNStr];
+    Double_t fDigitL[fNStr], fDigitR[fNStr], fHit[fNStr];
     Double_t fCommonTimeShift;
-    TVector3 fCentrStrip[fNStrMax], fStripAngle[fNStrMax], fCrossPoint[fNStrMax], fVectorTemp;
-    BmnTrigDigit* fT0;
+    TVector3 fCentrStrip[fNStr], fStripAngle[fNStr], fCrossPoint[fNStr], fVectorTemp;
+    BmnTrigDigit *fT0;
 
-    TList* fHistListStat;
-    TList* fHistListdt;
+    TList *fHistListStat;
+    TList *fHistListdt;
 
-    TH2S *hdT_vs_WidthDet[fNStrMax + 1], *hdT_vs_WidthT0[fNStrMax + 1];
-    TH1I* hdT[fNStrMax + 1];
+    TH2S *hdT_vs_WidthDet[fNStr + 1], *hdT_vs_WidthT0[fNStr + 1];
+    TH1I * hdT[fNStr + 1];
     TH1I *hHitByCh, *hHitPerEv;
     TH2I *hHitLR, *hXY;
     TH1S *hDy_near, *hDtime_near, *hDWidth_near;
     TH1S *hDy_acros, *hDtime_acros, *hDWidth_acros;
     TH2S *hTempDtimeDy_near, *hTempDtimeDy_acros;
 
-    TGraphErrors* gSlew[fNStrMax];
-    TF1 *funT0[fNStrMax], *funRPC[fNStrMax];
+    TGraphErrors *gSlew[fNStr];
+    TF1 *funT0[fNStr], *funRPC[fNStr];
 
     void FillHist();
     Double_t CalculateDt(Int_t Str);
-    Bool_t GetCrossPoint(Int_t NStrip, Double_t tL, Double_t tR);
-    void AddHit(Int_t Str, TClonesArray* TofHit);
-    void AddConteiner(Int_t Str, TClonesArray* TofHit);
-    Int_t FormIndex(Int_t IndL, Int_t IndR);
+    Bool_t GetCrossPoint(Int_t NStrip);
+    void AddHit(Int_t Str, TClonesArray *TofHit);
+    void AddConteiner(Int_t Str, TClonesArray *TofHit);
 
-  public:
+
+public:
     BmnTOF1Detector();
 
-    BmnTOF1Detector(
-        Int_t tofId,
-        Int_t NPlane,
-        Int_t FillHistLevel,
-        Int_t Verbose);   // FillHistLevel=0-don"t fill, FillHistLevel=1-fill statistic, FillHistLevel>1-fill all
+    BmnTOF1Detector(Int_t NPlane, Int_t FillHistLevel, Int_t Verbose); // FillHistLevel=0-don"t fill, FillHistLevel=1-fill statistic, FillHistLevel>1-fill all
 
-    virtual ~BmnTOF1Detector() {};
+    virtual ~BmnTOF1Detector() {
+    };
 
     void Clear();
-    Bool_t SetDigitNew(BmnTof1Digit* TofDigit, Int_t ind = -1);
+    Bool_t SetDigit(BmnTof1Digit *TofDigit);
     void KillStrip(Int_t NumberOfStrip);
     void KillSide(Int_t NumberOfSide);
-    void SetStripLength(Double_t l)
-    {
-        fStripLength = l;
-        fMaxDelta = (fStripLength * 0.5 + 3.0) * fSignalVelosity;
-    };
-    Int_t FindHitsNew(BmnTrigDigit* T0, TClonesArray* TofHit, int printnaw);
+    Int_t FindHits(BmnTrigDigit *T0);
+    Int_t FindHits(BmnTrigDigit *T0, TClonesArray *TofHit);
     TList* GetList(Int_t n);
     TString GetName();
+    Bool_t SetCorrLR(Double_t *Mass);
     Bool_t SetCorrLR(TString NameFile);
     Bool_t SetCorrSlewing(TString NameFile);
-    Bool_t SetCorrTimeShift(TString NameFile);
+    Bool_t SetCorrTimeShift(TString NameFile); 
     Bool_t SetGeoFile(TString NameFile);
-    Bool_t SetGeo(BmnTof1GeoUtils* pGeoUtils);
-    Bool_t SetSpeedOfSignal(TString NameFile);
-    Bool_t GetXYZTime(Int_t Str, TVector3* XYZ, Double_t* ToF);
-    Bool_t GetLRTime(Int_t Str, Double_t* LMinusRTime);
+    Bool_t SetGeo(BmnTof1GeoUtils *pGeoUtils);
+    Bool_t GetXYZTime(Int_t Str, TVector3 *XYZ, Double_t *ToF);
+    Bool_t GetLRTime(Int_t Str, Double_t *LMinusRTime);
+    Bool_t GetXYZ4Strip(Int_t Str, TVector3 *XYZ);
     Double_t GetWidth(Int_t Str);
-    Double_t GetWidthL(Int_t Str);
-    Double_t GetWidthR(Int_t Str);
     Double_t GetTime(Int_t Str);
     Bool_t SaveHistToFile(TString NameFile);
 
-    Int_t GetFillHistLevel() { return fFillHist; };
+    Int_t GetFillHistLevel() {
+        return fFillHist;
+    };
 
     ClassDef(BmnTOF1Detector, 4);
+
 };
 
 #endif

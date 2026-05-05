@@ -100,15 +100,15 @@ fDebug(kFALSE) {
       
       }else if(periodNum == 8){//shift//cm
       
-      fX[0] = .272;
-      fY[0] = .160;
-      fZleft[0]  = fGlobalZdiff - 249.222;
-      fZright[0] = fZleft[0] - fChamberWidth;
+      fX[1] = .272;
+      fY[1] = .160;
+      fZleft[1]  = fGlobalZdiff - 249.222;
+      fZright[1] = fZleft[1] + fChamberWidth;
       
-      fX[1] = -.113;
-      fY[1] =  .060;
-      fZleft[1]  = fGlobalZdiff - 175.424;
-      fZright[1] = fZleft[1] - fChamberWidth;
+      fX[0] = -.113;
+      fY[0] =  .060;
+      fZleft[0]  = fGlobalZdiff - 175.424;
+      fZright[0] = fZleft[0] + fChamberWidth;
       
       fX[2] = .078;
       fY[2] = .564;

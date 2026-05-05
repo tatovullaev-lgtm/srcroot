@@ -1,31 +1,31 @@
 // Author: Vasilisa Lenivenko <vasilisa@jinr.ru> 2021-03-11
-#include "BmnMwpcHitProducer.h"
-#include "BmnMwpcPoint.h"
-#include "BmnMwpcHit.h"
-#include "BmnHit.h"
-#include "CbmMCTrack.h"
 
+#include "BmnMwpcHitProducer.h"
 #include "FairRootManager.h"
 #include "FairHit.h"
 #include "FairMCPoint.h"
-
+#include "BmnMwpcPoint.h"
+#include "CbmMCTrack.h"
+#include "BmnHit.h"
+#include "BmnMwpcHit.h"
 #include "TGeoManager.h"
+//#include "TRandom.h"
 #include "TCanvas.h"
 #include "TFile.h"
 
 using namespace std;
 using namespace TMath;
 
-BmnMwpcHitProducer::BmnMwpcHitProducer()
-: //(Int_t num = 1) :
+BmnMwpcHitProducer::BmnMwpcHitProducer() :
+  //(Int_t num = 1) :
   fEventNo(0),
+  fOnlyPrimary(kFALSE),
   fBmnMwpcPointsArray(nullptr),
   fBmnPointsArray(nullptr),
   fBmnMwpcDigitsArray(nullptr),
   fMCTracksArray(nullptr),
   fBmnMwpcHitsArray(nullptr),
   fBmnHitsArray(nullptr),
-  fOnlyPrimary(kFALSE),
   hY_vsX2(nullptr),
   hY_vsX3(nullptr),
   hY_vsX_pl0(nullptr),
@@ -44,13 +44,14 @@ BmnMwpcHitProducer::BmnMwpcHitProducer()
     fInputDigiBranchName = TString("bmn_mwpc_digit");
 }
 
-BmnMwpcHitProducer::~BmnMwpcHitProducer()
-{}
+BmnMwpcHitProducer::~BmnMwpcHitProducer() {
+
+}
 
 InitStatus BmnMwpcHitProducer::Init() {
   if (fDebug) cout << " BmnMwpcHitProducer::Init() " << endl;
   
-  rand_gen.SetSeed(5);
+  rand_gen.SetSeed(4);
   FairRootManager* ioman = FairRootManager::Instance();
   fBmnPointsArray = (TClonesArray*) ioman->GetObject(fInputBranchName);
   fMCTracksArray  = (TClonesArray*) ioman->GetObject("MCTrack");
@@ -228,9 +229,9 @@ BmnStatus BmnMwpcHitProducer::ProcessPoints() {
           
           //current position in wire units
           Int_t nearest_wire = Int_t(wire_pos);
-          //Double_t wdist = TMath::Abs(wire_pos - nearest_wire);
+          Double_t wdist = TMath::Abs(wire_pos - nearest_wire);
           //sigma error dependent on the distance to the nearest wire
-          //Double_t sigm_err = wdist;
+          Double_t sigm_err = wdist;
           
           if (fDebug) cout<<" Ch "<<ChId<<" track_id "<<track_id<<" xmc "<<x<<" y "<<y<<" pl "<<ipl<<" XUV "<<hit_coord<<" wire "<<wire_pos<<" nearest "<<nearest_wire<<endl;
           //if (fDebug) cout<<" ----"<<endl;
@@ -292,3 +293,5 @@ void BmnMwpcHitProducer::Finish() {
     file.Close();
   }
 }
+
+ClassImp(BmnMwpcHitProducer)

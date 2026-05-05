@@ -1,9 +1,11 @@
+using namespace std;
 #include "BmnMwpcContFact.h"
 #include "FairRuntimeDb.h"
 #include "BmnMwpcGeoPar.h"
 #include <iostream>
 #include <iomanip>
-using namespace std;
+
+ClassImp(BmnMwpcContFact)
 
 static BmnMwpcContFact gBmnMwpcContFact;
 
@@ -32,7 +34,7 @@ FairParSet* BmnMwpcContFact::createContainer(FairContainer* c) {
    * For an actual context, which is not an empty string and not the default context
    * of this container, the name is concatinated with the context. */
   const char* name=c->GetName();
-  //cout << " -I container name " << name << endl;
+  cout << " -I container name " << name << endl;
   FairParSet* p=0;
   if (strcmp(name,"BmnMwpcGeoPar")==0) {
     p=new BmnMwpcGeoPar(c->getConcatName().Data(),c->GetTitle(),c->getContext());

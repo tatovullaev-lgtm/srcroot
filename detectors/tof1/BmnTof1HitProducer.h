@@ -7,86 +7,112 @@
 #include "BmnTrigDigit.h"
 #include "BmnTrigWaveDigit.h"
 
+#include <TRandom2.h>
 #include <TEfficiency.h>
 #include <TH1D.h>
 #include <TH2D.h>
-#include <TRandom2.h>
+
+class walkFctClass
+{
+public:
+  // walkFctClass() {}
+
+  Double_t operator() (Double_t *x, Double_t *par)
+  {
+    Double_t fct = par[0] / sqrt(x[0] - par[1]) + par[2];
+    if (x[0] != par[1])
+      return fct;
+    else
+      return 1.;
+  }
+};
 
 class BmnTof1HitProducer : public BmnTof1HitProducerIdeal
 {
-    Int_t fVerbose;          // reimplement fVerbose variable from FairTask
-    Double_t fTimeSigma;     // Uncertainties of time, gaus sigma [ns],  default: 100 ps
-    Double_t fErrX, fErrY;   // Uncertainties of coordinates, gaus sigma [cm], dX= 10./sqrt(12.) mm, default: dY= 5 mm.
-    TF1* fEffFunc;
-    TRandom2* pRandom;             //!
-    BmnTof1GeoUtils* pGeoUtils;    //!
-    BmnTOF1Detector** pDetector;   //!
-    Int_t fNDetectors;
-    DetectorId fDetectorId;
+  Double_t fTimeSigma;   // Uncertainties of time, gaus sigma [ns],  default: 100 ps
+  Double_t fErrX, fErrY; // Uncertainties of coordinates, gaus sigma [cm], dX= 10./sqrt(12.) mm, default: dY= 5 mm.
+  TRandom2 *pRandom;     //!
 
-    Int_t fPeriod, fRun;
+  Int_t fPeriod, fRun;
 
-    BmnEventHeader* fEventHeader;   //!
+  TF1 *f_walkC_t01_0, *f_walkC_t01_1, *f_walkC_t02_0, *f_walkC_t02_1;
+  const Double_t par_walk_t01_0[3] = {9.07988e+01, -1.79428e+02, 7.19735e+01}; // параметры Юлиана
+  const Double_t par_walk_t01_1[3] = {1.67210e+02, -5.59323e+02, 6.85502e+01};
+  const Double_t par_walk_t02_0[3] = {1.17064e+02, -4.34066e+02, 6.81951e+01};
+  const Double_t par_walk_t02_1[3] = {1.08147e+02, -2.92239e+02, 6.78971e+01};
+  walkFctClass Obj4WalkCorr;
 
-    Bool_t HitExist(const Double_t& val, const Bool_t& isWide_strip);
-    Bool_t DoubleHitExist(const Double_t& val, const Bool_t& isWide_strip, const DetectorId& flag);
-    Bool_t TripleHitExist(const Double_t& val, const Bool_t& isWide_strip, const DetectorId& flag);
+  // QA test histos
+  TEfficiency *effTestEfficiencySingleHit, *effTestEfficiencyDoubleHit; //!
+  TH1D *htR, *h1TestDistance;                                           //!
+  TH2D *h2TestNeighborPair, *h2TestXYSmeared, *h2TestXYSmeared2, *h2TestXYSmearedDouble, *h2TestXYSmearedDouble2,
+      *h2TestEtaPhi, *h2TestStrips, *h2TestRZ, *h2TdetIdStripId; //!
 
-    TString fDetName, fPointsName, fDigitsName, fHitsName;
-    TString NameFileLRcorrection, NameFileSlewingCorrection, NameFileTimeShiftCorrection;
-    Bool_t FlagFileLRcorrection, FlagFileSlewingCorrection, FlagFileTimeShiftCorrection;
+  Bool_t HitExist(Double_t val);
+  Bool_t DoubleHitExist(Double_t val);
 
-    BmnTrigDigit* FingT0Digit();
-    Bool_t IsFile(TString NameFile);
-    Bool_t SetCorrFiles();
-    Bool_t OutOfRange(Int_t iPlane);
+  BmnTof1GeoUtils *pGeoUtils; //!
 
-    InitStatus LoadDetectorConfiguration();
+  BmnTOF1Detector **pDetector; //!
+  Int_t fNDetectors;
 
-  public:
-    BmnTof1HitProducer(const char* name,
-                       DetectorId detId,
-                       Bool_t useMCdata = true,
-                       Int_t verbose = 1,
-                       Bool_t DoTest = false);
-    virtual ~BmnTof1HitProducer();
+  const double fSignalVelosity; // [ns/cm]
 
-    virtual InitStatus Init();
-    virtual void Exec(Option_t* opt);
-    virtual void Finish();
+  TString NameFileLRcorrection, NameFileSlewingCorrection, NameFileTimeShiftCorrection;
+  Bool_t FlagFileLRcorrection, FlagFileSlewingCorrection, FlagFileTimeShiftCorrection;
 
-    virtual void OnlineWrite(const std::unique_ptr<TTree>& resultTree);
+  BmnTrigDigit *FingT0Digit();
+  Bool_t IsFile(TString NameFile);
+  Bool_t SetCorrFiles();
+  Bool_t OutOfRange(Int_t iPlane);
 
-    void SetTimeResolution(Double_t sigma) { fTimeSigma = sigma; };
-    void SetAlongStripResolution(Double_t Xerr) { fErrX = Xerr; };
-    void SetSeed(UInt_t seed = 0);
+  InitStatus LoadDetectorConfiguration();
 
-    TString GetParameters()
-    {
-        char s[32];
-        TString buf = "\n Run parameters: fTimeSigma=";
-        sprintf(s, "%.5g", fTimeSigma);
-        buf += (s);
-        buf += " ns, fErrX=";
-        sprintf(s, "%.4g", fErrX);
-        buf += (s);
-        buf += " cm, fErrY=";
-        sprintf(s, "%.4g", fErrY);
-        buf += (s);
-        buf += " cm, fDoTest=";
-        buf += fDoTest;
-        buf += ", fDoMergeHits=";
-        buf += fDoMergeHits;
-        return buf;
-    }
+  void findIdx(TClonesArray *data, Int_t side, Int_t &index, Double_t refT);
+  void getEnergyLoss(TClonesArray *bcData, Int_t side, Double_t t0Time, Double_t &dE, Double_t &time);
 
-    void SetPeriodRun(Int_t p, Int_t r)
-    {
-        fPeriod = p;
-        fRun = r;
-    }
+public:
+  BmnTof1HitProducer(const char *name = "TOF1 HitProducer", Bool_t useMCdata = true, Int_t verbose = 1, Bool_t DoTest = false);
+  virtual ~BmnTof1HitProducer();
 
-    ClassDef(BmnTof1HitProducer, 3);
+  virtual InitStatus Init();
+  virtual void Exec(Option_t *opt);
+  virtual void Finish();
+
+  virtual InitStatus OnlineInit();
+  virtual InitStatus OnlineRead(const std::unique_ptr<TTree> &dataTree, const std::unique_ptr<TTree> &resultTree);
+  virtual void OnlineWrite(const std::unique_ptr<TTree> &dataTree);
+
+  void SetTimeResolution(Double_t sigma) { fTimeSigma = sigma; };
+  void SetAlongStripResolution(Double_t Xerr) { fErrX = Xerr; };
+  void SetSeed(UInt_t seed = 0);
+
+  TString GetParameters()
+  {
+    char s[32];
+    TString buf = "\n Run parameters: fTimeSigma=";
+    sprintf(s, "%.5g", fTimeSigma);
+    buf += (s);
+    buf += " ns, fErrX=";
+    sprintf(s, "%.4g", fErrX);
+    buf += (s);
+    buf += " cm, fErrY=";
+    sprintf(s, "%.4g", fErrY);
+    buf += (s);
+    buf += " cm, fDoTest=";
+    buf += fDoTest;
+    buf += ", fDoMergeHits=";
+    buf += fDoMergeHits;
+    return buf;
+  }
+
+  void SetPeriodRun(Int_t p, Int_t r)
+  {
+    fPeriod = p;
+    fRun = r;
+  }
+
+  ClassDef(BmnTof1HitProducer, 3);
 };
 
 #endif

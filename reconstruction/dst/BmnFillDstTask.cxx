@@ -12,7 +12,9 @@
 
 #include "BmnFillDstTask.h"
 #include "ExtractZ2.h"
+//#include "BmnTofCalDigit.h"
 #include "BmnTrigDigit.h"
+#include "BmnTrigWaveDigit.h"
 #include "UniRun.h"
 #include "function_set.h"
 
@@ -213,19 +215,29 @@ InitStatus BmnFillDstTask::Init() {
     fBC1_2 = (TClonesArray*)ioman->GetObject("TQDC_T0_2_A");
     fBC2_1 = (TClonesArray*)ioman->GetObject("TQDC_BC2_1_A");
     fBC2_2 = (TClonesArray*)ioman->GetObject("TQDC_BC2_2_A");
-    
     fBC3_1 = (TClonesArray*)ioman->GetObject("TQDC_BC3_1");
     fBC3_2 = (TClonesArray*)ioman->GetObject("TQDC_BC3_2");
+    fBC3_1_X10 = (TClonesArray*)ioman->GetObject("TQDC_BC3_1_X10");
+    fBC3_2_X10 = (TClonesArray*)ioman->GetObject("TQDC_BC3_2_X10");
     fBC3_S = (TClonesArray*)ioman->GetObject("TQDC_BC3_SUM");
     fBC4_1 = (TClonesArray*)ioman->GetObject("TQDC_BC4_1");
     fBC4_2 = (TClonesArray*)ioman->GetObject("TQDC_BC4_2");
+    fBC4_1_X10 = (TClonesArray*)ioman->GetObject("TQDC_BC4_1_X10");
+    fBC4_2_X10 = (TClonesArray*)ioman->GetObject("TQDC_BC4_2_X10");
     fBC4_S = (TClonesArray*)ioman->GetObject("TQDC_BC4_SUM");
     fBC5_1 = (TClonesArray*)ioman->GetObject("TQDC_BC5_1");
     fBC5_2 = (TClonesArray*)ioman->GetObject("TQDC_BC5_2");
+    fBC5_1_X10 = (TClonesArray*)ioman->GetObject("TQDC_BC5_1_X10");
+    fBC5_2_X10 = (TClonesArray*)ioman->GetObject("TQDC_BC5_2_X10");
     fBC5_S = (TClonesArray*)ioman->GetObject("TQDC_BC5_SUM");
     
     fVeto = (TClonesArray*)ioman->GetObject("TQDC_VETO");
-   
+
+    // new branches with TofCal
+    fTofCal = (TClonesArray*)ioman->GetObject("TofCal");
+
+
+     
     // Get a pointer to the output DST Event Header
     fDstHead = (DstEventHeader*)ioman->GetObject(fOutputEventHeaderName);
     
@@ -335,9 +347,9 @@ void BmnFillDstTask::Exec(Option_t* /*option*/) {
 
     //calculate Z2in and Z2out:
     Double_t BC1_12 = -100.0, BC2_12 = -100.0;
-    Double_t BC3_12 = -100.0, BC3_S = -100.0;
-    Double_t BC4_12 = -100.0, BC4_S = -100.0;
-    Double_t BC5_12 = -100.0, BC5_S = -100.0;
+    Double_t BC3_12 = -100.0, BC3_12_X10 = -100.0, BC3_S = -100.0;
+    Double_t BC4_12 = -100.0, BC4_12_X10 = -100.0, BC4_S = -100.0;
+    Double_t BC5_12 = -100.0, BC5_12_X10 = -100.0, BC5_S = -100.0;
     Double_t Veto_T = -100.0;
     
     Short_t ZinBC12 = -100;
@@ -355,6 +367,14 @@ void BmnFillDstTask::Exec(Option_t* /*option*/) {
     Int_t t0Count2 = 0;
     Double_t unused=0;
     Short_t unused1=0;
+
+
+    // new TofCal
+    vector<Double_t> TofCal_Time0, TofCal_Time1, TofCal_Amp0, TofCal_Amp1, TofCal_X, TofCal_Y;
+    vector<Int_t> TofCal_Bar, TofCal_Plane, TofCal_Arm, TofCal_GlobalBar;
+
+    // new BC
+    BmnTrigWaveDigit* BC1_Time0 = NULL, *BC1_Time1 = NULL, *BC2_Time0 = NULL, *BC2_Time1 = NULL;
     
     // trigger information
     Int_t trig_scaler_af[14];
@@ -399,19 +419,19 @@ void BmnFillDstTask::Exec(Option_t* /*option*/) {
     //cout<<trigger<<"  "<<tpat_af<<"  "<<fEventHead->GetEventId()<<"  "<<endl;
     fDstHead->SetTriger(trigger);
     //fDstHead->SetScaler(trig_scaler_af);
-    if(trig_tpat_af[11]!=1) {
+    /*if(trig_tpat_af[11]!=1) {*/
 
-    
 //    for (UInt_t i = 0; i < fVeto->GetEntriesFast(); i++) {  
 //      BmnTrigWaveDigit *veto = (BmnTrigWaveDigit *)fVeto->At(i);
 //      if (veto->GetTime()<0) Veto=0;
 //      if (veto->GetTime()>0 && Veto!=0) Veto=1;
 //      //else Veto=0;
 //    }
-   
+
       
     Double_t t0Time1=-1; 
-    Double_t t0Time2=-1;  
+    Double_t t0Time2=-1; 
+    short int charge; 
     for (UInt_t i = 0; i < fT01_1->GetEntriesFast(); i++) {
         digT01 = (BmnTrigDigit*)fT01_1->At(i);
         if (digT01->GetMod() == 0) t0Count1++;
@@ -428,22 +448,100 @@ void BmnFillDstTask::Exec(Option_t* /*option*/) {
         else Veto=0;   
         
             if (t0Time1>0 && t0Time2>0) {
+
+              grabZ2(fBC3_1_X10, fBC3_2_X10, fBC4_1_X10, fBC4_2_X10, t0Time1, t0Time2, BC3_12_X10, BC4_12_X10, fBC1Calib, fBC2Calib, charge, 34);
+              grabZ2(fBC3_1_X10, fBC3_2_X10, fBC5_1_X10, fBC5_2_X10, t0Time1, t0Time2, BC3_12_X10, BC5_12_X10, fBC1Calib, fBC2Calib, charge, 35);
+              grabZ2(fBC4_1_X10, fBC4_2_X10, fBC5_1_X10, fBC5_2_X10, t0Time1, t0Time2, BC4_12_X10, BC5_12_X10, fBC1Calib, fBC2Calib, charge, 45);
               grabZ2(fBC1_1, fBC1_2, fBC2_1, fBC2_2, t0Time1, t0Time2, BC1_12, BC2_12, fBC1Calib, fBC2Calib, ZinBC12, 12);
               grabZ2(fBC3_1, fBC3_2, fBC4_1, fBC4_2, t0Time1, t0Time2, BC3_12, BC4_12, fBC1Calib, fBC2Calib, ZoutBC34_12, 34);
               grabZ2(fBC3_1, fBC3_2, fBC5_1, fBC5_2, t0Time1, t0Time2, BC3_12, BC5_12, fBC1Calib, fBC2Calib, ZoutBC35_12, 35);
               grabZ2(fBC4_1, fBC4_2, fBC5_1, fBC5_2, t0Time1, t0Time2, BC4_12, BC5_12, fBC1Calib, fBC2Calib, ZoutBC45_12, 45);
+
               grabZ2S(fBC3_S, fBC4_S, t0Time1, t0Time2, BC3_S, BC4_S, fBC1Calib, fBC2Calib, ZoutBC34_S, 34);
               grabZ2S(fBC3_S, fBC5_S, t0Time1, t0Time2, BC3_S, BC5_S, fBC1Calib, fBC2Calib, ZoutBC35_S, 35);
+              grabZ2S(fBC4_S, fBC5_S, t0Time1, t0Time2, BC4_S, BC5_S, fBC1Calib, fBC2Calib, ZoutBC45_S, 45);
              
               
             }
-            
-       
+
+        // new part with BC, TofCal
+        
+        Short_t BC1_T0 = -1, BC1_T1 = -1, BC2_T0 = -1, BC2_T1 = -1;
+        if (fBC1_1->GetEntriesFast() > 0) {
+            BC1_Time0 = (BmnTrigWaveDigit*)fBC1_1->At(0);
+            BC1_T0 = BC1_Time0->GetTime();
+        }
+
+        if (fBC1_2->GetEntriesFast() > 0) {
+            BC1_Time1 = (BmnTrigWaveDigit*)fBC1_2->At(0);
+            BC1_T1 = BC1_Time1->GetTime();
+        }
+
+        if (fBC2_1->GetEntriesFast() > 0) {
+            BC2_Time0 = (BmnTrigWaveDigit*)fBC2_1->At(0);
+            BC2_T0 = BC2_Time0->GetTime();
+        }
+
+        if (fBC2_2->GetEntriesFast() > 0) {
+            BC2_Time1 = (BmnTrigWaveDigit*)fBC2_2->At(0);
+            BC2_T1 = BC2_Time1->GetTime();
+        }
+
+        
+        if (trig_tpat_af[11]!=1) {fDstHead->SetIs_laser(0);}
+        else {fDstHead->SetIs_laser(1);}
+        //fDstHead->SetIs_laser(Is_laser);
+    
+
+        fDstHead->SetBC1_Time0(BC1_T0);
+        fDstHead->SetBC1_Time1(BC1_T1);
+        fDstHead->SetBC2_Time0(BC2_T0);
+        fDstHead->SetBC2_Time1(BC2_T1);
+
+        Int_t TofCal_nHits = 0;
+        Int_t nTofCal = fTofCal->GetEntriesFast();
+        for(Int_t i = 0; i < nTofCal; i++){
+                BmnTofCalDigit* tofCal = (BmnTofCalDigit *)fTofCal->At(i);
+                TofCal_Bar.push_back(tofCal->GetBar());
+                TofCal_Plane.push_back(tofCal->GetPlane());
+                TofCal_Time0.push_back(tofCal->GetTime(0));
+                TofCal_Time1.push_back(tofCal->GetTime(1));
+                TofCal_Amp0.push_back(tofCal->GetEnergy(0));
+                TofCal_Amp1.push_back(tofCal->GetEnergy(1));
+                TofCal_X.push_back(tofCal->GetX());
+                TofCal_Y.push_back(tofCal->GetY());
+
+                TofCal_Arm.push_back(tofCal->GetArm());
+                TofCal_GlobalBar.push_back(tofCal->GetGlobBar());
+
+                TofCal_nHits = TofCal_nHits+1;
+        }
+
+
+                fDstHead->SetTofCal_Bar(TofCal_Bar);
+                fDstHead->SetTofCal_Plane(TofCal_Plane);
+                fDstHead->SetTofCal_Time0(TofCal_Time0);
+                fDstHead->SetTofCal_Time1(TofCal_Time1);
+                fDstHead->SetTofCal_Amp0(TofCal_Amp0);
+                fDstHead->SetTofCal_Amp1(TofCal_Amp1);
+                fDstHead->SetTofCal_X(TofCal_X);
+                fDstHead->SetTofCal_Y(TofCal_Y);
+
+                fDstHead->SetTofCal_Arm(TofCal_Arm);
+                fDstHead->SetTofCal_GlobalBar(TofCal_GlobalBar);
+
+                fDstHead->SetTofCal_nHits(TofCal_nHits);
+  
+
+
         fDstHead->SetBC1_12(BC1_12);
         fDstHead->SetBC2_12(BC2_12);
         fDstHead->SetBC3_12(BC3_12);
         fDstHead->SetBC4_12(BC4_12);
         fDstHead->SetBC5_12(BC5_12);
+        fDstHead->SetBC3_12_X10(BC3_12_X10);
+        fDstHead->SetBC4_12_X10(BC4_12_X10);
+        fDstHead->SetBC5_12_X10(BC5_12_X10);
         fDstHead->SetBC3_S(BC3_S);
         fDstHead->SetBC4_S(BC4_S);
         fDstHead->SetBC5_S(BC5_S);
@@ -456,9 +554,13 @@ void BmnFillDstTask::Exec(Option_t* /*option*/) {
         fDstHead->SetZoutBC35_S(ZoutBC35_S);
         fDstHead->SetVeto(Veto);
         
-  } // laser exclude
+  /*}*/ // laser exclude
 
-   
+   TofCal_Bar.clear(); TofCal_Plane.clear();
+   TofCal_Time0.clear(); TofCal_Time1.clear();
+   TofCal_Amp0.clear(); TofCal_Amp1.clear();
+   TofCal_X.clear(); TofCal_Y.clear();
+   TofCal_Arm.clear(); TofCal_GlobalBar.clear();
 
      // printing progress bar in terminal
     if (fVerbose == 0) {
@@ -502,7 +604,6 @@ void BmnFillDstTask::Exec(Option_t* /*option*/) {
 
     sw.Stop();
     workTime += sw.RealTime();
-    
 }
 
 // ---- Finish --------------------------------------------------------

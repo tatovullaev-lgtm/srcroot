@@ -6,12 +6,13 @@
  *    Created: Apr. 25 2019                                                     *
  *******************************************************************************/
 
-#ifndef BMNFILLDSTTASK_H
+#ifndef BMNFILLDSTTASK_H 
 #define BMNFILLDSTTASK_H
 
 #include "DstRunHeader.h"
 #include "DstEventHeader.h"
 #include "BmnEventHeader.h"
+#include "/lustre/home/user/b/bochkova/bmnroot/detectors/tofcal/BmnTofCalDigit.h"
 
 #include "FairTask.h"
 #include "FairMCEventHeader.h"
@@ -88,6 +89,7 @@ class BmnFillDstTask : public FairTask {
     DstRunHeader* fRunHead;
     /*For ADC, charge calculation*/
     TClonesArray *fT01_1, *fT01_2, *fBC1_1, *fBC1_2, *fBC2_1, *fBC2_2, *fBC3_1, *fBC3_2, *fBC3_S, *fBC4_1, *fBC4_2, *fBC4_S, *fBC5_1, *fBC5_2, *fBC5_S, *fVeto;
+    TClonesArray *fBC3_1_X10, *fBC3_2_X10, *fBC4_1_X10, *fBC4_2_X10, *fBC5_1_X10, *fBC5_2_X10, *fTofCal;
     /** event count to be processed for progress bar **/
     Long64_t fNEvents;
     /** current event being processed for progress bar **/
@@ -97,6 +99,8 @@ class BmnFillDstTask : public FairTask {
     Int_t fPeriodNumber;
     /** run number **/
     Int_t fRunNumber;
+
+
 
     /** z calibration parameters: **/
     Double_t fZCalib1;

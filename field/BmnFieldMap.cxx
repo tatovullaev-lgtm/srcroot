@@ -100,11 +100,13 @@ void BmnFieldMap::Init()
     if (fName.Contains("extrap")) {
         LOG(info) << "Extrapolated magnetic field map is used";
         gSystem->ExpandPathName(fName);
+        //ReadRootFile(fName);
         ReadRootFileNewFormatExtrap(fName);
     } else {
         LOG(info) << "Basic magnetic field map is used";
         gSystem->ExpandPathName(fName);
-        ReadRootFileNewFormat(fName);
+        ReadRootFile(fName);
+        //ReadRootFileNewFormat(fName);
     }
     fPosBx = GetBx(fPosX, fPosY, fPosX);
     fPosBy = GetBy(fPosX, fPosY, fPosY);
@@ -486,6 +488,7 @@ void BmnFieldMap::ReadRootFile(const char* rootFileName)
     fXmax = X.max + fPosX;
     fXstep = X.step;
 
+    
     fNy = Y.N;
     fYmin = Y.min + fPosY;
     fYmax = Y.max + fPosY;

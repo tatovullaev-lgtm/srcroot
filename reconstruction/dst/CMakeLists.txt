@@ -10,6 +10,7 @@ set(INCLUDE_DIRECTORIES
  ${CMAKE_SOURCE_DIR}/field
  ${CMAKE_SOURCE_DIR}/database/uni_db
  ${CMAKE_SOURCE_DIR}/detectors/FD
+ ${CMAKE_SOURCE_DIR}/detectors/tofcal
  ${CMAKE_SOURCE_DIR}/services
  ${CMAKE_SOURCE_DIR}/reconstruction/dst
 )
@@ -40,6 +41,6 @@ set(SRCS
 Set(HEADERS)
 Set(LINKDEF DstLinkDef.h)
 Set(LIBRARY_NAME BmnDst)
-Set(DEPENDENCIES BmnField BmnBase UniDb Base Core)
+Set(DEPENDENCIES BmnField BmnBase TofCal UniDb Base Core)
 
 GENERATE_LIBRARY()

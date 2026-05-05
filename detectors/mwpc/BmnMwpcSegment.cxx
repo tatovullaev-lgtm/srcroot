@@ -2,10 +2,13 @@
 
 // -----   Default constructor   -------------------------------------------
 
-BmnMwpcSegment::BmnMwpcSegment()
-{}
+BmnMwpcSegment::BmnMwpcSegment() {
+
+}
 
 // -----   Destructor   ----------------------------------------------------
 
 BmnMwpcSegment::~BmnMwpcSegment() {
 }
+
+ClassImp(BmnMwpcSegment)
