@@ -19,6 +19,7 @@
 #pragma link C++ class MpdDecayerPyt8 + ;
 #pragma link C++ class MpdUnigenGenerator + ;
 #pragma link C++ class BmnParticleEqualizer + ;
+#pragma link C++ class MpdSRCIonGenerator + ;
 
 #pragma link C++ class map < TString, FairIon*>;
 

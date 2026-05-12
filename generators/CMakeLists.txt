@@ -57,6 +57,7 @@ MpdDCMSMMGenerator.cxx
 MpdDecayerPyt8.cxx
 MpdUnigenGenerator.cxx
 BmnParticleEqualizer.cxx
+MpdSRCIonGenerator.cxx
 )
 if(PLUTO_FOUND)
 #AZ set(SRCS ${SRCS} FairPlutoReactionGenerator.cxx MpdPlutoGenerator.cxx)
