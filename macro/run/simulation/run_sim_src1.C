@@ -10,7 +10,7 @@ R__ADD_INCLUDE_PATH($VMCWORKDIR)
 // nEvents - number of events to transport
 // useRealEffects - whether we use realistic effects at simulation (Lorentz, misalignment)
 
-void run_sim_src1(TString inFile = "", TString outFile = "$VMCWORKDIR/macro/run/simulation/Sim_For_MDF_FullGeom_With_Target_ELosses_Field_Scaling.root", Int_t nStartEvent = 0, Int_t nEvents = 1, Bool_t useRealEffects = kFALSE) {
+void run_sim_src1(TString inFile = "", TString outFile = "$VMCWORKDIR/macro/run/simulation/Sim_For_MDF_FullGeom_With_Target_ELosses_Field_Scaling.root", Int_t nStartEvent = 0, Int_t nEvents = 10000, Bool_t useRealEffects = kFALSE) {
     TStopwatch timer;
     timer.Start();
     gDebug = 0;

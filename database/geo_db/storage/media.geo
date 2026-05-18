@@ -3,6 +3,9 @@
 //  History of cvs commits:
 //  $Log: media.geo,v $
 //
+//  Revision 1.11  2026/05/12 21:00:00  Timur Atovullaev
+//  add LiqHyd for SRC-2022
+
 //  Revision 1.10  2019/04/29 21:00:00  Sergey Morozov
 //  add tyvec_ZDC and plasticWLS_ZDC
 //
@@ -32,6 +35,9 @@ air                3  14.01  16.  39.95  7.  8.  18.  1.205e-3  .78  .21  .01
                    0
 vacuum             1  1.e-16  1.e-16  1.e-16
                    0  1  20.  .001
+                   0
+LiqHyd		   1  1.  1.  0.0708
+                   1  1  20.  .001
                    0
 // Rohacell HF71 : H8C5O2
 rohacellhf71       -3 1.0 12.01 15.9994 1. 6. 8. 0.075 8.58 59.64 31.78

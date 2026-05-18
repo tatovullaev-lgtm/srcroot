@@ -161,7 +161,7 @@ Bool_t CbmSts::ProcessHits(FairVolume* vol) {
         TGeoVolume *currentVolume = gGeoManager->GetCurrentVolume();
         TString currentVolumeName = currentVolume->GetName();
 
-        TRegexp expr = "^Sensor_module[0-9]+_station[0-9]+_GEM$";
+        TRegexp expr = "^Sensor_module[0-9]+_station[0-9]+$";
         if(currentVolumeName.Contains(expr)) {
             TRegexp mod_expr = "module[0-9]+";
             TRegexp stat_expr = "station[0-9]+";
