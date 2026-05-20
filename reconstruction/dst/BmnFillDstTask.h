@@ -12,7 +12,7 @@
 #include "DstRunHeader.h"
 #include "DstEventHeader.h"
 #include "BmnEventHeader.h"
-#include "/lustre/home/user/b/bochkova/bmnroot/detectors/tofcal/BmnTofCalDigit.h"
+#include "BmnTofCalDigit.h"
 
 #include "FairTask.h"
 #include "FairMCEventHeader.h"
