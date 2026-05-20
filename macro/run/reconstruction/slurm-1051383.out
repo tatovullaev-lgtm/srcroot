@@ -1,0 +1,80 @@
+data file for the run 790 exists
+1e
+Warning in <TStreamerInfo::Build>: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > >: chrono::duration<long,ratio<1,1000000000> > has no streamer or dictionary, data member "__d" will not be saved
+Warning in <TStreamerInfo::Build>: BmnSpillInfo: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "start_ts" will not be saved
+Warning in <TStreamerInfo::Build>: BmnSpillInfo: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "stop_ts" will not be saved
+Error in <TDatime::Set>: year smaller than 1995
+Error in <TDatime::Set>: year smaller than 1995
+Error in <TPgSQLStatement::Process>: Code: 7  Msg: ERROR:  date/time field value out of range: "2052-00-30 22:40:00+00"
+HINT:  Perhaps you need a different "datestyle" setting.
+CONTEXT:  unnamed portal parameter $5 = '...'
+
+Warning in <TStreamerInfo::Build>: BmnSpillHeader: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "fStartTS" will not be saved
+Warning in <TStreamerInfo::Build>: BmnSpillHeader: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "fStopTS" will not be saved
+Error in <TFile::TFile>: file /zfs/scratch/lhep-src/srcroot_1/srcroot/parameters/tof2_slewing/bmn_run790_raw.slewing.root does not exist
+digi file for the run 790 exists
+Warning in <TStreamerInfo::Build>: BmnSpillInfo: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "start_ts" will not be saved
+Warning in <TStreamerInfo::Build>: BmnSpillInfo: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "stop_ts" will not be saved
+Info in <TGeoManager::CloseGeometry>: Geometry loaded from file...
+Info in <TGeoManager::SetTopVolume>: Top volume is cave. Master volume is cave
+Info in <TGeoNavigator::BuildCache>: --- Maximum geometry depth set to 100
+Info in <TGeoManager::Voxelize>: Voxelizing...
+Info in <TGeoManager::CountLevels>: max level = 5, max placements = 129
+Info in <TGeoManager::CloseGeometry>: 16913 nodes/ 264 volume UID's in FAIR geometry
+Info in <TGeoManager::CloseGeometry>: ----------------modeler ready----------------
+Error in <FairRuntimeDb::initContainers()>: Error occured during initialization
+Error in <FairRuntimeDb::initContainers()>: Error occured during initialization
+data file for the run 791 exists
+1e
+Warning in <TStreamerInfo::Build>: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > >: chrono::duration<long,ratio<1,1000000000> > has no streamer or dictionary, data member "__d" will not be saved
+Warning in <TStreamerInfo::Build>: BmnSpillInfo: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "start_ts" will not be saved
+Warning in <TStreamerInfo::Build>: BmnSpillInfo: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "stop_ts" will not be saved
+Error in <TPgSQLStatement::Process>: Code: 7  Msg: ERROR:  permission denied for table raw_file
+
+Warning in <TStreamerInfo::Build>: BmnSpillHeader: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "fStartTS" will not be saved
+Warning in <TStreamerInfo::Build>: BmnSpillHeader: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "fStopTS" will not be saved
+Error in <TFile::TFile>: file /zfs/scratch/lhep-src/srcroot_1/srcroot/parameters/tof2_slewing/bmn_run791_raw.slewing.root does not exist
+digi file for the run 791 exists
+Warning in <TStreamerInfo::Build>: BmnSpillInfo: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "start_ts" will not be saved
+Warning in <TStreamerInfo::Build>: BmnSpillInfo: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "stop_ts" will not be saved
+Info in <TGeoManager::CloseGeometry>: Geometry loaded from file...
+Info in <TGeoManager::SetTopVolume>: Top volume is cave. Master volume is cave
+Info in <TGeoNavigator::BuildCache>: --- Maximum geometry depth set to 100
+Info in <TGeoManager::Voxelize>: Voxelizing...
+Info in <TGeoManager::CountLevels>: max level = 5, max placements = 129
+Info in <TGeoManager::CloseGeometry>: 16913 nodes/ 264 volume UID's in FAIR geometry
+Info in <TGeoManager::CloseGeometry>: ----------------modeler ready----------------
+Error in <FairRuntimeDb::initContainers()>: Error occured during initialization
+Error in <FairRuntimeDb::initContainers()>: Error occured during initialization
+data file for the run 792 exists
+1e
+Warning in <TStreamerInfo::Build>: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > >: chrono::duration<long,ratio<1,1000000000> > has no streamer or dictionary, data member "__d" will not be saved
+Warning in <TStreamerInfo::Build>: BmnSpillInfo: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "start_ts" will not be saved
+Warning in <TStreamerInfo::Build>: BmnSpillInfo: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "stop_ts" will not be saved
+Error in <TPgSQLStatement::Process>: Code: 7  Msg: ERROR:  permission denied for table raw_file
+
+Warning in <TStreamerInfo::Build>: BmnSpillHeader: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "fStartTS" will not be saved
+Warning in <TStreamerInfo::Build>: BmnSpillHeader: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "fStopTS" will not be saved
+Error in <TFile::TFile>: file /zfs/scratch/lhep-src/srcroot_1/srcroot/parameters/tof2_slewing/bmn_run792_raw.slewing.root does not exist
+digi file for the run 792 exists
+Warning in <TStreamerInfo::Build>: BmnSpillInfo: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "start_ts" will not be saved
+Warning in <TStreamerInfo::Build>: BmnSpillInfo: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "stop_ts" will not be saved
+Info in <TGeoManager::CloseGeometry>: Geometry loaded from file...
+Info in <TGeoManager::SetTopVolume>: Top volume is cave. Master volume is cave
+Info in <TGeoNavigator::BuildCache>: --- Maximum geometry depth set to 100
+Info in <TGeoManager::Voxelize>: Voxelizing...
+Info in <TGeoManager::CountLevels>: max level = 5, max placements = 129
+Info in <TGeoManager::CloseGeometry>: 16913 nodes/ 264 volume UID's in FAIR geometry
+Info in <TGeoManager::CloseGeometry>: ----------------modeler ready----------------
+Error in <FairRuntimeDb::initContainers()>: Error occured during initialization
+Error in <FairRuntimeDb::initContainers()>: Error occured during initialization
+data file for the run 793 exists
+1e
+Warning in <TStreamerInfo::Build>: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > >: chrono::duration<long,ratio<1,1000000000> > has no streamer or dictionary, data member "__d" will not be saved
+Warning in <TStreamerInfo::Build>: BmnSpillInfo: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "start_ts" will not be saved
+Warning in <TStreamerInfo::Build>: BmnSpillInfo: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "stop_ts" will not be saved
+Error in <TPgSQLStatement::Process>: Code: 7  Msg: ERROR:  permission denied for table raw_file
+
+Warning in <TStreamerInfo::Build>: BmnSpillHeader: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "fStartTS" will not be saved
+Warning in <TStreamerInfo::Build>: BmnSpillHeader: chrono::time_point<chrono::system_clock,chrono::duration<long,ratio<1,1000000000> > > has no streamer or dictionary, data member "fStopTS" will not be saved
+Error in <TFile::TFile>: file /zfs/scratch/lhep-src/srcroot_1/srcroot/parameters/tof2_slewing/bmn_run793_raw.slewing.root does not exist
