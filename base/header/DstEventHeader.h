@@ -27,10 +27,12 @@ class DstEventHeader : public FairEventHeader {
     /** Total charge before and after the target **/
     Int_t ftrigger;
     Double_t fBC1_12, fBC2_12, fBC3_12, fBC4_12, fBC5_12, fBC3_12_X10, fBC4_12_X10, fBC5_12_X10, fBC3_S, fBC4_S, fBC5_S;          
-    Double_t fBC1_Time0, fBC1_Time1, fBC2_Time0, fBC2_Time1;  // new        
+    Double_t fBC1_Time0, fBC1_Time1, fBC2_Time0, fBC2_Time1;  // new 
+    Double_t fBC1_cor, fBC2_cor, fBC3_cor, fBC4_cor, fBC5_cor;                                                                //cor       
     vector <bool> fB10, fB11;
     vector <Double_t>  fPq, fPq_MDF, fPq_MDF1, fPq_MDF2, fPq_MDF3, fTx_MDF;
     Short_t fZinBC12, fZoutBC34_12, fZoutBC35_12, fZoutBC45_12, fZoutBC34_S, fZoutBC35_S, fZoutBC45_S, fVeto, fDCH_Mult, fMWPC_Mult;
+    Short_t fZinBC12_cor, fZoutBC34_12_cor, fZoutBC35_12_cor, fZoutBC45_12_cor;                                               //cor
     
     // Info from Scint. Wall
     vector <Double_t> fScWallELoss; 
@@ -98,6 +100,11 @@ Double_t f;
     Double_t GetBC3_12() { return fBC3_12; }
     Double_t GetBC4_12() { return fBC4_12; }
     Double_t GetBC5_12() { return fBC5_12; }
+    Double_t GetBC1_cor() { return fBC1_cor; } //cor
+    Double_t GetBC2_cor() { return fBC2_cor; }
+    Double_t GetBC3_cor() { return fBC3_cor; }
+    Double_t GetBC4_cor() { return fBC4_cor; }
+    Double_t GetBC5_cor() { return fBC5_cor; }
     Double_t GetBC3_12_X10() { return fBC3_12_X10; }
     Double_t GetBC4_12_X10() { return fBC4_12_X10; }
     Double_t GetBC5_12_X10() { return fBC5_12_X10; }
@@ -114,6 +121,10 @@ Double_t f;
     Short_t GetZoutBC34_12() { return fZoutBC34_12; }
     Short_t GetZoutBC35_12() { return fZoutBC35_12; }
     Short_t GetZoutBC45_12() { return fZoutBC45_12; }
+    Short_t GetZinBC12_cor() { return fZinBC12_cor; }           //cor
+    Short_t GetZoutBC34_12_cor() { return fZoutBC34_12_cor; }
+    Short_t GetZoutBC35_12_cor() { return fZoutBC35_12_cor; }
+    Short_t GetZoutBC45_12_cor() { return fZoutBC45_12_cor; }
     Short_t GetZoutBC34_S() { return fZoutBC34_S; }
     Short_t GetZoutBC35_S() { return fZoutBC35_S; }
     Short_t GetZoutBC45_S() { return fZoutBC45_S; }
@@ -188,6 +199,11 @@ Double_t f;
     void SetBC3_12(Double_t BC3_12) { fBC3_12 = BC3_12; }
     void SetBC4_12(Double_t BC4_12) { fBC4_12 = BC4_12; }
     void SetBC5_12(Double_t BC5_12) { fBC5_12 = BC5_12; }
+    void SetBC1_cor(Double_t BC1_cor) { fBC1_cor = BC1_cor; } //cor
+    void SetBC2_cor(Double_t BC2_cor) { fBC2_cor = BC2_cor; }
+    void SetBC3_cor(Double_t BC3_cor) { fBC3_cor = BC3_cor; }
+    void SetBC4_cor(Double_t BC4_cor) { fBC4_cor = BC4_cor; }
+    void SetBC5_cor(Double_t BC5_cor) { fBC5_cor = BC5_cor; }
     void SetBC3_12_X10(Double_t BC3_12_X10) { fBC3_12_X10 = BC3_12_X10; }
     void SetBC4_12_X10(Double_t BC4_12_X10) { fBC4_12_X10 = BC4_12_X10; }
     void SetBC5_12_X10(Double_t BC5_12_X10) { fBC5_12_X10 = BC5_12_X10; }
@@ -204,6 +220,10 @@ Double_t f;
     void SetZoutBC34_12(Short_t ZoutBC34_12) { fZoutBC34_12 = ZoutBC34_12; }
     void SetZoutBC35_12(Short_t ZoutBC35_12) { fZoutBC35_12 = ZoutBC35_12; }
     void SetZoutBC45_12(Short_t ZoutBC45_12) { fZoutBC45_12 = ZoutBC45_12; }
+    void SetZinBC12_cor(Short_t ZinBC12_cor) { fZinBC12_cor = ZinBC12_cor; }                    //cor
+    void SetZoutBC34_12_cor(Short_t ZoutBC34_12_cor) { fZoutBC34_12_cor = ZoutBC34_12_cor; }
+    void SetZoutBC35_12_cor(Short_t ZoutBC35_12_cor) { fZoutBC35_12_cor = ZoutBC35_12_cor; }
+    void SetZoutBC45_12_cor(Short_t ZoutBC45_12_cor) { fZoutBC45_12_cor = ZoutBC45_12_cor; }
     void SetZoutBC34_S(Short_t ZoutBC34_S) { fZoutBC34_S = ZoutBC34_S; }
     void SetZoutBC35_S(Short_t ZoutBC35_S) { fZoutBC35_S = ZoutBC35_S; }
     void SetZoutBC45_S(Short_t ZoutBC45_S) { fZoutBC45_S = ZoutBC45_S; }

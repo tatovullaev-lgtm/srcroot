@@ -351,14 +351,22 @@ void BmnFillDstTask::Exec(Option_t* /*option*/) {
     Double_t BC4_12 = -100.0, BC4_12_X10 = -100.0, BC4_S = -100.0;
     Double_t BC5_12 = -100.0, BC5_12_X10 = -100.0, BC5_S = -100.0;
     Double_t Veto_T = -100.0;
+    Double_t BC1_cor = -100.0, BC2_cor = -100.0; //cor
+    Double_t BC3_cor = -100.0;
+    Double_t BC4_cor = -100.0;
+    Double_t BC5_cor = -100.0;
     
     Short_t ZinBC12 = -100;
+    Short_t ZinBC12_cor = -100; //cor
     //Short_t ZinBC2 = -100;
     Short_t ZoutBC34_12 = -100;
+    Short_t ZoutBC34_12_cor = -100; //cor
     Short_t ZoutBC34_S = -100;
     Short_t ZoutBC35_12 = -100;
+    Short_t ZoutBC35_12_cor = -100; //cor
     Short_t ZoutBC35_S = -100;
     Short_t ZoutBC45_12 = -100;
+    Short_t ZoutBC45_12_cor = -100; //cor
     Short_t ZoutBC45_S = -100;
     Short_t Veto = -1;
     BmnTrigDigit* digT01 = NULL;
@@ -533,6 +541,59 @@ void BmnFillDstTask::Exec(Option_t* /*option*/) {
                 fDstHead->SetTofCal_nHits(TofCal_nHits);
   
 
+        const int runId = fDstHead ? (int)fDstHead->GetRunId() : -1;  //cor
+
+        double amp_BC1 = 0.0;
+        double amp_BC2 = 0.0;
+        double amp_BC3 = 0.0;
+        double amp_BC4 = 0.0;
+        double amp_BC5 = 0.0;
+        int Run = 0;
+
+        TString gPathWorkdir1 = gSystem->Getenv("VMCWORKDIR");
+        TString gPathamp_run_coef = gPathWorkdir1 + "/input/output_approx_values_all_BC.txt";
+        std::ifstream in(gPathamp_run_coef.Data(), ios::in);
+
+        if (!in.is_open()) {
+            std::cerr << "Couldn't open the file with BC amplitudes" << std::endl;
+        } else {
+            std::string header;
+            std::getline(in, header); 
+
+            while (in >> Run >> amp_BC1 >> amp_BC2 >> amp_BC3 >> amp_BC4 >> amp_BC5) {
+                if (Run == runId) break;
+            }
+
+            in.close();
+        }
+
+        BC1_cor = 0.0;
+        BC2_cor = 0.0;
+        BC3_cor = 0.0;
+        BC4_cor = 0.0;
+        BC5_cor = 0.0;
+
+        if (amp_BC1 > 0.0) BC1_cor = BC1_12 * 2000.0 / amp_BC1;
+        if (amp_BC2 > 0.0) BC2_cor = BC2_12 * 2000.0 / amp_BC2;
+        if (amp_BC3 > 0.0) BC3_cor = BC3_12 * 4500.0 / amp_BC3;
+        if (amp_BC4 > 0.0) BC4_cor = BC4_12 * 4500.0 / amp_BC4;
+        if (amp_BC5 > 0.0) BC5_cor = BC5_12 * 4500.0 / amp_BC5;
+
+
+        if (t0Time1>0 && t0Time2>0) {
+            grabZ2_cor(fBC1_1, fBC1_2, fBC2_1, fBC2_2, t0Time1, t0Time2, BC1_cor, BC2_cor, fBC1Calib, fBC2Calib, ZinBC12_cor, 12);
+            grabZ2_cor(fBC3_1, fBC3_2, fBC4_1, fBC4_2, t0Time1, t0Time2, BC3_cor, BC4_cor, fBC1Calib, fBC2Calib, ZoutBC34_12_cor, 34);
+            grabZ2_cor(fBC3_1, fBC3_2, fBC5_1, fBC5_2, t0Time1, t0Time2, BC3_cor, BC5_cor, fBC1Calib, fBC2Calib, ZoutBC35_12_cor, 35);
+            grabZ2_cor(fBC4_1, fBC4_2, fBC5_1, fBC5_2, t0Time1, t0Time2, BC4_cor, BC5_cor, fBC1Calib, fBC2Calib, ZoutBC45_12_cor, 45);
+        }
+        //cout<<"BC1_cor = "<<BC1_cor<<"\tBC2_cor = "<<BC2_cor<<"\tBC3_cor = "<<BC3_cor<<"\tBC4_cor = "<<BC4_cor<<"\tBC5_cor = "<<BC5_cor<<endl;
+        //cout<<"ZinBC12_cor = "<<ZinBC12_cor<<"\tZoutBC34_12_cor = "<<ZoutBC34_12_cor<<"\tZoutBC35_12_cor = "<<ZoutBC35_12_cor<<"\tZoutBC45_12_cor = "<<ZoutBC45_12_cor<<endl;
+
+        fDstHead->SetBC1_cor(BC1_cor);
+        fDstHead->SetBC2_cor(BC2_cor);
+        fDstHead->SetBC3_cor(BC3_cor);
+        fDstHead->SetBC4_cor(BC4_cor);
+        fDstHead->SetBC5_cor(BC5_cor);
 
         fDstHead->SetBC1_12(BC1_12);
         fDstHead->SetBC2_12(BC2_12);
@@ -549,6 +610,10 @@ void BmnFillDstTask::Exec(Option_t* /*option*/) {
         fDstHead->SetZoutBC34_12(ZoutBC34_12);
         fDstHead->SetZoutBC35_12(ZoutBC35_12);
         fDstHead->SetZoutBC45_12(ZoutBC45_12);
+        fDstHead->SetZinBC12_cor(ZinBC12_cor);
+        fDstHead->SetZoutBC34_12_cor(ZoutBC34_12_cor);
+        fDstHead->SetZoutBC35_12_cor(ZoutBC35_12_cor);
+        fDstHead->SetZoutBC45_12_cor(ZoutBC45_12_cor);
         fDstHead->SetZoutBC34_S(ZoutBC34_S);
         fDstHead->SetZoutBC45_S(ZoutBC45_S);
         fDstHead->SetZoutBC35_S(ZoutBC35_S);

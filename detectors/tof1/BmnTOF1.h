@@ -17,6 +17,7 @@
 #include "TClonesArray.h"
 #include "TLorentzVector.h"
 #include "TVector3.h"
+#include "TParticlePDG.h"
 
 #include <TObjArray.h>
 #include <TVirtualMC.h>
@@ -51,7 +52,9 @@ class BmnTOF1 : public FairDetector
                            Double_t tof,
                            Double_t length,
                            Double_t eLoss,
-                           Int_t volUID);
+                           Int_t volUID,
+                           Int_t IsPrimary, 
+                           Int_t PdgId);
 
   private:
     TLorentzVector fPos;   //! position
@@ -60,6 +63,8 @@ class BmnTOF1 : public FairDetector
     Double32_t fLength;    //! length
     Double32_t fELoss;     //! energy loss
     Int_t fPosIndex;       //!
+    Int_t fIsPrimary;       //!
+    Int_t fPdgId;       //!
     const double nan;      //! KG: nan is set to -10 000 000, but i think it should be 0
 
     TClonesArray* fTofCollection;   //! Hit collection

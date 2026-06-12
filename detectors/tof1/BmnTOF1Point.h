@@ -3,6 +3,7 @@
 #define __BMNTOF1POINT_H 1
 
 #include "FairMCPoint.h"
+#include "TParticle.h"
 
 #include <TVector3.h>
 
@@ -22,6 +23,8 @@ class BmnTOF1Point : public FairMCPoint
      *@param length   Track length since creation [cm]
      *@param eLoss    Energy deposit [GeV]
      *@param fDetectorUID    Unique Identification Number
+     *@param fIsPrimary    primary particle flag
+     *@param fPdgId    PDG code
      **/
     BmnTOF1Point(Int_t trackID,
                  Int_t detID,
@@ -30,11 +33,15 @@ class BmnTOF1Point : public FairMCPoint
                  Double_t tof,
                  Double_t length,
                  Double_t eLoss,
-                 Int_t detUID);
+                 Int_t detUID,
+                 Int_t IsPrimary, 
+                 Int_t PdgId);
 
     virtual void Print(const Option_t* opt) const;
 
     // CATION: stripID MAX_VALUE = 255, moduleID MAX_VALUE = 255, regionID MAX_VALUE = 255
+    Int_t GetIsPrimary() { return fIsPrimary; }
+    Int_t GetPdgId()  { return fPdgId; }
     Int_t GetStrip() const { return (fDetectorUID & 0x000000FF); };
     Int_t GetModule() const { return (fDetectorUID & 0x0000FF00) >> 8; };
     Int_t GetRegion() const { return (fDetectorUID & 0x00FF0000) >> 16; };
@@ -61,6 +68,8 @@ class BmnTOF1Point : public FairMCPoint
 
   private:
     Int_t fDetectorUID;   ///< Unique Identification Number.
+    Int_t fIsPrimary;   ///< primary particle flag
+    Int_t fPdgId;   ///< PDG code
 
     ClassDef(BmnTOF1Point, 2)
 };

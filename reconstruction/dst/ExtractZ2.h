@@ -22,6 +22,10 @@ const double meanBC1_Cin = 2300;
 const double meanBC2_Cin = 2500;
 const double sigmaBC1_Cin = 350;
 const double sigmaBC2_Cin = 450;
+const double meanBC1_Cin_cor = 2300; //cor
+const double meanBC2_Cin_cor = 2500;
+const double sigmaBC1_Cin_cor = 350;
+const double sigmaBC2_Cin_cor = 450;
 const double sigmaMultiBC1_Cin = 2.0;
 const double sigmaMultiBC2_Cin = 2.0;
 const double meanBC3_Cout = 4600;
@@ -30,6 +34,12 @@ const double meanBC5_Cout = 4600;
 const double sigmaBC3_Cout = 300;
 const double sigmaBC4_Cout = 300;
 const double sigmaBC5_Cout = 300;
+const double meanBC3_Cout_cor = 4600;   //cor
+const double meanBC4_Cout_cor = 4600;
+const double meanBC5_Cout_cor = 4600;
+const double sigmaBC3_Cout_cor = 300;
+const double sigmaBC4_Cout_cor = 300;
+const double sigmaBC5_Cout_cor = 300;
 const double sigmaMultiBC3_Cout = 2.0;
 const double sigmaMultiBC4_Cout = 2.0;
 const double sigmaMultiBC5_Cout = 2.0;
@@ -39,6 +49,12 @@ const double meanBC5_Bout = 3350;
 const double sigmaBC3_Bout = 230;
 const double sigmaBC4_Bout = 230;
 const double sigmaBC5_Bout = 230;
+const double meanBC3_Bout_cor = 3350;   //cor
+const double meanBC4_Bout_cor = 3350;
+const double meanBC5_Bout_cor = 3350;
+const double sigmaBC3_Bout_cor = 230;
+const double sigmaBC4_Bout_cor = 230;
+const double sigmaBC5_Bout_cor = 230;
 const double sigmaMultiBC3_Bout = 2.0;
 const double sigmaMultiBC4_Bout = 2.0;
 const double sigmaMultiBC5_Bout = 2.0;
@@ -49,6 +65,12 @@ const double meanBC5_Beout = 2206;
 const double sigmaBC3_Beout = 272;
 const double sigmaBC4_Beout = 286;
 const double sigmaBC5_Beout = 235;
+const double meanBC3_Beout_cor = 2283;    //cor
+const double meanBC4_Beout_cor = 2242;
+const double meanBC5_Beout_cor = 2206;
+const double sigmaBC3_Beout_cor = 272;
+const double sigmaBC4_Beout_cor = 286;
+const double sigmaBC5_Beout_cor = 235;
 const double sigmaMultiBC3_Beout = 1.0;
 const double sigmaMultiBC4_Beout = 1.0;
 const double sigmaMultiBC5_Beout = 1.0;
@@ -59,6 +81,12 @@ const double meanBC5_Liout = 1211;
 const double sigmaBC3_Liout = 206;
 const double sigmaBC4_Liout = 194;
 const double sigmaBC5_Liout = 206;
+const double meanBC3_Liout_cor = 1295;      //cor
+const double meanBC4_Liout_cor = 1283;
+const double meanBC5_Liout_cor = 1211;
+const double sigmaBC3_Liout_cor = 206;
+const double sigmaBC4_Liout_cor = 194;
+const double sigmaBC5_Liout_cor = 206;
 const double sigmaMultiBC3_Liout = 1.0;
 const double sigmaMultiBC4_Liout = 1.0;
 const double sigmaMultiBC5_Liout = 1.0;
@@ -196,6 +224,86 @@ void grabZ2(TClonesArray *TQDC_BC1_1, TClonesArray *TQDC_BC1_2, TClonesArray *TQ
                 Z = 4;
 
             if (x2 > meanBC5_Liout - sigmaMultiBC5_Liout * sigmaBC5_Liout * sqrt(1 - (x1 - meanBC4_Liout) * (x1 - meanBC4_Liout) / (sigmaMultiBC4_Liout * sigmaBC4_Liout * sigmaMultiBC4_Liout * sigmaBC4_Liout)) && x2 < meanBC5_Liout + sigmaMultiBC5_Liout * sigmaBC5_Liout * sqrt(1 - (x1 - meanBC4_Liout) * (x1 - meanBC4_Liout) / (sigmaMultiBC4_Liout * sigmaBC4_Liout * sigmaMultiBC4_Liout * sigmaBC4_Liout)))
+                Z = 3;
+        }
+    }
+   
+}
+
+//cor
+
+void grabZ2_cor(TClonesArray *TQDC_BC1_1, TClonesArray *TQDC_BC1_2, TClonesArray *TQDC_BC2_1, TClonesArray *TQDC_BC2_2, double t0Time1, double t0Time2, double x1_cor, double x2_cor, double BC1calib, double BC2calib, short &Z, int pair) {
+    double adcBC1_1, adcBC1_2, adcBC2_1, adcBC2_2;
+    int bc1_1Idx, bc1_2Idx, bc2_1Idx, bc2_2Idx;
+    double x1 = -100;
+    double x2 = -100;
+
+    // Require that BC1 and T0 had TQDC digits
+    if (TQDC_BC1_1->GetEntriesFast() && TQDC_BC1_1->GetEntriesFast())  {
+
+        // Take geometric mean adc
+        x1 = x1_cor;
+     }   
+     if (TQDC_BC2_1->GetEntriesFast() && TQDC_BC2_1->GetEntriesFast()) {  
+   
+        x2 = x2_cor;
+    }
+        // Convert to Z2:
+        // Ask if this is for before target or after target
+        // because the calibration constants are different for the
+        // different PMTs
+        
+    if (TQDC_BC1_1->GetEntriesFast() && TQDC_BC1_1->GetEntriesFast() && TQDC_BC2_1->GetEntriesFast() && TQDC_BC2_1->GetEntriesFast())  {
+        if (pair == 12) {  
+            // Ellipse sigmaMulti cut for Carbon on 2D plot
+            if (x2 > meanBC2_Cin_cor - sigmaMultiBC2_Cin * sigmaBC2_Cin_cor * sqrt(1 - (x1 - meanBC1_Cin_cor) * (x1 - meanBC1_Cin_cor) / (sigmaMultiBC1_Cin * sigmaBC1_Cin_cor * sigmaMultiBC1_Cin * sigmaBC1_Cin_cor)) && x2 < meanBC2_Cin_cor + sigmaMultiBC2_Cin * sigmaBC2_Cin_cor * sqrt(1 - (x1 - meanBC1_Cin_cor) * (x1 - meanBC1_Cin_cor) / (sigmaMultiBC1_Cin * sigmaBC1_Cin_cor * sigmaMultiBC1_Cin * sigmaBC1_Cin_cor)))
+                Z = 6;
+        }
+        
+        if (pair == 34) {  
+            // Ellipse sigmaMulti cut for Carbon on 2D plot
+            if (x2 > meanBC4_Cout_cor - sigmaMultiBC4_Cout * sigmaBC4_Cout_cor * sqrt(1 - (x1 - meanBC3_Cout_cor) * (x1 - meanBC3_Cout_cor) / (sigmaMultiBC3_Cout * sigmaBC3_Cout_cor * sigmaMultiBC3_Cout * sigmaBC3_Cout_cor)) && x2 < meanBC4_Cout_cor + sigmaMultiBC4_Cout * sigmaBC4_Cout_cor * sqrt(1 - (x1 - meanBC3_Cout_cor) * (x1 - meanBC3_Cout_cor) / (sigmaMultiBC3_Cout * sigmaBC3_Cout_cor * sigmaMultiBC3_Cout * sigmaBC3_Cout_cor)))
+                Z = 6;
+                
+            if (x2 > meanBC4_Bout_cor - sigmaMultiBC4_Bout * sigmaBC4_Bout_cor * sqrt(1 - (x1 - meanBC3_Bout_cor) * (x1 - meanBC3_Bout_cor) / (sigmaMultiBC3_Bout * sigmaBC3_Bout_cor * sigmaMultiBC3_Bout * sigmaBC3_Bout_cor)) && x2 < meanBC4_Bout_cor + sigmaMultiBC4_Bout * sigmaBC4_Bout_cor * sqrt(1 - (x1 - meanBC3_Bout_cor) * (x1 - meanBC3_Bout_cor) / (sigmaMultiBC3_Bout * sigmaBC3_Bout_cor * sigmaMultiBC3_Bout * sigmaBC3_Bout_cor)))
+                Z = 5;
+
+            if (x2 > meanBC4_Beout_cor - sigmaMultiBC4_Beout * sigmaBC4_Beout_cor * sqrt(1 - (x1 - meanBC3_Beout_cor) * (x1 - meanBC3_Beout_cor) / (sigmaMultiBC3_Beout * sigmaBC3_Beout_cor * sigmaMultiBC3_Beout * sigmaBC3_Beout_cor)) && x2 < meanBC4_Beout_cor + sigmaMultiBC4_Beout * sigmaBC4_Beout_cor * sqrt(1 - (x1 - meanBC3_Beout_cor) * (x1 - meanBC3_Beout_cor) / (sigmaMultiBC3_Beout * sigmaBC3_Beout_cor * sigmaMultiBC3_Beout * sigmaBC3_Beout_cor)))
+                Z = 4;
+
+            if (x2 > meanBC4_Liout_cor - sigmaMultiBC4_Liout * sigmaBC4_Liout_cor * sqrt(1 - (x1 - meanBC3_Liout_cor) * (x1 - meanBC3_Liout_cor) / (sigmaMultiBC3_Liout * sigmaBC3_Liout_cor * sigmaMultiBC3_Liout * sigmaBC3_Liout_cor)) && x2 < meanBC4_Liout_cor + sigmaMultiBC4_Liout * sigmaBC4_Liout_cor * sqrt(1 - (x1 - meanBC3_Liout_cor) * (x1 - meanBC3_Liout_cor) / (sigmaMultiBC3_Liout * sigmaBC3_Liout_cor * sigmaMultiBC3_Liout * sigmaBC3_Liout_cor)))
+                Z = 3;
+        }
+        
+        
+        if (pair == 35) {  
+            // Ellipse sigmaMulti cut for Carbon on 2D plot
+            if (x2 > meanBC5_Cout_cor - sigmaMultiBC5_Cout * sigmaBC5_Cout_cor * sqrt(1 - (x1 - meanBC3_Cout_cor) * (x1 - meanBC3_Cout_cor) / (sigmaMultiBC3_Cout * sigmaBC3_Cout_cor * sigmaMultiBC3_Cout * sigmaBC3_Cout_cor)) && x2 < meanBC5_Cout_cor + sigmaMultiBC5_Cout * sigmaBC5_Cout_cor * sqrt(1 - (x1 - meanBC3_Cout_cor) * (x1 - meanBC3_Cout_cor) / (sigmaMultiBC3_Cout * sigmaBC3_Cout_cor * sigmaMultiBC3_Cout * sigmaBC3_Cout_cor)))
+                Z = 6;
+                
+            if (x2 > meanBC5_Bout_cor - sigmaMultiBC5_Bout * sigmaBC5_Bout_cor * sqrt(1 - (x1 - meanBC3_Bout_cor) * (x1 - meanBC3_Bout_cor) / (sigmaMultiBC3_Bout * sigmaBC3_Bout_cor * sigmaMultiBC3_Bout * sigmaBC3_Bout_cor)) && x2 < meanBC5_Bout_cor + sigmaMultiBC5_Bout * sigmaBC5_Bout_cor * sqrt(1 - (x1 - meanBC3_Bout_cor) * (x1 - meanBC3_Bout_cor) / (sigmaMultiBC3_Bout * sigmaBC3_Bout_cor * sigmaMultiBC3_Bout * sigmaBC3_Bout_cor)))
+                Z = 5;
+
+            if (x2 > meanBC5_Beout_cor - sigmaMultiBC5_Beout * sigmaBC5_Beout_cor * sqrt(1 - (x1 - meanBC3_Beout_cor) * (x1 - meanBC3_Beout_cor) / (sigmaMultiBC3_Beout * sigmaBC3_Beout_cor * sigmaMultiBC3_Beout * sigmaBC3_Beout_cor)) && x2 < meanBC5_Beout_cor + sigmaMultiBC5_Beout * sigmaBC5_Beout_cor * sqrt(1 - (x1 - meanBC3_Beout_cor) * (x1 - meanBC3_Beout_cor) / (sigmaMultiBC3_Beout * sigmaBC3_Beout_cor * sigmaMultiBC3_Beout * sigmaBC3_Beout_cor)))
+                Z = 4;
+
+            if (x2 > meanBC5_Liout_cor - sigmaMultiBC5_Liout * sigmaBC5_Liout_cor * sqrt(1 - (x1 - meanBC3_Liout_cor) * (x1 - meanBC3_Liout_cor) / (sigmaMultiBC3_Liout * sigmaBC3_Liout_cor * sigmaMultiBC3_Liout * sigmaBC3_Liout_cor)) && x2 < meanBC5_Liout_cor + sigmaMultiBC5_Liout * sigmaBC5_Liout_cor * sqrt(1 - (x1 - meanBC3_Liout_cor) * (x1 - meanBC3_Liout_cor) / (sigmaMultiBC3_Liout * sigmaBC3_Liout_cor * sigmaMultiBC3_Liout * sigmaBC3_Liout_cor)))
+                Z = 3;
+        }
+        
+        
+        if (pair == 45) {  
+            // Ellipse sigmaMulti cut for Carbon on 2D plot
+            if (x2 > meanBC5_Cout_cor - sigmaMultiBC5_Cout * sigmaBC5_Cout_cor * sqrt(1 - (x1 - meanBC4_Cout_cor) * (x1 - meanBC4_Cout_cor) / (sigmaMultiBC4_Cout * sigmaBC4_Cout_cor * sigmaMultiBC4_Cout * sigmaBC4_Cout_cor)) && x2 < meanBC5_Cout_cor + sigmaMultiBC5_Cout * sigmaBC5_Cout_cor * sqrt(1 - (x1 - meanBC4_Cout_cor) * (x1 - meanBC4_Cout_cor) / (sigmaMultiBC4_Cout * sigmaBC4_Cout_cor * sigmaMultiBC4_Cout * sigmaBC4_Cout_cor)))
+                Z = 6;
+                
+            if (x2 > meanBC5_Bout_cor - sigmaMultiBC5_Bout * sigmaBC5_Bout_cor * sqrt(1 - (x1 - meanBC4_Bout_cor) * (x1 - meanBC4_Bout_cor) / (sigmaMultiBC4_Bout * sigmaBC4_Bout_cor * sigmaMultiBC4_Bout * sigmaBC4_Bout_cor)) && x2 < meanBC5_Bout_cor + sigmaMultiBC5_Bout * sigmaBC5_Bout_cor * sqrt(1 - (x1 - meanBC4_Bout_cor) * (x1 - meanBC4_Bout_cor) / (sigmaMultiBC4_Bout * sigmaBC4_Bout_cor * sigmaMultiBC4_Bout * sigmaBC4_Bout_cor)))
+                Z = 5;
+
+            if (x2 > meanBC5_Beout_cor - sigmaMultiBC5_Beout * sigmaBC5_Beout_cor * sqrt(1 - (x1 - meanBC4_Beout_cor) * (x1 - meanBC4_Beout_cor) / (sigmaMultiBC4_Beout * sigmaBC4_Beout_cor * sigmaMultiBC4_Beout * sigmaBC4_Beout_cor)) && x2 < meanBC5_Beout_cor + sigmaMultiBC5_Beout * sigmaBC5_Beout_cor * sqrt(1 - (x1 - meanBC4_Beout_cor) * (x1 - meanBC4_Beout_cor) / (sigmaMultiBC4_Beout * sigmaBC4_Beout_cor * sigmaMultiBC4_Beout * sigmaBC4_Beout_cor)))
+                Z = 4;
+
+            if (x2 > meanBC5_Liout_cor - sigmaMultiBC5_Liout * sigmaBC5_Liout_cor * sqrt(1 - (x1 - meanBC4_Liout_cor) * (x1 - meanBC4_Liout_cor) / (sigmaMultiBC4_Liout * sigmaBC4_Liout_cor * sigmaMultiBC4_Liout * sigmaBC4_Liout_cor)) && x2 < meanBC5_Liout_cor + sigmaMultiBC5_Liout * sigmaBC5_Liout_cor * sqrt(1 - (x1 - meanBC4_Liout_cor) * (x1 - meanBC4_Liout_cor) / (sigmaMultiBC4_Liout * sigmaBC4_Liout_cor * sigmaMultiBC4_Liout * sigmaBC4_Liout_cor)))
                 Z = 3;
         }
     }

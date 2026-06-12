@@ -51,7 +51,9 @@ class BmnTOF701 : public FairDetector
                            Double_t tof,
                            Double_t length,
                            Double_t eLoss,
-                           Int_t volUID);
+                           Int_t volUID,
+                           Int_t IsPrimary, 
+                           Int_t PdgId);
 
   private:
     TLorentzVector fPos;   //! position
@@ -59,6 +61,8 @@ class BmnTOF701 : public FairDetector
     Double32_t fTime;      //! time
     Double32_t fLength;    //! length
     Double32_t fELoss;     //! energy loss
+    Int_t fIsPrimary;
+    Int_t fPdgId;
     Int_t fPosIndex;       //!
     const double nan;      //! KG: nan is set to -10 000 000, but i think it should be 0
 

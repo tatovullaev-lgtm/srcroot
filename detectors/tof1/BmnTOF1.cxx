@@ -63,6 +63,15 @@ Bool_t BmnTOF1::ProcessHits(FairVolume* vol)
         Int_t fTrackID = gMC->GetStack()->GetCurrentTrackNumber();
         assert(fTrackID >= 0);
 
+        TParticle* part = 0;
+        part = gMC->GetStack()->GetCurrentTrack();
+        
+		if (part) {
+            fIsPrimary = (Int_t)part->IsPrimary();
+            fPdgId = (Int_t)part->GetPdgCode();
+        }
+
+
         Int_t region = 0, detector, strip;
         gMC->CurrentVolOffID(0, strip);
         gMC->CurrentVolOffID(1, detector);
@@ -70,7 +79,7 @@ Bool_t BmnTOF1::ProcessHits(FairVolume* vol)
         Int_t fVolumeID = BmnTOF1Point::GetVolumeUID(region, detector, strip);
 
         AddPoint(fTrackID, kTOF1, TVector3(fPos.X(), fPos.Y(), fPos.Z()), TVector3(fMom.Px(), fMom.Py(), fMom.Pz()),
-                 fTime, fLength, fELoss, fVolumeID);
+                 fTime, fLength, fELoss, fVolumeID, fIsPrimary, fPdgId);
         ((CbmStack*)gMC->GetStack())->AddPoint(kTOF1);
 
         ResetParameters();
@@ -211,8 +220,10 @@ BmnTOF1Point* BmnTOF1::AddPoint(Int_t trackID,
                                 Double_t time,
                                 Double_t length,
                                 Double_t eLoss,
-                                Int_t volUID)
+                                Int_t volUID,
+                                Int_t IsPrimary, 
+                                Int_t PdgId)
 {
     return new ((*fTofCollection)[fTofCollection->GetEntriesFast()])
-        BmnTOF1Point(trackID, detID, pos, mom, time, length, eLoss, volUID);
+        BmnTOF1Point(trackID, detID, pos, mom, time, length, eLoss, volUID, IsPrimary, PdgId);
 }

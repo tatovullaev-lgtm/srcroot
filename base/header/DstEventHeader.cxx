@@ -12,7 +12,12 @@ DstEventHeader::DstEventHeader() : FairEventHeader(),
                                    fBC2_12(-100.0), 
                                    fBC3_12(-100.0), 
                                    fBC4_12(-100.0), 
-                                   fBC5_12(-100.0), 
+                                   fBC5_12(-100.0),
+                                   fBC1_cor(-100.0), //cor
+                                   fBC2_cor(-100.0), 
+                                   fBC3_cor(-100.0), 
+                                   fBC4_cor(-100.0), 
+                                   fBC5_cor(-100.0),  
                                    fBC3_12_X10(-100.0), 
                                    fBC4_12_X10(-100.0), 
                                    fBC5_12_X10(-100.0),
@@ -22,7 +27,11 @@ DstEventHeader::DstEventHeader() : FairEventHeader(),
                                    fZinBC12(-100),
                                    fZoutBC34_12(-100), 
                                    fZoutBC35_12(-100), 
-                                   fZoutBC45_12(-100), 
+                                   fZoutBC45_12(-100),
+                                   fZinBC12_cor(-100),  //cor
+                                   fZoutBC34_12_cor(-100), 
+                                   fZoutBC35_12_cor(-100), 
+                                   fZoutBC45_12_cor(-100), 
                                    fZoutBC34_S(-100), 
                                    fZoutBC35_S(-100), 
                                    fZoutBC45_S(-100),
@@ -77,6 +86,11 @@ DstEventHeader::DstEventHeader(UInt_t run_id, UInt_t event_id, TTimeStamp event_
                                                                                                                                  fBC3_12(-100.0), 
                                                                                                                                  fBC4_12(-100.0), 
                                                                                                                                  fBC5_12(-100.0),
+                                                                                                                                 fBC1_cor(-100.0),     //cor 
+                                                                                                                                 fBC2_cor(-100.0), 
+                                                                                                                                 fBC3_cor(-100.0), 
+                                                                                                                                 fBC4_cor(-100.0), 
+                                                                                                                                 fBC5_cor(-100.0),
                                                                                                                                  fBC3_12_X10(-100.0), 
                                                                                                                                  fBC4_12_X10(-100.0), 
                                                                                                                                  fBC5_12_X10(-100.0), 
@@ -86,7 +100,11 @@ DstEventHeader::DstEventHeader(UInt_t run_id, UInt_t event_id, TTimeStamp event_
                                                                                                                                  fZinBC12(-100),
                                                                                                                                  fZoutBC34_12(-100), 
                                                                                                                                  fZoutBC35_12(-100), 
-                                                                                                                                 fZoutBC45_12(-100), 
+                                                                                                                                 fZoutBC45_12(-100),
+                                                                                                                                 fZinBC12_cor(-100),    //cor
+                                                                                                                                 fZoutBC34_12_cor(-100), 
+                                                                                                                                 fZoutBC35_12_cor(-100), 
+                                                                                                                                 fZoutBC45_12_cor(-100), 
                                                                                                                                  fZoutBC34_S(-100), 
                                                                                                                                  fZoutBC35_S(-100), 
                                                                                                                                  fZoutBC45_S(-100),
@@ -145,6 +163,11 @@ void DstEventHeader::CopyFrom(DstEventHeader * hdr) {
     fBC3_12 = hdr->fBC3_12;
     fBC4_12 = hdr->fBC4_12;
     fBC5_12 = hdr->fBC5_12;
+    fBC1_cor = hdr->fBC1_cor;   //cor
+    fBC2_cor = hdr->fBC2_cor;
+    fBC3_cor = hdr->fBC3_cor;
+    fBC4_cor = hdr->fBC4_cor;
+    fBC5_cor = hdr->fBC5_cor;
     fBC3_12_X10 = hdr->fBC3_12_X10;
     fBC4_12_X10 = hdr->fBC4_12_X10;
     fBC5_12_X10 = hdr->fBC5_12_X10;
@@ -155,6 +178,10 @@ void DstEventHeader::CopyFrom(DstEventHeader * hdr) {
     fZoutBC34_12 = hdr->fZoutBC34_12;
     fZoutBC35_12 = hdr->fZoutBC35_12;
     fZoutBC45_12 = hdr->fZoutBC45_12;
+    fZinBC12_cor = hdr->fZinBC12_cor;   //cor
+    fZoutBC34_12_cor = hdr->fZoutBC34_12_cor;
+    fZoutBC35_12_cor = hdr->fZoutBC35_12_cor;
+    fZoutBC45_12_cor = hdr->fZoutBC45_12_cor;
     fZoutBC34_S = hdr->fZoutBC34_S;
     fZoutBC35_S = hdr->fZoutBC35_S;
     fZoutBC45_S = hdr->fZoutBC45_S;

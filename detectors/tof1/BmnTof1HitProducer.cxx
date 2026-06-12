@@ -736,8 +736,8 @@ Bool_t BmnTof1HitProducer::SetCorrFiles()
     {
         NameFileLRcorrection = Form("TOF400_LRCorr_RUN%i_SRC.dat", fPeriod);
         NameFileSlewingCorrection = Form("TOF400_SlewingCorr_RUN%i_SRC_Pb1_recovery_v2.root", fPeriod);
-        NameFileTimeShiftCorrection = Form("TOF400_TimeShiftCorr_RUN%i_SRC_corrections.dat", fPeriod); // "TOF400_TimeShiftCorr_RUN%i_SRC_corrections_v2.dat"
-        //"TOF400_TimeShiftCorr_RUN%i_SRC_vertex.dat"
+        NameFileTimeShiftCorrection = Form("TOF400_TimeShiftCorr_RUN%i_SRC_Pb1_v2.dat", fPeriod); // shifted = center - dt
+        //"TOF400_TimeShiftCorr_RUN%i_SRC_corrections.dat"  center of strip
         FlagFileLRcorrection = true;
         FlagFileSlewingCorrection = true;
         FlagFileTimeShiftCorrection = true;

@@ -17,10 +17,14 @@ BmnTOF1Point::BmnTOF1Point(Int_t trackID,
                            Double_t tof,
                            Double_t length,
                            Double_t eLoss,
-                           Int_t detUID)
+                           Int_t detUID,
+                           Int_t IsPrimary, 
+                           Int_t PdgId)
     : FairMCPoint(trackID, detID, pos, mom, tof, length, eLoss)
 {
     fDetectorUID = detUID;
+    fIsPrimary = IsPrimary;
+    fPdgId = PdgId;
 }
 //--------------------------------------------------------------------------------------------------------------------------------------
 BmnTOF1Point::~BmnTOF1Point() {}
