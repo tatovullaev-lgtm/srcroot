@@ -19,7 +19,7 @@ source ${SRCROOTDIR}/build/config.sh
 for iRun in $(seq $1 $2)
   do
 
-  sbatch --job-name=Run_${iRun}_Reco_SRC ${RUNDIR}/single_unpack.sh ${iRun}
+  sbatch --job-name=Run_${iRun}_Reco_SRC ${RUNDIR}/run_x1_single_unpack.sh ${iRun}
   echo ${iRun}
 
 done

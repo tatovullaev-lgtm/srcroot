@@ -2,8 +2,8 @@
 
 #SBATCH -t 10-00:00:00
 #SBATCH -p bmn
-#SBATCH -w n02p043
-#SBATCH --mem=4Gb
+#SBATCH -w n02p042
+#SBATCH --mem=6Gb
 
 
 
@@ -44,35 +44,35 @@ LOG_SLURM_DIR=/zfs/scratch/tatov/Reconstruction/log/slurm
 RUN=$1
 
 # cyrcle for 10 runs
-for (( i = ${RUN}*10; i <= ${RUN}*10+9; i++ ))
+for (( i = ${RUN}; i <= ${RUN}; i++ ))
     do
 
-    # # data to digi
-    # CHKFILE="${DATDIR}/mpd_run_Top_${i}.data"
-    # echo "${DATDIR}/mpd_run_Top_${i}.data"
-    # echo "${CHKFILE}"
+    # data to digi
+    CHKFILE="${DATDIR}/mpd_run_Top_${i}.data"
+    echo "${DATDIR}/mpd_run_Top_${i}.data"
+    echo "${CHKFILE}"
 
-    # if [ -f "${CHKFILE}" ]; then
-	# echo "data file for the run ${i} exists"
+    if [ -f "${CHKFILE}" ]; then
+	echo "data file for the run ${i} exists"
 	
-    #   root -b -q ''${RUNDIR}'/run_raw_src.C("'${DATDIR}'/mpd_run_Top_'${i}'.data","'${DIGIDIR}'/Run_'${i}'_Digi.root", 0, 8, kTRUE, kFALSE)' >> ${LOG_DATDIG_DIR}/${i}_2.log
+      root -b -q ''${RUNDIR}'/run_raw_src.C("'${DATDIR}'/mpd_run_Top_'${i}'.data","'${DIGIDIR}'/Run_'${i}'_Digi.root", 0, 8, kTRUE, kFALSE)' >> ${LOG_DATDIG_DIR}/${i}_2.log
 
      
        
-    # fi
+    fi
 
-    # digi to reco
-    CHKFILE="${DIGIDIR}/Run_${i}_Digi.root"
-    echo "${DIGIDIR}/Run_${i}_Digi.root"
+    # # digi to reco
+    # CHKFILE="${DIGIDIR}/Run_${i}_Digi.root"
+    # echo "${DIGIDIR}/Run_${i}_Digi.root"
 
-    if [ -f "${CHKFILE}" ]; then
-	echo "digi file for the run ${i} exists"
+    # if [ -f "${CHKFILE}" ]; then
+	# echo "digi file for the run ${i} exists"
 	
-      root -b -q ''${RUNDIR}'/run_reco_src.C("'${DIGIDIR}'/Run_'${i}'_Digi.root","'${RECODIR}'/Run_'${i}'_Reco.root", 0, 0)' >> ${LOG_DIGREC_DIR}/${i}.log
+    #   root -b -q ''${RUNDIR}'/run_reco_src.C("'${DIGIDIR}'/Run_'${i}'_Digi.root","'${RECODIR}'/Run_'${i}'_Reco.root", 0, 0)' >> ${LOG_DIGREC_DIR}/${i}.log
 
  
        
-    fi
+    # fi
 
 
     # # reco to combined files

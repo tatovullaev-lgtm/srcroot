@@ -1651,9 +1651,10 @@ void Goran_Tracks_Physics_M(TString infilename, TString outfilename) {
       C_betaZ = C_beta;
         
       if(MWPC_p0->nTracks == 1){
+        C_betaZ = C_beta / sqrt(MWPC_p0->Tx->at(0) * MWPC_p0->Tx->at(0) + MWPC_p0->Ty->at(0) * MWPC_p0->Ty->at(0) + 1);
         C_betaX = MWPC_p0->Tx->at(0) * C_betaZ;
         C_betaY = MWPC_p0->Ty->at(0) * C_betaZ;
-        C_betaZ = C_beta / sqrt(MWPC_p0->Tx->at(0) * MWPC_p0->Tx->at(0) + MWPC_p0->Ty->at(0) * MWPC_p0->Ty->at(0) + 1);
+        
       }
 
       double gamma_L, gamma_R;

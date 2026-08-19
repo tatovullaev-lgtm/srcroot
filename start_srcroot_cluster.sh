@@ -2,7 +2,7 @@
 
 echo "Start script"
 
-SRCROOTDIR=/zfs/scratch/lhep-src/srcroot_1/srcroot
+SRCROOTDIR=/zfs/scratch/tatov/srcroot
 
 
 module add CMake/v3.26.5 libexpat libxml2 GSL
