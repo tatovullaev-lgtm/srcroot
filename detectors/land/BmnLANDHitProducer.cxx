@@ -117,13 +117,13 @@ void 		BmnLANDHitProducer::Exec(Option_t* opt) {
 	aLandHits->Clear();
 
 	TVector3 	pos, poslab, dpos; 	
-	Int_t nT0Digits = aExpDigitsT0->GetEntriesFast();
+	[[maybe_unused]] Int_t nT0Digits = aExpDigitsT0->GetEntriesFast();
 	
 
 	float dPlane=10.; //spacing bwt planes tmp
 	
 	//if (nT0Digits == 1) { // T0 digit should exist and only be len 1
-		BmnTrigDigit* digT0 = (BmnTrigDigit*) aExpDigitsT0->At(0);
+		[[maybe_unused]] BmnTrigDigit* digT0 = (BmnTrigDigit*) aExpDigitsT0->At(0);
 
 		for (Int_t iDig = 0; iDig < aExpDigits->GetEntriesFast(); ++iDig) {
 			BmnLANDDigit* digLand = (BmnLANDDigit*) aExpDigits->At(iDig);

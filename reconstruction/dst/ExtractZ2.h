@@ -233,8 +233,8 @@ void grabZ2(TClonesArray *TQDC_BC1_1, TClonesArray *TQDC_BC1_2, TClonesArray *TQ
 //cor
 
 void grabZ2_cor(TClonesArray *TQDC_BC1_1, TClonesArray *TQDC_BC1_2, TClonesArray *TQDC_BC2_1, TClonesArray *TQDC_BC2_2, double t0Time1, double t0Time2, double x1_cor, double x2_cor, double BC1calib, double BC2calib, short &Z, int pair) {
-    double adcBC1_1, adcBC1_2, adcBC2_1, adcBC2_2;
-    int bc1_1Idx, bc1_2Idx, bc2_1Idx, bc2_2Idx;
+    [[maybe_unused]] double adcBC1_1, adcBC1_2, adcBC2_1, adcBC2_2;
+    [[maybe_unused]] int bc1_1Idx, bc1_2Idx, bc2_1Idx, bc2_2Idx;
     double x1 = -100;
     double x2 = -100;
 

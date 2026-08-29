@@ -1293,10 +1293,10 @@ Double_t*** Coord_xuv_, Int_t **Nclust_, Int_t *counter_pl_) {
   Double_t earlyWires[kNChambers][kNPlanes][kNWires];
   Double_t Coord_fast[kNChambers][kNPlanes][kBig];
   Double_t Cut_time_wire = 16.;//ns
-  Double_t time_windows = 8.;//ns
+  [[maybe_unused]] Double_t time_windows = 8.;//ns
   Double_t Num_layers_out_beam = 0;
   Bool_t   wire_was = 0;
-  Int_t    kbig = 200.;
+  [[maybe_unused]] Int_t    kbig = 200.;
   Double_t sum_time =0.;
   Double_t time_limit = 150.;
 
@@ -1999,7 +1999,7 @@ void BmnMwpcHitFinder::ProcessSegments2coord( Int_t chNum, Int_t *Nsegm, Double_
     Int_t **Nhits_seg_ , Double_t **Chi2_ndf_seg_, Double_t ***coor_seg, Double_t ***cluster_seg, Double_t ***Par_ab_seg, 
     Int_t *Nbest_seg_, Int_t *Nlay_w_wires_, Double_t ****sigma2_s) {
     if (fDebug) cout<<" -- ProcessSegments2coord -- "<<endl;
-    Double_t dx_;
+    [[maybe_unused]] Double_t dx_;
     Double_t Chi2[kNChambers][kBig];
     Double_t Par_ab[kNChambers][4][kBig];
     Double_t x1,x2, y1,y2, zx1,zx2, zy1, zy2;
@@ -2236,7 +2236,7 @@ void BmnMwpcHitFinder::ProcessSegments( Int_t chNum, Int_t *Nsegm, Double_t ***X
   Double_t ****sigma2_s) {
   if (fDebug) cout <<" -ProcessSegments- "<<endl;
 
-  segments seg[kNChambers][kBig];
+  [[maybe_unused]] segments seg[kNChambers][kBig];
 
   Double_t par_ab[kNChambers][kNPlanes][kBig];
   Double_t dx_[kNPlanes];
@@ -2254,8 +2254,8 @@ void BmnMwpcHitFinder::ProcessSegments( Int_t chNum, Int_t *Nsegm, Double_t ***X
   }
   
   Int_t    Min_hits6;
-  Double_t delta = 3*dw;
-  Double_t Chi2_Super_min = 0.001;
+  [[maybe_unused]] Double_t delta = 3*dw;
+  [[maybe_unused]] Double_t Chi2_Super_min = 0.001;
   Double_t x_target, y_target;
   Double_t xy_t_max[4] = {30., 35., 40., 45.};
   
@@ -2556,7 +2556,7 @@ void BmnMwpcHitFinder::ProcessSegments( Int_t chNum, Int_t *Nsegm, Double_t ***X
         }
         
           Double_t x_t  = par_ab[chNum][0][itSeg]*( Z0_SRC - ChZ[chNum]) + par_ab[chNum][1][itSeg];
-          Double_t y_t  = par_ab[chNum][2][itSeg]*( Z0_SRC - ChZ[chNum]) + par_ab[chNum][3][itSeg];
+          [[maybe_unused]] Double_t y_t  = par_ab[chNum][2][itSeg]*( Z0_SRC - ChZ[chNum]) + par_ab[chNum][3][itSeg];
           if (fDebug) {
             hx_target_best.at(chNum)->Fill(x_t);
             hy_target_best.at(chNum)->Fill(x_t);

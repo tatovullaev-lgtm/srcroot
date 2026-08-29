@@ -179,7 +179,7 @@ void BmnTofGeoUtils::ParseStripsGeometry(const char *geomFile)
             stripData.InitCenterPerp();
 
             // if (i==18&&j==31) stripData.Dump("\n strip:");
-            bool IsUniqueUID = mStrips.insert(make_pair(uid, stripData)).second;
+            [[maybe_unused]] bool IsUniqueUID = mStrips.insert(make_pair(uid, stripData)).second;
             nStrips++;
 
         } // strips

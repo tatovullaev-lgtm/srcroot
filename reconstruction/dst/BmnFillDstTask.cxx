@@ -204,7 +204,7 @@ InitStatus BmnFillDstTask::Init() {
                 cout << currString.Data() << endl;
                 TString ab(currString(5, currString.Length()));
                 TString a(ab(0, ab.First(" ")));
-                float a_float;
+                [[maybe_unused]] float a_float;
                 fZCalib1 = a.Atof();
                 TString c(ab(a.Length() + 1, ab.Length()));
                 //cout<<"c = "<<c.Data()<<endl;
@@ -381,8 +381,8 @@ void BmnFillDstTask::Exec(Option_t* /*option*/) {
     BmnTrigDigit* digT02 = NULL;
     Int_t t0Count1 = 0;
     Int_t t0Count2 = 0;
-    Double_t unused=0;
-    Short_t unused1=0;
+    [[maybe_unused]] Double_t unused=0;
+    [[maybe_unused]] Short_t unused1=0;
 
 
     // new TofCal

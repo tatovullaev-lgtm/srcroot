@@ -82,7 +82,7 @@ void BmnFHCal::Initialize() {
 
   FairDetector::Initialize();
   FairRun* sim = FairRun::Instance();
-  FairRuntimeDb* rtdb = sim->GetRuntimeDb();
+  [[maybe_unused]] FairRuntimeDb* rtdb = sim->GetRuntimeDb();
 
   //fVSCVolId = gMC->VolId("zdc01s");
   //fVSCNICAVolId = gMC->VolId("zdc01s_NICA");
@@ -160,17 +160,17 @@ BmnFHCalPoint* BmnFHCal::GetHitPrint(Int_t vsc, Int_t mod) const {
 Bool_t BmnFHCal::ProcessHits(FairVolume* vol) {
   // if (TMath::Abs(gMC->TrackCharge()) <= 0) return kFALSE;
 
-  Int_t copyNoVSC, copyNoVTYVEC, copyNoVMOD, copyNoVFHCal;
-  Int_t copyNoVSCNICA, copyNoVTYVECNICA, copyNoVMODNICA, copyNoVFHCalNICA;
-  Int_t copyNoVSCCom, copyNoVTYVECCom, copyNoVMODCom, copyNoVFHCalCom;
+  [[maybe_unused]] Int_t copyNoVSC, copyNoVTYVEC, copyNoVMOD, copyNoVFHCal;
+  [[maybe_unused]] Int_t copyNoVSCNICA, copyNoVTYVECNICA, copyNoVMODNICA, copyNoVFHCalNICA;
+  [[maybe_unused]] Int_t copyNoVSCCom, copyNoVTYVECCom, copyNoVMODCom, copyNoVFHCalCom;
 
   Int_t      ivol;
   TLorentzVector tPos1, tMom1;
   TLorentzVector tPos, tMom;
 
-  Int_t module, module_nica;
-  Int_t slice, slice_nica;
-  Int_t zdc, zdc_nica;
+  [[maybe_unused]] Int_t module, module_nica;
+  [[maybe_unused]] Int_t slice, slice_nica;
+  [[maybe_unused]] Int_t zdc, zdc_nica;
 
   Double_t time = 0;
   Double_t length = 0;

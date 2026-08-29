@@ -47,7 +47,7 @@ void BmnTOF::Initialize()
 {
     FairDetector::Initialize();
     FairRun* sim = FairRun::Instance();
-    FairRuntimeDb* rtdb = sim->GetRuntimeDb();
+    [[maybe_unused]] FairRuntimeDb* rtdb = sim->GetRuntimeDb();
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------

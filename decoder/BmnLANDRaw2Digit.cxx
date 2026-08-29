@@ -269,7 +269,7 @@ BmnLANDRaw2Digit::BmnLANDRaw2Digit(TString a_map_filename, TString
       }
       int land_plane = -1;
       int land_bar = -1;
-      int land_t = -1;
+      [[maybe_unused]] int land_t = -1;
       auto const token = tokenize(line);
       if (token.size() < 7) {
 	continue;

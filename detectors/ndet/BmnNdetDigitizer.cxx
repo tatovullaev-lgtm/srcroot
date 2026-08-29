@@ -78,8 +78,8 @@ InitStatus BmnNdetDigitizer::Init() {
   cout << "-I- BmnNdetDigitizer: Init started..." << endl;
    fRandom3 = new TRandom3();
 
-   Int_t nbMods=9;
-   Int_t nbSect=15;
+   [[maybe_unused]] Int_t nbMods=9;
+   [[maybe_unused]] Int_t nbSect=15;
 
    // Get nDet module mapping (if mapping file is set)
    for (int i = 0; i < 1000; i++) { fModuleX[i] = -10000; fModuleY[i] = -10000; }
@@ -188,7 +188,7 @@ void BmnNdetDigitizer::Exec(Option_t* opt) {
     Fatal("BmnNdetDigitizer::Exec", "No DigiScheme");
 
   Int_t modID, chanID;
-  Double_t time;
+  [[maybe_unused]] Double_t time;
   BmnNdetDigitId_t digiID;
    Int_t nbMods=9;
    Int_t nbSect=15;
@@ -219,7 +219,7 @@ void BmnNdetDigitizer::Exec(Option_t* opt) {
     dTimeEv[modID - 1][chanID-1] = point->GetTime();
     dEdepSectEv[modID - 1][chanID-1] = point->GetEnergyLoss();
 
-    Int_t pMMcopy=1; 
+    [[maybe_unused]] Int_t pMMcopy=1; 
     digiID = pDigiScheme->GetDigiIdFromVolumeData  (point->GetDetectorID(), point->GetCopyMother());
 
     if ((digiID[0]!=-1)&&(digiID[1]!=-1)) {

@@ -1289,15 +1289,15 @@ void BmnDchTrackFinder::Exec(Option_t* opt) {
   else{
     
     //read MC data
-    Double_t x1_MC1 = 999;
-    Double_t y1_MC1 = 999;
-    Double_t z1_MC1 = 999;
-    Double_t x1_MC2 = 999;
-    Double_t y1_MC2 = 999;
-    Double_t z1_MC2 = 999;
+    [[maybe_unused]] Double_t x1_MC1 = 999;
+    [[maybe_unused]] Double_t y1_MC1 = 999;
+    [[maybe_unused]] Double_t z1_MC1 = 999;
+    [[maybe_unused]] Double_t x1_MC2 = 999;
+    [[maybe_unused]] Double_t y1_MC2 = 999;
+    [[maybe_unused]] Double_t z1_MC2 = 999;
 
-    bool _MC1 = false;
-    bool _MC2 = false;
+    [[maybe_unused]] bool _MC1 = false;
+    [[maybe_unused]] bool _MC2 = false;
     for (Int_t iMC = 0; iMC < fBmnHitsArray->GetEntriesFast(); ++iMC) {
       BmnDchHit* hit = (BmnDchHit*)fBmnHitsArray->UncheckedAt(iMC);
    
@@ -1441,7 +1441,7 @@ void BmnDchTrackFinder::SegmentsToBeMatched() {
       if (Chi2[1][segdc2Nr] > 998. )
 	continue;
 
-      Double_t chi2_match = 0;
+      [[maybe_unused]] Double_t chi2_match = 0;
       for (int segdc1Nr = 0; segdc1Nr < nSegments[0]; segdc1Nr++) {
 	if (Chi2[0][segdc1Nr] > 998. )
 	  continue;
@@ -1989,7 +1989,7 @@ Bool_t BmnDchTrackFinder::FitDchSegments(Int_t dchID, Int_t* size_seg, Double_t*
   Double_t Z_dch = (dchID == 1) ? Z_dch1 : Z_dch2;
   Bool_t hasSuffNumberOfSegments = kFALSE;
   Double_t sqrt_2 = sqrt(2.);
-  Double_t isqrt_2 = 1. / sqrt_2;
+  [[maybe_unused]] Double_t isqrt_2 = 1. / sqrt_2;
   for (Int_t j = 0; j < nDC_segments; j++) {
     Int_t worst_hit = -1;
     Double_t max_resid = 0;
@@ -2163,7 +2163,7 @@ void BmnDchTrackFinder::FillPlaneResiduals(Int_t dchID, Int_t* size_seg, Double_
 	hResidx1b->Fill(res2);
 	//	cout<<" " <<res1<<" " <<res2;
 	double int1;
-	double int2;
+	[[maybe_unused]] double int2;
 	double dist_a = 999;
 	double dist_b = 999;
 	if(fabs(modf(rh_seg[0][it1],&int1))< .5){
@@ -2357,7 +2357,7 @@ void BmnDchTrackFinder::FillPlaneResiduals(Int_t dchID, Int_t* size_seg, Double_
 	hResidx2b->Fill(res2);
 	//	cout<<" " <<res1<<" " <<res2;
 	double int1;
-	double int2;
+	[[maybe_unused]] double int2;
 	double dist_a = 999;
 	double dist_b = 999;
 	if(fabs(modf(rh_seg[0][it1],&int1))< .5){
@@ -2543,8 +2543,8 @@ void BmnDchTrackFinder::FindSegmentTrackMCId(Int_t dchID, Int_t** rhId_seg, Doub
     if (chi2[it1] > 990.) continue;
     //calculate segment param errors
     
-    Int_t mcId = -999;  
-    int prev = -9;
+    [[maybe_unused]] Int_t mcId = -999;  
+    [[maybe_unused]] int prev = -9;
     int count = 0;
     Int_t maxHits = 0;
     Int_t bestId = -99;
@@ -3566,10 +3566,10 @@ Int_t BmnDchTrackFinder::ReconstructionMC(Int_t dchID, TString wire, Int_t pair,
 Int_t BmnDchTrackFinder::ReconstructionSingleMC(Int_t dchID, TString wire, TString lay, Int_t single, Int_t it,
 						Double_t* wirenr, Double_t* time_, Int_t* hitId, Bool_t* used,
 						Double_t** _single, Int_t** _singleId, Double_t** sigm_single) {
-  const Int_t arrIdxStart = (wire == "x") ? 0 : (wire == "y") ? 2 : (wire == "u") ? 4 : 6;
+  [[maybe_unused]] const Int_t arrIdxStart = (wire == "x") ? 0 : (wire == "y") ? 2 : (wire == "u") ? 4 : 6;
 
   const Int_t arrIdx1 = (lay == "a") ? 0 : 1;
-  const Int_t arrIdx2 = (dchID == 2) ? 8 : 0;
+  [[maybe_unused]] const Int_t arrIdx2 = (dchID == 2) ? 8 : 0;
   const Double_t coeff = (lay == "a") ? 118.5 : 119.;//switched
 
   for (Int_t i = 0; i < it; ++i) {

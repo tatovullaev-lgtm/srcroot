@@ -353,8 +353,8 @@ void BmnMwpcTrackFinder::ReadSegments(Double_t ***par_ab, Int_t **Nhits, Double_
         Int_t    st_MC   = hit->GetMwpcId();
         Int_t    trackId_MC  = hit->GetHitId();
         Int_t    pl_MC   = hit->GetPlaneId();
-        Short_t  wire_MC = hit->GetWireNumber();
-        Double_t time_MC = hit->GetWireTime();
+        [[maybe_unused]] Short_t  wire_MC = hit->GetWireNumber();
+        [[maybe_unused]] Double_t time_MC = hit->GetWireTime();
         
         //if (fDebug)cout<<" st_MC "<<st_MC<<" trackId_MC "<<trackId_MC<<" pl_MC "<<pl_MC<<" X "<<hit->GetX()<<" wire_MC "<<wire_MC<<endl;
         
@@ -408,7 +408,7 @@ void BmnMwpcTrackFinder::ReadSegments(Double_t ***par_ab, Int_t **Nhits, Double_
       
     if (fDebug)cout<<" MC vec_points.size() "<<vec.size()<<endl;
     
-    Double_t x_target_ch2, y_target_ch2, x_target_ch3, y_target_ch3;
+    [[maybe_unused]] Double_t x_target_ch2, y_target_ch2, x_target_ch3, y_target_ch3;
     
     for (Int_t itr = 0; itr < vec.size(); itr++) {
       //ch2
@@ -580,7 +580,7 @@ Int_t **best_Ch, Int_t *Nbest_pair_, Double_t **Chi2_match_, Double_t ***XVU_Ch_
   vector<match> vtmpSeg;
   vector<match> OutVector;
   match tmpSeg;
-  match OutSegArray[kmaxPairs];
+  [[maybe_unused]] match OutSegArray[kmaxPairs];
 
   Int_t Pairr = 0;
  // if ( fRunPeriod == 7 && first_Ch == 2 || fRunPeriod == 8) Pairr = 1;
@@ -716,7 +716,7 @@ void BmnMwpcTrackFinder::SegmentMatchingAfterTarget( Int_t first_Ch, Int_t *Nbes
   vector<match> vtmpSeg;
   vector<match> OutVector;
   match tmpSeg;
-  match OutSegArray[kmaxPairs];
+  [[maybe_unused]] match OutSegArray[kmaxPairs];
 
   Int_t Pairr = 0;//doesn't work
   if ( fRunPeriod == 7 && first_Ch == 2 || fRunPeriod == 8 && first_Ch == 2) Pairr = 1;// main stream
@@ -742,14 +742,14 @@ void BmnMwpcTrackFinder::SegmentMatchingAfterTarget( Int_t first_Ch, Int_t *Nbes
     for (Int_t bst1 = 0; bst1 < Nbest[first_Ch]; bst1++) {
 
       //ch1                   zloc0 -z_i
-      Float_t x1mid = par_ab[first_Ch][0][bst1] *( 0 - kZmid[first_Ch]) + par_ab[first_Ch][1][bst1] ;
-      Float_t y1mid = par_ab[first_Ch][2][bst1] *( 0 - kZmid[first_Ch]) + par_ab[first_Ch][3][bst1] ;
+      [[maybe_unused]] Float_t x1mid = par_ab[first_Ch][0][bst1] *( 0 - kZmid[first_Ch]) + par_ab[first_Ch][1][bst1] ;
+      [[maybe_unused]] Float_t y1mid = par_ab[first_Ch][2][bst1] *( 0 - kZmid[first_Ch]) + par_ab[first_Ch][3][bst1] ;
       //  cout<<" bst1 " <<bst1<<" x1mid "<<x1mid<<" y1mid "<<y1mid<<endl;
 
       for (Int_t bst2 = 0; bst2 < Nbest[Secon_Ch]; bst2++){
         //ch2
-        Float_t x2mid = par_ab[Secon_Ch][0][bst2] *( 0 - kZmid[Secon_Ch]) + par_ab[Secon_Ch][1][bst2] ;
-        Float_t y2mid = par_ab[Secon_Ch][2][bst2] *( 0 - kZmid[Secon_Ch]) + par_ab[Secon_Ch][3][bst2] ;
+        [[maybe_unused]] Float_t x2mid = par_ab[Secon_Ch][0][bst2] *( 0 - kZmid[Secon_Ch]) + par_ab[Secon_Ch][1][bst2] ;
+        [[maybe_unused]] Float_t y2mid = par_ab[Secon_Ch][2][bst2] *( 0 - kZmid[Secon_Ch]) + par_ab[Secon_Ch][3][bst2] ;
         //if (fDebug)cout<<" bst2 " <<bst2<<" x2mid "<<x2mid<<" y2mid "<<y2mid<<endl;
         
         dx_loc  = par_ab[first_Ch][1][bst1] - par_ab[Secon_Ch][1][bst2];

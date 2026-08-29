@@ -106,7 +106,7 @@ BmnNdetVolInfo_t* BmnNdetDigitScheme::CreateVolInfoElement (FairGeoNode* nod, In
 
   static TString root_name_copy1="";
   static Double_t volData[6]={0,0,0,0,0,0};
-  Int_t i,j;
+  [[maybe_unused]] Int_t i,j;
 
   TString shape_name = nod->getShapePointer()->GetName();
   TString root_name = nod->getRootVolume()->GetName();
@@ -162,7 +162,7 @@ BmnNdetVolId_t* BmnNdetDigitScheme::CreateVolElement (FairGeoNode* nod, Int_t no
   if (!nod)
     return NULL;
 
-  FairGeoNode *nod0, *nod1;
+  [[maybe_unused]] FairGeoNode *nod0, *nod1;
   TString mother_name, tmp;
 
   //  FairGeoTransform *center;
@@ -209,12 +209,12 @@ BmnNdetVolId_t* BmnNdetDigitScheme::CreateVolElement (FairGeoNode* nod, Int_t no
 
 Bool_t BmnNdetDigitScheme::AddNodes (TObjArray* sensNodes, Int_t pVerbose)
 {
-  Int_t nNodes = sensNodes->GetEntriesFast();
+  [[maybe_unused]] Int_t nNodes = sensNodes->GetEntriesFast();
   Int_t nPasNodes = fPasNodes->GetEntriesFast();
   FairGeoNode *nod=0;
-  Int_t nodeNumber,nodeCopyNo,nodeVolumeId, chanId2=0, chanId1=0, ndet_channel=0;
-  BmnNdetVolId_t *left1,*left2;
-  BmnNdetDigitId_t *right1,*right2;
+  [[maybe_unused]] Int_t nodeNumber,nodeCopyNo,nodeVolumeId, chanId2=0, chanId1=0, ndet_channel=0;
+  [[maybe_unused]] BmnNdetVolId_t *left1,*left2;
+  [[maybe_unused]] BmnNdetDigitId_t *right1,*right2;
 
   // if (pVerbose) {
   //     cout << "-W-  BmnNdetDigitScheme::AddNodes: started.  nNodes:" << nNodes  << endl;
@@ -272,8 +272,8 @@ Bool_t BmnNdetDigitScheme::AddNodes (TObjArray* sensNodes, Int_t pVerbose)
 
 Bool_t BmnNdetDigitScheme::CreateVolCopyElements  (BmnNdetVolId_t* left, BmnNdetDigitId_t* right)
 {
-  BmnNdetVolId_t *left1,*left2;
-  BmnNdetDigitId_t *right1,*right2;
+  [[maybe_unused]] BmnNdetVolId_t *left1,*left2;
+  [[maybe_unused]] BmnNdetDigitId_t *right1,*right2;
 
   if (!fPasNodes) 
     return kFALSE;

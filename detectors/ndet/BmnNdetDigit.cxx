@@ -183,7 +183,7 @@ UInt_t BmnNdetDigit::AddNdetPoint (BmnNdetPoint *p)
       fELoss += p->GetEnergyLoss();
     */
     Int_t modID, chanID;
-    Double_t time;
+    [[maybe_unused]] Double_t time;
     //pDigiScheme->SplitDigiID(pDigiScheme->GetDigiIdFromCoords(p->GetX(),p->GetY(),p->GetZ()),time, modID, chanID);
 
 	if ((fModuleID == modID)&&(fChannelID == chanID)) {

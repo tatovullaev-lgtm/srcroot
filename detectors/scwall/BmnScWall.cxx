@@ -66,7 +66,7 @@ void BmnScWall::Initialize() {
 
     FairDetector::Initialize();
     FairRun* sim = FairRun::Instance();
-    FairRuntimeDb* rtdb = sim->GetRuntimeDb();
+    [[maybe_unused]] FairRuntimeDb* rtdb = sim->GetRuntimeDb();
 
     fCellSmallCutVolId = gMC->VolId("scwall_sens_small_cutted");
     fCellSmallTrapVolId = gMC->VolId("scwall_sens_small_trap");

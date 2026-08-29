@@ -473,7 +473,7 @@ void BmnMwpc::ExpandNodeForGdml(TGeoNode* node)
             else
             {
                LOG(debug) << "    Found media in Geo file" << medName;
-               Int_t nmed = geobuild->createMedium(curMedInGeo);
+               [[maybe_unused]] Int_t nmed = geobuild->createMedium(curMedInGeo);
                fFixedMedia[medName] = (TGeoMedium*)gGeoManager->GetListOfMedia()->Last();
                gGeoManager->RemoveMaterial(curMatOfMedInGeoManager->GetIndex());
                LOG(debug) << "    removing material " << curMatOfMedInGeoManager->GetName()

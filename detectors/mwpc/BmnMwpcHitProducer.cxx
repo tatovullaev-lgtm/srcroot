@@ -230,7 +230,7 @@ BmnStatus BmnMwpcHitProducer::ProcessPoints() {
           Int_t nearest_wire = Int_t(wire_pos);
           Double_t wdist = TMath::Abs(wire_pos - nearest_wire);
           //sigma error dependent on the distance to the nearest wire
-          Double_t sigm_err = wdist;
+          [[maybe_unused]] Double_t sigm_err = wdist;
           
           if (fDebug) cout<<" Ch "<<ChId<<" track_id "<<track_id<<" xmc "<<x<<" y "<<y<<" pl "<<ipl<<" XUV "<<hit_coord<<" wire "<<wire_pos<<" nearest "<<nearest_wire<<endl;
           //if (fDebug) cout<<" ----"<<endl;

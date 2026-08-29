@@ -190,7 +190,7 @@ void BmnDigiContainerTemplate::reset()
 void BmnDigiContainerTemplate::DrawWfmWithTitle(TString hist_name)
 {
   if(fWfm.empty()) return;
-  TCanvas *canv_ptr = new TCanvas();
+  [[maybe_unused]] TCanvas *canv_ptr = new TCanvas();
   std::vector<float> points(fWfm.size());
   std::iota(std::begin(points), std::end(points), 0); // Fill with 0, 1, ..., wfm.back().
   TGraph *tgr_ptr = new TGraph(fWfm.size(), &points[0], &fWfm[0]);

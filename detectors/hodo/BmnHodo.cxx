@@ -59,7 +59,7 @@ void BmnHodo::Initialize() {
   
   FairDetector::Initialize();
   FairRun* sim = FairRun::Instance();
-  FairRuntimeDb* rtdb = sim->GetRuntimeDb();
+  [[maybe_unused]] FairRuntimeDb* rtdb = sim->GetRuntimeDb();
 
   fHodoStickSensVolId = gMC->VolId("hodo_stick_sens");
 }

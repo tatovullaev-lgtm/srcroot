@@ -838,7 +838,7 @@ void BmnTof1HitProducer::findIdx(TClonesArray *data, Int_t side, Int_t &index, D
 void BmnTof1HitProducer::getEnergyLoss(TClonesArray *bcData, Int_t side, Double_t t0Time, Double_t &dE, Double_t &time)
 {
 
-    Double_t adcBC = -1.;
+    [[maybe_unused]] Double_t adcBC = -1.;
 
     if (bcData->GetEntriesFast())
     {
