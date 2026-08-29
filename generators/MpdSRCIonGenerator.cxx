@@ -30,11 +30,23 @@ MpdSRCIonGenerator::MpdSRCIonGenerator():
 MpdSRCIonGenerator::MpdSRCIonGenerator(Int_t q,  Int_t a,   Int_t mult,
 		Double_t pmin, Double_t pmax,
 		Double_t x, Double_t y,	Double_t z,  Double_t x_sigma,  Double_t y_sigma,
-		Double_t xa, Double_t ya, Double_t xa_sigma, Double_t ya_sigma):
-	FairGenerator(),
-	fQ(q), fA(a), fMult(mult), fIon(NULL), fPmin(pmin), fPmax(pmax),
-	fX(x), fY(y), fZ(z), fXsigma(x_sigma), fYsigma(y_sigma),
-	fXA(xa), fYA(ya), fXAsigma(xa_sigma), fYAsigma(ya_sigma)
+		Double_t xa, Double_t ya, Double_t xa_sigma, Double_t ya_sigma)
+    : FairGenerator()
+    , fIon(NULL)
+    , fQ(q)
+    , fA(a)
+    , fMult(mult)
+    , fPmin(pmin)
+    , fPmax(pmax)
+    , fX(x)
+    , fY(y)
+    , fZ(z)
+    , fXsigma(x_sigma)
+    , fYsigma(y_sigma)
+    , fXA(xa)
+    , fYA(ya)
+    , fXAsigma(xa_sigma)
+    , fYAsigma(ya_sigma)
 {
 	fgNIon++;
 	char buffer[20];
@@ -52,16 +64,23 @@ MpdSRCIonGenerator::MpdSRCIonGenerator(Int_t q,  Int_t a,   Int_t mult,
 	}
 }
 
-MpdSRCIonGenerator::MpdSRCIonGenerator(const MpdSRCIonGenerator& rhs):
-	FairGenerator(rhs),
-	fQ(rhs.fQ), fA(rhs.fA),
-	fMult(rhs.fMult),
-	fPmin(rhs.fPmin), fPmax(rhs.fPmax),
-	fX(rhs.fX), fY(rhs.fY), fZ(rhs.fZ),
-	fXsigma(rhs.fXsigma), fYsigma(rhs.fYsigma),
-	fXA(rhs.fXA), fYA(rhs.fYA),
-	fXAsigma(rhs.fXAsigma), fYAsigma(rhs.fYAsigma),
-	fIon(rhs.fIon) // CHECK
+MpdSRCIonGenerator::MpdSRCIonGenerator(const MpdSRCIonGenerator& rhs)
+    : FairGenerator(rhs)
+    , fIon(rhs.fIon) // CHECK
+    , fQ(rhs.fQ)
+    , fA(rhs.fA)
+    , fMult(rhs.fMult)
+    , fPmin(rhs.fPmin)
+    , fPmax(rhs.fPmax)
+    , fX(rhs.fX)
+    , fY(rhs.fY)
+    , fZ(rhs.fZ)
+    , fXsigma(rhs.fXsigma)
+    , fYsigma(rhs.fYsigma)
+    , fXA(rhs.fXA)
+    , fYA(rhs.fYA)
+    , fXAsigma(rhs.fXAsigma)
+    , fYAsigma(rhs.fYAsigma)
 {
 	// fIon= new FairIon(buffer, z, a, q);
 	FairRunSim* run = FairRunSim::Instance();

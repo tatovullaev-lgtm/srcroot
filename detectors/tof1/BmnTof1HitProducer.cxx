@@ -22,15 +22,15 @@ static Double_t workTime = 0.0;
 //--------------------------------------------------------------------------------------------------------------------------------------
 
 BmnTof1HitProducer::BmnTof1HitProducer(const char *name, Bool_t useMCdata, Int_t verbose, Bool_t test)
-    : BmnTof1HitProducerIdeal(name, useMCdata, verbose, test),
-      fTimeSigma(0.100),
-      fErrX(1. / sqrt(12.)),
-      fErrY(0.5),
-      pRandom(nullptr),
-      h2TestStrips(nullptr),
-      h1TestDistance(nullptr),
-      h2TestNeighborPair(nullptr),
-      fSignalVelosity(0.060)
+    : BmnTof1HitProducerIdeal(name, useMCdata, verbose, test)
+    , fTimeSigma(0.100)
+    , fErrX(1. / sqrt(12.))
+    , fErrY(0.5)
+    , pRandom(nullptr)
+    , h1TestDistance(nullptr)
+    , h2TestNeighborPair(nullptr)
+    , h2TestStrips(nullptr)
+    , fSignalVelosity(0.060)
 {
     pGeoUtils = new BmnTof1GeoUtils;
 

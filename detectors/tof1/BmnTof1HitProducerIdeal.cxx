@@ -11,16 +11,16 @@
 
 
 BmnTof1HitProducerIdeal::BmnTof1HitProducerIdeal(const char *name, Bool_t useMCdata, Int_t verbose, Bool_t test, Bool_t merge)
-: BmnTask(name, verbose),
-  fDoTest(test),
-  fDoMergeHits(merge),
-  fUseMCData(useMCdata),
-  fOnlyPrimary(false),
-  fTestFlnm("test.BmnTof1HitProducerIdeal.root"),
-  aMcPoints(nullptr),
-  aMcTracks(nullptr),
-  aExpDigits(nullptr),
-  aTofHits(nullptr)
+    : BmnTask(name, verbose)
+    , aMcPoints(nullptr)
+    , aMcTracks(nullptr)
+    , aExpDigits(nullptr)
+    , aTofHits(nullptr)
+    , fDoTest(test)
+    , fDoMergeHits(merge)
+    , fUseMCData(useMCdata)
+    , fOnlyPrimary(false)
+    , fTestFlnm("test.BmnTof1HitProducerIdeal.root")
 {
     if (fDoTest)
     {

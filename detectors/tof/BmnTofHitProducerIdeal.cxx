@@ -10,16 +10,16 @@
 #include <assert.h>
 
 BmnTofHitProducerIdeal::BmnTofHitProducerIdeal(const char *name, Bool_t useMCdata, Int_t verbose, Bool_t test, Bool_t merge)
-: BmnTask(name, verbose),
-  fDoTest(test),
-  fDoMergeHits(merge),
-  fUseMCData(useMCdata),
-  fOnlyPrimary(false),
-  fTestFlnm("test.BmnTofHitProducerIdeal.root"),
-  aMcPoints(nullptr),
-  aMcTracks(nullptr),
-  aExpDigits(nullptr),
-  aTofHits(nullptr)
+    : BmnTask(name, verbose)
+    , aMcPoints(nullptr)
+    , aMcTracks(nullptr)
+    , aExpDigits(nullptr)
+    , aTofHits(nullptr)
+    , fDoTest(test)
+    , fDoMergeHits(merge)
+    , fUseMCData(useMCdata)
+    , fOnlyPrimary(false)
+    , fTestFlnm("test.BmnTofHitProducerIdeal.root")
 {
     if (fDoTest)
     {

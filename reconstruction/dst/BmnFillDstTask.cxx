@@ -35,80 +35,88 @@ using namespace std;
 
 
 // ---- Default constructor -------------------------------------------
-BmnFillDstTask::BmnFillDstTask() : FairTask("BmnFillDstTask"),
-                                   fInputEventHeaderName("BmnEventHeader."),
-                                   fOutputEventHeaderName("DstEventHeader."),
-                                   fEventHead(NULL),
-                                   fDstHead(NULL),
-                                   fNEvents(-1),
-                                   fIEvent(0),
-                                   fPeriodNumber(-1),
-                                   fRunNumber(-1),
-                                   fZCalib1(1),
-                                   fZCalib2(0),
-                                   fBC1Calib(0),
-                                   fBC2Calib(0),
-                                   fDoCalibration(kFALSE),
-                                   isSimulationInput(false) {
+BmnFillDstTask::BmnFillDstTask() 
+    : FairTask("BmnFillDstTask")
+    , fInputEventHeaderName("BmnEventHeader.")
+    , fOutputEventHeaderName("DstEventHeader.")
+    , fEventHead(NULL)
+    , isSimulationInput(false)
+    , fDstHead(NULL)
+    , fNEvents(-1)
+    , fIEvent(0)
+    , fPeriodNumber(-1)
+    , fRunNumber(-1)
+    , fZCalib1(1)
+    , fZCalib2(0)
+    , fBC1Calib(0)
+    , fBC2Calib(0)
+    , fDoCalibration(kFALSE)
+{
     LOG(debug) << "Defaul Constructor of BmnFillDstTask";
 }
 
 // ---- Constructor with the given event number to be processed -------
-BmnFillDstTask::BmnFillDstTask(Long64_t nEvents) : FairTask("BmnFillDstTask"),
-                                                   fInputEventHeaderName("BmnEventHeader."),
-                                                   fOutputEventHeaderName("DstEventHeader."),
-                                                   fEventHead(NULL),
-                                                   fDstHead(NULL),
-                                                   fNEvents(nEvents),
-                                                   fIEvent(0),
-                                                   fPeriodNumber(-1),
-                                                   fRunNumber(-1),
-                                                   fZCalib1(1),
-                                                   fZCalib2(0),
-                                                   fBC1Calib(0),
-                                                   fBC2Calib(0),
-                                                   fDoCalibration(kFALSE),
-                                                   isSimulationInput(false) {
+BmnFillDstTask::BmnFillDstTask(Long64_t nEvents) 
+    : FairTask("BmnFillDstTask")
+    , fInputEventHeaderName("BmnEventHeader.")
+    , fOutputEventHeaderName("DstEventHeader.")
+    , fEventHead(NULL)
+    , isSimulationInput(false)
+    , fDstHead(NULL)
+    , fNEvents(nEvents)
+    , fIEvent(0)
+    , fPeriodNumber(-1)
+    , fRunNumber(-1)
+    , fZCalib1(1)
+    , fZCalib2(0)
+    , fBC1Calib(0)
+    , fBC2Calib(0)
+    , fDoCalibration(kFALSE)
+{
     fRunHead = new DstRunHeader();
     LOG(debug) << "Constructor of BmnFillDstTask";
 }
 
 // Constructor with input Event Header Name and event number to be processed
-BmnFillDstTask::BmnFillDstTask(TString input_event_header_name, Long64_t nEvents) : FairTask("BmnFillDstTask"),
-                                                                                    fInputEventHeaderName(input_event_header_name),
-                                                                                    fOutputEventHeaderName("DstEventHeader."),
-                                                                                    fEventHead(NULL),
-                                                                                    fDstHead(NULL),
-                                                                                    fNEvents(nEvents),
-                                                                                    fIEvent(0),
-                                                                                    fPeriodNumber(-1),
-                                                                                    fRunNumber(-1),
-                                                                                    fZCalib1(1),
-                                                                                    fZCalib2(0),
-                                                                                    fBC1Calib(0),
-                                                                                    fBC2Calib(0),
-                                                                                    fDoCalibration(kFALSE),
-                                                                                    isSimulationInput(false) {
+BmnFillDstTask::BmnFillDstTask(TString input_event_header_name, Long64_t nEvents) 
+    : FairTask("BmnFillDstTask")
+    , fInputEventHeaderName(input_event_header_name)
+    , fOutputEventHeaderName("DstEventHeader.")
+    , fEventHead(NULL)
+    , isSimulationInput(false)
+    , fDstHead(NULL)
+    , fNEvents(nEvents)
+    , fIEvent(0)
+    , fPeriodNumber(-1)
+    , fRunNumber(-1)
+    , fZCalib1(1)
+    , fZCalib2(0)
+    , fBC1Calib(0)
+    , fBC2Calib(0)
+    , fDoCalibration(kFALSE)
+{
     fRunHead = new DstRunHeader();
     LOG(debug) << "Constructor of BmnFillDstTask";
 }
 
 // Constructor with input and output Event Header Name, and event number to be processed
-BmnFillDstTask::BmnFillDstTask(TString input_event_header_name, TString output_event_header_name, Long64_t nEvents) : FairTask("BmnFillDstTask"),
-                                                                                                                      fInputEventHeaderName(input_event_header_name),
-                                                                                                                      fOutputEventHeaderName(output_event_header_name),
-                                                                                                                      fEventHead(NULL),
-                                                                                                                      fDstHead(NULL),
-                                                                                                                      fNEvents(nEvents),
-                                                                                                                      fIEvent(0),
-                                                                                                                      fPeriodNumber(-1),
-                                                                                                                      fRunNumber(-1),
-                                                                                                                      fZCalib1(1),
-                                                                                                                      fZCalib2(0),
-                                                                                                                      fBC1Calib(0),
-                                                                                                                      fBC2Calib(0),
-                                                                                                                      fDoCalibration(kFALSE),
-                                                                                                                      isSimulationInput(false) {
+BmnFillDstTask::BmnFillDstTask(TString input_event_header_name, TString output_event_header_name, Long64_t nEvents) 
+    : FairTask("BmnFillDstTask")
+    , fInputEventHeaderName(input_event_header_name)
+    , fOutputEventHeaderName(output_event_header_name)
+    , fEventHead(NULL)
+    , isSimulationInput(false)
+    , fDstHead(NULL)
+    , fNEvents(nEvents)
+    , fIEvent(0)
+    , fPeriodNumber(-1)
+    , fRunNumber(-1)
+    , fZCalib1(1)
+    , fZCalib2(0)
+    , fBC1Calib(0)
+    , fBC2Calib(0)
+    , fDoCalibration(kFALSE)
+{
     fRunHead = new DstRunHeader();
     LOG(debug) << "Constructor of BmnFillDstTask";
 }

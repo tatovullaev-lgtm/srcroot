@@ -42,9 +42,10 @@ bool compareSegments(const segments &a, const segments &b) {
   return a.Chi2 < b.Chi2;
 }
 
-BmnMwpcHitFinder::BmnMwpcHitFinder(Bool_t isExp, Int_t runPeriod, Int_t runNumber) :
-  fEventNo(0),
-  expData(isExp) {
+BmnMwpcHitFinder::BmnMwpcHitFinder(Bool_t isExp, Int_t runPeriod, Int_t runNumber) 
+    : expData(isExp)
+    , fEventNo(0)
+{
     
   if(expData){ 
     fRunPeriod    = runPeriod;

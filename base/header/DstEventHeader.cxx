@@ -1,149 +1,152 @@
 #include "DstEventHeader.h"
 
 // -----   Default constructor   -------------------------------------------
-DstEventHeader::DstEventHeader() : FairEventHeader(),
-                                   fHeaderName("DstEventHeader."),
-                                   fEventId(0),
-                                   fEventTimeTS(TTimeStamp()),
-                                   fTriggerType(kBMNMINBIAS),
-                                   fB(0),
-                                   ftrigger(-1),
-                                   fBC1_12(-100.0), 
-                                   fBC2_12(-100.0), 
-                                   fBC3_12(-100.0), 
-                                   fBC4_12(-100.0), 
-                                   fBC5_12(-100.0),
-                                   fBC1_cor(-100.0), //cor
-                                   fBC2_cor(-100.0), 
-                                   fBC3_cor(-100.0), 
-                                   fBC4_cor(-100.0), 
-                                   fBC5_cor(-100.0),  
-                                   fBC3_12_X10(-100.0), 
-                                   fBC4_12_X10(-100.0), 
-                                   fBC5_12_X10(-100.0),
-                                   fBC3_S(-100.0), 
-                                   fBC4_S(-100.0), 
-                                   fBC5_S(-100.0),
-                                   fZinBC12(-100),
-                                   fZoutBC34_12(-100), 
-                                   fZoutBC35_12(-100), 
-                                   fZoutBC45_12(-100),
-                                   fZinBC12_cor(-100),  //cor
-                                   fZoutBC34_12_cor(-100), 
-                                   fZoutBC35_12_cor(-100), 
-                                   fZoutBC45_12_cor(-100), 
-                                   fZoutBC34_S(-100), 
-                                   fZoutBC35_S(-100), 
-                                   fZoutBC45_S(-100),
-                                   fVeto(-1),
-                                   fPq(0,0),
-                                   fPq_MDF(0,0),
-                                   fPq_MDF1(0,0),
-                                   fPq_MDF2(0,0),
-                                   fPq_MDF3(0,0),
-                                   fTx_MDF(0,0),
-                                   fB10(0,0),
-                                   fB11(0,0),
-                                   fDCH_Mult(-1),
-                                   fMWPC_Mult(-1),
-                                   fScWallELoss(0,0),
-                                   fScWallCellId(0,0),
-                                   fScWallFlag(0,0),
-                                   fScWallTrackId(0,0),
-                                   fScWallMult(0),
-                                   fScWallNMatchTracks(0),
-                                   fScWallOrderId(0,0),
-                                   fVBCellId(0,0),
-                                   fVBMult(0), 
-                                   fBC1_Time0(-100),
-                                   fBC1_Time1(-100),
-                                   fBC2_Time0(-100),
-                                   fBC2_Time1(-100),
-                                   fTofCal_Plane(0,0),
-                                   fTofCal_Bar(0,0),
-                                   fTofCal_Time0(0,0),
-                                   fTofCal_Time1(0,0),
-                                   fTofCal_Amp0(0,0),
-                                   fTofCal_Amp1(0,0),
-                                   fTofCal_X(0,0),
-                                   fTofCal_Y(0,0),
-                                   fTofCal_nHits(-100),
-                                   fTofCal_Arm(0,0),
-                                   fTofCal_GlobalBar(0,0),
-                                   fIs_laser(-1)
-                                   {}
+DstEventHeader::DstEventHeader() 
+    : FairEventHeader()
+    , fHeaderName("DstEventHeader.")
+    , fEventId(0)
+    , fEventTimeTS(TTimeStamp())
+    , fTriggerType(kBMNMINBIAS)
+    , fB(0)
+    , ftrigger(-1)
+    , fBC1_12(-100.0)
+    , fBC2_12(-100.0)
+    , fBC3_12(-100.0)
+    , fBC4_12(-100.0)
+    , fBC5_12(-100.0)
+    , fBC3_12_X10(-100.0)
+    , fBC4_12_X10(-100.0)
+    , fBC5_12_X10(-100.0)
+    , fBC3_S(-100.0)
+    , fBC4_S(-100.0)
+    , fBC5_S(-100.0)
+    , fBC1_Time0(-100)
+    , fBC1_Time1(-100)
+    , fBC2_Time0(-100)
+    , fBC2_Time1(-100)
+    , fBC1_cor(-100.0) //cor
+    , fBC2_cor(-100.0)
+    , fBC3_cor(-100.0)
+    , fBC4_cor(-100.0)
+    , fBC5_cor(-100.0)
+    , fB10(0,0)
+    , fB11(0,0)
+    , fPq(0,0)
+    , fPq_MDF(0,0)
+    , fPq_MDF1(0,0)
+    , fPq_MDF2(0,0)
+    , fPq_MDF3(0,0)
+    , fTx_MDF(0,0)
+    , fZinBC12(-100)
+    , fZoutBC34_12(-100)
+    , fZoutBC35_12(-100)
+    , fZoutBC45_12(-100)
+    , fZoutBC34_S(-100)
+    , fZoutBC35_S(-100)
+    , fZoutBC45_S(-100)
+    , fVeto(-1)
+    , fDCH_Mult(-1)
+    , fMWPC_Mult(-1)
+    , fZinBC12_cor(-100) //cor
+    , fZoutBC34_12_cor(-100)
+    , fZoutBC35_12_cor(-100)
+    , fZoutBC45_12_cor(-100)
+    , fScWallELoss(0,0)
+    , fScWallCellId(0,0)
+    , fScWallFlag(0,0)
+    , fScWallTrackId(0,0)
+    , fScWallMult(0)
+    , fScWallNMatchTracks(0)
+    , fScWallOrderId(0,0)
+    , fVBMult(0)
+    , fVBCellId(0,0)
+    , fTofCal_Time0(0,0)
+    , fTofCal_Time1(0,0)
+    , fTofCal_Amp0(0,0)
+    , fTofCal_Amp1(0,0)
+    , fTofCal_X(0,0)
+    , fTofCal_Y(0,0)
+    , fTofCal_Plane(0,0)
+    , fTofCal_Bar(0,0)
+    , fTofCal_nHits(-100)
+    , fTofCal_Arm(0,0)
+    , fTofCal_GlobalBar(0,0)
+    , fIs_laser(-1)
+{}
 
 // -----   Constructor with parameters   -----------------------------------
-DstEventHeader::DstEventHeader(UInt_t run_id, UInt_t event_id, TTimeStamp event_time, BmnTriggerType trigger_type, Double_t b) : FairEventHeader(),
-                                                                                                                                 fHeaderName("DstEventHeader."),
-                                                                                                                                 fEventId(event_id),
-                                                                                                                                 fEventTimeTS(event_time),
-                                                                                                                                 fTriggerType(trigger_type),
-                                                                                                                                 fB(b),
-                                                                                                                                 ftrigger(-1),
-                                                                                                                                 fBC1_12(-100.0), 
-                                                                                                                                 fBC2_12(-100.0), 
-                                                                                                                                 fBC3_12(-100.0), 
-                                                                                                                                 fBC4_12(-100.0), 
-                                                                                                                                 fBC5_12(-100.0),
-                                                                                                                                 fBC1_cor(-100.0),     //cor 
-                                                                                                                                 fBC2_cor(-100.0), 
-                                                                                                                                 fBC3_cor(-100.0), 
-                                                                                                                                 fBC4_cor(-100.0), 
-                                                                                                                                 fBC5_cor(-100.0),
-                                                                                                                                 fBC3_12_X10(-100.0), 
-                                                                                                                                 fBC4_12_X10(-100.0), 
-                                                                                                                                 fBC5_12_X10(-100.0), 
-                                                                                                                                 fBC3_S(-100.0), 
-                                                                                                                                 fBC4_S(-100.0), 
-                                                                                                                                 fBC5_S(-100.0),
-                                                                                                                                 fZinBC12(-100),
-                                                                                                                                 fZoutBC34_12(-100), 
-                                                                                                                                 fZoutBC35_12(-100), 
-                                                                                                                                 fZoutBC45_12(-100),
-                                                                                                                                 fZinBC12_cor(-100),    //cor
-                                                                                                                                 fZoutBC34_12_cor(-100), 
-                                                                                                                                 fZoutBC35_12_cor(-100), 
-                                                                                                                                 fZoutBC45_12_cor(-100), 
-                                                                                                                                 fZoutBC34_S(-100), 
-                                                                                                                                 fZoutBC35_S(-100), 
-                                                                                                                                 fZoutBC45_S(-100),
-                                                                                                                                 fVeto(-1),
-                                                                                                                                 fPq(0,0),
-                                                                                                                                 fPq_MDF(0,0),
-                                                                                                                                 fPq_MDF1(0,0),
-                                                                                                                                 fPq_MDF2(0,0),
-                                                                                                                                 fPq_MDF3(0,0),
-                                                                                                                                 fTx_MDF(0,0),
-                                                                                                                                 fB10(0,0),
-                                                                                                                                 fB11(0,0),
-                                                                                                                                 fDCH_Mult(-1),
-                                                                                                                                 fMWPC_Mult(-1),
-                                                                                                                                 fScWallELoss(0,0),
-                                                                                                                                 fScWallCellId(0,0),
-                                                                                                                                 fScWallFlag(0,0),
-                                                                                                                                 fScWallTrackId(0,0),
-                                                                                                                                 fScWallMult(0),
-                                                                                                                                 fScWallNMatchTracks(0),
-                                                                                                                                 fScWallOrderId(0,0),
-                                                                                                                                 fVBCellId(0,0),
-                                                                                                                                 fVBMult(0),
-                                                                                                                                 fBC1_Time0(-100),
-                                                                                                                                 fBC1_Time1(-100),
-                                                                                                                                 fBC2_Time0(-100),
-                                                                                                                                 fBC2_Time1(-100),
-                                                                                                                                 fTofCal_Plane(0,0),
-                                                                                                                                 fTofCal_Bar(0,0),
-                                                                                                                                 fTofCal_Time0(0,0),
-                                                                                                                                 fTofCal_Time1(0,0),
-                                                                                                                                 fTofCal_Amp0(0,0),
-                                                                                                                                 fTofCal_Amp1(0,0),
-                                                                                                                                 fTofCal_X(0,0),
-                                                                                                                                 fTofCal_Y(0,0),
-                                                                                                                                 fTofCal_nHits(-100),
-                                                                                                                                 fTofCal_Arm(0,0),
-                                                                                                                                 fTofCal_GlobalBar(0,0),
-                                                                                                                                 fIs_laser(-1) {                                                                                                          
+DstEventHeader::DstEventHeader(UInt_t run_id, UInt_t event_id, TTimeStamp event_time, BmnTriggerType trigger_type, Double_t b) 
+    : FairEventHeader()
+    , fHeaderName("DstEventHeader.")
+    , fEventId(event_id)
+    , fEventTimeTS(event_time)
+    , fTriggerType(trigger_type)
+    , fB(b)
+    , ftrigger(-1)
+    , fBC1_12(-100.0)
+    , fBC2_12(-100.0)
+    , fBC3_12(-100.0)
+    , fBC4_12(-100.0)
+    , fBC5_12(-100.0)
+    , fBC3_12_X10(-100.0)
+    , fBC4_12_X10(-100.0)
+    , fBC5_12_X10(-100.0)
+    , fBC3_S(-100.0)
+    , fBC4_S(-100.0)
+    , fBC5_S(-100.0)
+    , fBC1_Time0(-100)
+    , fBC1_Time1(-100)
+    , fBC2_Time0(-100)
+    , fBC2_Time1(-100)
+    , fBC1_cor(-100.0) //cor
+    , fBC2_cor(-100.0)
+    , fBC3_cor(-100.0)
+    , fBC4_cor(-100.0)
+    , fBC5_cor(-100.0)
+    , fB10(0,0)
+    , fB11(0,0)
+    , fPq(0,0)
+    , fPq_MDF(0,0)
+    , fPq_MDF1(0,0)
+    , fPq_MDF2(0,0)
+    , fPq_MDF3(0,0)
+    , fTx_MDF(0,0)
+    , fZinBC12(-100)
+    , fZoutBC34_12(-100)
+    , fZoutBC35_12(-100)
+    , fZoutBC45_12(-100)
+    , fZoutBC34_S(-100)
+    , fZoutBC35_S(-100)
+    , fZoutBC45_S(-100)
+    , fVeto(-1)
+    , fDCH_Mult(-1)
+    , fMWPC_Mult(-1)
+    , fZinBC12_cor(-100) //cor
+    , fZoutBC34_12_cor(-100)
+    , fZoutBC35_12_cor(-100)
+    , fZoutBC45_12_cor(-100)
+    , fScWallELoss(0,0)
+    , fScWallCellId(0,0)
+    , fScWallFlag(0,0)
+    , fScWallTrackId(0,0)
+    , fScWallMult(0)
+    , fScWallNMatchTracks(0)
+    , fScWallOrderId(0,0)
+    , fVBMult(0)
+    , fVBCellId(0,0)
+    , fTofCal_Time0(0,0)
+    , fTofCal_Time1(0,0)
+    , fTofCal_Amp0(0,0)
+    , fTofCal_Amp1(0,0)
+    , fTofCal_X(0,0)
+    , fTofCal_Y(0,0)
+    , fTofCal_Plane(0,0)
+    , fTofCal_Bar(0,0)
+    , fTofCal_nHits(-100)
+    , fTofCal_Arm(0,0)
+    , fTofCal_GlobalBar(0,0)
+    , fIs_laser(-1)
+{                                                                                                          
     SetRunId(run_id);
     SetEventTime(event_time.AsDouble());
 }

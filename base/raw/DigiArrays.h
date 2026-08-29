@@ -139,8 +139,8 @@ class DigiArrays : public TObject
     TClonesArray* tof400;
     TClonesArray* tof700;
     TClonesArray* tof701;
-    TClonesArray* tofcal;
     TClonesArray* land;
+    TClonesArray* tofcal;
     TClonesArray* zdc;
     TClonesArray* scwall;
     TClonesArray* fhcal;

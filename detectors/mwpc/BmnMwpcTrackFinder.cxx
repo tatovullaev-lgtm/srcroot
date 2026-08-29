@@ -43,9 +43,10 @@ bool compareSegments(const match &a, const match &b) {
 }
 
 
-BmnMwpcTrackFinder::BmnMwpcTrackFinder(Bool_t isExp, Int_t runP, Int_t runNumber) :
-  fEventNo(0),
-  expData(isExp) {
+BmnMwpcTrackFinder::BmnMwpcTrackFinder(Bool_t isExp, Int_t runP, Int_t runNumber) 
+    : expData(isExp)
+    , fEventNo(0)
+{
     
   if(expData){ 
     fRunPeriod = runP;

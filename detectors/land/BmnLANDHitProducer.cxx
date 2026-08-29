@@ -52,7 +52,12 @@ static Float_t workTime = 0.0;
 ClassImp(BmnLANDHitProducer)
 	//--------------------------------------------------------------------------------------------------------------------------------------
 BmnLANDHitProducer::BmnLANDHitProducer(const char *name, Bool_t useMCdata, Int_t verbose, Bool_t test)
-	:  FairTask(name,verbose),aExpDigits(nullptr), fOnlyPrimary(false), fUseMCData(false), aLandHits(nullptr){
+    : FairTask(name,verbose)
+    , aExpDigits(nullptr)
+    , aLandHits(nullptr)
+    , fOnlyPrimary(false)
+    , fUseMCData(false)
+{
 		//	pGeoUtils = new BmnTof1GeoUtils;
 
 	}

@@ -10,20 +10,13 @@ static Float_t workTime = 0.0;
 
 static const Double_t X_Shift_Align = 1.19846e+02, Y_Shift_Align = -1.50211e+00;
 
-BmnScWallAnalyzer::BmnScWallAnalyzer(TString TargetType) :
-  
-  fTargetType(TargetType),
-  
-  FairTask("BmnScWallAnalyzer"),
-
-  fArrayOfScWallDigits(nullptr),
-  
-  fBmnScWallReconstructor(nullptr),
-  
-  fDchTrack(nullptr),
-  
-  fRESULT(4)
-
+BmnScWallAnalyzer::BmnScWallAnalyzer(TString TargetType) 
+    : FairTask("BmnScWallAnalyzer")
+    , fArrayOfScWallDigits(nullptr)
+    , fBmnScWallReconstructor(nullptr)
+    , fDchTrack(nullptr)
+    , fTargetType(TargetType)
+    , fRESULT(4)
 {
   
   fInputDigitsBranchName = "ScWallDigi";
