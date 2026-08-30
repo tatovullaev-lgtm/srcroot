@@ -518,7 +518,7 @@ void BmnTofCalRaw2Digit::SetTCal(BmnTacquilaDigit &a_tacquila)
     if (left < 0) {
       left = 0;
       break;
-    } else if (left + 1 >= tcal_vec.size()) {
+    } else if (static_cast<decltype(tcal_vec.size())>(left + 1) >= tcal_vec.size()) {
       left = tcal_vec.size() - 2;
       break;
     }

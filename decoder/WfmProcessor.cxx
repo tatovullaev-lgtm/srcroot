@@ -3,12 +3,12 @@
 void WfmProcessor::ProcessWfm(std::vector<float> wfm, BmnDigiContainerTemplate *digi)
 {
   assert(fdigiPars.gateBegin > 0 && fdigiPars.gateEnd > 0);
-  if(fdigiPars.gateBegin >= wfm.size()) { 
+  if(static_cast<decltype(wfm.size())>(fdigiPars.gateBegin) >= wfm.size()) { 
     LOG(error) << "WfmProcessor : Filling " << digi->GetClassName() << ". waveform too short: accessing " << 
     fdigiPars.gateBegin << "/" << wfm.size() << ". Check calibration file ";
     fdigiPars.gateBegin = wfm.size()-1;
   }
-  if(fdigiPars.gateEnd >= wfm.size()) { 
+  if(static_cast<decltype(wfm.size())>(fdigiPars.gateEnd) >= wfm.size()) { 
     LOG(error) << "WfmProcessor : Filling " << digi->GetClassName() << ". waveform too short: accessing " << 
     fdigiPars.gateEnd << "/" << wfm.size() << ". Check calibration file ";
     fdigiPars.gateEnd = wfm.size()-1;
@@ -57,9 +57,9 @@ void WfmProcessor::ProcessWfm(std::vector<float> wfm, BmnDigiContainerTemplate *
     Pfitter.SetWaveform(wfm, digi->fZL);
     //Pfitter.ResetAmplitudes();
     int SignalBeg = Pfitter.CalcSignalBeginStraight();
-    if (SignalBeg < 1 || SignalBeg > wfm.size())
+    if (SignalBeg < 1 || static_cast<decltype(wfm.size())>(SignalBeg) > wfm.size())
       return;
-    if (SignalBeg + fSignalLength > wfm.size()) 
+    if (static_cast<decltype(wfm.size())>(SignalBeg + fSignalLength) > wfm.size()) 
       SignalBeg = fdigiPars.gateBegin;
     Pfitter.SetExternalHarmonics(fdigiPars.harmonics);
     Pfitter.SetSignalBegin(SignalBeg);

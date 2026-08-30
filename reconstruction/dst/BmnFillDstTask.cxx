@@ -448,12 +448,12 @@ void BmnFillDstTask::Exec(Option_t* /*option*/) {
     Double_t t0Time1=-1; 
     Double_t t0Time2=-1; 
     short int charge; 
-    for (UInt_t i = 0; i < fT01_1->GetEntriesFast(); i++) {
+    for (UInt_t i = 0; i < static_cast<decltype(i)>(fT01_1->GetEntriesFast()); i++) {
         digT01 = (BmnTrigDigit*)fT01_1->At(i);
         if (digT01->GetMod() == 0) t0Count1++;
         if (t0Count1==1) t0Time1 = digT01->GetTime();
     }
-    for (UInt_t i = 0; i < fT01_2->GetEntriesFast(); i++) {
+    for (UInt_t i = 0; i < static_cast<decltype(i)>(fT01_2->GetEntriesFast()); i++) {
         digT02 = (BmnTrigDigit*)fT01_2->At(i);
         if (digT02->GetMod() == 0) t0Count2++;
         if (t0Count2==1) t0Time2 = digT02->GetTime();

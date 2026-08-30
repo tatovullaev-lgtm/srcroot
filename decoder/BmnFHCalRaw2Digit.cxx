@@ -254,7 +254,7 @@ void BmnFHCalRaw2Digit::fillEvent(TClonesArray *data, TClonesArray *FHCaldigit)
     int mod_id = ThisDigi.GetModuleId();
     int sec_id = ThisDigi.GetSectionId();
     int flat_index = GetFlatIndex(mod_id, sec_id);
-    assert(flat_index < fCalibVect.size());
+    assert(static_cast<decltype(fCalibVect.size())>(flat_index) < fCalibVect.size());
     if (fdigiPars.signalType == 0)
       ThisDigi.fSignal = (float) ThisDigi.fAmpl * fCalibVect.at(flat_index).first;
     if (fdigiPars.signalType == 1)

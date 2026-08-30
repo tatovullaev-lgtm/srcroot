@@ -234,7 +234,7 @@ void BmnMwpcTrackFinder::MCefficiencyCalculation(vector<MC_points>& vec, Int_t *
     Int_t Ngood_mc_tracks = 0;
     Int_t Ngood_reco_tracks = 0;
 
-    for (Int_t itr = 0; itr < vec.size(); itr++) {//mc_tr
+    for (Int_t itr = 0; static_cast<decltype(vec.size())>(itr) < vec.size(); itr++) {//mc_tr
       
         //---MC Eff ---
         //---Den
@@ -283,10 +283,10 @@ void BmnMwpcTrackFinder::MCefficiencyCalculation(vector<MC_points>& vec, Int_t *
     }//vec_points.size
     
     if (fDebug) cout<<"reject poorly chosen association PC tracks "<<endl;
-    for (Int_t itr = 0; itr < vec.size(); itr++) {//mc_tr
+    for (Int_t itr = 0; static_cast<decltype(vec.size())>(itr) < vec.size(); itr++) {//mc_tr
       if (mc_tr_assoc[itr] == -1) continue;
        
-      for (Int_t itr2 = 0; itr2 < vec.size(); itr2++) {//mc_tr
+      for (Int_t itr2 = 0; static_cast<decltype(vec.size())>(itr2) < vec.size(); itr2++) {//mc_tr
         if (itr2 == itr) continue;
         if (mc_tr_assoc[itr2] == -1) continue;
         
@@ -410,7 +410,7 @@ void BmnMwpcTrackFinder::ReadSegments(Double_t ***par_ab, Int_t **Nhits, Double_
     
     [[maybe_unused]] Double_t x_target_ch2, y_target_ch2, x_target_ch3, y_target_ch3;
     
-    for (Int_t itr = 0; itr < vec.size(); itr++) {
+    for (Int_t itr = 0; static_cast<decltype(vec.size())>(itr) < vec.size(); itr++) {
       //ch2
       int i2 = -1;
       if (vec.at(itr).x2[5] > -900.)   i2 =5;
@@ -652,10 +652,10 @@ Int_t **best_Ch, Int_t *Nbest_pair_, Double_t **Chi2_match_, Double_t ***XVU_Ch_
     Bool_t isMatch;
     
     if (fDebug)cout<<" vtmpSeg.size() "<<vtmpSeg.size()<<endl;
-    for (int iter = 0; iter < vtmpSeg.size(); ++iter) {
+    for (int iter = 0; static_cast<decltype(vtmpSeg.size())>(iter) < vtmpSeg.size(); ++iter) {
       //printf("vtmpSeg.at(%d): %8.4f | %d - %d\n", iter, vtmpSeg.at(iter).Chi2m, vtmpSeg.at(iter).Ind1, vtmpSeg.at(iter).Ind2 );
       isMatch = 0;
-      for(int InIter = 0; InIter < OutVector.size(); ++InIter) {
+      for(int InIter = 0; static_cast<decltype(OutVector.size())>(InIter) < OutVector.size(); ++InIter) {
         if(vtmpSeg.at(iter).Ind1 == OutVector.at(InIter).Ind1 || vtmpSeg.at(iter).Ind2 == OutVector.at(InIter).Ind2) {
           isMatch = 1;
           continue;
@@ -667,7 +667,7 @@ Int_t **best_Ch, Int_t *Nbest_pair_, Double_t **Chi2_match_, Double_t ***XVU_Ch_
 
     if (fDebug && vtmpSeg.size() > 1 ) hChi2best_Chi2fake_before_target-> Fill(OutVector.at(0).Chi2m, vtmpSeg.at(1).Chi2m);
 
-    for(int iter = 0; iter < OutVector.size(); ++iter) {
+    for(int iter = 0; static_cast<decltype(OutVector.size())>(iter) < OutVector.size(); ++iter) {
       // printf("OutVector.at(%d): %8.4f | %d - %d\n", iter, OutVector.at(iter).Chi2m, OutVector.at(iter).Ind1, OutVector.at(iter).Ind2);
       if (Nbest_pair_[Pairr] < kmaxPairs) {
         Chi2_match_[Pairr][Nbest_pair_[Pairr]]= OutVector.at(iter).Chi2m;
@@ -807,20 +807,20 @@ void BmnMwpcTrackFinder::SegmentMatchingAfterTarget( Int_t first_Ch, Int_t *Nbes
     OutVector.clear();
 
     Bool_t exist_pair[Nvariations];
-    for(int im = 0; im < vtmpSeg.size(); ++im) {
+    for(int im = 0; static_cast<decltype(vtmpSeg.size())>(im) < vtmpSeg.size(); ++im) {
       exist_pair[im] = 1;
     }
 
     //cout<<" kmaxPairs "<<kmaxPairs<<endl;
-    for(int im = 0; im < vtmpSeg.size(); ++im) {
+    for(int im = 0; static_cast<decltype(vtmpSeg.size())>(im) < vtmpSeg.size(); ++im) {
       if ( !exist_pair[im]) continue;
       OutVector.push_back(vtmpSeg.at(im));
       int InIter = OutVector.size() - 1;
       if (fDebug) cout<<" im "<<im<<" InIter "<<InIter<<endl;
 
       //reject repeat index
-      if ( im + 1 < vtmpSeg.size()) {
-        for (int iter = im + 1 ; iter < vtmpSeg.size(); ++iter) {
+      if ( static_cast<decltype(vtmpSeg.size())>(im + 1) < vtmpSeg.size()) {
+        for (int iter = im + 1 ; static_cast<decltype(vtmpSeg.size())>(iter) < vtmpSeg.size(); ++iter) {
           if (fDebug) cout<<" iter "<<iter<<endl;
           //printf("vtmpSeg.at(%d): %8.4f | %d - %d\n", iter, vtmpSeg.at(iter).Chi2m, vtmpSeg.at(iter).Ind1, vtmpSeg.at(iter).Ind2 );
           if ( !exist_pair[iter]) continue;
@@ -836,7 +836,7 @@ void BmnMwpcTrackFinder::SegmentMatchingAfterTarget( Int_t first_Ch, Int_t *Nbes
     if (fDebug) cout<<" OutVector.at(0).Chi2m "<<OutVector.at(0).Chi2m<<" vtmpSeg.at(0).Chi2m "<<vtmpSeg.at(0).Chi2m<<endl;
     if (fDebug && vtmpSeg.size() > 1 ) hChi2best_Chi2fake_after_target-> Fill(OutVector.at(0).Chi2m, vtmpSeg.at(1).Chi2m);
 
-    for(int iter = 0; iter < OutVector.size(); ++iter) {
+    for(int iter = 0; static_cast<decltype(OutVector.size())>(iter) < OutVector.size(); ++iter) {
       if (fDebug) printf("OutVector.at(%d): %8.4f | %d - %d\n", iter, OutVector.at(iter).Chi2m, OutVector.at(iter).Ind1, OutVector.at(iter).Ind2);
       if (Nbest_pair_[Pairr] < kmaxPairs) {
 

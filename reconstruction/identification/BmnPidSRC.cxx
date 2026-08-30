@@ -210,7 +210,7 @@ void BmnPidSRC::PReco(){
          double charge34=fDstEventHeader->GetZoutBC34_12();
          double charge35=fDstEventHeader->GetZoutBC35_12();
          double charge45=fDstEventHeader->GetZoutBC45_12();
-         for ( int i=0; i<fPq.size(); i++) {
+         for ( int i=0; static_cast<decltype(fPq.size())>(i)<fPq.size(); i++) {
           if (fPq[i]>6.9 && fPq[i]<7.7 && charge34==5 && charge45==5 && charge35==5) fB10.push_back(1);
           else fB10.push_back(0);
           if (fPq[i]>7.9 && fPq[i]<8.6 && charge34==5 && charge45==5 && charge35==5) fB11.push_back(1);

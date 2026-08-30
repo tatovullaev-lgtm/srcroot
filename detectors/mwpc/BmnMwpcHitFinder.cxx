@@ -817,7 +817,7 @@ void BmnMwpcHitFinder::MCefficiencyCalculation(Int_t iCh, vector<MC_points>& vec
     Int_t Nassoc2 = 0;
     Int_t Nassoc3 = 0;
     
-    for (Int_t itr = 0; itr < vec.size(); itr++) {//mc_tr
+    for (Int_t itr = 0; static_cast<decltype(vec.size())>(itr) < vec.size(); itr++) {//mc_tr
       
       if (fDebug) cout<<" Np2 "<<vec.at(itr).Np2<<" Np3 "<<vec.at(itr).Np3<<endl;
       
@@ -957,10 +957,10 @@ void BmnMwpcHitFinder::MCefficiencyCalculation(Int_t iCh, vector<MC_points>& vec
     if (fDebug) cout<<"reject poorly chosen association segments "<<endl;
     
     //for (Int_t iChamber = 2; iChamber < kNChambers; iChamber++) {
-      for (Int_t itr = 0; itr < vec.size(); itr++) {//mc_tr
+      for (Int_t itr = 0; static_cast<decltype(vec.size())>(itr) < vec.size(); itr++) {//mc_tr
         if (mc_tr_assoc[iCh][itr] == -1) continue;
          
-        for (Int_t itr2 = 0; itr2 < vec.size(); itr2++) {//mc_tr
+        for (Int_t itr2 = 0; static_cast<decltype(vec.size())>(itr2) < vec.size(); itr2++) {//mc_tr
           if (itr2 == itr) continue;
           if (mc_tr_assoc[iCh][itr2] == -1) continue;
           
@@ -1128,7 +1128,7 @@ void BmnMwpcHitFinder::ReadWires(Double_t ***DigitsArray_, Int_t **iw_Ch_, vecto
     
     Double_t x_target_ch2, y_target_ch2, x_target_ch3, y_target_ch3;
     
-    for (Int_t itr = 0; itr < vec.size(); itr++) {
+    for (Int_t itr = 0; static_cast<decltype(vec.size())>(itr) < vec.size(); itr++) {
       
       if (vec.at(itr).x2[0] > -900. || vec.at(itr).x2[3] > -900.) vec.at(itr).xWas2 = 1;
       if (vec.at(itr).x2[1] > -900. || vec.at(itr).x2[4] > -900.) vec.at(itr).vWas2 = 1;
@@ -2580,7 +2580,7 @@ void BmnMwpcHitFinder::ProcessSegments( Int_t chNum, Int_t *Nsegm, Double_t ***X
     if ( Nhitm > 4) sort(vtmpSeg.begin(), vtmpSeg.end(), compareSegments);
 
     // storing
-    for (int iterOut = 0; iterOut < vtmpSeg.size(); iterOut++) {
+    for (int iterOut = 0; static_cast<decltype(vtmpSeg.size())>(iterOut) < vtmpSeg.size(); iterOut++) {
       if (OutSegCount < kmaxSeg) {
         OutSegArray[OutSegCount] = vtmpSeg.at(iterOut);
         OutSegCount++;

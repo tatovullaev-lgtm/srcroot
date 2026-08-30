@@ -23,14 +23,14 @@ public:
 
     int GetIntegral() const {
         int spectra = 0;
-        for (Int_t i = 0; i < fNsmpl; ++i)
+        for (Int_t i = 0; static_cast<decltype(fNsmpl)>(i) < fNsmpl; ++i)
             spectra += fValueI[i];
         return spectra;
     }
 
     int GetPeak() const {
         int peak = -100000;
-        for (Int_t i = 0; i < fNsmpl; ++i)
+        for (Int_t i = 0; static_cast<decltype(fNsmpl)>(i) < fNsmpl; ++i)
             if (fValueI[i] > peak) peak = fValueI[i];
         return peak;
     }

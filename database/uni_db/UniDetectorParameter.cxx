@@ -725,7 +725,7 @@ unsigned char* UniDetectorParameter::GetUNC(enumValueType enum_parameter_type)
         int parameter_type = stmt->GetInt(1);
         delete stmt;
 
-        if (parameter_type != enum_parameter_type)
+        if (static_cast<decltype(enum_parameter_type)>(parameter_type) != enum_parameter_type)
         {
             cout<<"CRITICAL ERROR: the parameter with name '"<<parameter_name<<"' is not corresponding the given type: "
                   "Database Type - "<<parameter_type<<", but user type - "<<enum_parameter_type<<endl;

@@ -247,7 +247,7 @@ MAP2 BmnScWallAnalyzer::GetMapper(TString mapFile) {
     for (int k = 0; k < 4; k ++) 
     { 
      
-     if (CellId >= 1 + k * 10 && CellId <= 4 + k * 10) 
+     if (CellId >= static_cast<decltype(CellId)>(1 + k * 10) && CellId <= static_cast<decltype(CellId)>(4 + k * 10)) 
      { 
       
       X1 -= 0.05; 
@@ -371,7 +371,7 @@ void BmnScWallAnalyzer::Fill_Dst_Event_Header(TStopwatch& SW, vector <vector <Do
  
  auto cur = 0;
  
- for (auto i = 0; i < NMatchTracks; i ++) { auto res = find(tmp.begin() + cur, tmp.end(), 1); cur = distance(tmp.begin(), res); tmp2.push_back(cur ++); }
+ for (auto i = 0; static_cast<decltype(NMatchTracks)>(i) < NMatchTracks; i ++) { auto res = find(tmp.begin() + cur, tmp.end(), 1); cur = distance(tmp.begin(), res); tmp2.push_back(cur ++); }
  
  tmp.clear();
  
@@ -382,7 +382,7 @@ void BmnScWallAnalyzer::Fill_Dst_Event_Header(TStopwatch& SW, vector <vector <Do
   
   cur = 0;
   
-  for (auto i = 0; i < tmp1.size(); i ++) { if (tmp1.at(i) < 0) { continue; } res.insert({tmp1.at(i), tmp2.at(cur ++)}); }
+  for (auto i = 0; static_cast<decltype(tmp1.size())>(i) < tmp1.size(); i ++) { if (tmp1.at(i) < 0) { continue; } res.insert({tmp1.at(i), tmp2.at(cur ++)}); }
   
   tmp2.clear();
   
@@ -572,7 +572,7 @@ MAP1 BmnScWallAnalyzer::GetNeighbour()
    
    string tmp1 = ""; 
    
-   for (auto j = cur; j < tmp.size(); j ++) 
+   for (auto j = cur; static_cast<decltype(tmp.size())>(j) < tmp.size(); j ++) 
    { 
     
     if (tmp[j] == ' ') 

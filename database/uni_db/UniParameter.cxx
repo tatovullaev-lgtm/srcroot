@@ -543,7 +543,7 @@ bool UniParameter::CheckAndGetParameterID(TSQLServer* db_server, TString paramet
 
     delete stmt;
 
-    if (parameter_type != enum_parameter_type)
+    if (static_cast<decltype(enum_parameter_type)>(parameter_type) != enum_parameter_type)
     {
         cout<<"ERROR: '"<<parameter_name<<"' parameter has not the same type (type = "<<parameter_type<<", but "<<enum_parameter_type<<" used)"<<endl;
         return false;
