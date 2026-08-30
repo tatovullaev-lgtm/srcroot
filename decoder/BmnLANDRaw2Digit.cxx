@@ -232,7 +232,7 @@ BmnLANDRaw2Digit::BmnLANDRaw2Digit(TString a_map_filename, TString
 	case 6: tacq_channel = 16; break;
 	default: break;
       }
-      auto &tcal_vec = m_tcal[tacq.crate][tacq.module][tacq_channel];
+      auto &tcal_vec = m_tcal[static_cast<unsigned char>(tacq.crate)][static_cast<unsigned char>(tacq.module)][tacq_channel];
       if (tcal_vec.size() > 0 && tcal_vec.back().tdc > tdc) {
 	/* land02 dups channel-17 tcal for every channel. */
 	if (16 != tacq_channel) {
@@ -427,7 +427,7 @@ void BmnLANDRaw2Digit::fillEvent(TClonesArray const *tacquila_array,
       /* Don't emit an error message, an unused channel could fire. */
       continue;
     }
-    if (m_builder[det.plane][det.bar][det.side]) {
+    if (m_builder[static_cast<unsigned char>(det.plane)][static_cast<unsigned char>(det.bar)][static_cast<unsigned char>(det.side)]) {
       /* Tacquila is not multi-hit, so we should never have a duplicate hit! */
       std::cerr << __func__ << ": Duplicate hit in LAND (crate=" << gtb_i <<
 	",module=" << module_i << ",channel=" << channel_i << ";plane=" <<
@@ -436,23 +436,23 @@ void BmnLANDRaw2Digit::fillEvent(TClonesArray const *tacquila_array,
       continue;
     }
     tacquila->SetTDiff(*c17);
-    m_builder[det.plane][det.bar][det.side] = tacquila;
-    if (m_builder[det.plane][det.bar][1 - det.side]) {
+    m_builder[static_cast<unsigned char>(det.plane)][static_cast<unsigned char>(det.bar)][static_cast<unsigned char>(det.side)] = tacquila;
+    if (m_builder[static_cast<unsigned char>(det.plane)][static_cast<unsigned char>(det.bar)][1 - det.side]) {
       /* Aha, we have both sides of a bar! Muy excellente! */
       TClonesArray &ar_land = *land_array;
-      auto const &tacquila0 = *m_builder[det.plane][det.bar][0];
-      auto const &tacquila1 = *m_builder[det.plane][det.bar][1];
-      auto const &diff_sync = m_diff_sync[det.plane][det.bar];
+      auto const &tacquila0 = *m_builder[static_cast<unsigned char>(det.plane)][static_cast<unsigned char>(det.bar)][0];
+      auto const &tacquila1 = *m_builder[static_cast<unsigned char>(det.plane)][static_cast<unsigned char>(det.bar)][1];
+      auto const &diff_sync = m_diff_sync[static_cast<unsigned char>(det.plane)][static_cast<unsigned char>(det.bar)];
       // TODO : add slewing correction
       Float_t time0 = tacquila0.GetTDiff() + diff_sync.time_diff -
 	diff_sync.time_sync;
       Float_t time1 = tacquila1.GetTDiff() - diff_sync.time_diff -
 	diff_sync.time_sync;
-      Float_t energy0 = (tacquila0.GetQdc() - m_ped[det.plane][det.bar][0].ped)
+      Float_t energy0 = (tacquila0.GetQdc() - m_ped[static_cast<unsigned char>(det.plane)][static_cast<unsigned char>(det.bar)][0].ped)
 	* diff_sync.energy_diff0 * diff_sync.energy_sync;
-      Float_t energy1 = (tacquila1.GetQdc() - m_ped[det.plane][det.bar][1].ped)
+      Float_t energy1 = (tacquila1.GetQdc() - m_ped[static_cast<unsigned char>(det.plane)][static_cast<unsigned char>(det.bar)][1].ped)
 	* diff_sync.energy_diff1 * diff_sync.energy_sync;
-      Float_t vscint = m_vscint[det.plane][det.bar].vscint;
+      Float_t vscint = m_vscint[static_cast<unsigned char>(det.plane)][static_cast<unsigned char>(det.bar)].vscint;
       Float_t position = (time1 - time0) * vscint;
       new (ar_land[land_array->GetEntriesFast()]) BmnLANDDigit(det.plane,
 	  det.bar, tacquila0, tacquila1, time0, time1, energy0, energy1,
