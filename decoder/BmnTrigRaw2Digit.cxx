@@ -383,7 +383,7 @@ BmnStatus BmnTrigRaw2Digit::FillEvent(TClonesArray* tdc, TClonesArray* adc, unor
                 times.push_back(time);
             }
             Double_t matchTime = -999.0;
-            Double_t minUsed = 999.0;
+            [[maybe_unused]] Double_t minUsed = 999.0;
             TClonesArray *trigAr = NULL;
             if (diff.size() > 0) {
                 auto result = min_element(begin(diff), end(diff));

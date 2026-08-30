@@ -121,7 +121,7 @@ Bool_t BmnScWall::ProcessHits(FairVolume* vol) {
   Double_t length =0;
 
   TParticle* part;
-  Double_t charge;
+  [[maybe_unused]] Double_t charge;
 
   Double_t  QCF=1; //quenching for Birk
   Double_t  BirkConst = 12.6; //0.126 mm/MeV for polystyrene 

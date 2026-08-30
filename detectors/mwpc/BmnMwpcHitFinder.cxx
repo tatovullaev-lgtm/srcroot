@@ -1286,15 +1286,15 @@ void BmnMwpcHitFinder::ReadWires(Double_t ***DigitsArray_, Int_t **iw_Ch_, vecto
 void BmnMwpcHitFinder::Clustering(Int_t chNum, Int_t*** ClusterSize_, Double_t*** DigitsArray_, Double_t*** Coord_wire_, 
 Double_t*** Coord_xuv_, Int_t **Nclust_, Int_t *counter_pl_) {
   Int_t  Nfirst[kCh_max][kNPlanes], Nlast[kCh_max][kNPlanes];
-  Int_t  Min_time_wires, fast_wire ;
-  Int_t  N_wires[kCh_max][kNPlanes];
-  Int_t  N_1_cluster[kCh_max][kNPlanes];
+  [[maybe_unused]] Int_t  Min_time_wires, fast_wire ;
+  [[maybe_unused]] Int_t  N_wires[kCh_max][kNPlanes];
+  [[maybe_unused]] Int_t  N_1_cluster[kCh_max][kNPlanes];
   //Int_t  Fired_layer_[kNChambers][kNPlanes];
-  Double_t earlyWires[kNChambers][kNPlanes][kNWires];
-  Double_t Coord_fast[kNChambers][kNPlanes][kBig];
-  Double_t Cut_time_wire = 16.;//ns
+  [[maybe_unused]] Double_t earlyWires[kNChambers][kNPlanes][kNWires];
+  [[maybe_unused]] Double_t Coord_fast[kNChambers][kNPlanes][kBig];
+  [[maybe_unused]] Double_t Cut_time_wire = 16.;//ns
   [[maybe_unused]] Double_t time_windows = 8.;//ns
-  Double_t Num_layers_out_beam = 0;
+  [[maybe_unused]] Double_t Num_layers_out_beam = 0;
   Bool_t   wire_was = 0;
   [[maybe_unused]] Int_t    kbig = 200.;
   Double_t sum_time =0.;
@@ -1453,7 +1453,7 @@ Double_t*** Coord_xuv_, Int_t **Nclust_, Int_t *counter_pl_) {
         Nfirst[chNum][ipll] = -1;
         Nlast[chNum][ipll]  = -1;
         Bool_t Next_next_wire = 0;
-        Int_t Last_wire_Digit = 1000;
+        [[maybe_unused]] Int_t Last_wire_Digit = 1000;
 
         for (Int_t iwire = 0; iwire < kNWires; iwire++) {
           wire_was = 0;
@@ -2346,7 +2346,7 @@ void BmnMwpcHitFinder::ProcessSegments( Int_t chNum, Int_t *Nsegm, Double_t ***X
 
       InverseMatrix(Amatr,bmatr);
       Double_t sum;
-      Double_t A1[4][4] = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
+      [[maybe_unused]] Double_t A1[4][4] = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
       //cout<<" A1 "<<endl;
 
       for (Int_t i1 = 0; i1 < 4; ++i1)

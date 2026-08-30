@@ -207,7 +207,7 @@ void BmnTOF1Detector::KillSide(Int_t NumberOfSide) {
 Int_t BmnTOF1Detector::FindHits(BmnTrigDigit *T0) {
     fT0 = T0;
     fNEvents++;
-    Bool_t flag;
+    [[maybe_unused]] Bool_t flag;
     for (Int_t i = 0; i < fNStr; i++)
         if (
                 fWidthL[i] != 0 && fWidthR[i] != 0
@@ -255,7 +255,7 @@ Int_t BmnTOF1Detector::FindHits(BmnTrigDigit *T0) {
 Int_t BmnTOF1Detector::FindHits(BmnTrigDigit *T0, TClonesArray *TofHit) {
     fT0 = T0;
     fNEvents++;
-    Bool_t flag;
+    [[maybe_unused]] Bool_t flag;
     for (Int_t i = 0; i < fNStr; i++)
         if (
                 fWidthL[i] != 0 && fWidthR[i] != 0
@@ -658,7 +658,7 @@ Bool_t BmnTOF1Detector::SaveHistToFile(TString NameFile) {
 
     if (fFillHist > 0) {
         TFile *fileout = new TFile(NameFile.Data(), "UPDATE");
-        Int_t ResWrite;
+        [[maybe_unused]] Int_t ResWrite;
 
         TDirectory *Dir;
         TString Name;

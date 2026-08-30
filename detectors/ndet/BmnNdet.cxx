@@ -242,7 +242,7 @@ Bool_t BmnNdet::ProcessHits(FairVolume* vol) {
   Double_t length =0;
 
   TParticle* part;
-  Double_t charge;
+  [[maybe_unused]] Double_t charge;
 
   //Double_t timeCut = 45;
   Double_t timeCut = 55;

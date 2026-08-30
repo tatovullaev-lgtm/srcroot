@@ -560,8 +560,8 @@ Int_t *Nbest, Double_t ***par_ab, Float_t *Zmid,
 Int_t **best_Ch, Int_t *Nbest_pair_, Double_t **Chi2_match_, Double_t ***XVU_Ch_, Int_t **Nhits_, Int_t **Nhits_m) {
   //cout<<" SegmentMatching "<<endl;
   Float_t min_Chi2m = 100.;
-  Float_t min_distX = 99;
-  Float_t min_distY = 99;
+  [[maybe_unused]] Float_t min_distX = 99;
+  [[maybe_unused]] Float_t min_distY = 99;
   Double_t dx_loc = 99;
   Double_t dy_loc = 99;
   Float_t dAx12 = 0;
@@ -1047,7 +1047,7 @@ void BmnMwpcTrackFinder::SegmentFit(Int_t First_Ch, Float_t **z_gl_, Float_t *si
 
     InverseMatrix(Amatr,bmatr);
     Double_t sum;
-    Double_t A1[4][4] = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
+    [[maybe_unused]] Double_t A1[4][4] = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
 
     for (Int_t i1 = 0; i1 < 4; ++i1)
       for (Int_t j1 = 0; j1 < 4; ++j1) {

@@ -1145,9 +1145,9 @@ void BmnDchTrackFinder::Exec(Option_t* opt) {
   Double_t driftLength[nPlanes][nDim];
   Double_t wires[nPlanes][nDim];
   Int_t hitId[nPlanes][nDim];
-  Double_t xMC[nPlanes][nDim];
-  Double_t yMC[nPlanes][nDim];
-  Double_t zMC[nPlanes][nDim];
+  [[maybe_unused]] Double_t xMC[nPlanes][nDim];
+  [[maybe_unused]] Double_t yMC[nPlanes][nDim];
+  [[maybe_unused]] Double_t zMC[nPlanes][nDim];
   segsDC1 = 0;
   segsDC2 = 0;
 
@@ -1420,11 +1420,11 @@ void BmnDchTrackFinder::Exec(Option_t* opt) {
 
 void BmnDchTrackFinder::SegmentsToBeMatched() {
  Double_t yV = 9999;
-    int yVbest1 = -1;
-    int yVbest2 = -1;
+    [[maybe_unused]] int yVbest1 = -1;
+    [[maybe_unused]] int yVbest2 = -1;
     bool best_pair = true;
  while (true) {
-    Int_t match_dc1_seg = -1;
+    [[maybe_unused]] Int_t match_dc1_seg = -1;
     Double_t ax(0.), ay(0.), xMean(0.), yMean(0.);
 
     int best1 = -1;

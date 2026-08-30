@@ -98,7 +98,7 @@ void BmnFHCalRaw2Digit::ParseConfig(TString mappingFile)
   {
     istringstream ss(it);
     ss >> adc_ser >> adc_chan >> module_type >> module_id >> section_id >> x_position >> y_position >> z_position;
-    int adc_board_index, xIdx, yIdx, zIdx = -1;
+    [[maybe_unused]] int adc_board_index, xIdx, yIdx, zIdx = -1;
     auto iter = find(fSerials.begin(), fSerials.end(), std::stoul(adc_ser, nullptr, 16));
     if (iter != fSerials.end())
       adc_board_index = std::distance(fSerials.begin(), iter);

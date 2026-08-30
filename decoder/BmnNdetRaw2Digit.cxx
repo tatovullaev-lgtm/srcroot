@@ -97,7 +97,7 @@ void BmnNdetRaw2Digit::ParseConfig(TString mappingFile)
   {
     istringstream ss(it);
     ss >> tqdc_ser >> tqdc_chan >> layer_id >> cell_id  >> x_position >> y_position >> z_position;
-    int board_index, xIdx, yIdx, zIdx = -1;
+    [[maybe_unused]] int board_index, xIdx, yIdx, zIdx = -1;
     auto iter = find(fSerials.begin(), fSerials.end(), std::stoul(tqdc_ser, nullptr, 16));
     if (iter != fSerials.end())
       board_index = std::distance(fSerials.begin(), iter);

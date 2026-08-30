@@ -147,7 +147,7 @@ double MDF(double *x) {
     for (j = 0; j < gNVariables; j++) {
       // Evaluate the polynomial in the jth variable.
       int power = gPower[gNVariables * i + j]; 
-      double p1 = 1, p2 = 0, p3 = 0, r = 0;
+      [[maybe_unused]] double p1 = 1, p2 = 0, p3 = 0, r = 0;
       double v =  1 + 2. / (gXMax[j] - gXMin[j]) * (x[j] - gXMax[j]);
       // what is the power to use!
       switch(power) {

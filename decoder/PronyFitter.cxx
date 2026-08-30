@@ -1006,7 +1006,7 @@ int PronyFitter::ChooseBestSignalBeginFast(int first_sample, int last_sample, in
 int PronyFitter::SearchSignalBeginByHarmo(int first_sample, int last_sample, int signal_length, std::complex<float> **Zpower) {
 
   std::complex<double> *Zyk_arr = new std::complex<double>[fExpNumber + 1];
-  const std::complex<double> unit = {1., 0.};
+  [[maybe_unused]] const std::complex<double> unit = {1., 0.};
   int mode = (std::abs(std::imag(fz[1])) > 0.01)? 1 : 0; //choose whether harmonics are complex (1) or real (0)
   if (fIsDebug) printf("search begin in complex (1) or real (0) mode: %i\n", mode);
 
