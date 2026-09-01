@@ -55,7 +55,7 @@ BmnMwpcTrackFinder::BmnMwpcTrackFinder(Bool_t isExp, Int_t runP, Int_t runNumber
     if (fRunPeriod == 6 || (fRunPeriod == 7 && fRunNumber > 3588) ) {//BMN
       kNumPairs = 1;
       kCh_max = 2;
-    } else if ( fRunPeriod == 7 && fRunNumber <= 3588 || fRunPeriod == 8) {//SRC
+    } else if ( (fRunPeriod == 7 && fRunNumber <= 3588) || fRunPeriod == 8) {//SRC
       kNumPairs = 2;
       kCh_max = 4;
     }
@@ -139,7 +139,7 @@ void BmnMwpcTrackFinder::Exec(Option_t* opt) {
   //--------------------------------------------------------------------
   if (fDebug) cout<<" Nbest_pair[0]= "<<Nbest_pair[0]<<" Nbest_pair[1]= "<<Nbest_pair[1]<<endl;
   //--------------------MWPC pairs matching ----------------------------
-  if ( fRunPeriod == 7 && fRunNumber <= 3588 || fRunPeriod == 8 && Nbest_pair[0] > 0 && Nbest_pair[1] > 0 ) 
+  if ( (fRunPeriod == 7 && fRunNumber <= 3588) || (fRunPeriod == 8 && Nbest_pair[0] > 0 && Nbest_pair[1] > 0) ) 
      PairMatching(Nbest_pair, par_ab_pair, kZ_midle_pair);
   //--------------------------------------------------------------------
   
@@ -719,7 +719,7 @@ void BmnMwpcTrackFinder::SegmentMatchingAfterTarget( Int_t first_Ch, Int_t *Nbes
   [[maybe_unused]] match OutSegArray[kmaxPairs];
 
   Int_t Pairr = 0;//doesn't work
-  if ( fRunPeriod == 7 && first_Ch == 2 || fRunPeriod == 8 && first_Ch == 2) Pairr = 1;// main stream
+  if ( (fRunPeriod == 7 && first_Ch == 2) || (fRunPeriod == 8 && first_Ch == 2)) Pairr = 1;// main stream
   Int_t Secon_Ch = first_Ch+1;
 
   if (Nbest_Ch[first_Ch] > 0 && Nbest_Ch[Secon_Ch] > 0) {
@@ -1630,7 +1630,7 @@ InitStatus BmnMwpcTrackFinder::Init() {
           }
         }
       }
-      if (fRunPeriod == 7 && fRunNumber <= 3588 || fRunPeriod == 8) { //SRC
+      if ((fRunPeriod == 7 && fRunNumber <= 3588) || fRunPeriod == 8) { //SRC
 
         if ( ichh == 0 ) {
           kZ_loc[ichh][0] = -1.5;

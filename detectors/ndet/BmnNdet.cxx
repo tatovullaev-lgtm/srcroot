@@ -473,7 +473,7 @@ void BmnNdet::ConstructGeometry() {
   TString fileName = GetGeometryFileName();
   if(fileName.EndsWith(".root")) 
     {
-      FairLogger::GetLogger()->Info(MESSAGE_ORIGIN, "Constructing NDET geometry from ROOT file %s", fileName.Data());
+      LOG(info) << "Constructing NDET geometry from ROOT file " << fileName.Data();
       ConstructRootGeometry();
     }
   /*

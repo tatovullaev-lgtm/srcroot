@@ -174,7 +174,7 @@ Bool_t BmnTOF1Detector::SetDigit(BmnTof1Digit * TofDigit) {
             && TMath::Abs((fTimeLtemp[fStrip] - fTimeRtemp[fStrip]) * 0.5) <= fMaxDelta // cat for length of strip  
             //        && TMath::Abs((fWidthLtemp[fStrip] - fWidthRtemp[fStrip]) * 0.5) <= 1.5 // cat for Amplitude correlation
             //&& fFlagHit[fStrip] == kFALSE
-            )
+            ) {
         if (fFlagHit[fStrip] == kFALSE) {
             if (fVerbose > 3) cout << "Before set variable: " << fTimeL[fStrip] << " " << fTimeR[fStrip] << "\n";
             fTimeL[fStrip] = fTimeLtemp[fStrip];
@@ -186,6 +186,7 @@ Bool_t BmnTOF1Detector::SetDigit(BmnTof1Digit * TofDigit) {
             if (fVerbose > 3) cout << "After set variable: " << fTimeL[fStrip] << " " << fTimeR[fStrip] << "\n";
         } else
             fHit[fStrip]++;
+    }
 
     return fFlagHit[fStrip];
 }

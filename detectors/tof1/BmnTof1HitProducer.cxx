@@ -378,10 +378,10 @@ Bool_t BmnTof1HitProducer::HitExist(Double_t val) // val - distance to the pad e
 
     //-------------------------------------
     // 99% ---------
-    //              \
-    //               \
-    //                \
-    // 95%             \
+    //              \.
+    //               \.
+    //                \.
+    // 95%             \.
     //  <-----------|--|
     //            0.2  0.
     //-------------------------------------
@@ -457,7 +457,7 @@ void BmnTof1HitProducer::Exec(Option_t *opt)
             Double_t distance = pStrip->MinDistanceToEdge(&pos, side); // [cm]
 
             bool passed;
-            if (passed = HitExist(distance)) // check efficiency
+            if ((passed = HitExist(distance))) // check efficiency
             {
                 AddHit(UID, XYZ_smeared, XYZ_err, pointIndex, trackID, time);
                 nSingleHits++;
@@ -474,7 +474,7 @@ void BmnTof1HitProducer::Exec(Option_t *opt)
             if (fDoTest)
                 effTestEfficiencySingleHit->Fill(passed, distance);
 
-            if (passed = DoubleHitExist(distance)) // check cross hit
+            if ((passed = DoubleHitExist(distance))) // check cross hit
             {
                 Int_t CrossUID = (side == LStrip1::kRight) ? pStrip->neighboring[LStrip1::kRight]
                                                            : pStrip->neighboring[LStrip1::kLeft];

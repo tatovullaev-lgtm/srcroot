@@ -2034,7 +2034,7 @@ Bool_t BmnDchTrackFinder::FitDchSegments(Int_t dchID, Int_t* size_seg, Double_t*
       chi2[j] /= (size_seg[j] - 4);
       // cout<<" chi "<<chi2[j]<<" worst hit "<<worst_hit<<endl;
       //if chi2 is big and seg_size = min erase this seg
-      if (chi2[j] > 180.) 
+      if (chi2[j] > 180.) {
 	if (size_seg[j] == 6) {
 	  chi2[j] = 999.;
 	  break;
@@ -2044,6 +2044,7 @@ Bool_t BmnDchTrackFinder::FitDchSegments(Int_t dchID, Int_t* size_seg, Double_t*
 	  max_resid = 0;
 	  continue;
 	}
+      }
     }
 
 	

@@ -57,7 +57,7 @@ BmnMwpcHitFinder::BmnMwpcHitFinder(Bool_t isExp, Int_t runPeriod, Int_t runNumbe
     if(fRunPeriod == 6 || (fRunPeriod == 7 && fRunNumber > 3588) ) { //bmn
     kNumPairs     = 1;
     kCh_max       = 2;
-    } else if(fRunPeriod == 7 && fRunNumber <= 3588 || fRunPeriod == 8) { //SRC
+    } else if((fRunPeriod == 7 && fRunNumber <= 3588) || fRunPeriod == 8) { //SRC
       kNumPairs   = 2;
       kCh_max     = 4;
     }
@@ -460,7 +460,7 @@ InitStatus BmnMwpcHitFinder::Init() {
           kZ_loc[i][iPla] = -1.5;
         }
       }
-      if (fRunPeriod == 7 && fRunNumber <= 3588 || fRunPeriod == 8) { //SRC
+      if ((fRunPeriod == 7 && fRunNumber <= 3588) || fRunPeriod == 8) { //SRC
 
         if ( i == 0 ) {
           kPln[i][0] = 5; kZ_loc[i][0] = -1.5;
@@ -1226,8 +1226,8 @@ void BmnMwpcHitFinder::ReadWires(Double_t ***DigitsArray_, Int_t **iw_Ch_, vecto
       Int_t ind = st*kNPlanes + pl;
       if (fDebug) hTime.at(ind) -> Fill(ts);
       if (fDebug) hOccupancy.at(ind) -> Fill(wire);
-      if (fRunPeriod == 7 && ts < 80 || ts > 280 ) continue;
-      if (fRunPeriod == 8 && ts < 8  || ts > 225 ) continue; //ts < 20 || ts > 225 //
+      if ((fRunPeriod == 7 && ts < 80) || ts > 280 ) continue;
+      if ((fRunPeriod == 8 && ts < 8)  || ts > 225 ) continue; //ts < 20 || ts > 225 //
 
       pn = kPln[st][pl];// made for the canonical sequence / x- v- u+ x+ v+ u-/
 
