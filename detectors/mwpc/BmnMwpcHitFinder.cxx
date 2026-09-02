@@ -1670,7 +1670,7 @@ void BmnMwpcHitFinder::SegmentFinder(Int_t chNum, Int_t **Nclust_, Double_t ***C
             if (XVU_coor[chNum][v][iseg] == Coord_xuv_[chNum][v][iv]) it_was_v = 1;
             if (XVU_coor[chNum][u][iseg] == Coord_xuv_[chNum][u][iu]) it_was_u = 1;
 
-            it_was = it_was_x * it_was_v * it_was_u;
+            it_was = it_was_x && it_was_v && it_was_u;
 
             if (it_was) {
               break;
