@@ -15,6 +15,7 @@
 class BmnLANDRaw2Digit{
   public:
     BmnLANDRaw2Digit(TString, TString, TString, TString, TString);
+    virtual ~BmnLANDRaw2Digit() {}
     void fillEvent(TClonesArray const *, TClonesArray *);
     struct TCal {
       TCal(): tdc(-1), t_ns(-1) {}
