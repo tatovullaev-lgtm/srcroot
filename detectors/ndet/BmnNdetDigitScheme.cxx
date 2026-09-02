@@ -466,7 +466,7 @@ void BmnNdetDigitScheme::PrintVolume (Int_t volID, Int_t copyNoMotherMother)
 if (IsVolumeExist(&pVolId))
   cout << " found ";
 
-  BmnNdetVolInfo_t* pVolInfo = GetVolInfo (&pVolId);
+BmnNdetVolInfo_t* pVolInfo = GetVolInfo (&pVolId);
 
   if (pVolInfo)
     cout << "    X,Y,Z [cm]: " <<  (*pVolInfo)[0]<< "," << (*pVolInfo)[1]<< "," << (*pVolInfo)[2]<< 

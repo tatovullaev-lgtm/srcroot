@@ -270,7 +270,8 @@ void LRectangle::Print(ostream &out, const TVector3 &point, const char* comment)
 
 void LRectangle::Dump(const char* comment, ostream& out) const 
 { 
-    if(comment) out<<comment; out<<" uid="<<volumeUID<<" IsInvalid="<<IsInvalid;
+    if(comment) out<<comment;
+    out<<" uid="<<volumeUID<<" IsInvalid="<<IsInvalid;
     Print(out, A, " A:"); Print(out, B, " B:"); Print(out, C, " C:"); Print(out, D, " D:");
 }
 
