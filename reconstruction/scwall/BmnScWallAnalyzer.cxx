@@ -44,7 +44,7 @@ BmnScWallAnalyzer::~BmnScWallAnalyzer() {
  
  fScWallNeighbour.clear();
  
- delete fArrayOfScWallDigits, fBmnScWallReconstructor, fevHeader, fDchTrack; 
+ delete fevHeader;
  
 }
 
