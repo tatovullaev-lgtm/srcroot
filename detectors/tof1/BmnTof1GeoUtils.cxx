@@ -230,12 +230,13 @@ Double_t LStrip1::Distance(Side_t side, const LStrip1& strip)
     if((*this) == strip) 		return min1+min2; // same strip
     if(!IsSameDetector(strip)) 	return min1+min2; // different modules
 
-    TVector3 *p1, *p2;
+    TVector3 *p1 = nullptr, *p2 = nullptr;
     
     switch(side)
     {
     case kRight: 	p1 = &A; p2 = &D; break;
     case kLeft: 	p1 = &B; p2 = &C; break;
+    default: break;
     };
 
     value 	= fabs((*p1 - strip.A).Mag());	min1 = (value < min1) ? value : min1;

@@ -86,9 +86,13 @@ BmnNdetDigit::BmnNdetDigit(BmnNdetPoint *p)
 
 
 	//fGroupID = module_groupID;
-    fTime = time;
-    fModuleID = modID;
-    fChannelID = chanID;
+    // fTime/fModuleID/fChannelID intentionally left at the defaults set
+    // above (-100/-1/-1): the SplitDigiID call that used to compute
+    // time/modID/chanID is commented out above, so these locals were
+    // uninitialized garbage -- do not assign them.
+    //fTime = time;
+    //fModuleID = modID;
+    //fChannelID = chanID;
 
     fELoss = p->GetEnergyLoss();
   }
