@@ -193,6 +193,12 @@ Long64_t CbmMCTrack::GetNPoints(DetectorId detId) const
         return ((fNPoints & ((Long64_t)1 << 60)) >> 60);
     else if (detId == kVACWALL)
         return ((fNPoints & ((Long64_t)1 << 61)) >> 61);
+    else if (detId == kTOF700)
+        return ((fNPoints & ((Long64_t)1 << 42)) >> 42);
+    else if (detId == kLAND)
+        return ((fNPoints & ((Long64_t)1 << 43)) >> 43);
+    else if (detId == kTofCal)
+        return ((fNPoints & ((Long64_t)1 << 44)) >> 44);
     else {
         LOG(error) << "GetNPoints: Unknown detector ID " << detId;
         return 0;
@@ -415,6 +421,33 @@ void CbmMCTrack::SetNPoints(Int_t iDet, Long64_t nPoints)
         else if (nPoints > 1)
             nPoints = 1;
         fNPoints = (fNPoints & (~((Long64_t)1 << 61))) | (nPoints << 61);
+    }
+
+    else if (iDet == kTOF700)
+    {
+        if (nPoints < 0)
+            nPoints = 0;
+        else if (nPoints > 1)
+            nPoints = 1;
+        fNPoints = (fNPoints & (~((Long64_t)1 << 42))) | (nPoints << 42);
+    }
+
+    else if (iDet == kLAND)
+    {
+        if (nPoints < 0)
+            nPoints = 0;
+        else if (nPoints > 1)
+            nPoints = 1;
+        fNPoints = (fNPoints & (~((Long64_t)1 << 43))) | (nPoints << 43);
+    }
+
+    else if (iDet == kTofCal)
+    {
+        if (nPoints < 0)
+            nPoints = 0;
+        else if (nPoints > 1)
+            nPoints = 1;
+        fNPoints = (fNPoints & (~((Long64_t)1 << 44))) | (nPoints << 44);
     }
 
     else
