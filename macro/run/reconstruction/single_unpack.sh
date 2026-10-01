@@ -2,7 +2,7 @@
 
 #SBATCH -t 10-00:00:00
 #SBATCH -p bmn
-#SBATCH -w n02p043
+#SBATCH -x n02p035
 #SBATCH --mem=4Gb
 
 
@@ -21,6 +21,7 @@ UPSTDIR=/zfs/scratch/tatov/Reconstruction/UpStream_Tracks/jun26
 MDFDIR=/zfs/scratch/tatov/Reconstruction/MDF/jun26
 ARMALIGDIR=/zfs/scratch/tatov/Reconstruction/Arm_Allignment/jun26
 PHYSDIR=/zfs/scratch/tatov/Reconstruction/Physics_Tree/jun26
+PHYSDIR_SH=/zfs/scratch/tatov/Reconstruction/Physics_Tree_Short/jun26
 
 LOG_DATDIG_DIR=/zfs/scratch/tatov/Reconstruction/log/data_digi
 LOG_DIGREC_DIR=/zfs/scratch/tatov/Reconstruction/log/digi_reco
@@ -61,21 +62,21 @@ for (( i = ${RUN}*10; i <= ${RUN}*10+9; i++ ))
        
     # fi
 
-    # digi to reco
-    CHKFILE="${DIGIDIR}/Run_${i}_Digi.root"
-    echo "${DIGIDIR}/Run_${i}_Digi.root"
+    # # digi to reco
+    # CHKFILE="${DIGIDIR}/Run_${i}_Digi.root"
+    # echo "${DIGIDIR}/Run_${i}_Digi.root"
 
-    if [ -f "${CHKFILE}" ]; then
-	echo "digi file for the run ${i} exists"
+    # if [ -f "${CHKFILE}" ]; then
+	# echo "digi file for the run ${i} exists"
 	
-      root -b -q ''${RUNDIR}'/run_reco_src.C("'${DIGIDIR}'/Run_'${i}'_Digi.root","'${RECODIR}'/Run_'${i}'_Reco.root", 0, 0)' >> ${LOG_DIGREC_DIR}/${i}.log
+    #   root -b -q ''${RUNDIR}'/run_reco_src.C("'${DIGIDIR}'/Run_'${i}'_Digi.root","'${RECODIR}'/Run_'${i}'_Reco.root", 0, 0)' >> ${LOG_DIGREC_DIR}/${i}.log
 
  
        
-    fi
+    # fi
 
 
-    # # reco to combined files
+    # #reco to combined files
     # CHKFILE="${RECODIR}/Run_${i}_Reco.root"
     # echo "${RECODIR}/Run_${i}_Reco.root"
 
@@ -83,21 +84,21 @@ for (( i = ${RUN}*10; i <= ${RUN}*10+9; i++ ))
     # if [ -f "${CHKFILE}" ]; then
 	#   echo "reco file for the run ${i} exists"
 	
-    #   root -b -q ''${RUNDIR}'/Si_MWPC_Coord_For_Mass_Production.cpp('${i}')' >> ${LOG_RECCOMB_DIR}/${i}.log
+    #   root -b -q ''${RUNDIR}'/Combine_Digi.cpp('${i}')' >> ${LOG_RECCOMB_DIR}/${i}.log
     #   # too much paths to add into function, please check it in the macro
        
     # fi
 
 
     # # combined files to upstream tracks
-    # CHKFILE="${COMBDIR}/Si_MWPC_DCH_dCSC_gemCSC_combined_data_${i}.root"
-    # echo "${COMBDIR}/Si_MWPC_DCH_dCSC_gemCSC_combined_data_${i}.root"
+    # CHKFILE="${COMBDIR}/All_Digi_${i}.root"
+    # echo "${COMBDIR}/All_Digi_${i}.root"
     
     
     # if [ -f "${CHKFILE}" ]; then
 	#   echo "combined file for the run ${i} exists"
 	
-    #   root -b -q ''${RUNDIR}'/Si_MWPC_Tracks_Final_Mass_Production.cpp("'${COMBDIR}'/Si_MWPC_DCH_dCSC_gemCSC_combined_data_'${i}'.root","'${UPSTDIR}'/Run_'${i}'_Upstr.root")' >> ${LOG_COMBUPST_DIR}/${i}.log
+    #   root -b -q ''${RUNDIR}'/Si_MWPC_Tracks_Final_Mass_Production.cpp("'${COMBDIR}'/All_Digi_'${i}'.root","'${UPSTDIR}'/Run_'${i}'_Upstr.root")' >> ${LOG_COMBUPST_DIR}/${i}.log
        
     # fi
 
@@ -128,17 +129,29 @@ for (( i = ${RUN}*10; i <= ${RUN}*10+9; i++ ))
     # fi
 
 
-    # # arm allignment to arm tracks and physics files
-    # CHKFILE="${ARMALIGDIR}/Run_${i}_GTrack_Alig.root"
-    # echo "${ARMALIGDIR}/Run_${i}_GTrack_Alig.root"
+    # arm allignment to arm tracks and physics files
+    CHKFILE="${ARMALIGDIR}/Run_${i}_GTrack_Alig.root"
+    echo "${ARMALIGDIR}/Run_${i}_GTrack_Alig.root"
     
     
-    # if [ -f "${CHKFILE}" ]; then
-	#   echo "arm allignment file for the run ${i} exists"
+    if [ -f "${CHKFILE}" ]; then
+	  echo "arm allignment file for the run ${i} exists"
 	
-    #   root -b -q ''${RUNDIR}'/Goran_Tracks_Physics_M.cpp("'${ARMALIGDIR}'/Run_'${i}'_GTrack_Alig.root","'${PHYSDIR}'/Run_'${i}'_GTrack_Phys.root")' >> ${LOG_ARMALIGPHYS_DIR}/${i}.log
+      root -b -q ''${RUNDIR}'/Goran_Tracks_Physics_M.cpp("'${ARMALIGDIR}'/Run_'${i}'_GTrack_Alig.root","'${PHYSDIR}'/Run_'${i}'_GTrack_Phys.root")' >> ${LOG_ARMALIGPHYS_DIR}/${i}.log
        
-    # fi
+    fi
+
+    # arm allignment to arm tracks and physics files short
+    CHKFILE="${ARMALIGDIR}/Run_${i}_GTrack_Alig.root"
+    echo "${ARMALIGDIR}/Run_${i}_GTrack_Alig.root"
+    
+    
+    if [ -f "${CHKFILE}" ]; then
+	  echo "arm allignment file for the run ${i} exists"
+	
+      root -b -q ''${RUNDIR}'/Goran_Tracks_Physics_M_short.cpp("'${ARMALIGDIR}'/Run_'${i}'_GTrack_Alig.root","'${PHYSDIR_SH}'/Run_'${i}'_GTrack_Phys_short.root")' >> ${LOG_ARMALIGPHYS_DIR}/${i}.log
+       
+    fi
    
    
 done

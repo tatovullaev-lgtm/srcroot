@@ -380,7 +380,7 @@ float  BMN_gem_left, BMN_csc_left, BMN_gem_right, BMN_csc_right;
 
 void calcualte_Z_arms()
 {
-  float target_center = -5763.9;
+  float target_center = -5762.0; //-576.2 cm is what Goran used in his code
   //from PreciseGometry
   float angle_gem_left = 30.53,
       angle_gem_right = 30.87 ,
@@ -820,11 +820,8 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
   time_t TS_sec;
   long TS_nsec;
   int nrun, chargein, charge34, charge35, charge45, chargein_cor, charge34_cor, charge35_cor, charge45_cor, trigger, veto, SW_Mult, SW_NMatchTr, VB_Mult;
-  int LeftTof400_nHits, RightTof400_nHits;
-  vector <Double_t> LeftTof400_X,LeftTof400_Y,LeftTof400_Z, LeftTof400_TS;
-  vector <Int_t> LeftTof400_DetId, LeftTof400_Module, LeftTof400_Station;
-  vector <Double_t> RightTof400_X,RightTof400_Y,RightTof400_Z, RightTof400_TS;
-  vector <Int_t> RightTof400_DetId, RightTof400_Module, RightTof400_Station;
+  int Tof400_nHits;
+
   vector <Double_t> Tof400_X,Tof400_Y,Tof400_Z, Tof400_TS;
   vector <Int_t> Tof400_DetId, Tof400_Module, Tof400_Station;
 
@@ -837,7 +834,7 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
   Double_t BC1_Time0, BC1_Time1, BC2_Time0, BC2_Time1;  //  
 
   TBranch *br_EventID_Bmn =tree1->Branch("eventBmn",&EventID_Bmn);
-  //TBranch *br_EventID =tree1->Branch("event",&EventID);
+  TBranch *br_EventID =tree1->Branch("event",&EventID);
   TBranch *br_trigger =tree1->Branch("trigger",&trigger);
   TBranch *br_veto =tree1->Branch("VC",&veto);
   TBranch *br_TS_sec =tree1->Branch("TS_sec",&TS_sec);
@@ -874,31 +871,23 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
   TBranch *br_VB_Mult =tree1->Branch("VB_Mult",&VB_Mult);
   TBranch *br_VB_CellId =tree1->Branch("VB_CellId",&VB_CellId);
 
-  TBranch *br_LeftTof400_X =tree1->Branch("LeftTof400_X",&LeftTof400_X);
-  TBranch *br_LeftTof400_Y =tree1->Branch("LeftTof400_Y",&LeftTof400_Y);
-  TBranch *br_LeftTof400_Z =tree1->Branch("LeftTof400_Z",&LeftTof400_Z);
-  TBranch *br_LeftTof400_TS =tree1->Branch("LeftTof400_TS",&LeftTof400_TS);
-  TBranch *br_LeftTof400_DetId =tree1->Branch("LeftTof400_DetId",&LeftTof400_DetId);
-  TBranch *br_LeftTof400_Module =tree1->Branch("LeftTof400_Module",&LeftTof400_Module);
-  TBranch *br_LeftTof400_Station =tree1->Branch("LeftTof400_Station",&LeftTof400_Station);
-  TBranch *br_LeftTof400_nHits =tree1->Branch("LeftTof400_nHits",&LeftTof400_nHits);
+  TBranch *br_Tof400_X =tree1->Branch("Tof400_X",&Tof400_X);
+  TBranch *br_Tof400_Y =tree1->Branch("Tof400_Y",&Tof400_Y);
+  TBranch *br_Tof400_Z =tree1->Branch("Tof400_Z",&Tof400_Z);
+  TBranch *br_Tof400_TS =tree1->Branch("Tof400_TS",&Tof400_TS);
+  TBranch *br_Tof400_DetId =tree1->Branch("Tof400_DetId",&Tof400_DetId);
+  TBranch *br_Tof400_Module =tree1->Branch("Tof400_Module",&Tof400_Module);
+  TBranch *br_Tof400_Station =tree1->Branch("Tof400_Station",&Tof400_Station);
+  TBranch *br_Tof400_nHits =tree1->Branch("Tof400_nHits",&Tof400_nHits);
 
-  TBranch *br_RightTof400_X =tree1->Branch("RightTof400_X",&RightTof400_X);
-  TBranch *br_RightTof400_Y =tree1->Branch("RightTof400_Y",&RightTof400_Y);
-  TBranch *br_RightTof400_Z =tree1->Branch("RightTof400_Z",&RightTof400_Z);
-  TBranch *br_RightTof400_TS =tree1->Branch("RightTof400_TS",&RightTof400_TS);
-  TBranch *br_RightTof400_DetId =tree1->Branch("RightTof400_DetId",&RightTof400_DetId);
-  TBranch *br_RightTof400_Module =tree1->Branch("RightTof400_Module",&RightTof400_Module);
-  TBranch *br_RightTof400_Station =tree1->Branch("RightTof400_Station",&RightTof400_Station);
-  TBranch *br_RightTof400_nHits =tree1->Branch("RightTof400_nHits",&RightTof400_nHits);
-
-  TBranch *br_TofCal_nHits = tree1->Branch("TofCal_nHits", &TofCal_nHits); 
+  
   TBranch *br_Is_laser = tree1->Branch("Is_laser", &Is_laser); 
   TBranch *br_BC1_Time0 = tree1->Branch("BC1_Time0", &BC1_Time0); 
   TBranch *br_BC1_Time1 = tree1->Branch("BC1_Time1", &BC1_Time1); 
   TBranch *br_BC2_Time0 = tree1->Branch("BC2_Time0", &BC2_Time0); 
   TBranch *br_BC2_Time1 = tree1->Branch("BC2_Time1", &BC2_Time1); 
 
+  TBranch *br_TofCal_nHits = tree1->Branch("TofCal_nHits", &TofCal_nHits); 
   TBranch *br_TofCal_Bar = tree1->Branch("TofCal_Bar", &TofCal_Bar); 
   TBranch *br_TofCal_Plane = tree1->Branch("TofCal_Plane", &TofCal_Plane);
   TBranch *br_TofCal_Arm = tree1->Branch("TofCal_Arm", &TofCal_Arm); 
@@ -911,7 +900,7 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
   TBranch *br_TofCal_Y = tree1->Branch("TofCal_Y", &TofCal_Y); 
   
   
-     Inf *Sil1H = new Inf;
+  Inf *Sil1H = new Inf;
   TBranch *br_Sil1H_X =tree1->Branch("Si1H_X",&Sil1H->X);
   TBranch *br_Sil1H_Y =tree1->Branch("Si1H_Y",&Sil1H->Y);
   TBranch *br_Sil1H_St =tree1->Branch("Si1H_St",&Sil1H->St);
@@ -1175,27 +1164,38 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
   Short_t leftGemN_header, leftCscN_header;
   vector <Float_t> rightGemX, rightGemY, rightGemZ, 
   leftGemX, leftGemY, leftGemZ,
-  rightCscX, rightCscY, rightCscZ, leftCscX, leftCscY, leftCscZ;
+  rightCscX, rightCscY, rightCscZ, leftCscX, leftCscY, leftCscZ,
+  rightGemXLocal, rightGemYLocal, leftGemXLocal, leftGemYLocal, rightCscXLocal, rightCscYLocal, leftCscXLocal, leftCscYLocal; //
 
   TBranch *br_Second =tree1->Branch("Second_gemCSC", &sec_gemcsc);
   TBranch *br_NanoSecond =tree1->Branch("NanoSecond_gemCSC", &nanosec_gemcsc);
-  TBranch *br_RightGemN =tree1->Branch("RightGemN", &rightGemN);
-  TBranch *br_RightGemX =tree1->Branch("RightGemX", &rightGemX);
-  TBranch *br_RightGemY =tree1->Branch("RightGemY", &rightGemY);
-  TBranch *br_RightGemZ =tree1->Branch("RightGemZ", &rightGemZ);
-  TBranch *br_RightCscN =tree1->Branch("RightCscN", &rightCscN);
-  TBranch *br_RightCscX =tree1->Branch("RightCscX", &rightCscX);
-  TBranch *br_RightCscY =tree1->Branch("RightCscY", &rightCscY);
-  TBranch *br_RightCscZ =tree1->Branch("RightCscZ", &rightCscZ);
+  TBranch *br_RightGemN =tree1->Branch("R_GemN", &rightGemN);
+  TBranch *br_RightGemX =tree1->Branch("R_GemX", &rightGemX);
+  TBranch *br_RightGemY =tree1->Branch("R_GemY", &rightGemY);
+  TBranch *br_RightGemZ =tree1->Branch("R_GemZ", &rightGemZ);
+  TBranch *br_RightCscN =tree1->Branch("R_CscN", &rightCscN);
+  TBranch *br_RightCscX =tree1->Branch("R_CscX", &rightCscX);
+  TBranch *br_RightCscY =tree1->Branch("R_CscY", &rightCscY);
+  TBranch *br_RightCscZ =tree1->Branch("R_CscZ", &rightCscZ);
    
-  TBranch *br_LeftGemN =tree1->Branch("LeftGemN", &leftGemN);
-  TBranch *br_LeftGemX =tree1->Branch("LeftGemX", &leftGemX);
-  TBranch *br_LeftGemY =tree1->Branch("LeftGemY", &leftGemY);
-  TBranch *br_LeftGemZ =tree1->Branch("LeftGemZ", &leftGemZ);
-  TBranch *br_LeftCscN =tree1->Branch("LeftCscN", &leftCscN);
-  TBranch *br_LeftCscX =tree1->Branch("LeftCscX", &leftCscX);
-  TBranch *br_LeftCscY =tree1->Branch("LeftCscY", &leftCscY);
-  TBranch *br_LeftCscZ =tree1->Branch("LeftCscZ", &leftCscZ);
+  TBranch *br_LeftGemN =tree1->Branch("L_GemN", &leftGemN);
+  TBranch *br_LeftGemX =tree1->Branch("L_GemX", &leftGemX);
+  TBranch *br_LeftGemY =tree1->Branch("L_GemY", &leftGemY);
+  TBranch *br_LeftGemZ =tree1->Branch("L_GemZ", &leftGemZ);
+  TBranch *br_LeftCscN =tree1->Branch("L_CscN", &leftCscN);
+  TBranch *br_LeftCscX =tree1->Branch("L_CscX", &leftCscX);
+  TBranch *br_LeftCscY =tree1->Branch("L_CscY", &leftCscY);
+  TBranch *br_LeftCscZ =tree1->Branch("L_CscZ", &leftCscZ);
+
+  TBranch *br_rightGemXLocal =tree1->Branch("R_GemXLocal", &rightGemXLocal); //
+  TBranch *br_rightGemYLocal =tree1->Branch("R_GemYLocal", &rightGemYLocal);
+  TBranch *br_leftGemXLocal =tree1->Branch("L_GemXLocal", &leftGemXLocal);
+  TBranch *br_leftGemYLocal =tree1->Branch("L_GemYLocal", &leftGemYLocal);
+
+  TBranch *br_rightCscXLocal =tree1->Branch("R_CscXLocal", &rightCscXLocal);
+  TBranch *br_rightCscYLocal =tree1->Branch("R_CscYLocal", &rightCscYLocal);
+  TBranch *br_leftCscXLocal =tree1->Branch("L_CscXLocal", &leftCscXLocal);
+  TBranch *br_leftCscYLocal =tree1->Branch("L_CscYLocal", &leftCscYLocal);
   
   EventID=0;
  
@@ -1211,13 +1211,6 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
   tree->SetBranchAddress("BmnMwpcSegment", &mwpcsegment);
   tree->SetBranchAddress("BmnTof400Hit", &tof400);
 
-  TBranch *br_Tof400_X =tree->Branch("Tof400_X",&Tof400_X);
-  TBranch *br_Tof400_Y =tree->Branch("Tof400_Y",&Tof400_Y);
-  TBranch *br_Tof400_Z =tree->Branch("Tof400_Z",&Tof400_Z);
-  TBranch *br_Tof400_TS =tree->Branch("Tof400_TS",&Tof400_TS);
-  TBranch *br_Tof400_DetId =tree->Branch("Tof400_DetId",&Tof400_DetId);
-  TBranch *br_Tof400_Module =tree->Branch("Tof400_Module",&Tof400_Module);
-  TBranch *br_Tof400_Station =tree->Branch("Tof400_Station",&Tof400_Station);
  
 
   Int_t Si_index;
@@ -1309,7 +1302,8 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
   Short_t rightGemN_txtroot, rightCscN_txtroot;
   vector <Float_t> *rightGemX_txtroot=0, *rightGemY_txtroot=0, *rightGemZ_txtroot=0; 
   vector <Float_t> *rightCscX_txtroot=0, *rightCscY_txtroot=0, *rightCscZ_txtroot=0;
-
+  vector <Float_t> *rightGemXLocal_txtroot=0, *rightGemYLocal_txtroot=0;
+  vector <Float_t> *rightCscXLocal_txtroot=0, *rightCscYLocal_txtroot=0;
 
   if (!gemCSCfile_Right || gemCSCfile_Right->IsZombie()) 
   {
@@ -1336,6 +1330,13 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
     tgemCSC_Right->SetBranchAddress("RightCscY", &rightCscY_txtroot);
     tgemCSC_Right->SetBranchAddress("RightCscZ", &rightCscZ_txtroot);
 
+    tgemCSC_Right->SetBranchAddress("RightGemXLocal", &rightGemXLocal_txtroot); 
+    tgemCSC_Right->SetBranchAddress("RightGemYLocal", &rightGemYLocal_txtroot);
+    tgemCSC_Right->SetBranchAddress("RightCscXLocal", &rightCscXLocal_txtroot);
+    tgemCSC_Right->SetBranchAddress("RightCscYLocal", &rightCscYLocal_txtroot);
+
+  
+
   }
 
   if(flag_Right_gemcsc!=1 && tgemCSC_Right->GetEntries()<1) 
@@ -1353,6 +1354,8 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
   Short_t leftGemN_txtroot, leftCscN_txtroot;
   vector <Float_t> *leftGemX_txtroot=0, *leftGemY_txtroot=0, *leftGemZ_txtroot=0; 
   vector <Float_t> *leftCscX_txtroot=0, *leftCscY_txtroot=0, *leftCscZ_txtroot=0;
+  vector <Float_t> *leftGemXLocal_txtroot=0, *leftGemYLocal_txtroot=0;
+  vector <Float_t> *leftCscXLocal_txtroot=0, *leftCscYLocal_txtroot=0;
 
 
   if (!gemCSCfile_Left || gemCSCfile_Left->IsZombie()) 
@@ -1378,6 +1381,11 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
     tgemCSC_Left->SetBranchAddress("LeftCscX", &leftCscX_txtroot);
     tgemCSC_Left->SetBranchAddress("LeftCscY", &leftCscY_txtroot);
     tgemCSC_Left->SetBranchAddress("LeftCscZ", &leftCscZ_txtroot);
+
+    tgemCSC_Left->SetBranchAddress("LeftGemXLocal", &leftGemXLocal_txtroot);
+    tgemCSC_Left->SetBranchAddress("LeftGemYLocal", &leftGemYLocal_txtroot);
+    tgemCSC_Left->SetBranchAddress("LeftCscXLocal", &leftCscXLocal_txtroot);
+    tgemCSC_Left->SetBranchAddress("LeftCscYLocal", &leftCscYLocal_txtroot);
 
   }
 
@@ -1522,7 +1530,7 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
 
     tree->GetEntry(i-1);
     EventID_Bmn=evHeader->GetEventId();
-    //EventID=EventID+1;
+    EventID=EventID+1;
     TS_sec=evHeader->GetEventTimeTS().GetSec();
     TS_nsec=evHeader->GetEventTimeTS().GetNanoSec();
 
@@ -1699,34 +1707,17 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
           } 
     }
 
-    LeftTof400_nHits=0; RightTof400_nHits=0;
+    Tof400_nHits=0;
     for (int k=0; k<tof400->GetEntries(); k++){
           BmnTofHit *tof400hit = (BmnTofHit *)tof400->At(k);
-
-          if (tof400hit->GetX() > 0 )
-          {
-            LeftTof400_X.push_back(tof400hit->GetX());
-            LeftTof400_Y.push_back(tof400hit->GetY());
-            LeftTof400_Z.push_back(tof400hit->GetZ());
-            LeftTof400_TS.push_back(tof400hit->GetTimeStamp());
-            LeftTof400_DetId.push_back(tof400hit->GetDetectorID()); 
-            LeftTof400_Module.push_back(tof400hit->GetModule());
-            LeftTof400_Station.push_back(tof400hit->GetStation());
-            LeftTof400_nHits++;
-          }
-
-          if (tof400hit->GetX() < 0 )
-          {
-            RightTof400_X.push_back(tof400hit->GetX());
-            RightTof400_Y.push_back(tof400hit->GetY());
-            RightTof400_Z.push_back(tof400hit->GetZ());
-            RightTof400_TS.push_back(tof400hit->GetTimeStamp());
-            RightTof400_DetId.push_back(tof400hit->GetDetectorID()); 
-            RightTof400_Module.push_back(tof400hit->GetModule());
-            RightTof400_Station.push_back(tof400hit->GetStation());
-            RightTof400_nHits++;
-          }
-          
+          Tof400_X.push_back(tof400hit->GetX());
+          Tof400_Y.push_back(tof400hit->GetY());
+          Tof400_Z.push_back(tof400hit->GetZ());
+          Tof400_TS.push_back(tof400hit->GetTimeStamp());
+          Tof400_DetId.push_back(tof400hit->GetDetectorID()); 
+          Tof400_Module.push_back(tof400hit->GetModule());
+          Tof400_Station.push_back(tof400hit->GetStation());
+          Tof400_nHits++;
     }
 
     BC1_Time0 = evHeader->GetBC1_Time0(); //
@@ -2032,10 +2023,10 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
 
 
     //gemCSC
-    rightGemX.clear(); rightGemY.clear(); rightGemZ.clear();
-    leftGemX.clear(); leftGemY.clear(); leftGemZ.clear();
-    rightCscX.clear(); rightCscY.clear(); rightCscZ.clear();
-    leftCscX.clear(); leftCscY.clear(); leftCscZ.clear();  
+    rightGemX.clear(); rightGemY.clear(); rightGemZ.clear(); rightGemXLocal.clear(); rightGemYLocal.clear();
+    leftGemX.clear(); leftGemY.clear(); leftGemZ.clear(); leftGemXLocal.clear(); leftGemYLocal.clear();
+    rightCscX.clear(); rightCscY.clear(); rightCscZ.clear(); rightCscXLocal.clear(); rightCscYLocal.clear();
+    leftCscX.clear(); leftCscY.clear(); leftCscZ.clear(); leftCscXLocal.clear(); leftCscYLocal.clear(); 
     rightGemN=0; leftGemN=0; rightCscN=0; leftCscN=0; sec_gemcsc=0; nanosec_gemcsc=0;
     
     //auto gemcscIndex_Right = tgemCSC_Right->GetEntryNumberWithIndex (runId, EventID_Bmn); 
@@ -2056,6 +2047,8 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
         rightGemX.push_back(rightGemX_txtroot->at(i));
         rightGemY.push_back(rightGemY_txtroot->at(i));
         rightGemZ.push_back(rightGemZ_txtroot->at(i));
+        rightGemXLocal.push_back(rightGemXLocal_txtroot->at(i));
+        rightGemYLocal.push_back(rightGemYLocal_txtroot->at(i));
       }
 
       for(int i = 0; i<rightCscN; i++)
@@ -2063,6 +2056,8 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
         rightCscX.push_back(rightCscX_txtroot->at(i));
         rightCscY.push_back(rightCscY_txtroot->at(i));
         rightCscZ.push_back(rightCscZ_txtroot->at(i));
+        rightCscXLocal.push_back(rightCscXLocal_txtroot->at(i));
+        rightCscYLocal.push_back(rightCscYLocal_txtroot->at(i));
       }
     }
 
@@ -2083,6 +2078,8 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
         leftGemX.push_back(leftGemX_txtroot->at(i));
         leftGemY.push_back(leftGemY_txtroot->at(i));
         leftGemZ.push_back(leftGemZ_txtroot->at(i));
+        leftGemXLocal.push_back(leftGemXLocal_txtroot->at(i));
+        leftGemYLocal.push_back(leftGemYLocal_txtroot->at(i));
       }
 
       for(int i = 0; i<leftCscN; i++)
@@ -2090,6 +2087,8 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
         leftCscX.push_back(leftCscX_txtroot->at(i));
         leftCscY.push_back(leftCscY_txtroot->at(i));
         leftCscZ.push_back(leftCscZ_txtroot->at(i));
+        leftCscXLocal.push_back(leftCscXLocal_txtroot->at(i));
+        leftCscYLocal.push_back(leftCscYLocal_txtroot->at(i));
       }
     }
 
@@ -2105,23 +2104,15 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
 
     VB_CellId.clear();
 
-    LeftTof400_X.clear();
-    LeftTof400_Y.clear();
-    LeftTof400_Z.clear();
-    LeftTof400_TS.clear();
-    LeftTof400_DetId.clear();
-    LeftTof400_Module.clear();
-    LeftTof400_Station.clear();
-    LeftTof400_nHits=0;
+    Tof400_X.clear();
+    Tof400_Y.clear();
+    Tof400_Z.clear();
+    Tof400_TS.clear();
+    Tof400_DetId.clear();
+    Tof400_Module.clear();
+    Tof400_Station.clear();
+    Tof400_nHits=0;
 
-    RightTof400_X.clear();
-    RightTof400_Y.clear();
-    RightTof400_Z.clear();
-    RightTof400_TS.clear();
-    RightTof400_DetId.clear();
-    RightTof400_Module.clear();
-    RightTof400_Station.clear();
-    RightTof400_nHits=0;
 
     TofCal_Bar.clear(); //
     TofCal_Plane.clear();
@@ -2135,7 +2126,127 @@ void sync_bmn_Si_downstreamCSC_gemCSC(int filenum)
     TofCal_Y.clear(); //
     TofCal_nHits = 0;
  
+    Sil11H->X.clear();
+    Sil11H->Y.clear();
+    Sil11H->St.clear();
+    Sil11H->Mod.clear();
+    Sil11H->L0H.clear();
+    Sil11H->L1H.clear();
+    Sil11H->AmpDir.clear();
+    Sil11H->AmpIncl.clear();
+    Sil11H->nHits=0;
 
+    Sil12H->X.clear();
+    Sil12H->Y.clear();
+    Sil12H->St.clear();
+    Sil12H->Mod.clear();
+    Sil12H->L0H.clear();
+    Sil12H->L1H.clear();
+    Sil12H->AmpDir.clear();
+    Sil12H->AmpIncl.clear();
+    Sil12H->nHits=0;
+
+    Sil21H->X.clear();
+    Sil21H->Y.clear();
+    Sil21H->St.clear();
+    Sil21H->Mod.clear();
+    Sil21H->L0H.clear();
+    Sil21H->L1H.clear();
+    Sil21H->AmpDir.clear();
+    Sil21H->AmpIncl.clear();
+    Sil21H->nHits=0;
+
+    Sil22H->X.clear();
+    Sil22H->Y.clear();
+    Sil22H->St.clear();
+    Sil22H->Mod.clear();
+    Sil22H->L0H.clear();
+    Sil22H->L1H.clear();
+    Sil22H->AmpDir.clear();
+    Sil22H->AmpIncl.clear();
+    Sil22H->nHits=0;
+
+    Sil31H->X.clear();
+    Sil31H->Y.clear();
+    Sil31H->St.clear();
+    Sil31H->Mod.clear();
+    Sil31H->L0H.clear();
+    Sil31H->L1H.clear();
+    Sil31H->AmpDir.clear();
+    Sil31H->AmpIncl.clear();
+    Sil31H->nHits=0;
+
+    Sil32H->X.clear();
+    Sil32H->Y.clear();
+    Sil32H->St.clear();
+    Sil32H->Mod.clear();
+    Sil32H->L0H.clear();
+    Sil32H->L1H.clear();
+    Sil32H->AmpDir.clear();
+    Sil32H->AmpIncl.clear();
+    Sil32H->nHits=0;
+
+    Sil41H->X.clear();
+    Sil41H->Y.clear();
+    Sil41H->St.clear();
+    Sil41H->Mod.clear();
+    Sil41H->L0H.clear();
+    Sil41H->L1H.clear();
+    Sil41H->AmpDir.clear();
+    Sil41H->AmpIncl.clear();
+    Sil41H->nHits=0;
+
+    Sil42H->X.clear();
+    Sil42H->Y.clear();
+    Sil42H->St.clear();
+    Sil42H->Mod.clear();
+    Sil42H->L0H.clear();
+    Sil42H->L1H.clear();
+    Sil42H->AmpDir.clear();
+    Sil42H->AmpIncl.clear();
+    Sil42H->nHits=0;
+
+    Sil1H->X.clear();
+    Sil1H->Y.clear();
+    Sil1H->St.clear();
+    Sil1H->Mod.clear();
+    Sil1H->L0H.clear();
+    Sil1H->L1H.clear();
+    Sil1H->AmpDir.clear();
+    Sil1H->AmpIncl.clear();
+    Sil1H->nHits=0;
+
+    Sil2H->X.clear();
+    Sil2H->Y.clear();
+    Sil2H->St.clear();
+    Sil2H->Mod.clear();
+    Sil2H->L0H.clear();
+    Sil2H->L1H.clear();
+    Sil2H->AmpDir.clear();
+    Sil2H->AmpIncl.clear();
+    Sil2H->nHits=0;
+
+
+    Sil3H->X.clear();
+    Sil3H->Y.clear();
+    Sil3H->St.clear();
+    Sil3H->Mod.clear();
+    Sil3H->L0H.clear();
+    Sil3H->L1H.clear();
+    Sil3H->AmpDir.clear();
+    Sil3H->AmpIncl.clear();
+    Sil3H->nHits=0;
+
+    Sil4H->X.clear();
+    Sil4H->Y.clear();
+    Sil4H->St.clear();
+    Sil4H->Mod.clear();
+    Sil4H->L0H.clear();
+    Sil4H->L1H.clear();
+    Sil4H->AmpDir.clear();
+    Sil4H->AmpIncl.clear();
+    Sil4H->nHits=0;
+    
     // Sil1H_Bmn->X.clear();
     // Sil1H_Bmn->Y.clear();
     // Sil1H_Bmn->St.clear();

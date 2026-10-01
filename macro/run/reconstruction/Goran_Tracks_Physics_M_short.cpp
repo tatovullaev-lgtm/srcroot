@@ -88,7 +88,7 @@ struct Track {
 
 
 
-void Goran_Tracks_Physics_M(TString infilename, TString outfilename) {
+void Goran_Tracks_Physics_M_short(TString infilename, TString outfilename) {
 
 	printf("start read");
   
@@ -188,19 +188,19 @@ void Goran_Tracks_Physics_M(TString infilename, TString outfilename) {
   TBranch *br_charge34 =tree1->Branch("charge34",&charge34);
   TBranch *br_charge35 =tree1->Branch("charge35",&charge35);
   TBranch *br_charge45 =tree1->Branch("charge45",&charge45); 
-  TBranch *br_BC1_cor =tree1->Branch("BC1_cor",&BC1_cor);
-  TBranch *br_BC2_cor =tree1->Branch("BC2_cor",&BC2_cor);
-  TBranch *br_BC3_cor =tree1->Branch("BC3_cor",&BC3_cor);
-  TBranch *br_BC4_cor =tree1->Branch("BC4_cor",&BC4_cor);
-  TBranch *br_BC5_cor =tree1->Branch("BC5_cor",&BC5_cor);
-  TBranch *br_chargein_cor =tree1->Branch("chargein_cor",&chargein_cor);
-  TBranch *br_charge34_cor =tree1->Branch("charge34_cor",&charge34_cor);
-  TBranch *br_charge35_cor =tree1->Branch("charge35_cor",&charge35_cor);
-  TBranch *br_charge45_cor =tree1->Branch("charge45_cor",&charge45_cor); 
-  TBranch *br_BC1_Time0 = tree1->Branch("BC1_Time0", &BC1_Time0); 
-  TBranch *br_BC1_Time1 = tree1->Branch("BC1_Time1", &BC1_Time1); 
-  TBranch *br_BC2_Time0 = tree1->Branch("BC2_Time0", &BC2_Time0); 
-  TBranch *br_BC2_Time1 = tree1->Branch("BC2_Time1", &BC2_Time1); 
+  // TBranch *br_BC1_cor =tree1->Branch("BC1_cor",&BC1_cor);
+  // TBranch *br_BC2_cor =tree1->Branch("BC2_cor",&BC2_cor);
+  // TBranch *br_BC3_cor =tree1->Branch("BC3_cor",&BC3_cor);
+  // TBranch *br_BC4_cor =tree1->Branch("BC4_cor",&BC4_cor);
+  // TBranch *br_BC5_cor =tree1->Branch("BC5_cor",&BC5_cor);
+  // TBranch *br_chargein_cor =tree1->Branch("chargein_cor",&chargein_cor);
+  // TBranch *br_charge34_cor =tree1->Branch("charge34_cor",&charge34_cor);
+  // TBranch *br_charge35_cor =tree1->Branch("charge35_cor",&charge35_cor);
+  // TBranch *br_charge45_cor =tree1->Branch("charge45_cor",&charge45_cor); 
+  // TBranch *br_BC1_Time0 = tree1->Branch("BC1_Time0", &BC1_Time0); 
+  // TBranch *br_BC1_Time1 = tree1->Branch("BC1_Time1", &BC1_Time1); 
+  // TBranch *br_BC2_Time0 = tree1->Branch("BC2_Time0", &BC2_Time0); 
+  // TBranch *br_BC2_Time1 = tree1->Branch("BC2_Time1", &BC2_Time1); 
   TBranch *br_Pq_MDF_UpSt =tree1->Branch("Pq_MDF_UpSt",&Pq_MDF_UpSt);
   TBranch *br_Pq_MDF_X_UpSt =tree1->Branch("Pq_MDF_X_UpSt",&Pq_MDF_X_UpSt);
   TBranch *br_Pq_MDF_Y_UpSt =tree1->Branch("Pq_MDF_Y_UpSt",&Pq_MDF_Y_UpSt);
@@ -320,23 +320,24 @@ void Goran_Tracks_Physics_M(TString infilename, TString outfilename) {
   TBranch *br_Emiss_cut =tree1->Branch("Emiss_cut",&Emiss_cut);
   TBranch *br_t400_cut =tree1->Branch("t400_cut",&t400_cut);
 
-  TBranch *br_TrackCandL_X1 =tree1->Branch("TrackCandL_X1",&TrackCandL_X1);
-  TBranch *br_TrackCandL_Y1 =tree1->Branch("TrackCandL_Y1",&TrackCandL_Y1);
-  TBranch *br_TrackCandL_Z1 =tree1->Branch("TrackCandL_Z1",&TrackCandL_Z1);
-  TBranch *br_TrackCandL_X2 =tree1->Branch("TrackCandL_X2",&TrackCandL_X2);
-  TBranch *br_TrackCandL_Y2 =tree1->Branch("TrackCandL_Y2",&TrackCandL_Y2);
-  TBranch *br_TrackCandL_Z2 =tree1->Branch("TrackCandL_Z2",&TrackCandL_Z2);
-  TBranch *br_TrackCandL_Flag =tree1->Branch("TrackCandL_Flag",&TrackCandL_Flag);
-  TBranch *br_nTrackCandL =tree1->Branch("nTrackCandL",&nTrackCandL);
+  TTree *tree2 = new TTree("tree2","treelibrated tree");
+  TBranch *br_TrackCandL_X1 =tree2->Branch("TrackCandL_X1",&TrackCandL_X1);
+  TBranch *br_TrackCandL_Y1 =tree2->Branch("TrackCandL_Y1",&TrackCandL_Y1);
+  TBranch *br_TrackCandL_Z1 =tree2->Branch("TrackCandL_Z1",&TrackCandL_Z1);
+  TBranch *br_TrackCandL_X2 =tree2->Branch("TrackCandL_X2",&TrackCandL_X2);
+  TBranch *br_TrackCandL_Y2 =tree2->Branch("TrackCandL_Y2",&TrackCandL_Y2);
+  TBranch *br_TrackCandL_Z2 =tree2->Branch("TrackCandL_Z2",&TrackCandL_Z2);
+  TBranch *br_TrackCandL_Flag =tree2->Branch("TrackCandL_Flag",&TrackCandL_Flag);
+  TBranch *br_nTrackCandL =tree2->Branch("nTrackCandL",&nTrackCandL);
 
-  TBranch *br_TrackCandR_X1 =tree1->Branch("TrackCandR_X1",&TrackCandR_X1);
-  TBranch *br_TrackCandR_Y1 =tree1->Branch("TrackCandR_Y1",&TrackCandR_Y1);
-  TBranch *br_TrackCandR_Z1 =tree1->Branch("TrackCandR_Z1",&TrackCandR_Z1);
-  TBranch *br_TrackCandR_X2 =tree1->Branch("TrackCandR_X2",&TrackCandR_X2);
-  TBranch *br_TrackCandR_Y2 =tree1->Branch("TrackCandR_Y2",&TrackCandR_Y2);
-  TBranch *br_TrackCandR_Z2 =tree1->Branch("TrackCandR_Z2",&TrackCandR_Z2);
-  TBranch *br_TrackCandR_Flag =tree1->Branch("TrackCandR_Flag",&TrackCandR_Flag);
-  TBranch *br_nTrackCandR =tree1->Branch("nTrackCandR",&nTrackCandR);
+  TBranch *br_TrackCandR_X1 =tree2->Branch("TrackCandR_X1",&TrackCandR_X1);
+  TBranch *br_TrackCandR_Y1 =tree2->Branch("TrackCandR_Y1",&TrackCandR_Y1);
+  TBranch *br_TrackCandR_Z1 =tree2->Branch("TrackCandR_Z1",&TrackCandR_Z1);
+  TBranch *br_TrackCandR_X2 =tree2->Branch("TrackCandR_X2",&TrackCandR_X2);
+  TBranch *br_TrackCandR_Y2 =tree2->Branch("TrackCandR_Y2",&TrackCandR_Y2);
+  TBranch *br_TrackCandR_Z2 =tree2->Branch("TrackCandR_Z2",&TrackCandR_Z2);
+  TBranch *br_TrackCandR_Flag =tree2->Branch("TrackCandR_Flag",&TrackCandR_Flag);
+  TBranch *br_nTrackCandR =tree2->Branch("nTrackCandR",&nTrackCandR);
 
   TBranch *br_TrackL_X =tree1->Branch("TrackL_X",&TrackL_X);
   TBranch *br_TrackL_Y =tree1->Branch("TrackL_Y",&TrackL_Y);
@@ -365,71 +366,71 @@ void Goran_Tracks_Physics_M(TString infilename, TString outfilename) {
   TBranch *br_VB_Mult =tree1->Branch("VB_Mult",&VB_Mult);
   TBranch *br_VB_CellId =tree1->Branch("VB_CellId",&VB_CellId);
 
-  TBranch *br_GemL_X =tree1->Branch("GemL_X",&GemL_X);
-  TBranch *br_GemL_Y =tree1->Branch("GemL_Y",&GemL_Y);
-  TBranch *br_GemL_Z =tree1->Branch("GemL_Z",&GemL_Z);
-  TBranch *br_GemL_Tx =tree1->Branch("GemL_Tx",&GemL_Tx);
-  TBranch *br_GemL_Ty =tree1->Branch("GemL_Ty",&GemL_Ty);
-  TBranch *br_GemL_nHits =tree1->Branch("GemL_nHits",&GemL_nHits);
+  // TBranch *br_GemL_X =tree1->Branch("GemL_X",&GemL_X);
+  // TBranch *br_GemL_Y =tree1->Branch("GemL_Y",&GemL_Y);
+  // TBranch *br_GemL_Z =tree1->Branch("GemL_Z",&GemL_Z);
+  // TBranch *br_GemL_Tx =tree1->Branch("GemL_Tx",&GemL_Tx);
+  // TBranch *br_GemL_Ty =tree1->Branch("GemL_Ty",&GemL_Ty);
+  // TBranch *br_GemL_nHits =tree1->Branch("GemL_nHits",&GemL_nHits);
 
-  TBranch *br_GemR_X =tree1->Branch("GemR_X",&GemR_X);
-  TBranch *br_GemR_Y =tree1->Branch("GemR_Y",&GemR_Y);
-  TBranch *br_GemR_Z =tree1->Branch("GemR_Z",&GemR_Z);
-  TBranch *br_GemR_Tx =tree1->Branch("GemR_Tx",&GemR_Tx);
-  TBranch *br_GemR_Ty =tree1->Branch("GemR_Ty",&GemR_Ty);
-  TBranch *br_GemR_nHits =tree1->Branch("GemR_nHits",&GemR_nHits);
+  // TBranch *br_GemR_X =tree1->Branch("GemR_X",&GemR_X);
+  // TBranch *br_GemR_Y =tree1->Branch("GemR_Y",&GemR_Y);
+  // TBranch *br_GemR_Z =tree1->Branch("GemR_Z",&GemR_Z);
+  // TBranch *br_GemR_Tx =tree1->Branch("GemR_Tx",&GemR_Tx);
+  // TBranch *br_GemR_Ty =tree1->Branch("GemR_Ty",&GemR_Ty);
+  // TBranch *br_GemR_nHits =tree1->Branch("GemR_nHits",&GemR_nHits);
 
-  TBranch *br_CscL_X =tree1->Branch("CscL_X",&CscL_X);
-  TBranch *br_CscL_Y =tree1->Branch("CscL_Y",&CscL_Y);
-  TBranch *br_CscL_Z =tree1->Branch("CscL_Z",&CscL_Z);
-  TBranch *br_CscL_Tx =tree1->Branch("CscL_Tx",&CscL_Tx);
-  TBranch *br_CscL_Ty =tree1->Branch("CscL_Ty",&CscL_Ty);
-  TBranch *br_CscL_nHits =tree1->Branch("CscL_nHits",&CscL_nHits);
+  // TBranch *br_CscL_X =tree1->Branch("CscL_X",&CscL_X);
+  // TBranch *br_CscL_Y =tree1->Branch("CscL_Y",&CscL_Y);
+  // TBranch *br_CscL_Z =tree1->Branch("CscL_Z",&CscL_Z);
+  // TBranch *br_CscL_Tx =tree1->Branch("CscL_Tx",&CscL_Tx);
+  // TBranch *br_CscL_Ty =tree1->Branch("CscL_Ty",&CscL_Ty);
+  // TBranch *br_CscL_nHits =tree1->Branch("CscL_nHits",&CscL_nHits);
 
-  TBranch *br_CscR_X =tree1->Branch("CscR_X",&CscR_X);
-  TBranch *br_CscR_Y =tree1->Branch("CscR_Y",&CscR_Y);
-  TBranch *br_CscR_Z =tree1->Branch("CscR_Z",&CscR_Z);
-  TBranch *br_CscR_Tx =tree1->Branch("CscR_Tx",&CscR_Tx);
-  TBranch *br_CscR_Ty =tree1->Branch("CscR_Ty",&CscR_Ty);
-  TBranch *br_CscR_nHits =tree1->Branch("CscR_nHits",&CscR_nHits);
+  // TBranch *br_CscR_X =tree1->Branch("CscR_X",&CscR_X);
+  // TBranch *br_CscR_Y =tree1->Branch("CscR_Y",&CscR_Y);
+  // TBranch *br_CscR_Z =tree1->Branch("CscR_Z",&CscR_Z);
+  // TBranch *br_CscR_Tx =tree1->Branch("CscR_Tx",&CscR_Tx);
+  // TBranch *br_CscR_Ty =tree1->Branch("CscR_Ty",&CscR_Ty);
+  // TBranch *br_CscR_nHits =tree1->Branch("CscR_nHits",&CscR_nHits);
 
-  TBranch *br_Tof400L_X =tree1->Branch("Tof400L_X",&Tof400L_X);
-  TBranch *br_Tof400L_Y =tree1->Branch("Tof400L_Y",&Tof400L_Y);
-  TBranch *br_Tof400L_Z =tree1->Branch("Tof400L_Z",&Tof400L_Z);
-  TBranch *br_Tof400L_Tx =tree1->Branch("Tof400L_Tx",&Tof400L_Tx);
-  TBranch *br_Tof400L_Ty =tree1->Branch("Tof400L_Ty",&Tof400L_Ty);
-  TBranch *br_Tof400L_T =tree1->Branch("Tof400L_T",&Tof400L_T);
-  TBranch *br_Tof400L_DetId =tree1->Branch("Tof400L_DetId",&Tof400L_DetId);
-  TBranch *br_Tof400L_nHits =tree1->Branch("Tof400L_nHits",&Tof400L_nHits);
+  // TBranch *br_Tof400L_X =tree1->Branch("Tof400L_X",&Tof400L_X);
+  // TBranch *br_Tof400L_Y =tree1->Branch("Tof400L_Y",&Tof400L_Y);
+  // TBranch *br_Tof400L_Z =tree1->Branch("Tof400L_Z",&Tof400L_Z);
+  // TBranch *br_Tof400L_Tx =tree1->Branch("Tof400L_Tx",&Tof400L_Tx);
+  // TBranch *br_Tof400L_Ty =tree1->Branch("Tof400L_Ty",&Tof400L_Ty);
+  // TBranch *br_Tof400L_T =tree1->Branch("Tof400L_T",&Tof400L_T);
+  // TBranch *br_Tof400L_DetId =tree1->Branch("Tof400L_DetId",&Tof400L_DetId);
+  // TBranch *br_Tof400L_nHits =tree1->Branch("Tof400L_nHits",&Tof400L_nHits);
 
-  TBranch *br_Tof400R_X =tree1->Branch("Tof400R_X",&Tof400R_X);
-  TBranch *br_Tof400R_Y =tree1->Branch("Tof400R_Y",&Tof400R_Y);
-  TBranch *br_Tof400R_Z =tree1->Branch("Tof400R_Z",&Tof400R_Z);
-  TBranch *br_Tof400R_Tx =tree1->Branch("Tof400R_Tx",&Tof400R_Tx);
-  TBranch *br_Tof400R_Ty =tree1->Branch("Tof400R_Ty",&Tof400R_Ty);
-  TBranch *br_Tof400R_T =tree1->Branch("Tof400R_T",&Tof400R_T);
-  TBranch *br_Tof400R_DetId =tree1->Branch("Tof400R_DetId",&Tof400R_DetId);
-  TBranch *br_Tof400R_nHits =tree1->Branch("Tof400R_nHits",&Tof400R_nHits);
+  // TBranch *br_Tof400R_X =tree1->Branch("Tof400R_X",&Tof400R_X);
+  // TBranch *br_Tof400R_Y =tree1->Branch("Tof400R_Y",&Tof400R_Y);
+  // TBranch *br_Tof400R_Z =tree1->Branch("Tof400R_Z",&Tof400R_Z);
+  // TBranch *br_Tof400R_Tx =tree1->Branch("Tof400R_Tx",&Tof400R_Tx);
+  // TBranch *br_Tof400R_Ty =tree1->Branch("Tof400R_Ty",&Tof400R_Ty);
+  // TBranch *br_Tof400R_T =tree1->Branch("Tof400R_T",&Tof400R_T);
+  // TBranch *br_Tof400R_DetId =tree1->Branch("Tof400R_DetId",&Tof400R_DetId);
+  // TBranch *br_Tof400R_nHits =tree1->Branch("Tof400R_nHits",&Tof400R_nHits);
 
-  TBranch *br_TofCalL_X =tree1->Branch("TofCalL_X",&TofCalL_X);
-  TBranch *br_TofCalL_Y =tree1->Branch("TofCalL_Y",&TofCalL_Y);
-  TBranch *br_TofCalL_Z =tree1->Branch("TofCalL_Z",&TofCalL_Z);
-  TBranch *br_TofCalL_Tx =tree1->Branch("TofCalL_Tx",&TofCalL_Tx);
-  TBranch *br_TofCalL_Ty =tree1->Branch("TofCalL_Ty",&TofCalL_Ty);
-  TBranch *br_TofCalL_T =tree1->Branch("TofCalL_T",&TofCalL_T);
-  TBranch *br_TofCalL_Bar =tree1->Branch("TofCalL_Bar",&TofCalL_Bar);
-  TBranch *br_TofCalL_Layer =tree1->Branch("TofCalL_Layer",&TofCalL_Layer);
-  TBranch *br_TofCalL_nHits =tree1->Branch("TofCalL_nHits",&TofCalL_nHits);
+  // TBranch *br_TofCalL_X =tree1->Branch("TofCalL_X",&TofCalL_X);
+  // TBranch *br_TofCalL_Y =tree1->Branch("TofCalL_Y",&TofCalL_Y);
+  // TBranch *br_TofCalL_Z =tree1->Branch("TofCalL_Z",&TofCalL_Z);
+  // TBranch *br_TofCalL_Tx =tree1->Branch("TofCalL_Tx",&TofCalL_Tx);
+  // TBranch *br_TofCalL_Ty =tree1->Branch("TofCalL_Ty",&TofCalL_Ty);
+  // TBranch *br_TofCalL_T =tree1->Branch("TofCalL_T",&TofCalL_T);
+  // TBranch *br_TofCalL_Bar =tree1->Branch("TofCalL_Bar",&TofCalL_Bar);
+  // TBranch *br_TofCalL_Layer =tree1->Branch("TofCalL_Layer",&TofCalL_Layer);
+  // TBranch *br_TofCalL_nHits =tree1->Branch("TofCalL_nHits",&TofCalL_nHits);
 
-  TBranch *br_TofCalR_X =tree1->Branch("TofCalR_X",&TofCalR_X);
-  TBranch *br_TofCalR_Y =tree1->Branch("TofCalR_Y",&TofCalR_Y);
-  TBranch *br_TofCalR_Z =tree1->Branch("TofCalR_Z",&TofCalR_Z);
-  TBranch *br_TofCalR_Tx =tree1->Branch("TofCalR_Tx",&TofCalR_Tx);
-  TBranch *br_TofCalR_Ty =tree1->Branch("TofCalR_Ty",&TofCalR_Ty);
-  TBranch *br_TofCalR_T =tree1->Branch("TofCalR_T",&TofCalR_T);
-  TBranch *br_TofCalR_Bar =tree1->Branch("TofCalR_Bar",&TofCalR_Bar);
-  TBranch *br_TofCalR_Layer =tree1->Branch("TofCalR_Layer",&TofCalR_Layer);
-  TBranch *br_TofCalR_nHits =tree1->Branch("TofCalR_nHits",&TofCalR_nHits);
+  // TBranch *br_TofCalR_X =tree1->Branch("TofCalR_X",&TofCalR_X);
+  // TBranch *br_TofCalR_Y =tree1->Branch("TofCalR_Y",&TofCalR_Y);
+  // TBranch *br_TofCalR_Z =tree1->Branch("TofCalR_Z",&TofCalR_Z);
+  // TBranch *br_TofCalR_Tx =tree1->Branch("TofCalR_Tx",&TofCalR_Tx);
+  // TBranch *br_TofCalR_Ty =tree1->Branch("TofCalR_Ty",&TofCalR_Ty);
+  // TBranch *br_TofCalR_T =tree1->Branch("TofCalR_T",&TofCalR_T);
+  // TBranch *br_TofCalR_Bar =tree1->Branch("TofCalR_Bar",&TofCalR_Bar);
+  // TBranch *br_TofCalR_Layer =tree1->Branch("TofCalR_Layer",&TofCalR_Layer);
+  // TBranch *br_TofCalR_nHits =tree1->Branch("TofCalR_nHits",&TofCalR_nHits);
 
 
 
@@ -553,48 +554,48 @@ void Goran_Tracks_Physics_M(TString infilename, TString outfilename) {
   //TBranch *br_DCH2_NGlTracks =tree1->Branch("DCH2_NGlobalTr",&DCH2->nGlobDCHTracks);
 
   Inf *Sil1H = new Inf;
-  TBranch *br_Si1H_X=tree1->Branch("Si1H_X",&Sil1H->X);
-  TBranch *br_Si1H_Y=tree1->Branch("Si1H_Y",&Sil1H->Y);
-  TBranch *br_Si1H_St=tree1->Branch("Si1H_St",&Sil1H->St);
-  TBranch *br_Si1H_Mod=tree1->Branch("Si1H_Mod",&Sil1H->Mod);
-  TBranch *br_Sil1H_L0H =tree1->Branch("Si1H_L0NHits",&Sil1H->L0H);
-  TBranch *br_Sil1H_L1H =tree1->Branch("Si1H_L1NHits",&Sil1H->L1H);
-  TBranch *br_Sil1H_AmpDir =tree1->Branch("Si1H_AmpDir",&Sil1H->AmpDir);
-  TBranch *br_Sil1H_AmpIncl =tree1->Branch("Si1H_AmpIncl",&Sil1H->AmpIncl);
-  TBranch *br_Si1H_nHits=tree1->Branch("Si1H_nHits",&Sil1H->nHits);
+  // TBranch *br_Si1H_X=tree1->Branch("Si1H_X",&Sil1H->X);
+  // TBranch *br_Si1H_Y=tree1->Branch("Si1H_Y",&Sil1H->Y);
+  // TBranch *br_Si1H_St=tree1->Branch("Si1H_St",&Sil1H->St);
+  // TBranch *br_Si1H_Mod=tree1->Branch("Si1H_Mod",&Sil1H->Mod);
+  // TBranch *br_Sil1H_L0H =tree1->Branch("Si1H_L0NHits",&Sil1H->L0H);
+  // TBranch *br_Sil1H_L1H =tree1->Branch("Si1H_L1NHits",&Sil1H->L1H);
+  // TBranch *br_Sil1H_AmpDir =tree1->Branch("Si1H_AmpDir",&Sil1H->AmpDir);
+  // TBranch *br_Sil1H_AmpIncl =tree1->Branch("Si1H_AmpIncl",&Sil1H->AmpIncl);
+  // TBranch *br_Si1H_nHits=tree1->Branch("Si1H_nHits",&Sil1H->nHits);
 
   Inf *Sil2H = new Inf;
-  TBranch *br_Si2H_X=tree1->Branch("Si2H_X",&Sil2H->X);
-  TBranch *br_Si2H_Y=tree1->Branch("Si2H_Y",&Sil2H->Y);
-  TBranch *br_Si2H_St=tree1->Branch("Si2H_St",&Sil2H->St);
-  TBranch *br_Si2H_Mod=tree1->Branch("Si2H_Mod",&Sil2H->Mod);
-  TBranch *br_Sil2H_L0H =tree1->Branch("Si2H_L0NHits",&Sil2H->L0H);
-  TBranch *br_Sil2H_L1H =tree1->Branch("Si2H_L1NHits",&Sil2H->L1H);
-  TBranch *br_Sil2H_AmpDir =tree1->Branch("Si2H_AmpDir",&Sil2H->AmpDir);
-  TBranch *br_Sil2H_AmpIncl =tree1->Branch("Si2H_AmpIncl",&Sil2H->AmpIncl);
-  TBranch *br_Si2H_nHits=tree1->Branch("Si2H_nHits",&Sil2H->nHits);
+  // TBranch *br_Si2H_X=tree1->Branch("Si2H_X",&Sil2H->X);
+  // TBranch *br_Si2H_Y=tree1->Branch("Si2H_Y",&Sil2H->Y);
+  // TBranch *br_Si2H_St=tree1->Branch("Si2H_St",&Sil2H->St);
+  // TBranch *br_Si2H_Mod=tree1->Branch("Si2H_Mod",&Sil2H->Mod);
+  // TBranch *br_Sil2H_L0H =tree1->Branch("Si2H_L0NHits",&Sil2H->L0H);
+  // TBranch *br_Sil2H_L1H =tree1->Branch("Si2H_L1NHits",&Sil2H->L1H);
+  // TBranch *br_Sil2H_AmpDir =tree1->Branch("Si2H_AmpDir",&Sil2H->AmpDir);
+  // TBranch *br_Sil2H_AmpIncl =tree1->Branch("Si2H_AmpIncl",&Sil2H->AmpIncl);
+  // TBranch *br_Si2H_nHits=tree1->Branch("Si2H_nHits",&Sil2H->nHits);
 
   Inf *Sil3H = new Inf;
-  TBranch *br_Si3H_X=tree1->Branch("Si3H_X",&Sil3H->X);
-  TBranch *br_Si3H_Y=tree1->Branch("Si3H_Y",&Sil3H->Y);
-  TBranch *br_Si3H_St=tree1->Branch("Si3H_St",&Sil3H->St);
-  TBranch *br_Si3H_Mod=tree1->Branch("Si3H_Mod",&Sil3H->Mod);
-  TBranch *br_Sil3H_L0H =tree1->Branch("Si3H_L0NHits",&Sil3H->L0H);
-  TBranch *br_Sil3H_L1H =tree1->Branch("Si3H_L1NHits",&Sil3H->L1H);
-  TBranch *br_Sil3H_AmpDir =tree1->Branch("Si3H_AmpDir",&Sil3H->AmpDir);
-  TBranch *br_Sil3H_AmpIncl =tree1->Branch("Si3H_AmpIncl",&Sil3H->AmpIncl);
-  TBranch *br_Si3H_nHits=tree1->Branch("Si3H_nHits",&Sil3H->nHits);
+  // TBranch *br_Si3H_X=tree1->Branch("Si3H_X",&Sil3H->X);
+  // TBranch *br_Si3H_Y=tree1->Branch("Si3H_Y",&Sil3H->Y);
+  // TBranch *br_Si3H_St=tree1->Branch("Si3H_St",&Sil3H->St);
+  // TBranch *br_Si3H_Mod=tree1->Branch("Si3H_Mod",&Sil3H->Mod);
+  // TBranch *br_Sil3H_L0H =tree1->Branch("Si3H_L0NHits",&Sil3H->L0H);
+  // TBranch *br_Sil3H_L1H =tree1->Branch("Si3H_L1NHits",&Sil3H->L1H);
+  // TBranch *br_Sil3H_AmpDir =tree1->Branch("Si3H_AmpDir",&Sil3H->AmpDir);
+  // TBranch *br_Sil3H_AmpIncl =tree1->Branch("Si3H_AmpIncl",&Sil3H->AmpIncl);
+  // TBranch *br_Si3H_nHits=tree1->Branch("Si3H_nHits",&Sil3H->nHits);
 
   Inf *Sil4H = new Inf;
-  TBranch *br_Si4H_X=tree1->Branch("Si4H_X",&Sil4H->X);
-  TBranch *br_Si4H_Y=tree1->Branch("Si4H_Y",&Sil4H->Y);
-  TBranch *br_Si4H_St=tree1->Branch("Si4H_St",&Sil4H->St);
-  TBranch *br_Si4H_Mod=tree1->Branch("Si4H_Mod",&Sil4H->Mod);
-  TBranch *br_Sil4H_L0H =tree1->Branch("Si4H_L0NHits",&Sil4H->L0H);
-  TBranch *br_Sil4H_L1H =tree1->Branch("Si4H_L1NHits",&Sil4H->L1H);
-  TBranch *br_Sil4H_AmpDir =tree1->Branch("Si4H_AmpDir",&Sil4H->AmpDir);
-  TBranch *br_Sil4H_AmpIncl =tree1->Branch("Si4H_AmpIncl",&Sil4H->AmpIncl);
-  TBranch *br_Si4H_nHits=tree1->Branch("Si4H_nHits",&Sil4H->nHits);
+  // TBranch *br_Si4H_X=tree1->Branch("Si4H_X",&Sil4H->X);
+  // TBranch *br_Si4H_Y=tree1->Branch("Si4H_Y",&Sil4H->Y);
+  // TBranch *br_Si4H_St=tree1->Branch("Si4H_St",&Sil4H->St);
+  // TBranch *br_Si4H_Mod=tree1->Branch("Si4H_Mod",&Sil4H->Mod);
+  // TBranch *br_Sil4H_L0H =tree1->Branch("Si4H_L0NHits",&Sil4H->L0H);
+  // TBranch *br_Sil4H_L1H =tree1->Branch("Si4H_L1NHits",&Sil4H->L1H);
+  // TBranch *br_Sil4H_AmpDir =tree1->Branch("Si4H_AmpDir",&Sil4H->AmpDir);
+  // TBranch *br_Sil4H_AmpIncl =tree1->Branch("Si4H_AmpIncl",&Sil4H->AmpIncl);
+  // TBranch *br_Si4H_nHits=tree1->Branch("Si4H_nHits",&Sil4H->nHits);
 
 
 
@@ -1808,6 +1809,7 @@ void Goran_Tracks_Physics_M(TString infilename, TString outfilename) {
         PTarg_lab_Px=PTarg_lab.Py();
         PTarg_lab_Py=PTarg_lab.Pz();
         PTarg_lab_E=PTarg_lab.E();
+
         if (f>=0) {
           PFr_P=PFr.P();
           PFr_Pz=PFr.Px();
@@ -1828,6 +1830,7 @@ void Goran_Tracks_Physics_M(TString infilename, TString outfilename) {
         Pmiss_Py=Pmiss.Pz();
         Pmiss_E=mp-Pmiss.E(); //the same as Goran did
         Mmiss2=Pmiss.Mag2();
+
         if (f>=0) {
           Pmiss_ex_P=Pmiss_ex.P();
           Pmiss_ex_Pz=Pmiss_ex.Px();
@@ -1845,7 +1848,7 @@ void Goran_Tracks_Physics_M(TString infilename, TString outfilename) {
         else vert_cut=0;
         if (!(tof400L_X>85 && tof400L_X<152 && tof400L_Y>-22 && tof400L_Y<5) || !(tof400R_X<-131 && tof400R_Y>-14.5 && tof400R_Y<37)) t400_cut=1;
         else t400_cut=0;
-    
+      
 
     }
 

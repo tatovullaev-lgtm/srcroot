@@ -150,9 +150,10 @@ void Reco_with_MDF(TString infilename, TString outfilename) {
   vector <double> Pq_MDF_Flag, Pq_MDF_UpSt, Pq_MDF_X_UpSt, Pq_MDF_Y_UpSt, Pq_MDF_Z_UpSt, Tx_MDF_UpSt, Tx_AT, Ty_AT;
   vector <int> Fragment;
   double BC1, BC2, BC3, BC4, BC5;
+  double BC1_cor, BC2_cor, BC3_cor, BC4_cor, BC5_cor;
   time_t TS_sec;
   long TS_nsec;
-  int chargein, charge34, charge35, charge45, trigger, veto, SW_Mult, SW_NMatchTr, VB_Mult, Tof400_nHits;
+  int chargein, charge34, charge35, charge45, chargein_cor, charge34_cor, charge35_cor, charge45_cor, trigger, veto, SW_Mult, SW_NMatchTr, VB_Mult, Tof400_nHits;
 
   vector <Double_t> *SW_ELoss=nullptr;
   vector <Double_t> *SW_CellId=nullptr;
@@ -202,6 +203,15 @@ void Reco_with_MDF(TString infilename, TString outfilename) {
   TBranch *br_charge34 =tree1->Branch("charge34",&charge34);
   TBranch *br_charge35 =tree1->Branch("charge35",&charge35);
   TBranch *br_charge45 =tree1->Branch("charge45",&charge45);
+  TBranch *br_BC1_cor =tree1->Branch("BC1_cor",&BC1_cor);
+  TBranch *br_BC2_cor =tree1->Branch("BC2_cor",&BC2_cor);
+  TBranch *br_BC3_cor =tree1->Branch("BC3_cor",&BC3_cor);
+  TBranch *br_BC4_cor =tree1->Branch("BC4_cor",&BC4_cor);
+  TBranch *br_BC5_cor =tree1->Branch("BC5_cor",&BC5_cor);
+  TBranch *br_chargein_cor =tree1->Branch("chargein_cor",&chargein_cor);
+  TBranch *br_charge34_cor =tree1->Branch("charge34_cor",&charge34_cor);
+  TBranch *br_charge35_cor =tree1->Branch("charge35_cor",&charge35_cor);
+  TBranch *br_charge45_cor =tree1->Branch("charge45_cor",&charge45_cor);
   TBranch *br_Pq_MDF_UpSt =tree1->Branch("Pq_MDF_UpSt",&Pq_MDF_UpSt);
   TBranch *br_Pq_MDF_X_UpSt =tree1->Branch("Pq_MDF_X_UpSt",&Pq_MDF_X_UpSt);
   TBranch *br_Pq_MDF_Y_UpSt =tree1->Branch("Pq_MDF_Y_UpSt",&Pq_MDF_Y_UpSt);
@@ -472,6 +482,16 @@ void Reco_with_MDF(TString infilename, TString outfilename) {
   tree->SetBranchAddress("charge34",&charge34);
   tree->SetBranchAddress("charge35",&charge35);
   tree->SetBranchAddress("charge45",&charge45);
+
+  tree->SetBranchAddress("BC1_cor",&BC1_cor);
+  tree->SetBranchAddress("BC2_cor",&BC2_cor);
+  tree->SetBranchAddress("BC3_cor",&BC3_cor);
+  tree->SetBranchAddress("BC4_cor",&BC4_cor);
+  tree->SetBranchAddress("BC5_cor",&BC5_cor);
+  tree->SetBranchAddress("chargein_cor",&chargein_cor);
+  tree->SetBranchAddress("charge34_cor",&charge34_cor);
+  tree->SetBranchAddress("charge35_cor",&charge35_cor);
+  tree->SetBranchAddress("charge45_cor",&charge45_cor);
 
   tree->SetBranchAddress("SW_ELoss",&SW_ELoss);
   tree->SetBranchAddress("SW_CellId",&SW_CellId);
