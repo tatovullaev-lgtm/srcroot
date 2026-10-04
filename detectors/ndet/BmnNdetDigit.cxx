@@ -80,8 +80,8 @@ BmnNdetDigit::BmnNdetDigit(BmnNdetPoint *p)
 
     //pDigiScheme->SplitDigiID(pDigiScheme->GetDigiIdFromVolumeData(p->GetDetectorID(),p->GetCopyMother() ),module_groupID, modID, chanID);
     */
-    Int_t modID, chanID;
-    Double_t time;
+    //Int_t modID, chanID;
+    //Double_t time;
     //pDigiScheme->SplitDigiID(pDigiScheme->GetDigiIdFromCoords(p->GetX(),p->GetY(),p->GetZ()),time, modID, chanID);
 
 

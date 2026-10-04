@@ -141,7 +141,7 @@ BmnTofCalRaw2Digit::BmnTofCalRaw2Digit(TString a_map_filename, TString
       int tofcal_bar = -1;
       int tofcal_t = -1;
       auto const token = tokenize(line);
-      [[maybe_unused]] if (token.size() < 8) {
+      if (token.size() < 8) {
 	continue;
       }
       if (0 != token.at(0).compare("ENERGY_ZERO_NOISE")) {
@@ -150,7 +150,7 @@ BmnTofCalRaw2Digit::BmnTofCalRaw2Digit(TString a_map_filename, TString
       if (0 != token.at(1).compare("SIGNAL_ID")) {
 	continue;
       }
-      unsigned plane_ofs;
+      [[maybe_unused]] unsigned plane_ofs;
       if (0 == token.at(2).compare("N")) {
 	//plane_ofs = 0;
 	tofcal_arm = 1;
@@ -198,7 +198,7 @@ BmnTofCalRaw2Digit::BmnTofCalRaw2Digit(TString a_map_filename, TString
       int tofcal_bar = -1;
       int tofcal_tcal = -1;
       auto const token = tokenize(line);
-      [[maybe_unused]] if (token.size() < 9) {
+      if (token.size() < 9) {
 	continue;
       }
       if (0 != token.at(0).compare("TIME_CALIB_POINT")) {
@@ -207,7 +207,7 @@ BmnTofCalRaw2Digit::BmnTofCalRaw2Digit(TString a_map_filename, TString
       if (0 != token.at(1).compare("SIGNAL_ID")) {
 	continue;
       }
-      unsigned plane_ofs;
+      [[maybe_unused]] unsigned plane_ofs;
       if (0 == token.at(2).compare("N")) {
 	//plane_ofs = 0;
 	tofcal_arm = 1;
@@ -291,7 +291,7 @@ BmnTofCalRaw2Digit::BmnTofCalRaw2Digit(TString a_map_filename, TString
 	continue;
       }
       char type;
-      [[maybe_unused]] if (0 == token.at(0).compare("TIME_DIFF_OFFSET")) {
+      if (0 == token.at(0).compare("TIME_DIFF_OFFSET")) {
 	type = 0;
       } else if (0 == token.at(0).compare("TIME_SYNC_OFFSET")) {
 	type = 1;
@@ -305,7 +305,7 @@ BmnTofCalRaw2Digit::BmnTofCalRaw2Digit(TString a_map_filename, TString
       if (0 != token.at(1).compare("SIGNAL_ID")) {
 	continue;
       }
-      unsigned plane_ofs;
+      [[maybe_unused]] unsigned plane_ofs;
       if (0 == token.at(2).compare("N")) {
 	//plane_ofs = 0;
 	tofcal_arm = 1;

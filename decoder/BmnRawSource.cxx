@@ -897,7 +897,7 @@ BmnStatus BmnRawSource::Process_Tacquila(UInt_t *d, UInt_t len) {
      * We have 2 chains of 10 Tacquila cards each.
      */
     //for (unsigned chain = 0; chain < 2; ++chain) {
-    for (chain; chain < 2; ++chain) {
+    for (; chain < 2; ++chain) {
         uint32_t header = ntohl(*p32++);
         //JK
         if (header == 0x5a5a5a5a) header = ntohl(*p32++);

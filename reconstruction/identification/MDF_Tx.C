@@ -20,7 +20,7 @@ static int    gNVariablesTx    = 9;
 static int    gNCoefficientsTx = 30;
 static double gDMeanTx         = -0.000749333;
 // Assignment to mean vector.
-static double gXMeanTx[] = {
+[[maybe_unused]] static double gXMeanTx[] = {
   0.076642, 0.0764327, -0.00777781, -0.0186869, -0.11273, -0.0117625, -0.00296344, -0.255475, 0.0590612 };
 
 // Assignment to minimum vector.
@@ -66,7 +66,7 @@ static double gCoefficientTx[] = {
  };
 
 // Assignment to error coefficients vector.
-static double gCoefficientRMSTx[] = {
+[[maybe_unused]] static double gCoefficientRMSTx[] = {
   1.61447e-11,
   8.23884e-11,
   1.84414e-10,

@@ -361,7 +361,7 @@ void BmnFHCal::ConstructGeometry() {
 
   TString fileName = GetGeometryFileName();
   if (fileName.EndsWith(".root")) {
-    LOG(info) << ("Constructing FHCal geometry from ROOT file %s", fileName.Data());
+    LOG(info) << "Constructing FHCal geometry from ROOT file " << fileName.Data();
     ConstructRootGeometry();
   }
   /*
